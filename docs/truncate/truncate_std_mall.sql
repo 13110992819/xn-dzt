@@ -1,14 +1,21 @@
+truncate tact_hzb;
+truncate tact_hzb_hold;
+truncate tact_jewel;
+truncate tact_jewel_interact;
+truncate tact_jewel_record;
+truncate tact_jewel_record_number;
+truncate tact_stock;
+truncate tact_stock_back;
+truncate tact_stock_hold;
 truncate tmall_cart;
 truncate tmall_category;
 truncate tmall_order;
 truncate tmall_product;
 truncate tmall_product_order;
-
 truncate to2o_store;
 truncate to2o_store_action;
 truncate to2o_store_purchase;
 truncate to2o_store_ticket;
 truncate to2o_user_ticket;
-
 truncate tsys_config;
 truncate tsys_dict;

@@ -9,7 +9,7 @@
  Target Server Version : 50545
  File Encoding         : utf-8
 
- Date: 02/20/2017 10:55:14 AM
+ Date: 01/13/2017 11:26:40 AM
 */
 
 SET NAMES utf8;
@@ -72,23 +72,30 @@ CREATE TABLE `tact_hzb_yy` (
 DROP TABLE IF EXISTS `tact_jewel`;
 CREATE TABLE `tact_jewel` (
   `code` varchar(32) NOT NULL COMMENT '编号',
-  `template_code` varchar(32) DEFAULT NULL COMMENT '名称',
-  `periods` int(11) DEFAULT NULL COMMENT '期数',
-  `jewel_currency` varchar(4) DEFAULT NULL COMMENT '宝贝币种',
-  `jewel_amount` bigint(20) DEFAULT NULL COMMENT '宝贝金额',
-  `price` bigint(20) DEFAULT NULL COMMENT '单价1',
-  `total_num` int(11) DEFAULT '0' COMMENT '总人次',
-  `maxp_invest_num` int(11) DEFAULT NULL COMMENT '单人最大投资次数',
+  `store_code` varchar(32) DEFAULT NULL COMMENT '商家编号',
+  `name` varchar(255) DEFAULT NULL COMMENT '名称',
+  `slogan` varchar(255) DEFAULT NULL COMMENT '标语',
+  `adv_pic` text COMMENT '广告图',
+  `description_text` text COMMENT '详情文字',
+  `description_pic` text COMMENT '详情图片',
+  `price1` bigint(20) DEFAULT NULL COMMENT '单价1',
+  `price2` bigint(20) DEFAULT NULL COMMENT '单价2',
+  `price3` bigint(20) DEFAULT NULL COMMENT '单价3',
+  `total_num` int(11) DEFAULT '0' COMMENT '所需总人次',
   `invest_num` int(11) DEFAULT '0' COMMENT '已投资人次',
   `start_datetime` datetime DEFAULT NULL COMMENT '夺宝开始时间',
+  `raise_days` int(11) DEFAULT NULL COMMENT '募集天数',
   `win_number` varchar(255) DEFAULT NULL COMMENT '中奖号码',
   `win_user_id` varchar(255) DEFAULT NULL COMMENT '中奖人编号',
-  `lotalg_desc` varchar(255) DEFAULT NULL COMMENT '抽奖算法',
-  `status` varchar(4) DEFAULT NULL COMMENT '状态（0 募集中，1 待揭晓，2 已揭晓）',
+  `lot_alg` varchar(255) DEFAULT NULL COMMENT '抽奖算法',
+  `status` varchar(4) DEFAULT NULL COMMENT '状态（0 待审批，1 审批通过，2 审批不通过，3 夺宝进行中，4 强制下架，5 到期流标，6 夺宝成功，待开奖 ，7 已开奖，待发货， 8 已发货，待收货， 9 已收货）',
+  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
+  `approver` varchar(32) DEFAULT NULL COMMENT '审批人',
+  `approve_datetime` datetime DEFAULT NULL COMMENT '审批时间',
   `updater` varchar(32) DEFAULT NULL COMMENT '更新人',
   `update_datetime` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
+  `lottery_datetime` datetime DEFAULT NULL COMMENT '开奖时间',
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -99,7 +106,7 @@ DROP TABLE IF EXISTS `tact_jewel_interact`;
 CREATE TABLE `tact_jewel_interact` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '序号',
   `type` varchar(4) DEFAULT NULL COMMENT '类型（1 好评）',
-  `evaluate_type` varchar(32) DEFAULT NULL COMMENT '评价类型(1 好评 2 中评 3 差评)',
+  `evaluate_type` varchar(32) DEFAULT NULL COMMENT '评价类型(A 好评 B 中评 C 差评)',
   `interacter` varchar(32) DEFAULT NULL COMMENT '互动人',
   `interact_datetime` datetime DEFAULT NULL COMMENT '互动时间',
   `jewel_code` varchar(32) DEFAULT NULL COMMENT '标的编号',
@@ -116,10 +123,17 @@ CREATE TABLE `tact_jewel_record` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `user_id` varchar(32) DEFAULT NULL COMMENT '用户编号',
   `jewel_code` varchar(32) DEFAULT NULL COMMENT '宝贝编号',
-  `invest_datetime` datetime DEFAULT NULL COMMENT '投资时间',
+  `create_datetime` datetime DEFAULT NULL COMMENT '标语',
   `times` int(11) DEFAULT NULL COMMENT '参与次数',
-  `pay_amount` bigint(20) DEFAULT NULL COMMENT '支付金额',
+  `pay_amount1` bigint(20) DEFAULT NULL COMMENT '支付金额',
+  `pay_amount2` bigint(20) DEFAULT NULL,
+  `pay_amount3` bigint(20) DEFAULT NULL,
   `pay_datetime` datetime DEFAULT NULL COMMENT '支付时间',
+  `receiver` varchar(255) DEFAULT NULL COMMENT '收件人姓名',
+  `re_mobile` varchar(32) DEFAULT NULL COMMENT '收件人电话',
+  `re_address` varchar(255) DEFAULT NULL COMMENT '收货地址',
+  `logistics_code` varchar(32) DEFAULT NULL COMMENT '物流单号',
+  `logistics_company` varchar(32) DEFAULT NULL COMMENT '物流公司编号',
   `status` varchar(4) DEFAULT NULL COMMENT '状态(0待开奖，1已中奖，2未中奖)',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `pay_code` varchar(32) DEFAULT NULL COMMENT '支付编号',
@@ -137,26 +151,6 @@ CREATE TABLE `tact_jewel_record_number` (
   `record_code` varchar(32) DEFAULT NULL COMMENT '夺宝记录编号',
   `number` varchar(32) DEFAULT NULL COMMENT '夺宝号码',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
---  Table structure for `tact_jewel_template`
--- ----------------------------
-DROP TABLE IF EXISTS `tact_jewel_template`;
-CREATE TABLE `tact_jewel_template` (
-  `code` varchar(32) NOT NULL COMMENT '编号',
-  `jewel_currency` varchar(4) DEFAULT NULL COMMENT '宝贝币种',
-  `jewel_amount` bigint(20) DEFAULT NULL COMMENT '宝贝金额',
-  `total_num` int(11) DEFAULT NULL COMMENT '总人次',
-  `price` bigint(20) DEFAULT NULL COMMENT '价格',
-  `maxp_invest_num` int(11) DEFAULT NULL COMMENT '单人最大投资次数',
-  `current_periods` int(11) DEFAULT NULL COMMENT '当前期数',
-  `status` varchar(4) DEFAULT NULL COMMENT '状态（0 待上架 1 已上架 2 已下架）',
-  `updater` varchar(32) DEFAULT NULL COMMENT '更新人',
-  `update_datetime` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
-  PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -206,30 +200,13 @@ CREATE TABLE `tact_stock_hold` (
   `back_num` int(11) DEFAULT NULL COMMENT '已经返还次数',
   `back_welfare1` bigint(20) DEFAULT NULL COMMENT '已返福利1',
   `back_welfare2` bigint(20) DEFAULT NULL COMMENT '已返福利2',
-  `next_back` datetime DEFAULT NULL COMMENT '下次返还时间',
   `pay_amount1` bigint(20) DEFAULT NULL COMMENT '支付人民币',
   `pay_amount2` bigint(20) DEFAULT NULL COMMENT '支付虚拟币1',
   `pay_amount3` bigint(20) DEFAULT NULL COMMENT '支付虚拟币2',
+  `next_back` datetime DEFAULT NULL COMMENT '下次返还时间',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   `pay_code` varchar(32) DEFAULT NULL COMMENT '第三方支付编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
---  Table structure for `thb`
--- ----------------------------
-DROP TABLE IF EXISTS `thb`;
-CREATE TABLE `thb` (
-  `code` varchar(32) NOT NULL COMMENT '红包编号',
-  `adv_title` varchar(255) DEFAULT NULL COMMENT '广告语',
-  `currency` varchar(4) DEFAULT NULL COMMENT '红包币种',
-  `amount` bigint(20) DEFAULT NULL COMMENT '红包金额',
-  `to_user` varchar(32) DEFAULT NULL COMMENT '所属用户',
-  `status` varchar(4) DEFAULT NULL COMMENT '红包状态',
-  `receive_user` varchar(32) DEFAULT NULL COMMENT '红包领取人编号',
-  `receive_datetime` datetime DEFAULT NULL COMMENT '红包被领取时间',
-  `create_datetime` datetime DEFAULT NULL COMMENT '红包创建时间',
-  PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -377,7 +354,7 @@ CREATE TABLE `to2o_store` (
   `is_default` char(1) DEFAULT NULL COMMENT '是否默认',
   `ui_location` varchar(32) DEFAULT NULL COMMENT 'UI位置',
   `ui_order` int(11) DEFAULT NULL COMMENT 'UI序号',
-  `status` varchar(4) DEFAULT NULL COMMENT '状态(1 上线，0 下线)',
+  `status` varchar(4) DEFAULT NULL COMMENT '状态',
   `approver` varchar(32) DEFAULT NULL COMMENT '审核人',
   `approve_datetime` datetime DEFAULT NULL COMMENT '审核时间',
   `updater` varchar(32) DEFAULT NULL COMMENT '更新人',
