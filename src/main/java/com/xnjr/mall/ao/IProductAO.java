@@ -12,6 +12,9 @@ import java.util.List;
 
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Product;
+import com.xnjr.mall.dto.req.XN808010Req;
+import com.xnjr.mall.dto.req.XN808012Req;
+import com.xnjr.mall.dto.req.XN808013Req;
 
 /** 
  * @author: haiqingzheng 
@@ -22,11 +25,7 @@ public interface IProductAO {
 
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public String addProduct(Product product);
-
-    public int dropProduct(String code);
-
-    public int editProduct(Product product);
+    public void dropProduct(String code);
 
     public Paginable<Product> queryProductPage(int start, int limit,
             Product condition);
@@ -34,19 +33,6 @@ public interface IProductAO {
     public List<Product> queryProductList(Product condition);
 
     public Product getProduct(String code);
-
-    /**
-     * 审核产品
-     * @param code
-     * @param approveResult
-     * @param approver
-     * @param approveNote
-     * @return 
-     * @create: 2016年12月17日 下午1:28:31 xieyj
-     * @history:
-     */
-    public void approveProduct(String code, String approveResult,
-            String approver, String approveNote);
 
     /**
      * 审核多个产品
@@ -58,35 +44,15 @@ public interface IProductAO {
      * @create: 2016年12月17日 下午1:28:31 xieyj
      * @history:
      */
-    public void approveMoreProduct(List<String> codeList, String approveResult,
+    public void approveProduct(List<String> codeList, String approveResult,
             String approver, String approveNote);
 
-    /**
-     * 上架产品
-     * @param code
-     * @param price1
-     * @param price2
-     * @param price3
-     * @param location
-     * @param orderNo
-     * @param updater
-     * @param remark
-     * @return 
-     * @create: 2016年12月14日 下午3:59:22 haiqingzheng
-     * @history:
-     */
-    public int putOnProduct(String code, Long price1, Long price2, Long price3,
-            String location, Integer orderNo, String updater, String remark);
+    public String addProduct(XN808010Req req);
 
-    /**
-     * 下架产品
-     * @param code
-     * @param updater
-     * @param remark
-     * @return 
-     * @create: 2016年11月16日 下午5:34:33 haiqingzheng
-     * @history:
-     */
-    public int putOffProduct(String code, String updater, String remark);
+    public void editProduct(XN808012Req req);
+
+    public void putOn(XN808013Req req);
+
+    public void putOff(String code, String updater, String remark);
 
 }

@@ -19,7 +19,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 批量下架产品
+ * 下架产品
  * @author: haiqingzheng 
  * @since: 2016年5月17日 上午9:06:30 
  * @history:
@@ -36,9 +36,8 @@ public class XN808014 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        int count = productAO.putOffProduct(req.getCode(), req.getUpdater(),
-            req.getRemark());
-        return new BooleanRes(count > 0 ? true : false);
+        productAO.putOff(req.getCode(), req.getUpdater(), req.getRemark());
+        return new BooleanRes(true);
     }
 
     /** 
@@ -47,7 +46,6 @@ public class XN808014 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808014Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getUpdater(),
-            req.getRemark());
+        StringValidater.validateBlank(req.getUpdater(), req.getCode());
     }
 }

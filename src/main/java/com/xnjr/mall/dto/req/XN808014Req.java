@@ -8,16 +8,17 @@
  */
 package com.xnjr.mall.dto.req;
 
+
 /** 
  * @author: haiqingzheng 
  * @since: 2016年5月17日 上午11:18:56 
  * @history:
  */
 public class XN808014Req {
-    // 产品编号
+    // 产品编号(必填)
     private String code;
 
-    // 更新人
+    // 更新人(必填)
     private String updater;
 
     // 备注
@@ -25,6 +26,10 @@ public class XN808014Req {
 
     public String getCode() {
         return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getUpdater() {
@@ -41,10 +46,6 @@ public class XN808014Req {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
 }

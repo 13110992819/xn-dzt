@@ -20,9 +20,7 @@ import com.xnjr.mall.domain.Product;
  */
 public interface IProductBO extends IPaginableBO<Product> {
 
-    public boolean isProductExist(String code);
-
-    public String saveProduct(Product product);
+    public void saveProduct(Product product);
 
     public int removeProduct(String code);
 
@@ -37,10 +35,7 @@ public interface IProductBO extends IPaginableBO<Product> {
     public int approveProduct(String code, String approveResult,
             String approver, String approveNote);
 
-    public int putOn(String code, Long price1, Long price2, Long price3,
-            String location, Integer orderNo, String updater, String remark);
-
     public int putOff(String code, String updater, String remark);
 
-    public Long getBoughtCount(String code);
+    public int putOn(Product product);
 }

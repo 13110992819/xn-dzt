@@ -27,7 +27,8 @@ public class XN808007 extends AProcessor {
         Category condition = new Category();
         condition.setParentCode(req.getParentCode());
         condition.setName(req.getName());
-        condition.setType(req.getType());
+        condition.setStatus(req.getStatus());
+
         condition.setCompanyCode(req.getCompanyCode());
         condition.setSystemCode(req.getSystemCode());
         return categoryAO.queryCategoryList(condition);
@@ -36,6 +37,7 @@ public class XN808007 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808007Req.class);
-        StringValidater.validateBlank(req.getSystemCode());
+        StringValidater
+            .validateBlank(req.getSystemCode(), req.getCompanyCode());
     }
 }

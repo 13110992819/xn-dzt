@@ -20,22 +20,22 @@ public class XN808025Req extends APageReq {
      */
     private static final long serialVersionUID = 7405232977567267123L;
 
-    // 产品大类
+    // 产品大类(选填)
     private String category;
 
-    // 产品小类
+    // 产品小类(选填)
     private String type;
 
-    // 产品名称
+    // 产品名称(选填)
     private String name;
 
-    // 状态
+    // 状态(选填)
     private String status;
 
-    // 位置
+    // 位置(选填)
     private String location;
 
-    // 公司编号
+    // 公司编号(必填)
     private String companyCode;
 
     // 所属系统编号(必填)

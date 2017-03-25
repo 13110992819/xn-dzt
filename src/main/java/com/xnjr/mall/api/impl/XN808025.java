@@ -41,7 +41,7 @@ public class XN808025 extends AProcessor {
         Product condition = new Product();
         condition.setCategory(req.getCategory());
         condition.setType(req.getType());
-        condition.setNameForQuery(req.getName());
+        condition.setName(req.getName());
         condition.setStatus(req.getStatus());
 
         condition.setLocation(req.getLocation());
@@ -64,7 +64,8 @@ public class XN808025 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808025Req.class);
         StringValidater.validateBlank(req.getStart(), req.getLimit());
-        StringValidater.validateBlank(req.getSystemCode());
+        StringValidater
+            .validateBlank(req.getSystemCode(), req.getCompanyCode());
     }
 
 }

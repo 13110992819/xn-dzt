@@ -12,15 +12,16 @@ import com.xnjr.mall.domain.Category;
  */
 public interface ICategoryBO extends IPaginableBO<Category> {
 
-    public boolean isCategoryExist(String code);
-
-    public String saveCategory(Category data);
-
-    public int removeCategory(String code);
+    public void saveCategory(Category data);
 
     public int refreshCategory(Category data);
+
+    public int putOn(String code);
+
+    public int putOff(String code);
 
     public List<Category> queryCategoryList(Category condition);
 
     public Category getCategory(String code);
+
 }

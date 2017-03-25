@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Category;
+import com.xnjr.mall.dto.req.XN808000Req;
+import com.xnjr.mall.dto.req.XN808002Req;
 
 /**
  * @author: xieyj 
@@ -13,11 +15,9 @@ import com.xnjr.mall.domain.Category;
 public interface ICategoryAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public String addCategory(Category data);
+    public String addCategory(XN808000Req req);
 
-    public void dropCategory(String code);
-
-    public void editCategory(Category data);
+    public void editCategory(XN808002Req req);
 
     public Paginable<Category> queryCategoryPage(int start, int limit,
             Category condition);
@@ -25,5 +25,9 @@ public interface ICategoryAO {
     public List<Category> queryCategoryList(Category condition);
 
     public Category getCategory(String code);
+
+    public void putOn(String code);
+
+    public void putOff(String code);
 
 }

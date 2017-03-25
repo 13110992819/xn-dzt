@@ -8,10 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.xnjr.mall.bo.ICategoryBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
-import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.ICategoryDAO;
 import com.xnjr.mall.domain.Category;
-import com.xnjr.mall.enums.EGeneratePrefix;
+import com.xnjr.mall.enums.ECategoryStatus;
 import com.xnjr.mall.exception.BizException;
 
 /**
@@ -27,36 +26,10 @@ public class CategoryBOImpl extends PaginableBOImpl<Category> implements
     private ICategoryDAO categoryDAO;
 
     @Override
-    public boolean isCategoryExist(String code) {
-        Category condition = new Category();
-        condition.setCode(code);
-        if (categoryDAO.selectTotalCount(condition) > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public String saveCategory(Category data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater.generateM(EGeneratePrefix.CATEGORY
-                .getCode());
-            data.setCode(code);
+    public void saveCategory(Category data) {
+        if (data != null && StringUtils.isNotBlank(data.getCode())) {
             categoryDAO.insert(data);
         }
-        return code;
-    }
-
-    @Override
-    public int removeCategory(String code) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            Category data = new Category();
-            data.setCode(code);
-            count = categoryDAO.delete(data);
-        }
-        return count;
     }
 
     @Override
@@ -66,6 +39,32 @@ public class CategoryBOImpl extends PaginableBOImpl<Category> implements
             count = categoryDAO.update(data);
         }
         return count;
+    }
+
+    @Override
+    public int putOn(String code) {
+        int count = 0;
+        if (StringUtils.isNotBlank(code)) {
+            Category data = new Category();
+            data.setCode(code);
+            data.setStatus(ECategoryStatus.ON.getCode());
+            count = categoryDAO.putOn(data);
+        }
+        return count;
+
+    }
+
+    @Override
+    public int putOff(String code) {
+        int count = 0;
+        if (StringUtils.isNotBlank(code)) {
+            Category data = new Category();
+            data.setCode(code);
+            data.setStatus(ECategoryStatus.OFF.getCode());
+            count = categoryDAO.putOn(data);
+        }
+        return count;
+
     }
 
     @Override
@@ -86,4 +85,5 @@ public class CategoryBOImpl extends PaginableBOImpl<Category> implements
         }
         return data;
     }
+
 }

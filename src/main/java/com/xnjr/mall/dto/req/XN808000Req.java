@@ -4,31 +4,20 @@ public class XN808000Req {
     // 父编号(必填)
     private String parentCode;
 
-    // 类型（必填）
-    private String type;
-
     // 分类名称(必填)
     private String name;
 
     // 分类图片(选填)
     private String pic;
 
-    // 顺序(选填)
+    // 顺序(必填)
     private String orderNo;
 
-    // 所属公司编号(选填)
+    // 所属公司编号(必填)
     private String companyCode;
 
     // 所属系统编号(必填)
     private String systemCode;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getParentCode() {
         return parentCode;

@@ -11,11 +11,11 @@ public class XN808015Req {
     // 产品编号(必填)
     private List<String> codeList;
 
-    // 审核结果(必填)
-    private String approveResult;
-
     // 审核人(必填)
     private String approver;
+
+    // 审核结果(必填)
+    private String approveResult;
 
     // 审核备注(必填)
     private String approveNote;

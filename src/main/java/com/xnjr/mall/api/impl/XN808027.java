@@ -37,12 +37,12 @@ public class XN808027 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Product condition = new Product();
-        condition.setNameForQuery(req.getName());
+        condition.setName(req.getName());
         condition.setCategory(req.getCategory());
         condition.setType(req.getType());
         condition.setStatus(req.getStatus());
-        condition.setUpdater(req.getUpdater());
         condition.setLocation(req.getLocation());
+
         condition.setCompanyCode(req.getCompanyCode());
         condition.setSystemCode(req.getSystemCode());
         return productAO.queryProductList(condition);
@@ -54,7 +54,8 @@ public class XN808027 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808027Req.class);
-        StringValidater.validateBlank(req.getSystemCode());
+        StringValidater
+            .validateBlank(req.getSystemCode(), req.getCompanyCode());
     }
 
 }

@@ -18,49 +18,28 @@ public class XN808012Req {
     // 产品编号
     private String code;
 
-    // 产品大类
+    // 产品小类(必填)
     private String category;
 
-    // 产品小类
-    private String type;
-
-    // 产品名称
+    // 产品名称(必填)
     private String name;
 
-    // 广告语
-    private String advTitle;
+    // 广告语(必填)
+    private String slogan;
 
-    // 广告图片
+    // 广告图片(必填)
     private String advPic;
 
-    // pic1
-    private String pic1;
+    // pic(必填)
+    private String pic;
 
-    // pic2
-    private String pic2;
-
-    // pic3
-    private String pic3;
-
-    // pic4
-    private String pic4;
-
-    // 产品详情
+    // 产品详情(必填)
     private String description;
 
-    // 进货价
-    private String costPrice;
-
-    // 库存量进货价
-    private String quantity;
-
-    // 状态
-    private String status;
-
-    // 更新人
+    // 更新人(必填)
     private String updater;
 
-    // 备注
+    // 备注(选填)
     private String remark;
 
     public String getCode() {
@@ -79,14 +58,6 @@ public class XN808012Req {
         this.category = category;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getName() {
         return name;
     }
@@ -95,12 +66,12 @@ public class XN808012Req {
         this.name = name;
     }
 
-    public String getAdvTitle() {
-        return advTitle;
+    public String getSlogan() {
+        return slogan;
     }
 
-    public void setAdvTitle(String advTitle) {
-        this.advTitle = advTitle;
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
     }
 
     public String getAdvPic() {
@@ -111,36 +82,12 @@ public class XN808012Req {
         this.advPic = advPic;
     }
 
-    public String getPic1() {
-        return pic1;
+    public String getPic() {
+        return pic;
     }
 
-    public void setPic1(String pic1) {
-        this.pic1 = pic1;
-    }
-
-    public String getPic2() {
-        return pic2;
-    }
-
-    public void setPic2(String pic2) {
-        this.pic2 = pic2;
-    }
-
-    public String getPic3() {
-        return pic3;
-    }
-
-    public void setPic3(String pic3) {
-        this.pic3 = pic3;
-    }
-
-    public String getPic4() {
-        return pic4;
-    }
-
-    public void setPic4(String pic4) {
-        this.pic4 = pic4;
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 
     public String getDescription() {
@@ -149,30 +96,6 @@ public class XN808012Req {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCostPrice() {
-        return costPrice;
-    }
-
-    public void setCostPrice(String costPrice) {
-        this.costPrice = costPrice;
-    }
-
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getUpdater() {

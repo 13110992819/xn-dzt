@@ -15,7 +15,7 @@ package com.xnjr.mall.dto.req;
  */
 public class XN808026Req {
 
-    // 编号
+    // 编号(必填)
     private String code;
 
     public String getCode() {

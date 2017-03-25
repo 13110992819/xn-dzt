@@ -1,12 +1,9 @@
 package com.xnjr.mall.api.impl;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.xnjr.mall.ao.ICategoryAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.domain.Category;
 import com.xnjr.mall.dto.req.XN808002Req;
 import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
@@ -28,16 +25,7 @@ public class XN808002 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        Category data = new Category();
-        data.setCode(req.getCode());
-        data.setParentCode(req.getParentCode());
-        data.setName(req.getName());
-        data.setPic(req.getPic());
-        data.setCompanyCode(req.getCompanyCode());
-        if (StringUtils.isNotBlank(req.getOrderNo())) {
-            data.setOrderNo(Integer.valueOf(req.getOrderNo()));
-        }
-        categoryAO.editCategory(data);
+        categoryAO.editCategory(req);
         return new BooleanRes(true);
     }
 
@@ -45,6 +33,6 @@ public class XN808002 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808002Req.class);
         StringValidater.validateBlank(req.getCode(), req.getParentCode(),
-            req.getName());
+            req.getName(), req.getOrderNo());
     }
 }

@@ -12,7 +12,6 @@ import com.xnjr.mall.ao.IProductAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.dto.req.XN808012Req;
 import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
@@ -37,24 +36,8 @@ public class XN808012 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        Product data = new Product();
-        data.setCode(req.getCode());
-        data.setCategory(req.getCategory());
-        data.setType(req.getType());
-        data.setName(req.getName());
-        data.setAdvTitle(req.getAdvTitle());
-        data.setAdvPic(req.getAdvPic());
-        data.setPic1(req.getPic1());
-        data.setPic2(req.getPic2());
-        data.setPic3(req.getPic3());
-        data.setPic4(req.getPic4());
-        data.setDescription(req.getDescription());
-        data.setCostPrice(StringValidater.toLong(req.getCostPrice()));
-        data.setQuantity(StringValidater.toInteger(req.getQuantity()));
-        data.setUpdater(req.getUpdater());
-        data.setRemark(req.getRemark());
-        int count = productAO.editProduct(data);
-        return new BooleanRes(count > 0 ? true : false);
+        productAO.editProduct(req);
+        return new BooleanRes(true);
     }
 
     /** 
@@ -63,10 +46,9 @@ public class XN808012 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808012Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getCategory(),
-            req.getType(), req.getName(), req.getAdvTitle(), req.getAdvPic(),
-            req.getPic1(), req.getDescription(), req.getCostPrice(),
-            req.getUpdater());
+        StringValidater.validateBlank(req.getCategory(), req.getName(),
+            req.getSlogan(), req.getAdvPic(), req.getPic(),
+            req.getDescription(), req.getUpdater());
     }
 
 }

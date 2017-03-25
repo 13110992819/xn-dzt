@@ -13,11 +13,8 @@ public class XN808002Req {
     // 分类图片(选填)
     private String pic;
 
-    // 顺序(选填)
+    // 顺序(必填)
     private String orderNo;
-
-    // 所属公司编号(选填)
-    private String companyCode;
 
     public String getCode() {
         return code;
@@ -59,11 +56,4 @@ public class XN808002Req {
         this.orderNo = orderNo;
     }
 
-    public String getCompanyCode() {
-        return companyCode;
-    }
-
-    public void setCompanyCode(String companyCode) {
-        this.companyCode = companyCode;
-    }
 }

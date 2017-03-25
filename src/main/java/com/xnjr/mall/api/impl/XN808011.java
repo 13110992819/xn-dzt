@@ -35,8 +35,8 @@ public class XN808011 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return new BooleanRes(productAO.dropProduct(req.getCode()) > 0 ? true
-                : false);
+        productAO.dropProduct(req.getCode());
+        return new BooleanRes(true);
     }
 
     /** 

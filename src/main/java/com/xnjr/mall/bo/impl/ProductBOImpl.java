@@ -17,11 +17,9 @@ import org.springframework.stereotype.Component;
 
 import com.xnjr.mall.bo.IProductBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
-import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.IProductDAO;
 import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.enums.EBoolean;
-import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EProductStatus;
 import com.xnjr.mall.exception.BizException;
 
@@ -41,24 +39,12 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
      * @see com.xnjr.mall.bo.IProductBO#saveProduct(com.xnjr.mall.domain.Product)
      */
     @Override
-    public String saveProduct(Product product) {
-        String code = null;
-        if (product != null) {
-            code = OrderNoGenerater
-                .generateM(EGeneratePrefix.PRODUCT.getCode());
-            product.setCode(code);
-            product.setUpdater(product.getUpdater());
-            product.setUpdateDatetime(new Date());
-            product.setStatus(EProductStatus.TO_PUBLISH.getCode());
-            product.setRemark(product.getRemark());
+    public void saveProduct(Product product) {
+        if (product != null && StringUtils.isNotBlank(product.getCode())) {
             productDAO.insert(product);
         }
-        return code;
     }
 
-    /** 
-     * @see com.xnjr.mall.bo.IProductBO#removeProduct(java.lang.String)
-     */
     @Override
     public int removeProduct(String code) {
         int count = 0;
@@ -73,18 +59,10 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
         return count;
     }
 
-    /** 
-     * @see com.xnjr.mall.bo.IProductBO#refreshProduct(com.xnjr.mall.domain.Product)
-     */
     @Override
     public int refreshProduct(Product product) {
         int count = 0;
-        if (product != null) {
-            if (!isProductExist(product.getCode())) {
-                throw new BizException("xn000000", "产品编号不存在");
-            }
-            product.setUpdateDatetime(new Date());
-            product.setStatus(EProductStatus.TO_PUBLISH.getCode());
+        if (product != null && StringUtils.isNotBlank(product.getCode())) {
             count = productDAO.updateProduct(product);
         }
         return count;
@@ -166,27 +144,6 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
         return count;
     }
 
-    @Override
-    public int putOn(String code, Long price1, Long price2, Long price3,
-            String location, Integer orderNo, String updater, String remark) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            Product product = new Product();
-            product.setCode(code);
-            product.setPrice1(price1);
-            product.setPrice2(price2);
-            product.setPrice3(price3);
-            product.setLocation(location);
-            product.setOrderNo(orderNo);
-            product.setUpdater(updater);
-            product.setUpdateDatetime(new Date());
-            product.setStatus(EProductStatus.PUBLISH_YES.getCode());
-            product.setRemark(remark);
-            count = productDAO.updatePutOnProduct(product);
-        }
-        return count;
-    }
-
     /** 
      * @see com.xnjr.mall.bo.IProductBO#refreshProductQuantity(java.lang.String, java.lang.Integer)
      */
@@ -203,12 +160,10 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
     }
 
     @Override
-    public Long getBoughtCount(String code) {
-        Long count = 0L;
-        if (StringUtils.isNotBlank(code)) {
-            Product data = new Product();
-            data.setCode(code);
-            count = productDAO.selectBoughtCount(data);
+    public int putOn(Product product) {
+        int count = 0;
+        if (product != null && StringUtils.isNotBlank(product.getCode())) {
+            count = productDAO.updatePutOnProduct(product);
         }
         return count;
     }

@@ -1,12 +1,9 @@
 package com.xnjr.mall.api.impl;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.xnjr.mall.ao.ICategoryAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.domain.Category;
 import com.xnjr.mall.dto.req.XN808000Req;
 import com.xnjr.mall.dto.res.PKCodeRes;
 import com.xnjr.mall.exception.BizException;
@@ -28,23 +25,14 @@ public class XN808000 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        Category data = new Category();
-        data.setParentCode(req.getParentCode());
-        data.setName(req.getName());
-        data.setPic(req.getPic());
-        data.setType(req.getType());
-        data.setSystemCode(req.getSystemCode());
-        if (StringUtils.isNotBlank(req.getOrderNo())) {
-            data.setOrderNo(Integer.valueOf(req.getOrderNo()));
-        }
-        data.setCompanyCode(req.getCompanyCode());
-        return new PKCodeRes(categoryAO.addCategory(data));
+        String code = categoryAO.addCategory(req);
+        return new PKCodeRes(code);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808000Req.class);
         StringValidater.validateBlank(req.getParentCode(), req.getName(),
-            req.getSystemCode());
+            req.getOrderNo(), req.getSystemCode(), req.getCompanyCode());
     }
 }

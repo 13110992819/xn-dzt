@@ -78,6 +78,9 @@ public class Product extends ABaseDO {
     // 备注
     private String remark;
 
+    // 已购买人数（确认收货之后）
+    private Integer boughtCount;
+
     // 所属公司编号
     private String companyCode;
 
@@ -86,14 +89,8 @@ public class Product extends ABaseDO {
 
     // ******************db properties ********************
 
-    // 名字模糊查询
-    private String nameForQuery;
-
     // 商户手机号
     private String mobile;
-
-    // 已购买人数
-    private Long boughtCount;
 
     public String getCode() {
         return code;
@@ -255,14 +252,6 @@ public class Product extends ABaseDO {
         this.systemCode = systemCode;
     }
 
-    public String getNameForQuery() {
-        return nameForQuery;
-    }
-
-    public void setNameForQuery(String nameForQuery) {
-        this.nameForQuery = nameForQuery;
-    }
-
     public String getMobile() {
         return mobile;
     }
@@ -271,11 +260,11 @@ public class Product extends ABaseDO {
         this.mobile = mobile;
     }
 
-    public Long getBoughtCount() {
+    public Integer getBoughtCount() {
         return boughtCount;
     }
 
-    public void setBoughtCount(Long boughtCount) {
+    public void setBoughtCount(Integer boughtCount) {
         this.boughtCount = boughtCount;
     }
 

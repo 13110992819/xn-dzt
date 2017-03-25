@@ -30,7 +30,7 @@ public class XN808015 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        productAO.approveMoreProduct(req.getCodeList(), req.getApproveResult(),
+        productAO.approveProduct(req.getCodeList(), req.getApproveResult(),
             req.getApprover(), req.getApproveNote());
         return new BooleanRes(true);
     }

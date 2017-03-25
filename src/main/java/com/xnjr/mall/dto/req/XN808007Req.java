@@ -4,13 +4,13 @@ public class XN808007Req {
     // 父编号(选填)
     private String parentCode;
 
-    // 类型(1 板块，2商城)(选填)
-    private String type;
+    // 状态(选填)
+    private String status;
 
     // 分类名称(选填)
     private String name;
 
-    // 所属公司编号(选填)
+    // 所属公司编号(必填)
     private String companyCode;
 
     // 所属系统编号(必填)
@@ -24,12 +24,12 @@ public class XN808007Req {
         this.parentCode = parentCode;
     }
 
-    public String getType() {
-        return type;
+    public String getStatus() {
+        return status;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getName() {

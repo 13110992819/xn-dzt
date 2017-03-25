@@ -14,28 +14,28 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808013Req {
-    // 产品编号
+    // 产品编号(必填)
     private String code;
 
-    // 价格1
-    private String price1;
-
-    // 价格2
-    private String price2;
-
-    // 价格3
-    private String price3;
-
-    // 位置
+    // 位置(必填)
     private String location;
 
-    // 相对位置编号
+    // 相对位置编号(必填)
     private String orderNo;
 
-    // 更新人
+    // 价格1(必填)
+    private String price1;
+
+    // 价格2(必填)
+    private String price2;
+
+    // 价格3(必填)
+    private String price3;
+
+    // 更新人(必填)
     private String updater;
 
-    // 备注
+    // 备注(选填)
     private String remark;
 
     public String getCode() {
