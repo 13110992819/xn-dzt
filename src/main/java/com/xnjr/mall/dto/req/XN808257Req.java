@@ -26,6 +26,12 @@ public class XN808257Req {
     // 商家编号（选填）
     private String storeCode;
 
+    // 所属公司编号(选填)
+    private String companyCode;
+
+    // 所属系统编号(选填)
+    private String systemCode;
+
     public String getName() {
         return name;
     }
@@ -57,4 +63,21 @@ public class XN808257Req {
     public void setStoreCode(String storeCode) {
         this.storeCode = storeCode;
     }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
+    }
+
 }

@@ -19,7 +19,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 折扣券上架
+ * 折扣券上下架（商家端）
  * @author: haiqingzheng 
  * @since: 2016年12月18日 下午10:29:04 
  * @history:

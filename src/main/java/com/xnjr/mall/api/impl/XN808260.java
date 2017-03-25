@@ -19,7 +19,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 折扣券购买
+ * 购买折扣券
  * @author: haiqingzheng 
  * @since: 2016年12月18日 下午11:07:53 
  * @history:

@@ -48,6 +48,9 @@ public class XN808250Req {
     // 是否上架（0 不上架 1 上架）
     private String isPutaway;
 
+    // 所属公司编号
+    private String companyCode;
+
     // 系统编号
     private String systemCode;
 
@@ -146,4 +149,13 @@ public class XN808250Req {
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
     }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
 }

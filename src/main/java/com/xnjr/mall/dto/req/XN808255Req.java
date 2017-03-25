@@ -31,16 +31,11 @@ public class XN808255Req extends APageReq {
     // 商家编号（选填）
     private String storeCode;
 
-    // 用户编号(选填)
-    private String userId;
+    // 所属公司编号(选填)
+    private String companyCode;
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    // 所属系统编号(选填)
+    private String systemCode;
 
     public String getName() {
         return name;
@@ -72,6 +67,22 @@ public class XN808255Req extends APageReq {
 
     public void setStoreCode(String storeCode) {
         this.storeCode = storeCode;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
     }
 
 }
