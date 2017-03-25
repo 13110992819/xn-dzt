@@ -8,6 +8,8 @@
  */
 package com.xnjr.mall.domain;
 
+import java.util.Date;
+
 import com.xnjr.mall.dao.base.ABaseDO;
 
 /** 
@@ -24,15 +26,8 @@ public class SYSConfig extends ABaseDO {
     // 编号（自增长）
     private Long id;
 
-    // 分类(A 商品，B 分销规则，C摇一摇规则，D虚拟币规则，E定位规则)
-    private String category;
-
-    // 类型(A1,A2,B1,B2,C1,C2,D1,D2,E1,E2)
-    //
+    // 类型
     private String type;
-
-    // 配置名
-    private String cname;
 
     // key值
     private String ckey;
@@ -40,44 +35,23 @@ public class SYSConfig extends ABaseDO {
     // value值
     private String cvalue;
 
+    // 更新人
+    private String updater;
+
+    // 更新时间
+    private Date updateDatetime;
+
     // 备注
     private String remark;
-
-    // 属于(0 地方默认，其他父节点序号)
-    private Long belong;
 
     // 所属公司编号
     private String companyCode;
 
-    // 所属系统
+    // 所属系统编号
     private String systemCode;
 
     // ************* 模糊查询 *****************
     private String ckeyForQuery;
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
 
     public Long getId() {
         return id;
@@ -87,12 +61,12 @@ public class SYSConfig extends ABaseDO {
         this.id = id;
     }
 
-    public String getCname() {
-        return cname;
+    public String getType() {
+        return type;
     }
 
-    public void setCname(String cname) {
-        this.cname = cname;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getCkey() {
@@ -111,6 +85,22 @@ public class SYSConfig extends ABaseDO {
         this.cvalue = cvalue;
     }
 
+    public String getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(String updater) {
+        this.updater = updater;
+    }
+
+    public Date getUpdateDatetime() {
+        return updateDatetime;
+    }
+
+    public void setUpdateDatetime(Date updateDatetime) {
+        this.updateDatetime = updateDatetime;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -127,6 +117,14 @@ public class SYSConfig extends ABaseDO {
         this.companyCode = companyCode;
     }
 
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
+    }
+
     public String getCkeyForQuery() {
         return ckeyForQuery;
     }
@@ -135,11 +133,4 @@ public class SYSConfig extends ABaseDO {
         this.ckeyForQuery = ckeyForQuery;
     }
 
-    public Long getBelong() {
-        return belong;
-    }
-
-    public void setBelong(Long belong) {
-        this.belong = belong;
-    }
 }

@@ -8,6 +8,8 @@
  */
 package com.xnjr.mall.domain;
 
+import java.util.Date;
+
 import com.xnjr.mall.dao.base.ABaseDO;
 
 /** 
@@ -36,10 +38,19 @@ public class SYSDict extends ABaseDO {
     // value
     private String dvalue;
 
+    // 更新人
+    private String updater;
+
+    // 更新时间
+    private Date updateDatetime;
+
     // 备注
     private String remark;
 
-    // 系统编号
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
     private String systemCode;
 
     public String getSystemCode() {
@@ -97,4 +108,29 @@ public class SYSDict extends ABaseDO {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    public String getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(String updater) {
+        this.updater = updater;
+    }
+
+    public Date getUpdateDatetime() {
+        return updateDatetime;
+    }
+
+    public void setUpdateDatetime(Date updateDatetime) {
+        this.updateDatetime = updateDatetime;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
 }
