@@ -30,32 +30,6 @@ public class SysConstants {
 
     public static final String GXJL2CNY = "gxjl2Cny"; // 贡献奖励兑人民币
 
-    public static final String ST_AREA = "stArea"; // 福利月卡辖区县
-
-    public static final String ST_CITY = "stCity"; // 福利月卡辖区市
-
-    public static final String ST_PROVINCE = "stProvince"; // 福利月卡辖区省
-
-    public static final String ST_AREA_NOTA1 = "stAreaNotA1"; // A1未买福利月卡辖区县
-
-    public static final String ST_CITY_NOTA1 = "stCityNotA1"; // A1未买福利月卡辖区市
-
-    public static final String ST_PROVINCE_NOTA1 = "stProvinceNotA1"; // A1未买福利月卡辖区省
-
-    public static final String ST_A10 = "stA10"; // A1未购买福利月卡
-
-    public static final String ST_A12000 = "stA12000"; // A1购买2000福利月卡
-
-    public static final String ST_A110000 = "stA110000"; // A1购买10000福利月卡
-
-    public static final String ST_A130000 = "stA130000"; // A1购买30000福利月卡
-
-    public static final String ST_A150000 = "stA150000"; // A1购买50000福利月卡
-
-    public static final String ST_BACKNUM = "stBackNum"; // 福利月卡返还期数
-
-    public static final String ST_BACKNUM_DEF = "10"; // 福利月卡默认返还期数
-
     public static final String HZB_PROVINCE = "hzbProvince"; // hzb辖区省
 
     public static final String HZB_CITY = "hzbCity"; // hzb辖区市
