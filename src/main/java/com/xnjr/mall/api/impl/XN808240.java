@@ -1,41 +1,41 @@
 /**
- * @Title XN808223.java 
+ * @Title XN808214Req.java 
  * @Package com.xnjr.mall.api.impl 
  * @Description 
  * @author haiqingzheng  
- * @date 2016年12月18日 下午10:29:04 
+ * @date 2016年12月18日 下午11:56:49 
  * @version V1.0   
  */
 package com.xnjr.mall.api.impl;
 
-import com.xnjr.mall.ao.IStoreTicketAO;
+import com.xnjr.mall.ao.IStoreActionAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.dto.req.XN808223Req;
+import com.xnjr.mall.dto.req.XN808240Req;
 import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 折扣券上架/下架
+ * 对商家点赞
  * @author: haiqingzheng 
- * @since: 2016年12月18日 下午10:29:04 
+ * @since: 2016年12月18日 下午11:56:49 
  * @history:
  */
-public class XN808223 extends AProcessor {
-    private IStoreTicketAO storeTicketAO = SpringContextHolder
-        .getBean(IStoreTicketAO.class);
+public class XN808240 extends AProcessor {
+    private IStoreActionAO storeActionAO = SpringContextHolder
+        .getBean(IStoreActionAO.class);
 
-    private XN808223Req req = null;
+    private XN808240Req req = null;
 
     /** 
      * @see com.xnjr.mall.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        storeTicketAO.putOnOff(req.getCode());
+        storeActionAO.like(req.getStoreCode(), req.getUserId());
         return new BooleanRes(true);
     }
 
@@ -44,8 +44,8 @@ public class XN808223 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808223Req.class);
-        StringValidater.validateBlank(req.getCode());
+        req = JsonUtil.json2Bean(inputparams, XN808240Req.class);
+        StringValidater.validateBlank(req.getStoreCode(), req.getUserId());
     }
 
 }

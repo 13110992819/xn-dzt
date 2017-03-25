@@ -20,7 +20,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 重新修改信息提交审核
+ * 店铺资料重提
  * @author: haiqingzheng 
  * @since: 2016年12月18日 下午1:28:03 
  * @history:

@@ -1,42 +1,42 @@
 /**
- * @Title XN808227.java 
+ * @Title XN808221.java 
  * @Package com.xnjr.mall.api.impl 
  * @Description 
  * @author haiqingzheng  
- * @date 2016年12月18日 下午11:07:53 
+ * @date 2016年12月18日 下午9:39:55 
  * @version V1.0   
  */
 package com.xnjr.mall.api.impl;
 
-import com.xnjr.mall.ao.IUserTicketAO;
+import com.xnjr.mall.ao.IStoreTicketAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.dto.req.XN808227Req;
-import com.xnjr.mall.dto.res.PKCodeRes;
+import com.xnjr.mall.dto.req.XN808251Req;
+import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 折扣券购买
+ * 删除折扣券（只有待上架的折扣券可删除）
  * @author: haiqingzheng 
- * @since: 2016年12月18日 下午11:07:53 
+ * @since: 2016年12月18日 下午9:39:55 
  * @history:
  */
-public class XN808227 extends AProcessor {
-    private IUserTicketAO userTicketAO = SpringContextHolder
-        .getBean(IUserTicketAO.class);
+public class XN808251 extends AProcessor {
+    private IStoreTicketAO storeTicketAO = SpringContextHolder
+        .getBean(IStoreTicketAO.class);
 
-    private XN808227Req req = null;
+    private XN808251Req req = null;
 
     /** 
      * @see com.xnjr.mall.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        return new PKCodeRes(userTicketAO.buyTicket(req.getCode(),
-            req.getUserId()));
+        storeTicketAO.dropStoreTicket(req.getCode());
+        return new BooleanRes(true);
     }
 
     /** 
@@ -44,8 +44,8 @@ public class XN808227 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808227Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getUserId());
+        req = JsonUtil.json2Bean(inputparams, XN808251Req.class);
+        StringValidater.validateBlank(req.getCode());
     }
 
 }

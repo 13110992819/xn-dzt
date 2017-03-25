@@ -53,7 +53,10 @@ public class StoreTicket extends ABaseDO {
     // 所属商家编号
     private String storeCode;
 
-    // 系统编号
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
     private String systemCode;
 
     // ***************db properties****************
@@ -211,6 +214,14 @@ public class StoreTicket extends ABaseDO {
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
 }

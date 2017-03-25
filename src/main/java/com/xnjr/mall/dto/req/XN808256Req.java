@@ -1,20 +1,19 @@
 /**
- * @Title XN808223Req.java 
+ * @Title XN808226Req.java 
  * @Package com.xnjr.mall.dto.req 
  * @Description 
  * @author haiqingzheng  
- * @date 2016年12月18日 下午10:29:35 
+ * @date 2016年12月18日 下午11:04:27 
  * @version V1.0   
  */
 package com.xnjr.mall.dto.req;
 
 /** 
- * 折扣券上架下架
  * @author: haiqingzheng 
- * @since: 2016年12月18日 下午10:29:35 
+ * @since: 2016年12月18日 下午11:04:27 
  * @history:
  */
-public class XN808223Req {
+public class XN808256Req {
     // 折扣券编号
     private String code;
 

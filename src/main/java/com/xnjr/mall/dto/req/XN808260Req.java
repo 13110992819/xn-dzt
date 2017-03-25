@@ -1,31 +1,31 @@
 /**
- * @Title XN808214Req.java 
+ * @Title XN808227Req.java 
  * @Package com.xnjr.mall.dto.req 
  * @Description 
  * @author haiqingzheng  
- * @date 2016年12月18日 下午11:57:29 
+ * @date 2016年12月18日 下午11:08:09 
  * @version V1.0   
  */
 package com.xnjr.mall.dto.req;
 
 /** 
  * @author: haiqingzheng 
- * @since: 2016年12月18日 下午11:57:29 
+ * @since: 2016年12月18日 下午11:08:09 
  * @history:
  */
-public class XN808214Req {
-    // 商家编号
-    private String storeCode;
+public class XN808260Req {
+    // 折扣券编号
+    private String code;
 
-    // 用户编号
+    // 购买用户ID
     private String userId;
 
-    public String getStoreCode() {
-        return storeCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setStoreCode(String storeCode) {
-        this.storeCode = storeCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getUserId() {

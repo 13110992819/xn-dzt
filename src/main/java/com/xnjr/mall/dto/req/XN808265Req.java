@@ -13,7 +13,7 @@ package com.xnjr.mall.dto.req;
  * @since: 2016年12月18日 下午11:29:08 
  * @history:
  */
-public class XN808228Req extends APageReq {
+public class XN808265Req extends APageReq {
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
      */

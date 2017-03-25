@@ -14,7 +14,7 @@ import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.StoreTicket;
-import com.xnjr.mall.dto.req.XN808222Req;
+import com.xnjr.mall.dto.req.XN808252Req;
 import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
@@ -26,11 +26,11 @@ import com.xnjr.mall.spring.SpringContextHolder;
  * @since: 2016年12月18日 下午10:13:02 
  * @history:
  */
-public class XN808222 extends AProcessor {
+public class XN808252 extends AProcessor {
     private IStoreTicketAO storeTicketAO = SpringContextHolder
         .getBean(IStoreTicketAO.class);
 
-    private XN808222Req req = null;
+    private XN808252Req req = null;
 
     /** 
      * @see com.xnjr.mall.api.IProcessor#doBusiness()
@@ -59,7 +59,7 @@ public class XN808222 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808222Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN808252Req.class);
         StringValidater.validateBlank(req.getCode(), req.getName(),
             req.getType(), req.getKey1(), req.getKey2(), req.getDescription(),
             req.getPrice(), req.getCurrency(), req.getValidateStart(),

@@ -14,7 +14,7 @@ import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.StoreTicket;
-import com.xnjr.mall.dto.req.XN808220Req;
+import com.xnjr.mall.dto.req.XN808250Req;
 import com.xnjr.mall.dto.res.PKCodeRes;
 import com.xnjr.mall.enums.EBoolean;
 import com.xnjr.mall.enums.EStoreTicketStatus;
@@ -28,11 +28,11 @@ import com.xnjr.mall.spring.SpringContextHolder;
  * @since: 2016年12月18日 下午9:06:39 
  * @history:
  */
-public class XN808220 extends AProcessor {
+public class XN808250 extends AProcessor {
     private IStoreTicketAO storeTicketAO = SpringContextHolder
         .getBean(IStoreTicketAO.class);
 
-    private XN808220Req req = null;
+    private XN808250Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
@@ -58,7 +58,7 @@ public class XN808220 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808220Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN808250Req.class);
         StringValidater.validateBlank(req.getName(), req.getType(),
             req.getKey1(), req.getKey2(), req.getDescription(), req.getPrice(),
             req.getCurrency(), req.getValidateStart(), req.getValidateEnd(),

@@ -1,11 +1,3 @@
-/**
- * @Title XN808207.java 
- * @Package com.xnjr.mall.api.impl 
- * @Description 
- * @author haiqingzheng  
- * @date 2016年12月18日 下午3:13:25 
- * @version V1.0   
- */
 package com.xnjr.mall.api.impl;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,16 +12,16 @@ import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
-/** 
- * OSS分页查询店铺信息(OSS专用)
- * @author: haiqingzheng 
- * @since: 2016年12月18日 下午3:13:25 
+/**
+ * 分页查询店铺信息(前端专用)
+ * @author: myb858 
+ * @since: 2017年3月25日 下午6:11:34 
  * @history:
  */
-public class XN808215 extends AProcessor {
+public class XN808217 extends AProcessor {
     private IStoreAO storeAO = SpringContextHolder.getBean(IStoreAO.class);
 
-    private XN808215Req req = null;
+    private XN808217Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {

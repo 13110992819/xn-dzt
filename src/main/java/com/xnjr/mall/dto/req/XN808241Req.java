@@ -13,7 +13,7 @@ package com.xnjr.mall.dto.req;
  * @since: 2016年12月19日 上午12:52:16 
  * @history:
  */
-public class XN808210Req {
+public class XN808241Req {
     // 商家编号
     private String storeCode;
 

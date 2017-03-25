@@ -29,7 +29,10 @@ public class StoreAction extends ABaseDO {
     // 商户编号
     private String storeCode;
 
-    // 系统编号
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
     private String systemCode;
 
     public void setCode(String code) {
@@ -78,6 +81,14 @@ public class StoreAction extends ABaseDO {
 
     public String getSystemCode() {
         return systemCode;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
 }

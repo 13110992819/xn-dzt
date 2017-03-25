@@ -13,7 +13,7 @@ package com.xnjr.mall.dto.req;
  * @since: 2016年12月18日 下午10:59:18 
  * @history:
  */
-public class XN808225Req {
+public class XN808257Req {
     // 折扣券名称（选填）
     private String name;
 

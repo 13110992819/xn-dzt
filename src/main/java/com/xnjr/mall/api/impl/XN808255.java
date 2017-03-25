@@ -1,33 +1,36 @@
 /**
- * @Title XN808225.java 
+ * @Title XN808224.java 
  * @Package com.xnjr.mall.api.impl 
  * @Description 
  * @author haiqingzheng  
- * @date 2016年12月18日 下午10:58:54 
+ * @date 2016年12月18日 下午10:47:13 
  * @version V1.0   
  */
 package com.xnjr.mall.api.impl;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.xnjr.mall.ao.IStoreTicketAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
+import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.StoreTicket;
-import com.xnjr.mall.dto.req.XN808225Req;
+import com.xnjr.mall.dto.req.XN808255Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 列表查询折扣券
+ * 分页查询折扣券
  * @author: haiqingzheng 
- * @since: 2016年12月18日 下午10:58:54 
+ * @since: 2016年12月18日 下午10:47:13 
  * @history:
  */
-public class XN808225 extends AProcessor {
+public class XN808255 extends AProcessor {
     private IStoreTicketAO storeTicketAO = SpringContextHolder
         .getBean(IStoreTicketAO.class);
 
-    private XN808225Req req = null;
+    private XN808255Req req = null;
 
     /** 
      * @see com.xnjr.mall.api.IProcessor#doBusiness()
@@ -39,7 +42,15 @@ public class XN808225 extends AProcessor {
         condition.setType(req.getType());
         condition.setStatus(req.getStatus());
         condition.setStoreCode(req.getStoreCode());
-        return storeTicketAO.queryStoreTicketList(condition);
+        condition.setUserId(req.getUserId());
+        String orderColumn = req.getOrderColumn();
+        if (StringUtils.isBlank(orderColumn)) {
+            orderColumn = IStoreTicketAO.DEFAULT_ORDER_COLUMN;
+        }
+        condition.setOrder(orderColumn, req.getOrderDir());
+        int start = StringValidater.toInteger(req.getStart());
+        int limit = StringValidater.toInteger(req.getLimit());
+        return storeTicketAO.queryStoreTicketPage(start, limit, condition);
     }
 
     /** 
@@ -47,7 +58,8 @@ public class XN808225 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808225Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN808255Req.class);
+        StringValidater.validateBlank(req.getStart(), req.getLimit());
     }
 
 }

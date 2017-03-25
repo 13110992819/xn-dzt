@@ -1,9 +1,9 @@
 /**
- * @Title XN808226.java 
+ * @Title XN808225.java 
  * @Package com.xnjr.mall.api.impl 
  * @Description 
  * @author haiqingzheng  
- * @date 2016年12月18日 下午11:04:13 
+ * @date 2016年12月18日 下午10:58:54 
  * @version V1.0   
  */
 package com.xnjr.mall.api.impl;
@@ -11,30 +11,35 @@ package com.xnjr.mall.api.impl;
 import com.xnjr.mall.ao.IStoreTicketAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
-import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.dto.req.XN808226Req;
+import com.xnjr.mall.domain.StoreTicket;
+import com.xnjr.mall.dto.req.XN808257Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 详情查询折扣券
+ * 列表查询折扣券
  * @author: haiqingzheng 
- * @since: 2016年12月18日 下午11:04:13 
+ * @since: 2016年12月18日 下午10:58:54 
  * @history:
  */
-public class XN808226 extends AProcessor {
+public class XN808257 extends AProcessor {
     private IStoreTicketAO storeTicketAO = SpringContextHolder
         .getBean(IStoreTicketAO.class);
 
-    private XN808226Req req = null;
+    private XN808257Req req = null;
 
     /** 
      * @see com.xnjr.mall.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        return storeTicketAO.getStoreTicket(req.getCode());
+        StoreTicket condition = new StoreTicket();
+        condition.setName(req.getName());
+        condition.setType(req.getType());
+        condition.setStatus(req.getStatus());
+        condition.setStoreCode(req.getStoreCode());
+        return storeTicketAO.queryStoreTicketList(condition);
     }
 
     /** 
@@ -42,8 +47,7 @@ public class XN808226 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808226Req.class);
-        StringValidater.validateBlank(req.getCode());
+        req = JsonUtil.json2Bean(inputparams, XN808257Req.class);
     }
 
 }

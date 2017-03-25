@@ -29,9 +29,13 @@ public class UserTicket extends ABaseDO {
     // 状态
     private String status;
 
-    // 系统编号
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
     private String systemCode;
 
+    // *************db properties************
     // 折扣券名称
     private String ticketName;
 
@@ -44,7 +48,6 @@ public class UserTicket extends ABaseDO {
     // 折扣券key2
     private Long ticketKey2;
 
-    // *************db properties************
     // 店铺编号
     private String storeCode;
 
@@ -156,6 +159,14 @@ public class UserTicket extends ABaseDO {
 
     public void setTicketKey2(Long ticketKey2) {
         this.ticketKey2 = ticketKey2;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
 }

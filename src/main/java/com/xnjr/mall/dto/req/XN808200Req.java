@@ -11,6 +11,9 @@ public class XN808200Req {
     // 名称（必填）
     private String name;
 
+    // 等级（必填）
+    private String level;
+
     // 类型（必填）
     private String type;
 
@@ -28,6 +31,9 @@ public class XN808200Req {
 
     // 不使用折扣券分成比例（必填）
     private String rate2;
+
+    // 费率3 返点比例
+    private Double rate3;
 
     // 广告语（必填）
     private String slogan;
@@ -77,16 +83,11 @@ public class XN808200Req {
     // 备注（选填）
     private String remark;
 
-    // 系统编号（必填）
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
     private String systemCode;
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
 
     public String getName() {
         return name;
@@ -94,6 +95,14 @@ public class XN808200Req {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getType() {
@@ -110,6 +119,14 @@ public class XN808200Req {
 
     public void setLegalPersonName(String legalPersonName) {
         this.legalPersonName = legalPersonName;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getUserReferee() {
@@ -136,12 +153,28 @@ public class XN808200Req {
         this.rate2 = rate2;
     }
 
+    public Double getRate3() {
+        return rate3;
+    }
+
+    public void setRate3(Double rate3) {
+        this.rate3 = rate3;
+    }
+
     public String getSlogan() {
         return slogan;
     }
 
     public void setSlogan(String slogan) {
         this.slogan = slogan;
+    }
+
+    public String getAdPic() {
+        return adPic;
+    }
+
+    public void setAdPic(String adPic) {
+        this.adPic = adPic;
     }
 
     public String getPic() {
@@ -256,20 +289,20 @@ public class XN808200Req {
         this.remark = remark;
     }
 
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
     public String getSystemCode() {
         return systemCode;
     }
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
-    }
-
-    public String getAdPic() {
-        return adPic;
-    }
-
-    public void setAdPic(String adPic) {
-        this.adPic = adPic;
     }
 
 }

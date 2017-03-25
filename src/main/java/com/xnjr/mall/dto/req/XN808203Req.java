@@ -75,7 +75,13 @@ public class XN808203Req {
     // 附件（选填）
     private String pdf;
 
-    // 系统编号
+    // 备注（选填）
+    private String remark;
+
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
     private String systemCode;
 
     public String getSystemCode() {
@@ -245,4 +251,21 @@ public class XN808203Req {
     public void setPdf(String pdf) {
         this.pdf = pdf;
     }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
 }

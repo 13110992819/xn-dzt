@@ -20,32 +20,43 @@ public class StorePurchase extends ABaseDO {
     // 用户编号
     private String userId;
 
-    // 支付方式
-    private String payType;
-
-    // 消费金额
-    private Long purchaseAmount;
-
-    // 人民币消费金额
-    private Long amount1;
-
-    // 虚拟币1消费金额
-    private Long amount2;
-
-    // 虚拟币2消费金额
-    private Long amount3;
-
-    // 返现金额
-    private Long backAmount;
+    // 商户编号
+    private String storeCode;
 
     // 折扣券编号
     private String ticketCode;
 
-    // 状态
-    private String status;
+    // 服务总价
+    private Long price;
+
+    // 返现金额
+    private Long backAmount;
+
+    // 返现币种
+    private Long backCurrency;
 
     // 消费时间
     private Date createDatetime;
+
+    // 状态
+    private String status;
+
+    // 支付方式
+    private String payType;
+
+    //
+    private String payGroup;
+
+    private String payCode;
+
+    // 人民币消费金额
+    private Long payAmount1;
+
+    // 虚拟币1消费金额
+    private Long payAmount2;
+
+    // 虚拟币2消费金额
+    private Long payAmount3;
 
     // 实际支付时间
     private Date payDatetime;
@@ -53,51 +64,16 @@ public class StorePurchase extends ABaseDO {
     // 备注
     private String remark;
 
-    // 商户编号
-    private String storeCode;
+    // 所属公司编号
+    private String companyCode;
 
-    // 系统编号
+    // 所属系统编号
     private String systemCode;
-
-    // 流水编号
-    private String jourCode;
 
     // *************db properties****************
     private Store store;
 
     private StoreTicket storeTicket;
-
-    public Long getPurchaseAmount() {
-        return purchaseAmount;
-    }
-
-    public void setPurchaseAmount(Long purchaseAmount) {
-        this.purchaseAmount = purchaseAmount;
-    }
-
-    public StoreTicket getStoreTicket() {
-        return storeTicket;
-    }
-
-    public void setStoreTicket(StoreTicket storeTicket) {
-        this.storeTicket = storeTicket;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
-
-    public String getTicketCode() {
-        return ticketCode;
-    }
-
-    public void setTicketCode(String ticketCode) {
-        this.ticketCode = ticketCode;
-    }
 
     public String getCode() {
         return code;
@@ -115,28 +91,28 @@ public class StorePurchase extends ABaseDO {
         this.userId = userId;
     }
 
-    public Long getAmount1() {
-        return amount1;
+    public String getStoreCode() {
+        return storeCode;
     }
 
-    public void setAmount1(Long amount1) {
-        this.amount1 = amount1;
+    public void setStoreCode(String storeCode) {
+        this.storeCode = storeCode;
     }
 
-    public Long getAmount2() {
-        return amount2;
+    public String getTicketCode() {
+        return ticketCode;
     }
 
-    public void setAmount2(Long amount2) {
-        this.amount2 = amount2;
+    public void setTicketCode(String ticketCode) {
+        this.ticketCode = ticketCode;
     }
 
-    public Long getAmount3() {
-        return amount3;
+    public Long getPrice() {
+        return price;
     }
 
-    public void setAmount3(Long amount3) {
-        this.amount3 = amount3;
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public Long getBackAmount() {
@@ -147,12 +123,12 @@ public class StorePurchase extends ABaseDO {
         this.backAmount = backAmount;
     }
 
-    public String getStatus() {
-        return status;
+    public Long getBackCurrency() {
+        return backCurrency;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setBackCurrency(Long backCurrency) {
+        this.backCurrency = backCurrency;
     }
 
     public Date getCreateDatetime() {
@@ -161,6 +137,62 @@ public class StorePurchase extends ABaseDO {
 
     public void setCreateDatetime(Date createDatetime) {
         this.createDatetime = createDatetime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
+
+    public String getPayGroup() {
+        return payGroup;
+    }
+
+    public void setPayGroup(String payGroup) {
+        this.payGroup = payGroup;
+    }
+
+    public String getPayCode() {
+        return payCode;
+    }
+
+    public void setPayCode(String payCode) {
+        this.payCode = payCode;
+    }
+
+    public Long getPayAmount1() {
+        return payAmount1;
+    }
+
+    public void setPayAmount1(Long payAmount1) {
+        this.payAmount1 = payAmount1;
+    }
+
+    public Long getPayAmount2() {
+        return payAmount2;
+    }
+
+    public void setPayAmount2(Long payAmount2) {
+        this.payAmount2 = payAmount2;
+    }
+
+    public Long getPayAmount3() {
+        return payAmount3;
+    }
+
+    public void setPayAmount3(Long payAmount3) {
+        this.payAmount3 = payAmount3;
     }
 
     public Date getPayDatetime() {
@@ -179,12 +211,12 @@ public class StorePurchase extends ABaseDO {
         this.remark = remark;
     }
 
-    public String getStoreCode() {
-        return storeCode;
+    public String getCompanyCode() {
+        return companyCode;
     }
 
-    public void setStoreCode(String storeCode) {
-        this.storeCode = storeCode;
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
     public String getSystemCode() {
@@ -195,20 +227,20 @@ public class StorePurchase extends ABaseDO {
         this.systemCode = systemCode;
     }
 
-    public String getJourCode() {
-        return jourCode;
+    public Store getStore() {
+        return store;
     }
 
-    public void setJourCode(String jourCode) {
-        this.jourCode = jourCode;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
-    public String getPayType() {
-        return payType;
+    public StoreTicket getStoreTicket() {
+        return storeTicket;
     }
 
-    public void setPayType(String payType) {
-        this.payType = payType;
+    public void setStoreTicket(StoreTicket storeTicket) {
+        this.storeTicket = storeTicket;
     }
 
 }

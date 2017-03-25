@@ -68,7 +68,13 @@ public class XN808201Req {
     // 店铺主人（必填）
     private String owner;
 
-    // 系统编号（必填）
+    // 备注（选填）
+    private String remark;
+
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
     private String systemCode;
 
     public String getName() {
@@ -237,6 +243,22 @@ public class XN808201Req {
 
     public void setAdPic(String adPic) {
         this.adPic = adPic;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
 }

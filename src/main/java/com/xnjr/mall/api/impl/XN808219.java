@@ -1,42 +1,39 @@
 /**
- * @Title XN808214Req.java 
+ * @Title XN808215.java 
  * @Package com.xnjr.mall.api.impl 
  * @Description 
  * @author haiqingzheng  
- * @date 2016年12月18日 下午11:56:49 
+ * @date 2016年12月22日 下午6:28:45 
  * @version V1.0   
  */
 package com.xnjr.mall.api.impl;
 
-import com.xnjr.mall.ao.IStoreActionAO;
+import com.xnjr.mall.ao.IStoreAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.dto.req.XN808214Req;
-import com.xnjr.mall.dto.res.BooleanRes;
+import com.xnjr.mall.dto.req.XN808219Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 对商家点赞
+ * 我的店铺查询（商家查询自己的店铺）
  * @author: haiqingzheng 
- * @since: 2016年12月18日 下午11:56:49 
+ * @since: 2016年12月22日 下午6:28:45 
  * @history:
  */
-public class XN808214 extends AProcessor {
-    private IStoreActionAO storeActionAO = SpringContextHolder
-        .getBean(IStoreActionAO.class);
+public class XN808219 extends AProcessor {
+    private IStoreAO storeAO = SpringContextHolder.getBean(IStoreAO.class);
 
-    private XN808214Req req = null;
+    private XN808219Req req = null;
 
     /** 
      * @see com.xnjr.mall.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        storeActionAO.like(req.getStoreCode(), req.getUserId());
-        return new BooleanRes(true);
+        return storeAO.getStore(req.getUserId());
     }
 
     /** 
@@ -44,8 +41,8 @@ public class XN808214 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808214Req.class);
-        StringValidater.validateBlank(req.getStoreCode(), req.getUserId());
+        req = JsonUtil.json2Bean(inputparams, XN808219Req.class);
+        StringValidater.validateBlank(req.getUserId());
     }
 
 }

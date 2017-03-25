@@ -17,23 +17,11 @@ public class Store extends ABaseDO {
     // 名称
     private String name;
 
+    // 等级
+    private String level;
+
     // 类型
     private String type;
-
-    // 法人姓名
-    private String legalPersonName;
-
-    // 店铺推荐人
-    private String userReferee;
-
-    // 推荐人手机号
-    private String refereeMobile;
-
-    // 费率1 使用折扣券分成比例
-    private Double rate1;
-
-    // 费率2 不使用折扣券分成比例
-    private Double rate2;
 
     // 广告语
     private String slogan;
@@ -41,7 +29,7 @@ public class Store extends ABaseDO {
     // 店铺缩略图
     private String adPic;
 
-    // 店铺详情图
+    // 店铺图片
     private String pic;
 
     // 描述
@@ -74,23 +62,32 @@ public class Store extends ABaseDO {
     // pdf
     private String pdf;
 
-    // 是否默认
-    private String isDefault;
-
     // UI位置
     private String uiLocation;
 
     // UI序号
     private String uiOrder;
 
-    // 状态 1/0 上/下线
+    // 法人姓名
+    private String legalPersonName;
+
+    // 店铺推荐人
+    private String userReferee;
+
+    // 费率1 使用折扣券分成比例
+    private Double rate1;
+
+    // 费率2 不使用折扣券分成比例
+    private Double rate2;
+
+    // 费率3 返点比例
+    private Double rate3;
+
+    // 是否默认
+    private String isDefault;
+
+    // 状态
     private String status;
-
-    // 审核人
-    private String approver;
-
-    // 审核时间
-    private Date approveDatetime;
 
     // 更新人
     private String updater;
@@ -104,16 +101,25 @@ public class Store extends ABaseDO {
     // 店铺主人
     private String owner;
 
+    // 合同编号
+    private String contractNo;
+
+    // 总的积分数
+    private int totalRmbNum;
+
     // 总的积分数
     private int totalJfNum;
 
     // 总的点赞数
     private int totalDzNum;
 
-    // 合同编号
-    private String contractNo;
+    // 总的点赞数
+    private int totalScNum;
 
-    // 系统编号
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
     private String systemCode;
 
     // ************db properites***********
@@ -150,78 +156,6 @@ public class Store extends ABaseDO {
     // 区
     private String areaForQuery;
 
-    public String getContractNo() {
-        return contractNo;
-    }
-
-    public void setContractNo(String contractNo) {
-        this.contractNo = contractNo;
-    }
-
-    public String getProvinceForQuery() {
-        return provinceForQuery;
-    }
-
-    public void setProvinceForQuery(String provinceForQuery) {
-        this.provinceForQuery = provinceForQuery;
-    }
-
-    public String getCityForQuery() {
-        return cityForQuery;
-    }
-
-    public void setCityForQuery(String cityForQuery) {
-        this.cityForQuery = cityForQuery;
-    }
-
-    public String getAreaForQuery() {
-        return areaForQuery;
-    }
-
-    public void setAreaForQuery(String areaForQuery) {
-        this.areaForQuery = areaForQuery;
-    }
-
-    public String getRefereeMobile() {
-        return refereeMobile;
-    }
-
-    public void setRefereeMobile(String refereeMobile) {
-        this.refereeMobile = refereeMobile;
-    }
-
-    public String getDistance() {
-        return distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = distance;
-    }
-
-    public String getUserLongitude() {
-        return userLongitude;
-    }
-
-    public void setUserLongitude(String userLongitude) {
-        this.userLongitude = userLongitude;
-    }
-
-    public String getUserLatitude() {
-        return userLatitude;
-    }
-
-    public void setUserLatitude(String userLatitude) {
-        this.userLatitude = userLatitude;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
     public String getCode() {
         return code;
     }
@@ -238,20 +172,20 @@ public class Store extends ABaseDO {
         this.name = name;
     }
 
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getUserReferee() {
-        return userReferee;
-    }
-
-    public void setUserReferee(String userReferee) {
-        this.userReferee = userReferee;
     }
 
     public String getSlogan() {
@@ -358,14 +292,6 @@ public class Store extends ABaseDO {
         this.pdf = pdf;
     }
 
-    public String getIsDefault() {
-        return isDefault;
-    }
-
-    public void setIsDefault(String isDefault) {
-        this.isDefault = isDefault;
-    }
-
     public String getUiLocation() {
         return uiLocation;
     }
@@ -382,28 +308,60 @@ public class Store extends ABaseDO {
         this.uiOrder = uiOrder;
     }
 
+    public String getLegalPersonName() {
+        return legalPersonName;
+    }
+
+    public void setLegalPersonName(String legalPersonName) {
+        this.legalPersonName = legalPersonName;
+    }
+
+    public String getUserReferee() {
+        return userReferee;
+    }
+
+    public void setUserReferee(String userReferee) {
+        this.userReferee = userReferee;
+    }
+
+    public Double getRate1() {
+        return rate1;
+    }
+
+    public void setRate1(Double rate1) {
+        this.rate1 = rate1;
+    }
+
+    public Double getRate2() {
+        return rate2;
+    }
+
+    public void setRate2(Double rate2) {
+        this.rate2 = rate2;
+    }
+
+    public Double getRate3() {
+        return rate3;
+    }
+
+    public void setRate3(Double rate3) {
+        this.rate3 = rate3;
+    }
+
+    public String getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(String isDefault) {
+        this.isDefault = isDefault;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getApprover() {
-        return approver;
-    }
-
-    public void setApprover(String approver) {
-        this.approver = approver;
-    }
-
-    public Date getApproveDatetime() {
-        return approveDatetime;
-    }
-
-    public void setApproveDatetime(Date approveDatetime) {
-        this.approveDatetime = approveDatetime;
     }
 
     public String getUpdater() {
@@ -438,6 +396,22 @@ public class Store extends ABaseDO {
         this.owner = owner;
     }
 
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public int getTotalRmbNum() {
+        return totalRmbNum;
+    }
+
+    public void setTotalRmbNum(int totalRmbNum) {
+        this.totalRmbNum = totalRmbNum;
+    }
+
     public int getTotalJfNum() {
         return totalJfNum;
     }
@@ -452,6 +426,22 @@ public class Store extends ABaseDO {
 
     public void setTotalDzNum(int totalDzNum) {
         this.totalDzNum = totalDzNum;
+    }
+
+    public int getTotalScNum() {
+        return totalScNum;
+    }
+
+    public void setTotalScNum(int totalScNum) {
+        this.totalScNum = totalScNum;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
     public String getSystemCode() {
@@ -470,6 +460,14 @@ public class Store extends ABaseDO {
         this.loginName = loginName;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     public String getFromUser() {
         return fromUser;
     }
@@ -486,36 +484,60 @@ public class Store extends ABaseDO {
         this.isDZ = isDZ;
     }
 
-    public String getLegalPersonName() {
-        return legalPersonName;
-    }
-
-    public void setLegalPersonName(String legalPersonName) {
-        this.legalPersonName = legalPersonName;
-    }
-
-    public Double getRate1() {
-        return rate1;
-    }
-
-    public void setRate1(Double rate1) {
-        this.rate1 = rate1;
-    }
-
-    public Double getRate2() {
-        return rate2;
-    }
-
-    public void setRate2(Double rate2) {
-        this.rate2 = rate2;
-    }
-
     public List<StoreTicket> getStoreTickets() {
         return storeTickets;
     }
 
     public void setStoreTickets(List<StoreTicket> storeTickets) {
         this.storeTickets = storeTickets;
+    }
+
+    public String getUserLongitude() {
+        return userLongitude;
+    }
+
+    public void setUserLongitude(String userLongitude) {
+        this.userLongitude = userLongitude;
+    }
+
+    public String getUserLatitude() {
+        return userLatitude;
+    }
+
+    public void setUserLatitude(String userLatitude) {
+        this.userLatitude = userLatitude;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getProvinceForQuery() {
+        return provinceForQuery;
+    }
+
+    public void setProvinceForQuery(String provinceForQuery) {
+        this.provinceForQuery = provinceForQuery;
+    }
+
+    public String getCityForQuery() {
+        return cityForQuery;
+    }
+
+    public void setCityForQuery(String cityForQuery) {
+        this.cityForQuery = cityForQuery;
+    }
+
+    public String getAreaForQuery() {
+        return areaForQuery;
+    }
+
+    public void setAreaForQuery(String areaForQuery) {
+        this.areaForQuery = areaForQuery;
     }
 
 }

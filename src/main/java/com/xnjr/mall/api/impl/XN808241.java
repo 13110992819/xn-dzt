@@ -12,7 +12,7 @@ import com.xnjr.mall.ao.IStorePurchaseAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.dto.req.XN808210Req;
+import com.xnjr.mall.dto.req.XN808241Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
@@ -23,11 +23,11 @@ import com.xnjr.mall.spring.SpringContextHolder;
  * @since: 2016年12月19日 上午12:51:49 
  * @history:
  */
-public class XN808210 extends AProcessor {
+public class XN808241 extends AProcessor {
     private IStorePurchaseAO storePurchaseAO = SpringContextHolder
         .getBean(IStorePurchaseAO.class);
 
-    private XN808210Req req = null;
+    private XN808241Req req = null;
 
     /** 
      * @see com.xnjr.mall.api.IProcessor#doBusiness()
@@ -45,7 +45,7 @@ public class XN808210 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808210Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN808241Req.class);
         StringValidater.validateBlank(req.getUserId(), req.getStoreCode(),
             req.getAmount(), req.getIp());
     }
