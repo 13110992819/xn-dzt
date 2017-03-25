@@ -11,7 +11,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 取消订单（后台），商户异常
+ * 商户取消订单
  * @author: xieyj 
  * @since: 2016年5月23日 上午9:04:12 
  * @history:

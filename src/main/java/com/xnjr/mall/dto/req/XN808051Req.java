@@ -9,6 +9,12 @@ import java.util.List;
  * @history:
  */
 public class XN808051Req {
+    // 购物车列表（必填）
+    private List<String> cartCodeList;
+
+    // 向谁提货(选填)
+    private String toUser;
+
     // 收件人姓名（必填）
     private String receiver;
 
@@ -29,9 +35,6 @@ public class XN808051Req {
 
     // 发票抬头（必填）
     private String receiptTitle;
-
-    // 购物车列表（必填）
-    private List<String> cartCodeList;
 
     public String getApplyUser() {
         return applyUser;

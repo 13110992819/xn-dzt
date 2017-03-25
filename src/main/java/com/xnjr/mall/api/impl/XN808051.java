@@ -14,7 +14,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 购物车批量提交订单
+ * 购物车批量下单
  * @author: xieyj 
  * @since: 2016年5月23日 上午9:04:12 
  * @history:

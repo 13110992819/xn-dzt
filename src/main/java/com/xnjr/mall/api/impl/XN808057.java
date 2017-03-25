@@ -11,7 +11,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 订单-确认收货
+ * 批量确认收货
  * @author: haiqingzheng 
  * @since: 2016年5月29日 下午3:19:39 
  * @history:

@@ -27,7 +27,7 @@ public class Product extends ABaseDO {
     // 产品编号
     private String code;
 
-    // 产品大类
+    // 产品大类(冗余)
     private String category;
 
     // 产品小类
@@ -37,43 +37,19 @@ public class Product extends ABaseDO {
     private String name;
 
     // 广告语
-    private String advTitle;
+    private String slogan;
 
     // 广告图片
     private String advPic;
 
-    // pic1
-    private String pic1;
-
-    // pic2
-    private String pic2;
-
-    // pic3
-    private String pic3;
-
-    // pic4
-    private String pic4;
+    // pic
+    private String pic;
 
     // 产品详情
     private String description;
 
-    // 进货价
-    private Long costPrice;
-
-    // 库存量进货价
-    private Integer quantity;
-
-    // 状态
-    private String status;
-
-    // 更新人
-    private String updater;
-
-    // 更新时间
-    private Date updateDatetime;
-
-    // 备注
-    private String remark;
+    // 原价
+    private Long originalPrice;
 
     // 价格1
     private Long price1;
@@ -90,29 +66,34 @@ public class Product extends ABaseDO {
     // 相对位置编号
     private Integer orderNo;
 
+    // 状态
+    private String status;
+
+    // 更新人
+    private String updater;
+
+    // 更新时间
+    private Date updateDatetime;
+
+    // 备注
+    private String remark;
+
     // 所属公司编号
     private String companyCode;
 
     // 所属系统编号
     private String systemCode;
 
+    // ******************db properties ********************
+
     // 名字模糊查询
     private String nameForQuery;
 
-    // ******************db properties ********************
     // 商户手机号
     private String mobile;
 
     // 已购买人数
     private Long boughtCount;
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
 
     public String getCode() {
         return code;
@@ -146,12 +127,12 @@ public class Product extends ABaseDO {
         this.name = name;
     }
 
-    public String getAdvTitle() {
-        return advTitle;
+    public String getSlogan() {
+        return slogan;
     }
 
-    public void setAdvTitle(String advTitle) {
-        this.advTitle = advTitle;
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
     }
 
     public String getAdvPic() {
@@ -162,36 +143,12 @@ public class Product extends ABaseDO {
         this.advPic = advPic;
     }
 
-    public String getPic1() {
-        return pic1;
+    public String getPic() {
+        return pic;
     }
 
-    public void setPic1(String pic1) {
-        this.pic1 = pic1;
-    }
-
-    public String getPic2() {
-        return pic2;
-    }
-
-    public void setPic2(String pic2) {
-        this.pic2 = pic2;
-    }
-
-    public String getPic3() {
-        return pic3;
-    }
-
-    public void setPic3(String pic3) {
-        this.pic3 = pic3;
-    }
-
-    public String getPic4() {
-        return pic4;
-    }
-
-    public void setPic4(String pic4) {
-        this.pic4 = pic4;
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 
     public String getDescription() {
@@ -202,20 +159,52 @@ public class Product extends ABaseDO {
         this.description = description;
     }
 
-    public Long getCostPrice() {
-        return costPrice;
+    public Long getOriginalPrice() {
+        return originalPrice;
     }
 
-    public void setCostPrice(Long costPrice) {
-        this.costPrice = costPrice;
+    public void setOriginalPrice(Long originalPrice) {
+        this.originalPrice = originalPrice;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Long getPrice1() {
+        return price1;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setPrice1(Long price1) {
+        this.price1 = price1;
+    }
+
+    public Long getPrice2() {
+        return price2;
+    }
+
+    public void setPrice2(Long price2) {
+        this.price2 = price2;
+    }
+
+    public Long getPrice3() {
+        return price3;
+    }
+
+    public void setPrice3(Long price3) {
+        this.price3 = price3;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Integer getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
     }
 
     public String getStatus() {
@@ -250,28 +239,20 @@ public class Product extends ABaseDO {
         this.remark = remark;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Integer getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(Integer orderNo) {
-        this.orderNo = orderNo;
-    }
-
     public String getCompanyCode() {
         return companyCode;
     }
 
     public void setCompanyCode(String companyCode) {
         this.companyCode = companyCode;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
     }
 
     public String getNameForQuery() {
@@ -282,36 +263,12 @@ public class Product extends ABaseDO {
         this.nameForQuery = nameForQuery;
     }
 
-    public Long getPrice1() {
-        return price1;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setPrice1(Long price1) {
-        this.price1 = price1;
-    }
-
-    public Long getPrice2() {
-        return price2;
-    }
-
-    public void setPrice2(Long price2) {
-        this.price2 = price2;
-    }
-
-    public Long getPrice3() {
-        return price3;
-    }
-
-    public void setPrice3(Long price3) {
-        this.price3 = price3;
-    }
-
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public Long getBoughtCount() {

@@ -42,7 +42,10 @@ public class ProductOrder extends ABaseDO {
     // 价格3
     private Long price3;
 
-    // 系统编号
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
     private String systemCode;
 
     // **************db properties
@@ -114,6 +117,14 @@ public class ProductOrder extends ABaseDO {
 
     public Long getPrice3() {
         return price3;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
     public void setPrice3(Long price3) {

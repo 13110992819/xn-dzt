@@ -1,5 +1,7 @@
 package com.xnjr.mall.dto.req;
 
+import java.util.List;
+
 /**
  * 取消订单
  * @author: xieyj 
@@ -9,20 +11,20 @@ package com.xnjr.mall.dto.req;
 public class XN808056Req {
 
     // 编号（必填）
-    private String code;
+    private List<String> codeList;
 
-    // 反馈人（必填）
+    // 更新人(必填)
     private String updater;
 
-    // 反馈备注（选填）
+    // 备注(必填)
     private String remark;
 
-    public String getCode() {
-        return code;
+    public List<String> getCodeList() {
+        return codeList;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCodeList(List<String> codeList) {
+        this.codeList = codeList;
     }
 
     public String getUpdater() {

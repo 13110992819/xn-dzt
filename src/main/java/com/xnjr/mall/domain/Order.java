@@ -30,6 +30,9 @@ public class Order extends ABaseDO {
     // 类型(散买，批发)
     private String type;
 
+    // 向谁提货
+    private String toUser;
+
     // 收件人姓名
     private String receiver;
 
@@ -57,11 +60,24 @@ public class Order extends ABaseDO {
     // 订单金额(人民币)
     private Long amount1;
 
-    // 订单金额(购物币)
+    // 订单金额
     private Long amount2;
 
-    // 订单金额(钱包币)
+    // 订单金额
     private Long amount3;
+
+    // 运费
+    private Long yunfei;
+
+    // 状态
+    private String status;
+
+    private String payGroup;
+
+    private String payCode;
+
+    // 实际支付时间
+    private Date payDatetime;
 
     // 实际支付金额
     private Long payAmount1;
@@ -72,29 +88,8 @@ public class Order extends ABaseDO {
     // 实际支付金额
     private Long payAmount3;
 
-    // 运费
-    private Long yunfei;
-
-    // 实际支付时间
-    private Date payDatetime;
-
-    // 状态
-    private String status;
-
-    // 更新人
-    private String updater;
-
-    // 更新时间
-    private Date updateDatetime;
-
-    // 备注
-    private String remark;
-
-    // 物流单号
-    private String logisticsCode;
-
-    // 物流公司
-    private String logisticsCompany;
+    // 催货次数
+    private Integer promptTimes;
 
     // 发货人
     private String deliverer;
@@ -102,17 +97,17 @@ public class Order extends ABaseDO {
     // 发货时间
     private Date deliveryDatetime;
 
+    // 物流单号
+    private String logisticsCode;
+
+    // 物流公司
+    private String logisticsCompany;
+
     // 物流单
     private String pdf;
 
-    // 催货次数
-    private Integer promptTimes;
-
     // 所属公司编号
     private String companyCode;
-
-    // 支付编号
-    private String payCode;
 
     // 所属系统编号
     private String systemCode;
@@ -140,38 +135,6 @@ public class Order extends ABaseDO {
     // 订单产品详情列表
     List<ProductOrder> productOrderList;
 
-    public String getPayCode() {
-        return payCode;
-    }
-
-    public void setPayCode(String payCode) {
-        this.payCode = payCode;
-    }
-
-    public Date getUpdateDatetimeEnd() {
-        return updateDatetimeEnd;
-    }
-
-    public void setUpdateDatetimeEnd(Date updateDatetimeEnd) {
-        this.updateDatetimeEnd = updateDatetimeEnd;
-    }
-
-    public Date getUpdateDatetimeStart() {
-        return updateDatetimeStart;
-    }
-
-    public void setUpdateDatetimeStart(Date updateDatetimeStart) {
-        this.updateDatetimeStart = updateDatetimeStart;
-    }
-
-    public Integer getPromptTimes() {
-        return promptTimes;
-    }
-
-    public void setPromptTimes(Integer promptTimes) {
-        this.promptTimes = promptTimes;
-    }
-
     public String getCode() {
         return code;
     }
@@ -186,6 +149,14 @@ public class Order extends ABaseDO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
     }
 
     public String getReceiver() {
@@ -276,6 +247,46 @@ public class Order extends ABaseDO {
         this.amount3 = amount3;
     }
 
+    public Long getYunfei() {
+        return yunfei;
+    }
+
+    public void setYunfei(Long yunfei) {
+        this.yunfei = yunfei;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPayGroup() {
+        return payGroup;
+    }
+
+    public void setPayGroup(String payGroup) {
+        this.payGroup = payGroup;
+    }
+
+    public String getPayCode() {
+        return payCode;
+    }
+
+    public void setPayCode(String payCode) {
+        this.payCode = payCode;
+    }
+
+    public Date getPayDatetime() {
+        return payDatetime;
+    }
+
+    public void setPayDatetime(Date payDatetime) {
+        this.payDatetime = payDatetime;
+    }
+
     public Long getPayAmount1() {
         return payAmount1;
     }
@@ -300,52 +311,12 @@ public class Order extends ABaseDO {
         this.payAmount3 = payAmount3;
     }
 
-    public String getStatus() {
-        return status;
+    public Integer getPromptTimes() {
+        return promptTimes;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getUpdater() {
-        return updater;
-    }
-
-    public void setUpdater(String updater) {
-        this.updater = updater;
-    }
-
-    public Date getUpdateDatetime() {
-        return updateDatetime;
-    }
-
-    public void setUpdateDatetime(Date updateDatetime) {
-        this.updateDatetime = updateDatetime;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getLogisticsCode() {
-        return logisticsCode;
-    }
-
-    public void setLogisticsCode(String logisticsCode) {
-        this.logisticsCode = logisticsCode;
-    }
-
-    public String getLogisticsCompany() {
-        return logisticsCompany;
-    }
-
-    public void setLogisticsCompany(String logisticsCompany) {
-        this.logisticsCompany = logisticsCompany;
+    public void setPromptTimes(Integer promptTimes) {
+        this.promptTimes = promptTimes;
     }
 
     public String getDeliverer() {
@@ -364,6 +335,22 @@ public class Order extends ABaseDO {
         this.deliveryDatetime = deliveryDatetime;
     }
 
+    public String getLogisticsCode() {
+        return logisticsCode;
+    }
+
+    public void setLogisticsCode(String logisticsCode) {
+        this.logisticsCode = logisticsCode;
+    }
+
+    public String getLogisticsCompany() {
+        return logisticsCompany;
+    }
+
+    public void setLogisticsCompany(String logisticsCompany) {
+        this.logisticsCompany = logisticsCompany;
+    }
+
     public String getPdf() {
         return pdf;
     }
@@ -378,6 +365,14 @@ public class Order extends ABaseDO {
 
     public void setCompanyCode(String companyCode) {
         this.companyCode = companyCode;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
     }
 
     public Date getApplyDatetimeStart() {
@@ -396,28 +391,28 @@ public class Order extends ABaseDO {
         this.applyDatetimeEnd = applyDatetimeEnd;
     }
 
+    public Date getUpdateDatetimeStart() {
+        return updateDatetimeStart;
+    }
+
+    public void setUpdateDatetimeStart(Date updateDatetimeStart) {
+        this.updateDatetimeStart = updateDatetimeStart;
+    }
+
+    public Date getUpdateDatetimeEnd() {
+        return updateDatetimeEnd;
+    }
+
+    public void setUpdateDatetimeEnd(Date updateDatetimeEnd) {
+        this.updateDatetimeEnd = updateDatetimeEnd;
+    }
+
     public String getCodeForQuery() {
         return codeForQuery;
     }
 
     public void setCodeForQuery(String codeForQuery) {
         this.codeForQuery = codeForQuery;
-    }
-
-    public List<ProductOrder> getProductOrderList() {
-        return productOrderList;
-    }
-
-    public void setProductOrderList(List<ProductOrder> productOrderList) {
-        this.productOrderList = productOrderList;
-    }
-
-    public Long getYunfei() {
-        return yunfei;
-    }
-
-    public void setYunfei(Long yunfei) {
-        this.yunfei = yunfei;
     }
 
     public String getMobile() {
@@ -428,19 +423,12 @@ public class Order extends ABaseDO {
         this.mobile = mobile;
     }
 
-    public Date getPayDatetime() {
-        return payDatetime;
+    public List<ProductOrder> getProductOrderList() {
+        return productOrderList;
     }
 
-    public void setPayDatetime(Date payDatetime) {
-        this.payDatetime = payDatetime;
+    public void setProductOrderList(List<ProductOrder> productOrderList) {
+        this.productOrderList = productOrderList;
     }
 
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
 }

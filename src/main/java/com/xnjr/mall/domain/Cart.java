@@ -27,7 +27,10 @@ public class Cart extends ABaseDO {
     // 数量
     private Integer quantity;
 
-    // 所属系统
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
     private String systemCode;
 
     /* *************db properties ************* */
@@ -125,6 +128,14 @@ public class Cart extends ABaseDO {
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
 }

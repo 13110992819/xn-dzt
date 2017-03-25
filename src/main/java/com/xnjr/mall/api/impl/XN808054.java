@@ -19,7 +19,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 订单发货，物流信息录入
+ * 物流发货
  * @author: haiqingzheng 
  * @since: 2016年5月29日 下午3:18:27 
  * @history:

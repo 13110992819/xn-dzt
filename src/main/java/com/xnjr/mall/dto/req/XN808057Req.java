@@ -9,7 +9,7 @@ package com.xnjr.mall.dto.req;
 public class XN808057Req {
 
     // 编号(必填)
-    private String code;
+    private List<String> codeList;
 
     // 更新人(必填)
     private String updater;
@@ -17,12 +17,12 @@ public class XN808057Req {
     // 备注(必填)
     private String remark;
 
-    public String getCode() {
-        return code;
+    public List<String> getCodeList() {
+        return codeList;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCodeList(List<String> codeList) {
+        this.codeList = codeList;
     }
 
     public String getUpdater() {

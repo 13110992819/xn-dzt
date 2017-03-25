@@ -11,6 +11,9 @@ public class XN808050Req {
     // 商品编号（必填）
     private String productCode;
 
+    // 向谁提货(选填)
+    private String toUser;
+
     // 数量（必填）
     private String quantity;
 
@@ -105,6 +108,14 @@ public class XN808050Req {
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
+    }
+
+    public String getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
     }
 
 }

@@ -1,20 +1,18 @@
 package com.xnjr.mall.api.impl;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.xnjr.mall.ao.ICartAO;
-import com.xnjr.mall.ao.IProductAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Cart;
 import com.xnjr.mall.dto.req.XN808040Req;
+import com.xnjr.mall.dto.res.PKCodeRes;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 分页查询购物车型号
+ * 添加产品至购物车
  * @author: xieyj 
  * @since: 2016年5月23日 上午9:04:12 
  * @history:
@@ -30,16 +28,11 @@ public class XN808040 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        Cart condition = new Cart();
-        condition.setUserId(req.getUserId());
-        String orderColumn = req.getOrderColumn();
-        if (StringUtils.isBlank(orderColumn)) {
-            orderColumn = IProductAO.DEFAULT_ORDER_COLUMN;
-        }
-        condition.setOrder(orderColumn, req.getOrderDir());
-        int start = StringValidater.toInteger(req.getStart());
-        int limit = StringValidater.toInteger(req.getLimit());
-        return cartAO.queryCartPage(start, limit, condition);
+        Cart data = new Cart();
+        data.setUserId(req.getUserId());
+        data.setProductCode(req.getProductCode());
+        data.setQuantity(Integer.valueOf(req.getQuantity()));
+        return new PKCodeRes(cartAO.addCart(data));
     }
 
     /** 
@@ -48,7 +41,7 @@ public class XN808040 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808040Req.class);
-        StringValidater.validateBlank(req.getUserId());
-        StringValidater.validateNumber(req.getStart(), req.getLimit());
+        StringValidater.validateBlank(req.getUserId(), req.getProductCode());
+        StringValidater.validateNumber(req.getQuantity());
     }
 }

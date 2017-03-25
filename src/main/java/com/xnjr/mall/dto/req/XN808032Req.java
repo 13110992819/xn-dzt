@@ -1,22 +1,48 @@
 package com.xnjr.mall.dto.req;
 
-import java.util.List;
-
-/** 
- * @author: xieyj 
- * @since: 2015年8月19日 下午7:41:26 
- * @history:
- */
 public class XN808032Req {
+    // 编号(必填)
+    private String code;
 
-    // 购物车列表
-    private List<String> cartCodeList;
+    // key(必填)
+    private String dkey;
 
-    public List<String> getCartCodeList() {
-        return cartCodeList;
+    // value(必填)
+    private String dvalue;
+
+    // 相对位置编号(必填)
+    private Integer orderNo;
+
+    public String getCode() {
+        return code;
     }
 
-    public void setCartCodeList(List<String> cartCodeList) {
-        this.cartCodeList = cartCodeList;
+    public void setCode(String code) {
+        this.code = code;
     }
+
+    public String getDkey() {
+        return dkey;
+    }
+
+    public void setDkey(String dkey) {
+        this.dkey = dkey;
+    }
+
+    public String getDvalue() {
+        return dvalue;
+    }
+
+    public void setDvalue(String dvalue) {
+        this.dvalue = dvalue;
+    }
+
+    public Integer getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
+    }
+
 }

@@ -1,28 +1,18 @@
 package com.xnjr.mall.dto.req;
 
-/** 
- * @author: xieyj 
- * @since: 2015年8月19日 下午7:41:26 
- * @history:
- */
 public class XN808030Req {
 
-    // 用户编号（必填）
-    private String userId;
-
-    // 产品编号（必填）
+    // 产品名称(必填)
     private String productCode;
 
-    // 数量（必填）
-    private String quantity;
+    // key（(必填)
+    private String dkey;
 
-    public String getUserId() {
-        return userId;
-    }
+    // value(必填)
+    private String dvalue;
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    // 相对位置编号(必填)
+    private Integer orderNo;
 
     public String getProductCode() {
         return productCode;
@@ -32,12 +22,44 @@ public class XN808030Req {
         this.productCode = productCode;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public String getDkey() {
+        return dkey;
     }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
+    public void setDkey(String dkey) {
+        this.dkey = dkey;
+    }
+
+    public String getDvalue() {
+        return dvalue;
+    }
+
+    public void setDvalue(String dvalue) {
+        this.dvalue = dvalue;
+    }
+
+    public Integer getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
     }
 
 }

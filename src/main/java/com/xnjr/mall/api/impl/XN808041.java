@@ -1,17 +1,18 @@
 package com.xnjr.mall.api.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.xnjr.mall.ao.ICartAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
-import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.domain.Cart;
 import com.xnjr.mall.dto.req.XN808041Req;
+import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 查询购物车型号列表
+ * 购物车批量删除
  * @author: xieyj 
  * @since: 2016年5月23日 上午9:04:12 
  * @history:
@@ -27,9 +28,8 @@ public class XN808041 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        Cart condition = new Cart();
-        condition.setUserId(req.getUserId());
-        return cartAO.queryCartList(condition);
+        int count = cartAO.dropCartList(req.getCartCodeList());
+        return new BooleanRes(count > 0 ? true : false);
     }
 
     /** 
@@ -38,6 +38,8 @@ public class XN808041 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808041Req.class);
-        StringValidater.validateBlank(req.getUserId());
+        if (CollectionUtils.sizeIsEmpty(req.getCartCodeList())) {
+            throw new BizException("xn702000", "选中的购物车货物不能为空");
+        }
     }
 }

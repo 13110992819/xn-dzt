@@ -19,7 +19,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 订单发货（现场发货，无需物流信息，订单状态置为已收货）
+ * 现场发货
  * @author: haiqingzheng 
  * @since: 2016年11月17日 下午3:01:30 
  * @history:

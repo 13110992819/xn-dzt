@@ -29,9 +29,6 @@ public class Category extends ABaseDO {
     // 父编号
     private String parentCode;
 
-    // 类型(1 类别，2 热门)
-    private String type;
-
     // 分类名称
     private String name;
 
@@ -41,8 +38,8 @@ public class Category extends ABaseDO {
     // 顺序
     private Integer orderNo;
 
-    // 属于(1 地方默认，2父节点)
-    private String belong;
+    // 状态
+    private String status;
 
     // 所属公司编号
     private String companyCode;
@@ -102,6 +99,14 @@ public class Category extends ABaseDO {
         this.companyCode = companyCode;
     }
 
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
+    }
+
     public String getParentName() {
         return parentName;
     }
@@ -110,27 +115,12 @@ public class Category extends ABaseDO {
         this.parentName = parentName;
     }
 
-    public String getType() {
-        return type;
+    public String getStatus() {
+        return status;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getBelong() {
-        return belong;
-    }
-
-    public void setBelong(String belong) {
-        this.belong = belong;
-    }
-
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
 }

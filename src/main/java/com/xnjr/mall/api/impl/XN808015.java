@@ -13,7 +13,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 多个产品审核
+ * 批量审核产品
  * @author: xieyj 
  * @since: 2016年12月17日 下午1:33:51 
  * @history:

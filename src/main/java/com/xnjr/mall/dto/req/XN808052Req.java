@@ -1,5 +1,7 @@
 package com.xnjr.mall.dto.req;
 
+import java.util.List;
+
 /**
  * 支付订单
  * @author: xieyj 
@@ -9,7 +11,7 @@ package com.xnjr.mall.dto.req;
 public class XN808052Req {
 
     // 编号（必填）
-    private String code;
+    private List<String> codeList;
 
     // 支付渠道（必填）
     private String payType;
@@ -22,11 +24,12 @@ public class XN808052Req {
         this.payType = payType;
     }
 
-    public String getCode() {
-        return code;
+    public List<String> getCodeList() {
+        return codeList;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCodeList(List<String> codeList) {
+        this.codeList = codeList;
     }
+
 }

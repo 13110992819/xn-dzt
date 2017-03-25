@@ -4,13 +4,15 @@ import com.xnjr.mall.ao.ICartAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
+import com.xnjr.mall.domain.Cart;
 import com.xnjr.mall.dto.req.XN808042Req;
+import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 购物车型号详情
+ * 修改购物车型号
  * @author: xieyj 
  * @since: 2016年5月23日 上午9:04:12 
  * @history:
@@ -26,7 +28,10 @@ public class XN808042 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return cartAO.getCart(req.getCode());
+        Cart data = new Cart();
+        data.setCode(req.getCode());
+        data.setQuantity(Integer.valueOf(req.getQuantity()));
+        return new BooleanRes(cartAO.editCart(data) > 0 ? true : false);
     }
 
     /** 
@@ -36,5 +41,6 @@ public class XN808042 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808042Req.class);
         StringValidater.validateBlank(req.getCode());
+        StringValidater.validateNumber(req.getQuantity());
     }
 }

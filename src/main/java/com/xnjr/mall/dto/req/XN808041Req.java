@@ -1,5 +1,7 @@
 package com.xnjr.mall.dto.req;
 
+import java.util.List;
+
 /** 
  * @author: xieyj 
  * @since: 2015年8月19日 下午7:41:26 
@@ -7,14 +9,14 @@ package com.xnjr.mall.dto.req;
  */
 public class XN808041Req {
 
-    // 用户编号（必填）
-    private String userId;
+    // 购物车列表
+    private List<String> cartCodeList;
 
-    public String getUserId() {
-        return userId;
+    public List<String> getCartCodeList() {
+        return cartCodeList;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setCartCodeList(List<String> cartCodeList) {
+        this.cartCodeList = cartCodeList;
     }
 }
