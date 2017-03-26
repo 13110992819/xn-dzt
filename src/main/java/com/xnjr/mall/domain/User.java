@@ -115,8 +115,6 @@ public class User extends ABaseDO {
 
     private String userRefereeName;
 
-    private UserExt userExt;
-
     // ossUserId
     private String ossUserId;
 
@@ -360,14 +358,6 @@ public class User extends ABaseDO {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
-    }
-
-    public UserExt getUserExt() {
-        return userExt;
-    }
-
-    public void setUserExt(UserExt userExt) {
-        this.userExt = userExt;
     }
 
     public Long getAmount() {

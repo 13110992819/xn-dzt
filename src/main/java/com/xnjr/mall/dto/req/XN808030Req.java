@@ -46,20 +46,4 @@ public class XN808030Req {
         this.orderNo = orderNo;
     }
 
-    public String getCompanyCode() {
-        return companyCode;
-    }
-
-    public void setCompanyCode(String companyCode) {
-        this.companyCode = companyCode;
-    }
-
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
-
 }
