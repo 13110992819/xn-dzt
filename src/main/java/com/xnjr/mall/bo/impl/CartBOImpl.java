@@ -8,7 +8,12 @@
  */
 package com.xnjr.mall.bo.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -107,6 +112,50 @@ public class CartBOImpl extends PaginableBOImpl<Cart> implements ICartBO {
             }
         }
         return data;
+    }
+
+    @Override
+    public Map<String, List<Cart>> getCartMap(List<String> cartCodeList) {
+        Map<String, List<Cart>> resultList = new HashMap<String, List<Cart>>();
+        List<Cart> cartList = new ArrayList<Cart>();
+        Set<String> companyCodeSet = new HashSet<String>();
+        for (String cartCode : cartCodeList) {
+            Cart cart = getCart(cartCode);
+            cartList.add(cart);
+            String companyCode = cart.getCompanyCode();
+            companyCodeSet.add(companyCode);
+        }
+        for (String companyCode : companyCodeSet) {
+            List<Cart> companyCartList = new ArrayList<Cart>();
+            for (Cart cart : cartList) {
+                if (cart.getCompanyCode().equals(companyCode)) {
+                    companyCartList.add(cart);
+                }
+            }
+            resultList.put(companyCode, companyCartList);
+            companyCartList.clear();
+        }
+        return resultList;
+    }
+
+    @Override
+    public List<Cart> queryCartList(List<String> cartCodeList) {
+        List<Cart> cartList = new ArrayList<Cart>();
+        for (String cartCode : cartCodeList) {
+            Cart cart = getCart(cartCode);
+            cartList.add(cart);
+        }
+        return cartList;
+    }
+
+    @Override
+    public List<Cart> queryCartList(String productCode, Integer quantity) {
+        List<Cart> cartList = new ArrayList<Cart>();
+        Cart cart = new Cart();
+        cart.setProductCode(productCode);
+        cart.setQuantity(quantity);
+        cartList.add(cart);
+        return cartList;
     }
 
 }

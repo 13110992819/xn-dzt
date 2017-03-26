@@ -18,12 +18,19 @@ import org.springframework.stereotype.Component;
 import com.xnjr.mall.bo.IOrderBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.common.DateUtil;
+import com.xnjr.mall.common.SysConstants;
+import com.xnjr.mall.core.OrderNoGenerater;
+import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.dao.IOrderDAO;
 import com.xnjr.mall.dao.IProductOrderDAO;
+import com.xnjr.mall.domain.Cart;
+import com.xnjr.mall.domain.CommitOrderPOJO;
 import com.xnjr.mall.domain.Order;
 import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.domain.ProductOrder;
+import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EOrderStatus;
+import com.xnjr.mall.enums.EOrderType;
 import com.xnjr.mall.exception.BizException;
 
 /** 
@@ -257,6 +264,94 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
             count = orderDAO.updateOrderExped(data);
         }
         return count;
+    }
+
+    @Override
+    public String saveOrder(List<Cart> cartList, CommitOrderPOJO pojo,
+            String toUser) {
+        Order order = new Order();
+        String code = OrderNoGenerater.generateME(EGeneratePrefix.ORDER
+            .getCode());
+        order.setCode(code);
+        order.setApplyUser(req.getApplyUser());
+        order.setApplyNote(req.getApplyNote());
+        order.setReceiptType(req.getReceiptType());
+        order.setReceiptTitle(req.getReceiptTitle());
+        order.setType(EOrderType.SH_SALE.getCode());
+        order.setReceiver(req.getReceiver());
+        order.setReMobile(req.getReMobile());
+        order.setReAddress(req.getReAddress());
+
+        Integer quantity = StringValidater.toInteger(req.getQuantity());
+        Product product = productBO.getProduct(req.getProductCode());
+
+        // 计算订单金额
+        orderBO.calculateAmount1(product);
+
+        if (null != product.getPrice1()) {
+            Long amount1 = quantity * product.getPrice1();
+            order.setAmount1(amount1);
+            // 计算订单运费
+            Long yunfei = totalYunfei(product.getSystemCode(),
+                product.getCompanyCode(), amount1);
+            order.setYunfei(yunfei);
+        }
+        if (null != product.getPrice2()) {
+            Long amount2 = quantity * product.getPrice2();
+            order.setAmount2(amount2);
+        }
+        if (null != product.getPrice3()) {
+            Long amount3 = quantity * product.getPrice3();
+            order.setAmount3(amount3);
+        }
+        // 设置订单所属公司
+        order.setCompanyCode(product.getCompanyCode());
+        order.setSystemCode(product.getSystemCode());
+        // 订单号生成
+
+        orderBO.saveOrder(order);
+        // 订单产品关联
+        productOrderBO.saveProductOrder(code, req.getProductCode(), quantity,
+            product.getPrice1(), product.getPrice2(), product.getPrice3(),
+            product.getSystemCode());
+
+        // 落地订单产品关联信息 计算订单总金额
+
+        String companyCode = null;
+        String systemCode = null;
+        for (String cartCode : cartCodeList) {
+            Cart cart = cartBO.getCart(cartCode);
+            Product product = productBO.getProduct(cart.getProductCode());
+            if (StringUtils.isBlank(systemCode)) {
+                // 设置系统编号
+                systemCode = product.getSystemCode();
+            }
+
+            companyCode = product.getCompanyCode();
+            productOrderBO.saveProductOrder(code, cart.getProductCode(),
+                cart.getQuantity(), product.getPrice1(), product.getPrice2(),
+                product.getPrice3(), product.getSystemCode());
+        }
+        order.setCompanyCode(companyCode);
+        order.setSystemCode(systemCode);
+        // 计算订单运费
+        Long yunfei = totalYunfei(systemCode, companyCode, amount2);
+        order.setYunfei(yunfei);
+        // 保存订单
+        orderBO.saveOrder(order);
+
+        return code;
+    }
+
+    private Long totalYunfei(String systemCode, String companyCode, Long amount) {
+        Long yunfei = 0L;
+        Long byje = StringValidater.toLong(sysConfigBO.getConfigValue(
+            systemCode, null, companyCode, SysConstants.SP_BYJE)) * 1000;
+        if (amount < byje) {
+            yunfei = StringValidater.toLong(sysConfigBO.getConfigValue(
+                systemCode, null, companyCode, SysConstants.SP_YUNFEI)) * 1000;
+        }
+        return yunfei;
     }
 
 }

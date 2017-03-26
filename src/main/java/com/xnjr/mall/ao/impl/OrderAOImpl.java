@@ -10,7 +10,6 @@ package com.xnjr.mall.ao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,20 +34,17 @@ import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.SysConstants;
 import com.xnjr.mall.core.CalculationUtil;
-import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Cart;
 import com.xnjr.mall.domain.Order;
-import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.domain.ProductOrder;
 import com.xnjr.mall.dto.req.XN808050Req;
+import com.xnjr.mall.dto.req.XN808051Req;
 import com.xnjr.mall.dto.res.XN802180Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.EBoolean;
 import com.xnjr.mall.enums.ECurrency;
-import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EOrderStatus;
-import com.xnjr.mall.enums.EOrderType;
 import com.xnjr.mall.enums.EPayType;
 import com.xnjr.mall.enums.ESysUser;
 import com.xnjr.mall.exception.BizException;
@@ -89,154 +85,46 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     @Transactional
-    public String commitOrder(XN808050Req req) {
-        Order order = new Order();
-
-        Order data = new Order();
-        data.setApplyUser(req.getApplyUser());
-        data.setApplyNote(req.getApplyNote());
-        data.setReceiptType(req.getReceiptType());
-        data.setReceiptTitle(req.getReceiptTitle());
-        data.setType(EOrderType.SH_SALE.getCode());
-        data.setReceiver(req.getReceiver());
-        data.setReMobile(req.getReMobile());
-        data.setReAddress(req.getReAddress());
-
-        Integer quantity = StringValidater.toInteger(req.getQuantity());
-        Product product = productBO.getProduct(req.getProductCode());
-
-        // 计算订单金额
-        orderBO.calculateAmount1(product);
-
-        if (null != product.getPrice1()) {
-            Long amount1 = quantity * product.getPrice1();
-            order.setAmount1(amount1);
-            // 计算订单运费
-            Long yunfei = totalYunfei(product.getSystemCode(),
-                product.getCompanyCode(), amount1);
-            order.setYunfei(yunfei);
-        }
-        if (null != product.getPrice2()) {
-            Long amount2 = quantity * product.getPrice2();
-            order.setAmount2(amount2);
-        }
-        if (null != product.getPrice3()) {
-            Long amount3 = quantity * product.getPrice3();
-            order.setAmount3(amount3);
-        }
-        // 设置订单所属公司
-        order.setCompanyCode(product.getCompanyCode());
-        order.setSystemCode(product.getSystemCode());
-        // 订单号生成
-        String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
-            .getCode());
-        order.setCode(code);
-        orderBO.saveOrder(order);
-        // 订单产品关联
-        productOrderBO.saveProductOrder(code, req.getProductCode(), quantity,
-            product.getPrice1(), product.getPrice2(), product.getPrice3(),
-            product.getSystemCode());
-        return code;
-    }
-
-    /** 
-     * @see com.xnjr.mall.ao.IOrderAO#commitOrder(com.xnjr.mall.domain.Order)
-     */
-    @Override
-    @Transactional
-    public List<String> commitCartOrderZH(List<String> cartCodeList, Order data) {
+    public List<String> commitCartOrderZH(XN808051Req req) {
         List<String> result = new ArrayList<String>();
         // 按公司编号进行拆单, 遍历获取公司编号列表
-        List<String> companyList = new HashMap<String, String>();
-        for (String cartCode : cartCodeList) {
-            Cart cart = cartBO.getCart(cartCode);
-            Product product = productBO.getProduct(cart.getProductCode());
-            String companyCode = product.getCompanyCode();
-            companyMap.put(companyCode, companyCode);
-        }
+        List<String> cartCodeList = req.getCartCodeList();
+        Map<String, List<Cart>> companyList = cartBO.getCartMap(cartCodeList);
         // 遍历产品编号
-        for (String company : companyMap.keySet()) {
-            List<String> cartsCompany = new ArrayList<String>();
-            for (String cartCode : cartCodeList) {
-                Cart cart = cartBO.getCart(cartCode);
-                Product product = productBO.getProduct(cart.getProductCode());
-                String companyCode = product.getCompanyCode();
-                if (company.equals(companyCode)) {
-                    cartsCompany.add(cartCode);
-                }
-            }
-            String orderCode = commitOneOrder(cartsCompany, data);
+        for (String companyCode : companyList.keySet()) {
+            String orderCode = orderBO.saveOrder(companyList.get(companyCode),
+                req.getPojo(), null);
             result.add(orderCode);
         }
-        return result;
-    }
-
-    private String commitOneOrder(List<String> cartCodeList, Order data) {
-        String code = OrderNoGenerater.generateME(EGeneratePrefix.ORDER
-            .getCode());
-        data.setCode(code);
-        // 落地订单产品关联信息 计算订单总金额
-        Long amount1 = 0L;
-        Long amount2 = 0L;
-        Long amount3 = 0L;
-        String companyCode = null;
-        String systemCode = null;
-        for (String cartCode : cartCodeList) {
-            Cart cart = cartBO.getCart(cartCode);
-            Product product = productBO.getProduct(cart.getProductCode());
-            if (StringUtils.isBlank(systemCode)) {
-                // 设置系统编号
-                systemCode = product.getSystemCode();
-            }
-            if (product.getQuantity() != null) {
-                if ((product.getQuantity() - cart.getQuantity()) < 0) {
-                    throw new BizException("xn0000", "商品[" + product.getName()
-                            + "]库存量不足，无法购买");
-                }
-                // 减去库存量
-                productBO.refreshProductQuantity(product.getCode(),
-                    cart.getQuantity());
-            }
-            if (null != product.getPrice1()) {
-                amount1 = amount1 + (cart.getQuantity() * product.getPrice1());
-            }
-            if (null != product.getPrice2()) {
-                amount2 = amount2 + (cart.getQuantity() * product.getPrice2());
-            }
-            if (null != product.getPrice3()) {
-                amount3 = amount3 + (cart.getQuantity() * product.getPrice3());
-            }
-            companyCode = product.getCompanyCode();
-            productOrderBO.saveProductOrder(code, cart.getProductCode(),
-                cart.getQuantity(), product.getPrice1(), product.getPrice2(),
-                product.getPrice3(), product.getSystemCode());
-        }
-        data.setAmount1(amount1);
-        data.setAmount2(amount2);
-        data.setAmount3(amount3);
-        data.setCompanyCode(companyCode);
-        data.setSystemCode(systemCode);
-        // 计算订单运费
-        Long yunfei = totalYunfei(systemCode, companyCode, amount2);
-        data.setYunfei(yunfei);
-        // 保存订单
-        orderBO.saveOrder(data);
+        // @TODO清空购物车
         // 删除购物车选中记录
         for (String cartCode : cartCodeList) {
             cartBO.removeCart(cartCode);
         }
-        return code;
+        return result;
     }
 
-    private Long totalYunfei(String systemCode, String companyCode, Long amount) {
-        Long yunfei = 0L;
-        Long byje = StringValidater.toLong(sysConfigBO.getConfigValue(
-            systemCode, null, companyCode, SysConstants.SP_BYJE)) * 1000;
-        if (amount < byje) {
-            yunfei = StringValidater.toLong(sysConfigBO.getConfigValue(
-                systemCode, null, companyCode, SysConstants.SP_YUNFEI)) * 1000;
+    @Override
+    @Transactional
+    public String commitCartOrderCG(XN808051Req req) {
+        List<String> cartCodeList = req.getCartCodeList();
+        List<Cart> productList = cartBO.queryCartList(cartCodeList);
+        String orderCode = orderBO.saveOrder(productList, req.getPojo(),
+            req.getToUser());
+        // @TODO清空购物车
+        // 删除购物车选中记录
+        for (String cartCode : cartCodeList) {
+            cartBO.removeCart(cartCode);
         }
-        return yunfei;
+        return orderCode;
+    }
+
+    @Override
+    @Transactional
+    public String commitOrder(XN808050Req req) {
+        List<Cart> cartList = cartBO.queryCartList(req.getProductCode(),
+            StringValidater.toInteger(req.getQuantity()));
+        return orderBO.saveOrder(cartList, req.getPojo(), req.getToUser());
     }
 
     @Override

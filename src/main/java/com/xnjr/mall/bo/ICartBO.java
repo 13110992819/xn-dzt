@@ -9,6 +9,7 @@
 package com.xnjr.mall.bo;
 
 import java.util.List;
+import java.util.Map;
 
 import com.xnjr.mall.bo.base.IPaginableBO;
 import com.xnjr.mall.domain.Cart;
@@ -31,4 +32,17 @@ public interface ICartBO extends IPaginableBO<Cart> {
     public List<Cart> queryCartList(Cart data);
 
     public Cart getCart(String code);
+
+    /**
+     * 对购物车内产品进行按公司分类
+     * @param cartCodeList
+     * @return 
+     * @create: 2017年3月26日 下午7:36:33 myb858
+     * @history:
+     */
+    public Map<String, List<Cart>> getCartMap(List<String> cartCodeList);
+
+    public List<Cart> queryCartList(List<String> cartCodeList);
+
+    public List<Cart> queryCartList(String productCode, Integer quantity);
 }

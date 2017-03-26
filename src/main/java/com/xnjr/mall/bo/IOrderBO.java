@@ -3,6 +3,8 @@ package com.xnjr.mall.bo;
 import java.util.List;
 
 import com.xnjr.mall.bo.base.IPaginableBO;
+import com.xnjr.mall.domain.Cart;
+import com.xnjr.mall.domain.CommitOrderPOJO;
 import com.xnjr.mall.domain.Order;
 import com.xnjr.mall.domain.Product;
 
@@ -144,5 +146,8 @@ public interface IOrderBO extends IPaginableBO<Order> {
      * @history:
      */
     public Order getOrder(String code);
+
+    public String saveOrder(List<Cart> cartList, CommitOrderPOJO pojo,
+            String toUser);
 
 }

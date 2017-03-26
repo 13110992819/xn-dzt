@@ -17,11 +17,9 @@ public interface IOrderAO {
 
     public String commitOrder(XN808050Req req);
 
-    public String commitCartOrder(XN808051Req req);
+    public List<String> commitCartOrderZH(XN808051Req req);
 
-    public List<String> commitCartOrderZH(List<String> cartCodeList, Order data);
-
-    public String commitCartOrderCG(List<String> cartCodeList, Order data);
+    public String commitCartOrderCG(XN808051Req req);
 
     public Object toPayOrder(String code, String payType);
 
