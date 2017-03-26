@@ -15,14 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xnjr.mall.ao.IUserAO;
-import com.xnjr.mall.bo.IHzbHoldBO;
-import com.xnjr.mall.bo.IStockHoldBO;
 import com.xnjr.mall.bo.IStoreBO;
 import com.xnjr.mall.bo.IUserBO;
-import com.xnjr.mall.domain.HzbHold;
-import com.xnjr.mall.domain.StockHold;
 import com.xnjr.mall.domain.Store;
-import com.xnjr.mall.domain.UserExt;
 import com.xnjr.mall.dto.res.XN805060Res;
 import com.xnjr.mall.dto.res.XN805901Res;
 import com.xnjr.mall.dto.res.XN808800Res;
@@ -40,12 +35,6 @@ public class UserAOImpl implements IUserAO {
 
     @Autowired
     private IStoreBO storeBO;
-
-    @Autowired
-    private IHzbHoldBO hzbHoldBO;
-
-    @Autowired
-    private IStockHoldBO stockHoldBO;
 
     @Autowired
     private IUserBO userBO;

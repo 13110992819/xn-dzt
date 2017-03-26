@@ -12,13 +12,6 @@
 
 	
 	<!-- 分页BO层注入paginableDao -->
-	<bean id="sysDictBO" class="com.xnjr.mall.bo.impl.SYSDictBOImpl">
-		<property name="paginableDAO" ref="sysDictDAOImpl"/>
-	</bean>	
-	
-	<bean id="sysConfigBO" class="com.xnjr.mall.bo.impl.SYSConfigBOImpl">
-		<property name="paginableDAO" ref="sysConfigDAOImpl"/>
-	</bean>	
 	
 	<bean id="categoryBO" class="com.xnjr.mall.bo.impl.CategoryBOImpl">
 		<property name="paginableDAO" ref="categoryDAOImpl" />
@@ -61,5 +54,15 @@
 	<bean id="storePurchaseBO" class="com.xnjr.mall.bo.impl.StorePurchaseBOImpl">
 		<property name="paginableDAO" ref="storePurchaseDAOImpl"/>
 	</bean>
+	
+	
+	
+	<bean id="sysDictBO" class="com.xnjr.mall.bo.impl.SYSDictBOImpl">
+		<property name="paginableDAO" ref="sysDictDAOImpl"/>
+	</bean>	
+	
+	<bean id="sysConfigBO" class="com.xnjr.mall.bo.impl.SYSConfigBOImpl">
+		<property name="paginableDAO" ref="sysConfigDAOImpl"/>
+	</bean>	
 	
 </beans>

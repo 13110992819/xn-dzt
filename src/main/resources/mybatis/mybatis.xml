@@ -7,14 +7,18 @@
 		<typeAlias alias="cart" type="com.xnjr.mall.domain.Cart" />
 		<typeAlias alias="order" type="com.xnjr.mall.domain.Order" />
 		<typeAlias alias="productOrder" type="com.xnjr.mall.domain.ProductOrder" />
-		<typeAlias alias="sysDict" type="com.xnjr.mall.domain.SYSDict" />
-	    <typeAlias alias="sysConfig" type="com.xnjr.mall.domain.SYSConfig" />
-
+		<typeAlias alias="productSpecs" type="com.xnjr.mall.domain.ProductSpecs" />
+		
 	    <typeAlias alias="store" type="com.xnjr.mall.domain.Store" />
-	    <typeAlias alias="storeTicket" type="com.xnjr.mall.domain.StoreTicket" />
-	    <typeAlias alias="userTicket" type="com.xnjr.mall.domain.UserTicket" />
 	    <typeAlias alias="storeAction" type="com.xnjr.mall.domain.StoreAction" />
 	    <typeAlias alias="storePurchase" type="com.xnjr.mall.domain.StorePurchase" />
+	    <typeAlias alias="storeTicket" type="com.xnjr.mall.domain.StoreTicket" />
+	    <typeAlias alias="userTicket" type="com.xnjr.mall.domain.UserTicket" />
+	    
+	    
+	    <typeAlias alias="sysDict" type="com.xnjr.mall.domain.SYSDict" />
+	    <typeAlias alias="sysConfig" type="com.xnjr.mall.domain.SYSConfig" />
+	    
 	</typeAliases>	
 </configuration>
 
