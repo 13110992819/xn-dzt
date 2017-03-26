@@ -44,7 +44,7 @@ public class UserTicketAOImpl implements IUserTicketAO {
         StoreTicket storeTicket = storeTicketBO.getStoreTicket(code);
         Store store = storeBO.getStore(storeTicket.getStoreCode());
         // 判断店铺是否已开店
-        if (!EStoreStatus.ONLINE_OPEN.getCode().equals(store.getStatus())) {
+        if (!EStoreStatus.ON_OPEN.getCode().equals(store.getStatus())) {
             throw new BizException("xn0000", "该店铺不处于开店状态");
         }
         if (!EStoreTicketStatus.ONLINE.getCode()

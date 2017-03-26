@@ -59,11 +59,6 @@ public class StoreDAOImpl extends AMybatisTemplate implements IStoreDAO {
     }
 
     @Override
-    public int updateStatus(Store data) {
-        return super.update("update_storeStatus", data);
-    }
-
-    @Override
     public int updateCheck(Store data) {
         return super.update("update_check", data);
     }

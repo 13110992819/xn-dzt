@@ -129,7 +129,10 @@ public class Store extends ABaseDO {
     // B端登录用户手机号
     private String mobile;
 
-    // 当前操作的用户
+    // 店铺推荐人手机号
+    private String refereeMobile;
+
+    // 当前用户
     private String fromUser;
 
     // 当前用户是否对该商家点赞
@@ -468,14 +471,6 @@ public class Store extends ABaseDO {
         this.mobile = mobile;
     }
 
-    public String getFromUser() {
-        return fromUser;
-    }
-
-    public void setFromUser(String fromUser) {
-        this.fromUser = fromUser;
-    }
-
     public Boolean getIsDZ() {
         return isDZ;
     }
@@ -538,6 +533,22 @@ public class Store extends ABaseDO {
 
     public void setAreaForQuery(String areaForQuery) {
         this.areaForQuery = areaForQuery;
+    }
+
+    public String getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
+    }
+
+    public String getRefereeMobile() {
+        return refereeMobile;
+    }
+
+    public void setRefereeMobile(String refereeMobile) {
+        this.refereeMobile = refereeMobile;
     }
 
 }

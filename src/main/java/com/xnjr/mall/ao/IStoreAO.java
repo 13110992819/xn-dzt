@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Store;
+import com.xnjr.mall.dto.req.XN808200Req;
+import com.xnjr.mall.dto.req.XN808201Req;
+import com.xnjr.mall.dto.req.XN808203Req;
+import com.xnjr.mall.dto.req.XN808204Req;
 
 /** 
  * 商家AO
@@ -14,68 +18,33 @@ import com.xnjr.mall.domain.Store;
 public interface IStoreAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    /**
-     * 管理端代申请
-     * @param data
-     * @return 
-     * @create: 2016年12月17日 下午5:26:45 haiqingzheng
-     * @history:
-     */
-    public String addStoreOss(Store data);
+    public String addStoreOss(XN808200Req req);
 
-    /**
-     * 商家自助申请
-     * @param data
-     * @return 
-     * @create: 2016年12月17日 下午5:28:12 haiqingzheng
-     * @history:
-     */
-    public String addStore(Store data);
+    public String addStore(XN808201Req req);
 
-    public int checkStore(String code, String checkResult, String checkUser,
+    public void approveStore(String code, String checkResult, String checkUser,
             String remark);
 
-    public void editStore(Store data);
+    public void editStore(XN808203Req req);
 
-    /**
-     * 店铺上下架
-     * @param code
-     * @param updater
-     * @param remark
-     * @return 
-     * @create: 2016年12月18日 下午2:25:34 haiqingzheng
-     * @history:
-     */
-    public int putOnOff(String code, String updater, String remark);
+    public void putOn(XN808204Req req);
 
-    /**
-     * 开店/关店
-     * @param code
-     * @return 
-     * @create: 2016年12月18日 下午2:59:09 haiqingzheng
-     * @history:
-     */
-    public int closeOpen(String code);
+    public void putOff(String code, String updater, String remark);
 
-    // public int editStoreStatus(String code);
+    public void closeOpen(String code);
 
-    // public int doDzStore(String userId, String merchantCode);
-    //
-    // public void doStoreShop(String fromUser, String toStore, Long amount,
-    // Long cnyAmount, Long jfCashBack, Long cnyCashBack);
-    //
-    public Paginable<Store> queryStorePage(int start, int limit, Store condition);
+    public void upLevel(String code);
 
-    public List<Store> queryStoreList(Store condition);
+    public Paginable<Store> queryStorePageOss(int start, int limit,
+            Store condition);
 
-    public Store getStore(String code, String fromUser);
+    public Paginable<Store> queryStorePageFront(int start, int limit,
+            Store condition);
 
-    /**
-     * 我的店铺查询
-     * @param userId
-     * @return 
-     * @create: 2016年12月22日 下午6:31:04 haiqingzheng
-     * @history:
-     */
-    public List<Store> getStore(String userId);
+    public Store getStoreOss(String code);
+
+    public Store getStoreFront(String code, String fromUser);
+
+    public List<Store> getMyStore(String userId);
+
 }

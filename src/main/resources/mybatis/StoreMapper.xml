@@ -260,15 +260,7 @@
 		WHERE code = #{code}
 	</update>
 	
-	<update id="update_storeStatus" parameterType="store">
-		UPDATE to2o_store
-		SET
-		status = #{status}
-		,updater = #{updater}
-		,update_datetime = #{updateDatetime}
-		,remark = #{remark}
-		WHERE code = #{code}
-	</update>
+	
 	
     <update id="update_check" parameterType="store">
 		UPDATE to2o_store

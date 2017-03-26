@@ -14,7 +14,7 @@ public class XN808201Req {
     // 类型（必填）
     private String type;
 
-    // 法人姓名（必填）
+    // 法人姓名（选填）
     private String legalPersonName;
 
     // 推荐人（必填）
@@ -71,10 +71,10 @@ public class XN808201Req {
     // 备注（选填）
     private String remark;
 
-    // 所属公司编号
+    // 所属公司编号（必填）
     private String companyCode;
 
-    // 所属系统编号
+    // 所属系统编号（必填）
     private String systemCode;
 
     public String getName() {

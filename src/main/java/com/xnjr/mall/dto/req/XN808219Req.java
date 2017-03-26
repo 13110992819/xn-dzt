@@ -14,6 +14,7 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808219Req {
+    // 商家userId
     private String userId;
 
     public String getUserId() {

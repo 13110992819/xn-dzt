@@ -1,5 +1,6 @@
 package com.xnjr.mall.ao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -16,11 +17,15 @@ import com.xnjr.mall.bo.IStoreTicketBO;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.core.OrderNoGenerater;
+import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StoreTicket;
-import com.xnjr.mall.dto.req.XN805042Req;
+import com.xnjr.mall.dto.req.XN808200Req;
+import com.xnjr.mall.dto.req.XN808201Req;
+import com.xnjr.mall.dto.req.XN808203Req;
+import com.xnjr.mall.dto.req.XN808204Req;
 import com.xnjr.mall.dto.res.XN805901Res;
-import com.xnjr.mall.enums.EBoolean;
+import com.xnjr.mall.enums.EStoreLevel;
 import com.xnjr.mall.enums.EStoreStatus;
 import com.xnjr.mall.enums.EStoreTicketStatus;
 import com.xnjr.mall.enums.EUserKind;
@@ -51,229 +56,223 @@ public class StoreAOImpl implements IStoreAO {
 
     @Override
     @Transactional
-    public String addStoreOss(Store data) {
-        Store condition = new Store();
-        condition.setName(data.getName());
-        List<Store> list = storeBO.queryStoreList(condition);
-        if (CollectionUtils.isNotEmpty(list)) {
-            throw new BizException("xn000000", "该名称已存在");
+    public String addStoreOss(XN808200Req req) {
+        Store store = new Store();
+        // 验证推荐人是否是平台的已注册用户,将userReferee手机号转化为用户编号
+        String systemCode = req.getSystemCode();
+        String userReferee = req.getUserReferee();
+        String userRefereeUserId = storeBO.isUserRefereeExist(userReferee,
+            systemCode);
+        store.setUserReferee(userRefereeUserId);
+        // 验证B端用户
+        String bUser = userBO.isUserExist(req.getMobile(), EUserKind.F2,
+            req.getSystemCode());
+        if (StringUtils.isBlank(bUser)) { // 注册B端用户
+            bUser = userBO.doSaveBUser(req.getMobile(), req.getUpdater(),
+                req.getSystemCode(), req.getCompanyCode());
         } else {
-            // 验证推荐人是否是平台的已注册用户,将userReferee手机号转化为用户编号
-            String userReferee = data.getUserReferee();
-            if (StringUtils.isNotBlank(userReferee)) {
-                String userId = userBO.getUserId(userReferee,
-                    EUserKind.F1.getCode(), data.getSystemCode());
-                if (StringUtils.isBlank(userId)) {
-                    throw new BizException("xn702002", "推荐人不存在");
-                }
-                data.setUserReferee(userId);
-            }
-            String userId = userBO.getUserId(data.getMobile(),
-                EUserKind.F2.getCode(), data.getSystemCode());
-            if (StringUtils.isBlank(userId)) {
-                // 注册B端用户，无推荐人
-                XN805042Req req = new XN805042Req();
-                req.setLoginName(data.getMobile());
-                req.setMobile(data.getMobile());
-                req.setKind(EUserKind.F2.getCode());
-                req.setUpdater(data.getUpdater());
-                req.setProvince(data.getProvince());
-                req.setCity(data.getCity());
-                req.setArea(data.getArea());
-                req.setSystemCode(data.getSystemCode());
-                userId = userBO.doSaveUser(req);
-            } else {
-                // 判断该用户是否有店铺了
-                Store sCondition = new Store();
-                sCondition.setOwner(userId);
-                long totalCount = storeBO.getTotalCount(sCondition);
-                if (totalCount > 0) {
-                    throw new BizException("xn000000", "该用户已经拥有店铺，无需再次申请");
-                }
-            }
-            data.setOwner(userId);
-            data.setContractNo(OrderNoGenerater.generateM("ZHS-"));
-            return storeBO.saveStore(data, EStoreStatus.ONLINE_CLOSE.getCode());
+            // 判断该用户是否有店铺了
+            storeBO.getStoreByUser(bUser);
         }
+
+        String code = OrderNoGenerater.generateM("SJ");
+        store.setCode(code);
+        store.setName(req.getName());
+        store.setLevel(req.getLevel());
+        store.setType(req.getType());
+        store.setSlogan(req.getSlogan());
+
+        store.setAdPic(req.getAdPic());
+        store.setPic(req.getPic());
+        store.setDescription(req.getDescription());
+        store.setProvince(req.getProvince());
+        store.setCity(req.getCity());
+        store.setArea(req.getArea());
+        store.setAddress(req.getAddress());
+        store.setLongitude(req.getLongitude());
+        store.setLatitude(req.getLatitude());
+
+        store.setBookMobile(req.getBookMobile());
+        store.setSmsMobile(req.getSmsMobile());
+        store.setPdf(req.getPdf());
+
+        store.setLegalPersonName(req.getLegalPersonName());
+        store.setRate1(StringValidater.toDouble(req.getRate1()));
+        store.setRate2(StringValidater.toDouble(req.getRate2()));
+        store.setStatus(EStoreStatus.PASS.getCode());
+
+        store.setUpdater(req.getUpdater());
+        store.setUpdateDatetime(new Date());
+        store.setRemark(req.getRemark());
+        store.setOwner(bUser);
+        store.setContractNo(OrderNoGenerater.generateM("ZHS-"));
+        store.setSystemCode(req.getSystemCode());
+        store.setCompanyCode(req.getCompanyCode());
+        storeBO.saveStoreOss(store);
+        return code;
     }
 
     @Override
     @Transactional
-    public String addStore(Store data) {
-        Store condition = new Store();
-        condition.setName(data.getName());
-        List<Store> list = storeBO.queryStoreList(condition);
-        if (CollectionUtils.isNotEmpty(list)) {
-            throw new BizException("xn000000", "该名称已存在");
-        }
+    public String addStore(XN808201Req req) {
+        Store data = new Store();
         // 验证推荐人是否是平台的已注册用户,将userReferee手机号转化为用户编号
-        String userReferee = data.getUserReferee();
-        if (StringUtils.isNotBlank(userReferee)) {
-            String userId = userBO.getUserId(userReferee,
-                EUserKind.F1.getCode(), data.getSystemCode());
-            if (StringUtils.isBlank(userId)) {
-                throw new BizException("xn702002", "推荐人不存在");
-            }
-            data.setUserReferee(userId);
-        }
-        return storeBO.saveStore(data);
+        String systemCode = req.getSystemCode();
+        String userReferee = req.getUserReferee();
+        String userId = storeBO.isUserRefereeExist(userReferee, systemCode);
+        data.setUserReferee(userId);
+
+        String code = OrderNoGenerater.generateM("SJ");
+        data.setCode(code);
+        data.setName(req.getName());
+        data.setLevel(EStoreLevel.NOMAL.getCode());
+        data.setType(req.getType());
+        data.setSlogan(req.getSlogan());
+
+        data.setAdPic(req.getAdPic());
+        data.setPic(req.getPic());
+        data.setDescription(req.getDescription());
+        data.setProvince(req.getProvince());
+        data.setCity(req.getCity());
+
+        data.setArea(req.getArea());
+        data.setAddress(req.getAddress());
+        data.setLongitude(req.getLongitude());
+        data.setLatitude(req.getLatitude());
+        data.setBookMobile(req.getBookMobile());
+
+        data.setSmsMobile(req.getSmsMobile());
+        data.setPdf(req.getPdf());
+        data.setLegalPersonName(req.getLegalPersonName());
+        data.setRate1(StringValidater.toDouble(req.getRate1()));
+        data.setRate2(StringValidater.toDouble(req.getRate2()));
+
+        data.setStatus(EStoreStatus.TOCHECK.getCode());
+
+        data.setUpdateDatetime(new Date());
+        data.setRemark(req.getRemark());
+        data.setOwner(req.getOwner());
+        data.setSystemCode(req.getSystemCode());
+        data.setCompanyCode(req.getCompanyCode());
+        storeBO.saveStore(data);
+        return code;
     }
 
     @Override
-    public int checkStore(String code, String checkResult, String checkUser,
+    public void approveStore(String code, String checkResult, String checkUser,
             String remark) {
-        Store store = new Store();
-        store.setCode(code);
         Store dbStore = storeBO.getStore(code);
         if (!EStoreStatus.TOCHECK.getCode().equals(dbStore.getStatus())) {
             throw new BizException("xn000000", "商家不处于待审核状态，不能进行审核操作");
         }
-        if (EBoolean.NO.getCode().equals(checkResult)) {
-            store.setStatus(EStoreStatus.UNPASS.getCode());
-        } else {
-            store.setStatus(EStoreStatus.ONLINE_CLOSE.getCode());
-            // 第一次审核通过产生合同编号
-            if (StringUtils.isBlank(dbStore.getContractNo())) {
-                store.setContractNo(OrderNoGenerater.generateM("ZHS-"));
-            }
-        }
-        store.setApprover(checkUser);
-        store.setRemark(remark);
-        return storeBO.refreshCheck(store);
+        storeBO.checkStore(dbStore, checkResult, checkUser, remark);
     }
 
     @Override
-    public void editStore(Store data) {
-        Store condition = new Store();
-        condition.setName(data.getName());
-        List<Store> list = storeBO.queryStoreList(condition);
-        if (CollectionUtils.isNotEmpty(list)) {
-            Store store = list.get(0);
-            if (!store.getCode().equals(data.getCode())) {
-                throw new BizException("xn000000", "该名称已存在");
-            }
-        }
-        // 验证推荐人是否是平台的已注册用户,将userReferee手机号转化为用户编号
-        String userReferee = data.getUserReferee();
-        if (StringUtils.isNotBlank(userReferee)) {
-            String userId = userBO.getUserId(userReferee,
-                EUserKind.F1.getCode(), data.getSystemCode());
-            if (StringUtils.isBlank(userId)) {
-                throw new BizException("xn702002", "推荐人不存在");
-            }
-            data.setUserReferee(userId);
-        }
+    public void editStore(XN808203Req req) {
+        Store data = new Store();
+        data.setCode(req.getCode());
+        data.setName(req.getName());
+        data.setType(req.getType());
+        data.setLegalPersonName(req.getLegalPersonName());
+        data.setRate1(StringValidater.toDouble(req.getRate1()));
+        data.setRate2(StringValidater.toDouble(req.getRate2()));
+
+        data.setSlogan(req.getSlogan());
+        data.setAdPic(req.getAdPic());
+        data.setPic(req.getPic());
+        data.setDescription(req.getDescription());
+        data.setProvince(req.getProvince());
+        data.setCity(req.getCity());
+
+        data.setArea(req.getArea());
+        data.setAddress(req.getAddress());
+        data.setLongitude(req.getLongitude());
+        data.setLatitude(req.getLatitude());
+        data.setBookMobile(req.getBookMobile());
+        data.setSmsMobile(req.getSmsMobile());
+        data.setPdf(req.getPdf());
+
+        data.setStatus(EStoreStatus.TOCHECK.getCode());
+        data.setUpdater(req.getUpdater());
+        data.setUpdateDatetime(new Date());
+        data.setRemark(req.getRemark());
         storeBO.refreshStore(data);
     }
 
     @Override
-    public int putOnOff(String code, String updater, String remark) {
-        Store dbStore = storeBO.getStore(code);
-        Store store = new Store();
-        store.setCode(code);
-        store.setUpdater(updater);
-        store.setRemark(remark);
-        if (EStoreStatus.ONLINE_OPEN.getCode().equals(dbStore.getStatus())
-                || EStoreStatus.ONLINE_CLOSE.getCode().equals(
-                    dbStore.getStatus())) {
-            store.setStatus(EStoreStatus.OFFLINE.getCode());
-        } else if (EStoreStatus.OFFLINE.getCode().equals(dbStore.getStatus())) {
-            store.setStatus(EStoreStatus.ONLINE_CLOSE.getCode());
+    public void putOn(XN808204Req req) {
+        Store dbStore = storeBO.getStore(req.getCode());
+        if (EStoreStatus.PASS.getCode().equals(dbStore.getStatus())
+                || EStoreStatus.OFF.getCode().equals(dbStore.getStatus())) {
+            dbStore.setUiLocation(req.getUiLocation());
+            dbStore.setUiOrder(req.getUiOrder());
+            dbStore.setRate1(StringValidater.toDouble(req.getRate1()));
+            dbStore.setRate2(StringValidater.toDouble(req.getRate2()));
+            dbStore.setRate3(StringValidater.toDouble(req.getRate3()));
+            dbStore.setIsDefault(req.getIsDefault());
+
+            dbStore.setStatus(EStoreStatus.ON_OPEN.getCode());
+            dbStore.setUpdater(req.getUpdater());
+            dbStore.setUpdateDatetime(new Date());
+            dbStore.setRemark(req.getRemark());
+            storeBO.putOn(dbStore);
         } else {
-            throw new BizException("xn000000", "当前商家状态不支持上下架操作");
+            throw new BizException("xn000000", "当前店铺不是可以上架状态，不能上架操作");
         }
-        return storeBO.refreshStoreStatus(store);
     }
 
     @Override
-    public int closeOpen(String code) {
+    public void putOff(String code, String updater, String remark) {
         Store dbStore = storeBO.getStore(code);
-        Store store = new Store();
-        store.setUpdater(dbStore.getUpdater());
-        store.setRemark(dbStore.getRemark());
-        store.setCode(code);
-        if (EStoreStatus.ONLINE_OPEN.getCode().equals(dbStore.getStatus())) {
-            store.setStatus(EStoreStatus.ONLINE_CLOSE.getCode());
-        } else if (EStoreStatus.ONLINE_CLOSE.getCode().equals(
-            dbStore.getStatus())) {
-            store.setStatus(EStoreStatus.ONLINE_OPEN.getCode());
+        if (EStoreStatus.ON_OPEN.getCode().equals(dbStore.getStatus())
+                || EStoreStatus.ON_CLOSE.getCode().equals(dbStore.getStatus())) {
+            dbStore.setStatus(EStoreStatus.OFF.getCode());
+            dbStore.setUpdater(updater);
+            dbStore.setUpdateDatetime(new Date());
+            dbStore.setRemark(remark);
+            storeBO.putOff(dbStore);
+        } else {
+            throw new BizException("xn000000", "当前店铺不是可以下架状态，不能下架操作");
+        }
+
+    }
+
+    @Override
+    public void closeOpen(String code) {
+        Store dbStore = storeBO.getStore(code);
+        if (EStoreStatus.ON_OPEN.getCode().equals(dbStore.getStatus())) {
+            dbStore.setStatus(EStoreStatus.ON_CLOSE.getCode());
+            dbStore.setRemark("商家自行关店");
+        } else if (EStoreStatus.ON_CLOSE.getCode().equals(dbStore.getStatus())) {
+            dbStore.setStatus(EStoreStatus.ON_OPEN.getCode());
+            dbStore.setRemark("商家自行开店");
         } else {
             throw new BizException("xn000000", "上架的店铺才能进行开关店操作");
         }
-        return storeBO.refreshStoreStatus(store);
+        dbStore.setUpdater(dbStore.getOwner());
+        dbStore.setUpdateDatetime(new Date());
+        storeBO.closeOpen(dbStore);
     }
 
-    // @Override
-    // public int editStoreStatus(String code) {
-    // int count = 0;
-    // Store condition = new Store();
-    // if (StringUtils.isNotBlank(code)) {
-    // condition.setCode(code);
-    // Store data = storeBO.getStore(code);
-    // if (data.getStatus().equals(EBoolean.NO.getCode())) {
-    // data.setStatus(EBoolean.YES.getCode());
-    // } else {
-    // data.setStatus(EBoolean.NO.getCode());
-    // }
-    // count = storeBO.refreshStoreStatus(data);
-    // }
-    // return count;
-    // }
+    @Override
+    public void upLevel(String code) {
+        Store dbStore = storeBO.getStore(code);
+        if (EStoreLevel.NOMAL.getCode().equals(dbStore.getLevel())) {
+            dbStore.setLevel(EStoreLevel.FINANCIAL.getCode());
+            dbStore.setRemark("商家自行升级成理财型店铺");
+        } else {
+            throw new BizException("xn000000", "店铺不能进行升级操作");
+        }
+        dbStore.setUpdater(dbStore.getOwner());
+        dbStore.setUpdateDatetime(new Date());
+        storeBO.upLevel(dbStore);
 
-    // @Override
-    // @Transactional
-    // public int doDzStore(String userId, String code) {
-    // int count = 0;
-    // // 判断商店是否存在
-    // storeBO.isStoreExist(code);
-    // // 判断用户是否已经点赞过
-    // StoreAction storeAction = storeActionBO.getStoreActionByUser(code,
-    // EActionType.DZ, userId);
-    // if (storeAction != null) {
-    // storeActionBO.removeStoreActionByUser(code, userId);
-    // count = storeBO.refreshStoreDz(code, -1);
-    // } else {
-    // StoreAction talkData = new StoreAction();
-    // talkData.setStoreCode(code);
-    // talkData.setType(EActionType.DZ.getCode());
-    // talkData.setActioner(userId);
-    // storeActionBO.saveStoreAction(talkData);
-    // count = storeBO.refreshStoreDz(code, 1);
-    // }
-    // return count;
-    // }
-    //
-    // /**
-    // * @see com.xnjr.mall.ao.IStoreAO#doStorePurchase(java.lang.String,
-    // java.lang.String, java.lang.Long, java.lang.Long)
-    // */
-    // @Override
-    // @Transactional
-    // public void doStorePurchase(String fromUser, String toStore, Long amount,
-    // Long cnyAmount, Long jfCashBack, Long cnyCashBack) {
-    // Store data = storeBO.getStore(toStore);
-    // XN805901Res xn805901Res = userBO.getRemoteUser(fromUser, fromUser);
-    // // 商家累计金额增加
-    // data.setTotalJfNum(data.getTotalJfNum() + amount.intValue());
-    // storeBO.refreshStoreJF(data);
-    // // 产生消费记录
-    // storePurchaseBO.saveStorePurchase(toStore, fromUser, amount,
-    // cnyCashBack);
-    // // 账户扣除
-    // accountBO.doStorePurchase(fromUser, data.getUserId(), amount,
-    // cnyAmount, jfCashBack, cnyCashBack);
-    // // 发送短信给商家
-    // smsOutBO.sendSmsOut(
-    // data.getSmsMobile(),
-    // "尊敬的商户," + "手机号为"
-    // + PhoneUtil.hideMobile(xn805901Res.getLoginName())
-    // + "的用户向贵店消费" + amount / 1000 + "积分,请注意查收", "602906");
-    //
-    // }
-    //
+    }
 
     @Override
-    public Paginable<Store> queryStorePage(int start, int limit, Store condition) {
+    public Paginable<Store> queryStorePageFront(int start, int limit,
+            Store condition) {
         Paginable<Store> paginable = storeBO.getPaginable(start, limit,
             condition);
         List<Store> storeList = paginable.getList();
@@ -291,37 +290,19 @@ public class StoreAOImpl implements IStoreAO {
     }
 
     @Override
-    public List<Store> queryStoreList(Store condition) {
-        List<Store> list = storeBO.queryStoreList(condition);
-        if (CollectionUtils.isNotEmpty(list)) {
-            for (Store store : list) {
-                StoreTicket stCondition = new StoreTicket();
-                stCondition.setStoreCode(store.getCode());
-                stCondition.setStatus(EStoreTicketStatus.ONLINE.getCode());
-                List<StoreTicket> storeTickets = storeTicketBO
-                    .queryStoreTicketList(stCondition);
-                store.setStoreTickets(storeTickets);
-            }
-        }
-        // String fromUser = condition.getFromUser();
-        // for (Store store : list) {
-        // if (StringUtils.isBlank(fromUser)) {
-        // store.setIsDZ(false);
-        // } else {
-        // if (null != storeActionBO.getStoreActionByUser(store.getCode(),
-        // EActionType.DZ, condition.getFromUser())) {
-        // store.setIsDZ(true);
-        // } else {
-        // store.setIsDZ(false);
-        // }
-        // }
-        // }
-        return list;
+    public Paginable<Store> queryStorePageOss(int start, int limit,
+            Store condition) {
+        return storeBO.getPaginable(start, limit, condition);
     }
 
-    //
     @Override
-    public Store getStore(String code, String fromUser) {
+    public Store getStoreOss(String code) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Store getStoreFront(String code, String fromUser) {
         Store store = storeBO.getStore(code);
         // 设置推荐人手机号
         String refereeUserId = store.getUserReferee();
@@ -335,10 +316,11 @@ public class StoreAOImpl implements IStoreAO {
         condition.setStatus(EStoreTicketStatus.ONLINE.getCode());
         store.setStoreTickets(storeTicketBO.queryStoreTicketList(condition));
         return store;
+
     }
 
     @Override
-    public List<Store> getStore(String userId) {
+    public List<Store> getMyStore(String userId) {
         Store condition = new Store();
         condition.setOwner(userId);
         List<Store> list = storeBO.queryStoreList(condition);
@@ -353,4 +335,5 @@ public class StoreAOImpl implements IStoreAO {
         }
         return list;
     }
+
 }

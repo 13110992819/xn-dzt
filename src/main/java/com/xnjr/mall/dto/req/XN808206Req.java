@@ -14,7 +14,7 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808206Req {
-    // 商家编号
+    // 商家编号(必填)
     private String code;
 
     public String getCode() {

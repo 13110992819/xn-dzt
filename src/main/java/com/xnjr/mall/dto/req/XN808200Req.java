@@ -17,7 +17,7 @@ public class XN808200Req {
     // 类型（必填）
     private String type;
 
-    // 法人姓名（必填）
+    // 法人姓名（选填）
     private String legalPersonName;
 
     // B端用户手机号（必填）
@@ -31,9 +31,6 @@ public class XN808200Req {
 
     // 不使用折扣券分成比例（必填）
     private String rate2;
-
-    // 费率3 返点比例
-    private Double rate3;
 
     // 广告语（必填）
     private String slogan;
@@ -74,19 +71,16 @@ public class XN808200Req {
     // 附件（选填）
     private String pdf;
 
-    // 店铺主人（必填）
-    private String owner;
-
-    // 更新人（必填）
+    // 审核人（必填）
     private String updater;
 
     // 备注（选填）
     private String remark;
 
-    // 所属公司编号
+    // 所属公司编号（必填）
     private String companyCode;
 
-    // 所属系统编号
+    // 所属系统编号（必填）
     private String systemCode;
 
     public String getName() {
@@ -121,14 +115,6 @@ public class XN808200Req {
         this.legalPersonName = legalPersonName;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
     public String getUserReferee() {
         return userReferee;
     }
@@ -151,14 +137,6 @@ public class XN808200Req {
 
     public void setRate2(String rate2) {
         this.rate2 = rate2;
-    }
-
-    public Double getRate3() {
-        return rate3;
-    }
-
-    public void setRate3(Double rate3) {
-        this.rate3 = rate3;
     }
 
     public String getSlogan() {
@@ -265,12 +243,12 @@ public class XN808200Req {
         this.pdf = pdf;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getUpdater() {

@@ -35,17 +35,23 @@ public class XN808215 extends AProcessor {
     public Object doBusiness() throws BizException {
         Store condition = new Store();
         condition.setName(req.getName());
+        condition.setLevel(req.getLevel());
         condition.setType(req.getType());
+
         condition.setLegalPersonName(req.getLegalPersonName());
         condition.setUserReferee(req.getUserReferee());
+
         condition.setProvinceForQuery(req.getProvince());
         condition.setCityForQuery(req.getCity());
         condition.setAreaForQuery(req.getArea());
-        condition.setStatus(req.getStatus());
-        condition.setSystemCode(req.getSystemCode());
-        condition.setUserLatitude(req.getUserLatitude());
-        condition.setUserLongitude(req.getUserLongitude());
 
+        condition.setStatus(req.getStatus());
+        condition.setOwner(req.getOwner());
+        condition.setUiLocation(req.getUiLocation());
+        condition.setIsDefault(req.getIsDefault());
+
+        condition.setSystemCode(req.getSystemCode());
+        condition.setCompanyCode(req.getCompanyCode());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = IStoreAO.DEFAULT_ORDER_COLUMN;
@@ -53,12 +59,14 @@ public class XN808215 extends AProcessor {
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
-        return storeAO.queryStorePage(start, limit, condition);
+        return storeAO.queryStorePageOss(start, limit, condition);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808215Req.class);
+        StringValidater.validateBlank(req.getStart(), req.getLimit(),
+            req.getCompanyCode(), req.getSystemCode());
     }
 
 }

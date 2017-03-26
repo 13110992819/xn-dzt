@@ -33,7 +33,7 @@ public class XN808219 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return storeAO.getStore(req.getUserId());
+        return storeAO.getMyStore(req.getUserId());
     }
 
     /** 

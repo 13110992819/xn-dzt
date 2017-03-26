@@ -5,6 +5,7 @@ import java.util.List;
 import com.xnjr.mall.dto.req.XN805042Req;
 import com.xnjr.mall.dto.res.XN805060Res;
 import com.xnjr.mall.dto.res.XN805901Res;
+import com.xnjr.mall.enums.EUserKind;
 
 /**
  * @author: xieyj 
@@ -89,4 +90,9 @@ public interface IUserBO {
      */
     public List<XN805060Res> getUserList(String province, String city,
             String area, String kind);
+
+    public String isUserExist(String mobile, EUserKind kind, String systemCode);
+
+    public String doSaveBUser(String mobile, String updater, String systemCode,
+            String companyCode);
 }

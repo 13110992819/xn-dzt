@@ -30,7 +30,7 @@ public class XN808216 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        return storeAO.getStore(req.getCode());
+        return storeAO.getStoreOss(req.getCode());
     }
 
     @Override

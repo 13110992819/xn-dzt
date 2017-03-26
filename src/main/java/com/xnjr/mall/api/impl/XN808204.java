@@ -23,14 +23,15 @@ public class XN808204 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        storeAO.putOnOff(req.getCode(), req.getUpdater(), req.getRemark());
+        storeAO.putOn(req);
         return new BooleanRes(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808204Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getUpdater());
+        StringValidater.validateBlank(req.getCode(), req.getUiLocation(),
+            req.getUiOrder(), req.getRate1(), req.getRate2(), req.getRate3(),
+            req.getIsDefault(), req.getUpdater());
     }
-
 }

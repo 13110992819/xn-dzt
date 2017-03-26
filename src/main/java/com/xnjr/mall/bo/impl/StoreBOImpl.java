@@ -3,16 +3,21 @@ package com.xnjr.mall.bo.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.xnjr.mall.bo.IStoreBO;
+import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.IStoreDAO;
 import com.xnjr.mall.domain.Store;
+import com.xnjr.mall.enums.EBoolean;
 import com.xnjr.mall.enums.EStoreStatus;
+import com.xnjr.mall.enums.ESystemCode;
+import com.xnjr.mall.enums.EUserKind;
 import com.xnjr.mall.exception.BizException;
 
 /** 
@@ -27,6 +32,9 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     @Autowired
     private IStoreDAO storeDAO;
 
+    @Autowired
+    private IUserBO userBO;
+
     @Override
     public boolean isStoreExist(String code) {
         Store condition = new Store();
@@ -38,54 +46,25 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     }
 
     @Override
-    public String saveStore(Store data) {
-        String code = null;
+    public void saveStore(Store data) {
         if (data != null) {
-            code = OrderNoGenerater.generateM("SJ");
-            data.setCode(code);
-            data.setStatus(EStoreStatus.TOCHECK.getCode());
-            data.setUpdateDatetime(new Date());
             storeDAO.insert(data);
         }
-        return code;
     }
 
     @Override
-    public String saveStore(Store data, String status) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater.generateM("SJ");
-            data.setCode(code);
-            data.setStatus(status);
-            data.setUpdateDatetime(new Date());
-            storeDAO.insert(data);
+    public void saveStoreOss(Store store) {
+        if (store != null) {
+            storeDAO.insertOss(store);
         }
-        return code;
+
     }
 
     @Override
     public int refreshStore(Store data) {
         int count = 0;
         if (data != null) {
-            if (!isStoreExist(data.getCode())) {
-                throw new BizException("xn000000", "商家编号不存在");
-            }
-            data.setUpdateDatetime(new Date());
-            data.setStatus(EStoreStatus.TOCHECK.getCode());
             count = storeDAO.update(data);
-        }
-        return count;
-    }
-
-    @Override
-    public int refreshStoreStatus(Store data) {
-        int count = 0;
-        if (data != null) {
-            if (!isStoreExist(data.getCode())) {
-                throw new BizException("xn000000", "商家编号不存在");
-            }
-            data.setUpdateDatetime(new Date());
-            count = storeDAO.updateStatus(data);
         }
         return count;
     }
@@ -137,15 +116,76 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     }
 
     @Override
-    public int refreshCheck(Store data) {
-        int count = 0;
-        if (data != null) {
-            if (!isStoreExist(data.getCode())) {
-                throw new BizException("xn000000", "商家编号不存在");
+    public String isUserRefereeExist(String userReferee, String systemCode) {
+        if (ESystemCode.ZHPAY.getCode().equals(systemCode)) {
+            String userId = userBO.getUserId(userReferee,
+                EUserKind.F1.getCode(), systemCode);
+            if (StringUtils.isBlank(userId)) {
+                throw new BizException("xn702002", "推荐人不存在");
             }
-            data.setApproveDatetime(new Date());
-            count = storeDAO.updateCheck(data);
+            return userId;
+        } else {// 加盟商帮商家代注册，所以userReferee是加盟商的userId
+            return userReferee;
         }
-        return count;
+
     }
+
+    @Override
+    public void checkStore(Store dbStore, String checkResult, String checkUser,
+            String remark) {
+        if (EBoolean.NO.getCode().equals(checkResult)) {
+            dbStore.setStatus(EStoreStatus.UNPASS.getCode());
+        } else {
+            dbStore.setStatus(EStoreStatus.PASS.getCode());
+            // 第一次审核通过产生合同编号
+            if (StringUtils.isBlank(dbStore.getContractNo())) {
+                dbStore.setContractNo(OrderNoGenerater.generateM("ZHS-"));
+            }
+        }
+        dbStore.setUpdater(checkUser);
+        dbStore.setUpdateDatetime(new Date());
+        dbStore.setRemark(remark);
+        storeDAO.updateCheck(dbStore);
+
+    }
+
+    @Override
+    public Store getStoreByUser(String bUser) {
+        Store a = null;
+        Store condition = new Store();
+        condition.setOwner(bUser);
+        List<Store> list = this.queryStoreList(condition);
+        if (CollectionUtils.isNotEmpty(list)) {
+            a = list.get(0);
+        }
+        if (a == null) {
+            throw new BizException("xn000000", bUser + "没有店铺");
+        }
+        return a;
+    }
+
+    @Override
+    public void putOn(Store dbStore) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void putOff(Store dbStore) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void closeOpen(Store dbStore) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void upLevel(Store dbStore) {
+        // TODO Auto-generated method stub
+
+    }
+
 }

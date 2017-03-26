@@ -1,31 +1,31 @@
 package com.xnjr.mall.dto.req;
 
 public class XN808204Req {
-    // 商家编号
+    // 商家编号(必填)
     private String code;
 
-    // UI位置
+    // UI位置(必填)
     private String uiLocation;
 
-    // UI序号
+    // UI序号(必填)
     private String uiOrder;
 
-    // 费率1 使用折扣券分成比例
+    // 费率1 使用折扣券分成比例(必填)
     private String rate1;
 
-    // 费率2 不使用折扣券分成比例
+    // 费率2 不使用折扣券分成比例(必填)
     private String rate2;
 
-    // 费率3 返点比例
+    // 费率3 返点比例(必填)
     private String rate3;
 
     // 是否默认(必填)
     private String isDefault;
 
-    // 操作人
+    // 操作人(必填)
     private String updater;
 
-    // 备注
+    // 备注(选填)
     private String remark;
 
     public String getCode() {
