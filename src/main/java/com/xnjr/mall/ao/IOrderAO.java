@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Order;
+import com.xnjr.mall.dto.req.XN808050Req;
 import com.xnjr.mall.dto.res.XN808051Res;
 
 /** 
@@ -14,18 +15,7 @@ import com.xnjr.mall.dto.res.XN808051Res;
 public interface IOrderAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    /**
-     * 立即购买
-     * @param userId
-     * @param modelCode
-     * @param quantity
-     * @param salePrice
-     * @param data
-     * @return 
-     * @create: 2016年5月25日 上午10:48:20 xieyj
-     * @history:
-     */
-    public String commitOrder(String productCode, Integer quantity, Order data);
+    public String commitOrder(XN808050Req req);
 
     /**
      * 批量提交订单
