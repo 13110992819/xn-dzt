@@ -18,10 +18,10 @@ import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
-/** 
- * 对商家点赞
- * @author: haiqingzheng 
- * @since: 2016年12月18日 下午11:56:49 
+/**
+ * 对商家点赞/收藏，同时也是取消操作
+ * @author: myb858 
+ * @since: 2017年3月26日 下午1:56:50 
  * @history:
  */
 public class XN808240 extends AProcessor {
@@ -35,7 +35,8 @@ public class XN808240 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        storeActionAO.like(req.getStoreCode(), req.getUserId());
+        storeActionAO.doAction(req.getStoreCode(), req.getUserId(),
+            req.getType());
         return new BooleanRes(true);
     }
 
@@ -45,7 +46,8 @@ public class XN808240 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808240Req.class);
-        StringValidater.validateBlank(req.getStoreCode(), req.getUserId());
+        StringValidater.validateBlank(req.getStoreCode(), req.getUserId(),
+            req.getType());
     }
 
 }
