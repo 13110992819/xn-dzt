@@ -166,8 +166,7 @@ public class AccountBOImpl implements IAccountBO {
      */
     @Override
     public void checkBalanceAmount(String systemCode, String userId, Long price) {
-        Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode,
-            null);
+        Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode);
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
         XN802503Res gxjlAccount = this.getAccountByUserId(systemCode, userId,
             ECurrency.GXJL.getCode());
@@ -194,8 +193,7 @@ public class AccountBOImpl implements IAccountBO {
             String toUserId, Long price, EBizType bizType) {
         Long gxjlPrice = 0L;
         Long frPrice = 0L;
-        Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode,
-            null);
+        Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode);
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
         XN802503Res gxjlAccount = this.getAccountByUserId(systemCode,
             fromUserId, ECurrency.GXJL.getCode());
@@ -309,8 +307,7 @@ public class AccountBOImpl implements IAccountBO {
     public void doOrderAmountBackBySysetm(String systemCode, String toUserId,
             Long gwbPayAmount, Long qbbPayAmount, Long cnyPayAmount,
             EBizType bizType, String remark) {
-        Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode,
-            null);
+        Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode);
         Double gxjl2cnyRate = Double
             .valueOf(rateMap.get(SysConstants.GXJL2CNY));
         // 退购物币

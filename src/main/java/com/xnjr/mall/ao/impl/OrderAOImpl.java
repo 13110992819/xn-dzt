@@ -87,9 +87,6 @@ public class OrderAOImpl implements IOrderAO {
     @Autowired
     private ISmsOutBO smsOutBO;
 
-    @Autowired
-    private IJewelInteractBO jewelInteractBO;
-
     @Override
     @Transactional
     public String commitOrder(XN808050Req req) {
