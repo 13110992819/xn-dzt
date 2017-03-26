@@ -61,7 +61,7 @@ public class UserTicketAOImpl implements IUserTicketAO {
             storeTicket.getSystemCode(), userId, ECurrency.QBB.getCode());
         String bizNote = fromAccount.getRealName() + "用户"
                 + EBizType.AJ_GMZKQ.getValue();
-        accountBO.doTransferAmount(store.getSystemCode(),
+        accountBO.doTransferAmountRemote(store.getSystemCode(),
             fromAccount.getAccountNumber(), ESysAccount.QBB.getCode(),
             storeTicket.getPrice(), EBizType.AJ_GMZKQ.getCode(), bizNote);
         return ticketCode;
