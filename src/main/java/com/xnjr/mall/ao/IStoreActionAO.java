@@ -8,9 +8,7 @@ import com.xnjr.mall.domain.StoreAction;
 public interface IStoreActionAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public int like(String storeCode, String userId);
-
-    public int dropStoreAction(String code);
+    public void doAction(String storeCode, String userId, String type);
 
     public Paginable<StoreAction> queryStoreActionPage(int start, int limit,
             StoreAction condition);

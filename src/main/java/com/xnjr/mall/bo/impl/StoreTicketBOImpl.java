@@ -1,5 +1,6 @@
 package com.xnjr.mall.bo.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +11,7 @@ import com.xnjr.mall.bo.IStoreTicketBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.dao.IStoreTicketDAO;
 import com.xnjr.mall.domain.StoreTicket;
+import com.xnjr.mall.enums.EStoreTicketStatus;
 import com.xnjr.mall.exception.BizException;
 
 @Component
@@ -64,6 +66,14 @@ public class StoreTicketBOImpl extends PaginableBOImpl<StoreTicket> implements
     }
 
     @Override
+    public List<StoreTicket> queryWillInValidList() {
+        StoreTicket condition = new StoreTicket();
+        condition.setStatus(EStoreTicketStatus.VALID.getCode());
+        condition.setValidateEndEnd(new Date());
+        return storeTicketDAO.selectList(condition);
+    }
+
+    @Override
     public StoreTicket getStoreTicket(String code) {
         StoreTicket data = null;
         if (StringUtils.isNotBlank(code)) {
@@ -75,5 +85,18 @@ public class StoreTicketBOImpl extends PaginableBOImpl<StoreTicket> implements
             }
         }
         return data;
+    }
+
+    /** 
+     * @see com.xnjr.mall.bo.IStoreTicketBO#invalid(java.lang.String)
+     */
+    @Override
+    public void invalid(String code) {
+        if (StringUtils.isNotBlank(code)) {
+            StoreTicket data = new StoreTicket();
+            data.setCode(code);
+            data.setStatus(EStoreTicketStatus.INVALID.getCode());
+            storeTicketDAO.invalid(data);
+        }
     }
 }

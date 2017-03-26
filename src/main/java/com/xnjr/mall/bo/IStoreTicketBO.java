@@ -17,6 +17,10 @@ public interface IStoreTicketBO extends IPaginableBO<StoreTicket> {
 
     public List<StoreTicket> queryStoreTicketList(StoreTicket condition);
 
+    public List<StoreTicket> queryWillInValidList();
+
     public StoreTicket getStoreTicket(String code);
+
+    public void invalid(String code);
 
 }

@@ -17,6 +17,9 @@ public interface IUserTicketBO extends IPaginableBO<UserTicket> {
 
     public List<UserTicket> queryUserTicketList(UserTicket condition);
 
+    public List<UserTicket> queryUserTicketList(String storeTicketCode,
+            String status);
+
     public boolean isExistBuyTicket(String userId, String storeTicket);
 
     public UserTicket getUserTicket(String code);

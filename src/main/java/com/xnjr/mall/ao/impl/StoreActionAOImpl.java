@@ -11,8 +11,6 @@ import com.xnjr.mall.bo.IStoreBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StoreAction;
-import com.xnjr.mall.enums.EStoreActionType;
-import com.xnjr.mall.exception.BizException;
 
 @Service
 public class StoreActionAOImpl implements IStoreActionAO {
@@ -24,36 +22,16 @@ public class StoreActionAOImpl implements IStoreActionAO {
     private IStoreBO storeBO;
 
     @Override
-    public int like(String storeCode, String userId) {
-        int count = 0;
-        StoreAction condition = new StoreAction();
-        condition.setType(EStoreActionType.LIKE.getCode());
-        condition.setActionUser(userId);
-        condition.setStoreCode(storeCode);
-        if (storeActionBO.getTotalCount(condition) > 0) {
-            StoreAction storeAction = storeActionBO.queryStoreActionList(
-                condition).get(0);
-            count = storeActionBO.removeStoreAction(storeAction.getCode());
+    public void doAction(String storeCode, String userId, String type) {
+        StoreAction dbAction = storeActionBO.getStoreAction(storeCode, userId,
+            type);
+        if (dbAction != null) {// 已有则反向
+            storeActionBO.removeStoreAction(dbAction.getCode());
         } else {
             Store store = storeBO.getStore(storeCode);
-            StoreAction data = new StoreAction();
-            data.setStoreCode(storeCode);
-            data.setType(EStoreActionType.LIKE.getCode());
-            data.setActionUser(userId);
-            data.setSystemCode(store.getSystemCode());
-            storeActionBO.saveStoreAction(data);
-            count = 1;
+            storeActionBO.saveStoreAction(store, userId, type);
         }
 
-        return count;
-    }
-
-    @Override
-    public int dropStoreAction(String code) {
-        if (!storeActionBO.isStoreActionExist(code)) {
-            throw new BizException("xn0000", "记录编号不存在");
-        }
-        return storeActionBO.removeStoreAction(code);
     }
 
     @Override

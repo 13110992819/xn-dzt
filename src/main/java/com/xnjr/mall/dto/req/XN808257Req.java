@@ -23,14 +23,25 @@ public class XN808257Req {
     // 状态（选填）
     private String status;
 
-    // 商家编号（选填）
+    // 商家编号（必填）
     private String storeCode;
 
-    // 所属公司编号(选填)
+    // 所属公司编号(必填)
     private String companyCode;
 
-    // 所属系统编号(选填)
+    // 所属系统编号(必填)
     private String systemCode;
+
+    // 用户编号（选填）
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getName() {
         return name;
