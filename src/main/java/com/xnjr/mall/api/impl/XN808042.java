@@ -31,7 +31,8 @@ public class XN808042 extends AProcessor {
         Cart data = new Cart();
         data.setCode(req.getCode());
         data.setQuantity(Integer.valueOf(req.getQuantity()));
-        return new BooleanRes(cartAO.editCart(data) > 0 ? true : false);
+        cartAO.editCart(req.getCode(), Integer.valueOf(req.getQuantity()));
+        return new BooleanRes(true);
     }
 
     /** 

@@ -11,7 +11,7 @@ public class XN808032Req {
     private String dvalue;
 
     // 相对位置编号(必填)
-    private Integer orderNo;
+    private String orderNo;
 
     public String getCode() {
         return code;
@@ -37,11 +37,11 @@ public class XN808032Req {
         this.dvalue = dvalue;
     }
 
-    public Integer getOrderNo() {
+    public String getOrderNo() {
         return orderNo;
     }
 
-    public void setOrderNo(Integer orderNo) {
+    public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
     }
 

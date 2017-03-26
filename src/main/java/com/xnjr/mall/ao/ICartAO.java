@@ -13,67 +13,16 @@ import com.xnjr.mall.domain.Cart;
 public interface ICartAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    /**
-     * 新增
-     * @param data
-     * @return 
-     * @create: 2015年8月27日 下午2:22:02 xieyj
-     * @history:
-     */
-    public String addCart(Cart data);
+    public String addCart(String userId, String productCode, Integer quantity);
 
-    /**
-     * 删除
-     * @param data
-     * @return 
-     * @create: 2015年8月27日 下午2:22:25 xieyj
-     * @history:
-     */
-    public int dropCart(String code);
+    public void dropCartList(List<String> cartCodeList);
 
-    /**
-     * 批量删除
-     * @param data
-     * @return 
-     * @create: 2015年8月27日 下午2:22:25 xieyj
-     * @history:
-     */
-    public int dropCartList(List<String> cartCodeList);
+    public void editCart(String code, Integer quantity);
 
-    /**
-     * 修改
-     * @param data
-     * @return 
-     * @create: 2015年8月27日 下午2:22:25 xieyj
-     * @history:
-     */
-    public int editCart(Cart data);
-
-    /**
-     * 分页查询
-     * @param condition
-     * @return 
-     * @create: 2015年8月27日 下午2:22:56 xieyj
-     * @history:
-     */
     public Paginable<Cart> queryCartPage(int start, int limit, Cart condition);
 
-    /**
-     * 列表查询
-     * @param condition
-     * @return 
-     * @create: 2015年8月27日 下午2:22:56 xieyj
-     * @history:
-     */
-    public List<Cart> queryCartList(Cart condition);
+    public List<Cart> queryCartList(String userId);
 
-    /**
-     * 详情
-     * @param code
-     * @return 
-     * @create: 2016年5月24日 上午9:07:33 xieyj
-     * @history:
-     */
     public Cart getCart(String code);
 
 }

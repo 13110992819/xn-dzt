@@ -1,9 +1,14 @@
 package com.xnjr.mall.api.impl;
 
+import com.xnjr.mall.ao.IProductSpecsAO;
 import com.xnjr.mall.api.AProcessor;
+import com.xnjr.mall.common.JsonUtil;
+import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.dto.req.XN808032Req;
+import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
+import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
  * 修改产品型号
@@ -13,18 +18,23 @@ import com.xnjr.mall.exception.ParaException;
  */
 public class XN808032 extends AProcessor {
 
+    private IProductSpecsAO productSpecsAO = SpringContextHolder
+        .getBean(IProductSpecsAO.class);
+
     private XN808032Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        productSpecsAO.editProductSpecs(req.getCode(), req.getDkey(),
+            req.getDvalue(), StringValidater.toInteger(req.getOrderNo()));
+        return new BooleanRes(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        // TODO Auto-generated method stub
-
+        req = JsonUtil.json2Bean(inputparams, XN808032Req.class);
+        StringValidater.validateBlank(req.getCode(), req.getDkey(),
+            req.getDvalue(), req.getOrderNo());
     }
 
 }

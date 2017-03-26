@@ -37,8 +37,7 @@ public class XN808050 extends AProcessor {
         data.setReceiver(req.getReceiver());
         data.setReMobile(req.getReMobile());
         data.setReAddress(req.getReAddress());
-        return orderAO.commitOrder(req.getProductCode(),
-            Integer.valueOf(req.getQuantity()), data);
+        return orderAO.commitOrder(req);
     }
 
     /** 
@@ -47,8 +46,9 @@ public class XN808050 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808050Req.class);
-        StringValidater.validateBlank(req.getApplyUser(), req.getReceiver(),
-            req.getReMobile(), req.getReAddress(), req.getProductCode());
+        StringValidater.validateBlank(req.getProductCode(), req.getQuantity(),
+            req.getReceiver(), req.getReMobile(), req.getReAddress(),
+            req.getApplyUser());
         StringValidater.validateNumber(req.getQuantity());
     }
 }

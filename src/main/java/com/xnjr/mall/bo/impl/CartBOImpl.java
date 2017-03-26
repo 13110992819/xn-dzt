@@ -16,11 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.xnjr.mall.bo.ICartBO;
+import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
-import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.ICartDAO;
 import com.xnjr.mall.domain.Cart;
-import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.exception.BizException;
 
 /** 
@@ -33,19 +32,6 @@ public class CartBOImpl extends PaginableBOImpl<Cart> implements ICartBO {
 
     @Autowired
     private ICartDAO cartDAO;
-
-    /** 
-     * @see com.xnjr.mall.bo.ICartBO#isCartExist(java.lang.String)
-     */
-    @Override
-    public boolean isCartExist(String code) {
-        Cart condition = new Cart();
-        condition.setCode(code);
-        if (cartDAO.selectTotalCount(condition) > 0) {
-            return true;
-        }
-        return false;
-    }
 
     /** 
      * @see com.xnjr.mall.bo.ICartBO#isCartExist(java.lang.String, java.lang.String)
@@ -67,14 +53,10 @@ public class CartBOImpl extends PaginableBOImpl<Cart> implements ICartBO {
      * @see com.xnjr.mall.bo.ICartBO#saveCart(com.xnjr.mall.domain.Cart)
      */
     @Override
-    public String saveCart(Cart data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater.generateM(EGeneratePrefix.CART.getCode());
-            data.setCode(code);
+    public void saveCart(Cart data) {
+        if (data != null && StringUtils.isNotBlank(data.getCode())) {
             cartDAO.insert(data);
         }
-        return code;
     }
 
     /** 
@@ -127,4 +109,10 @@ public class CartBOImpl extends PaginableBOImpl<Cart> implements ICartBO {
         }
         return data;
     }
+
+    @Override
+    public Paginable<Cart> getPaginable(int start, int pageSize, Cart condition) {
+        return getPaginable(start, pageSize, condition);
+    }
+
 }

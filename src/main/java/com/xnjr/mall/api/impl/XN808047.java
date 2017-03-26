@@ -4,7 +4,6 @@ import com.xnjr.mall.ao.ICartAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.domain.Cart;
 import com.xnjr.mall.dto.req.XN808047Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
@@ -27,9 +26,7 @@ public class XN808047 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        Cart condition = new Cart();
-        condition.setUserId(req.getUserId());
-        return cartAO.queryCartList(condition);
+        return cartAO.queryCartList(req.getUserId());
     }
 
     /** 

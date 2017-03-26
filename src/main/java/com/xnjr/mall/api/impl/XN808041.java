@@ -28,8 +28,8 @@ public class XN808041 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        int count = cartAO.dropCartList(req.getCartCodeList());
-        return new BooleanRes(count > 0 ? true : false);
+        cartAO.dropCartList(req.getCartCodeList());
+        return new BooleanRes(true);
     }
 
     /** 

@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xnjr.mall.ao.IOrderAO;
 import com.xnjr.mall.bo.IAccountBO;
 import com.xnjr.mall.bo.ICartBO;
-import com.xnjr.mall.bo.IJewelInteractBO;
 import com.xnjr.mall.bo.IOrderBO;
 import com.xnjr.mall.bo.IProductBO;
 import com.xnjr.mall.bo.IProductOrderBO;
@@ -42,6 +41,7 @@ import com.xnjr.mall.domain.Cart;
 import com.xnjr.mall.domain.Order;
 import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.domain.ProductOrder;
+import com.xnjr.mall.dto.req.XN808050Req;
 import com.xnjr.mall.dto.res.XN802180Res;
 import com.xnjr.mall.dto.res.XN808051Res;
 import com.xnjr.mall.enums.EBizType;
@@ -90,12 +90,9 @@ public class OrderAOImpl implements IOrderAO {
     @Autowired
     private IJewelInteractBO jewelInteractBO;
 
-    /**
-     * @see com.xnjr.mall.ao.IOrderAO#commitOrder(java.lang.String, java.lang.Integer, java.lang.Long, com.xnjr.mall.domain.Order)
-     */
     @Override
     @Transactional
-    public String commitOrder(String productCode, Integer quantity, Order data) {
+    public String commitOrder(XN808050Req req) {
         // 计算订单总价
         Product product = productBO.getProduct(productCode);
         if (product.getQuantity() != null) {
@@ -572,7 +569,7 @@ public class OrderAOImpl implements IOrderAO {
      */
     @Override
     @Transactional
-    public  void paySuccess(String payCode) {
+    public void paySuccess(String payCode) {
         Order condition = new Order();
         condition.setPayCode(payCode);
         List<Order> result = orderBO.queryOrderList(condition);
@@ -645,4 +642,5 @@ public class OrderAOImpl implements IOrderAO {
         }
         logger.info("***************结束扫描已发货未确认订单***************");
     }
+
 }
