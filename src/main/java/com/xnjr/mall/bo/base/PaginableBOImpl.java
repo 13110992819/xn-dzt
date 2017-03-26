@@ -26,6 +26,21 @@ public abstract class PaginableBOImpl<T extends ABaseDO> implements
         return getPaginable(start, Paginable.DEFAULT_PAGE_SIZE, condition);
     }
 
+    @Override
+    public Paginable<T> getPaginable(int start, int pageSize, T condition) {
+        prepare(condition);
+
+        long totalCount = paginableDAO.selectTotalCount(condition);
+
+        Paginable<T> page = new Page<T>(start, pageSize, totalCount);
+
+        List<T> dataList = paginableDAO.selectList(condition, page.getStart(),
+            page.getPageSize());
+
+        page.setList(dataList);
+        return page;
+    }
+
     protected T prepare(T condition) {
         return condition;
     }

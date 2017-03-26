@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.xnjr.mall.bo.ICartBO;
-import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.dao.ICartDAO;
 import com.xnjr.mall.domain.Cart;
@@ -108,11 +107,6 @@ public class CartBOImpl extends PaginableBOImpl<Cart> implements ICartBO {
             }
         }
         return data;
-    }
-
-    @Override
-    public Paginable<Cart> getPaginable(int start, int pageSize, Cart condition) {
-        return getPaginable(start, pageSize, condition);
     }
 
 }
