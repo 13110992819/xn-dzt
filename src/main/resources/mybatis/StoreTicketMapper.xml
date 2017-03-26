@@ -16,6 +16,7 @@
 		<result column="create_datetime" property="createDatetime" />
 		<result column="status" property="status" />
 		<result column="store_code" property="storeCode" />
+		<result column="company_code" property="companyCode" />
 		<result column="system_code" property="systemCode" />
 	</resultMap>
 	<sql id="where_condition">
@@ -23,24 +24,39 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
-			<if test="storeCode != null and storeCode != '' ">
-				AND t.store_code = #{storeCode}
+			<if test="name != null and name != '' ">
+				AND t.name like "%"#{name}"%"
 			</if>
-			<if test="status != null and status != '' ">
-				<choose>
-				 <when test='status == "12"'>
-				  AND t.status in(1,2)
-				 </when>
-				 <otherwise>
-				  AND t.status = #{status}
-				 </otherwise>
-			</choose>	
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
+			<if test="currency != null and currency != '' ">
+				AND t.currency = #{currency}
 			</if>
 			<if test="validateEndStart != null and validateEndStart != '' ">
 				<![CDATA[AND t.validate_end >= #{validateEndStart}]]>
 			</if>
 			<if test="validateEndEnd != null and validateEndEnd != '' ">
 				<![CDATA[AND t.validate_end <= #{validateEndEnd}]]>
+			</if>
+			<if test="status != null and status != '' ">
+				<choose>
+					 <when test='status == "12"'>
+					  AND t.status in(1,2)
+					 </when>
+					 <otherwise>
+					  AND t.status = #{status}
+					 </otherwise>
+				</choose>	
+			</if>
+			<if test="storeCode != null and storeCode != '' ">
+				AND t.store_code = #{storeCode}
+			</if>
+			<if test="companyCode != null and companyCode != '' ">
+				AND t.company_code = #{companyCode}
+			</if>
+			<if test="systemCode != null and systemCode != '' ">
+				AND t.system_code = #{systemCode}
 			</if>
 		</trim>
 	</sql>
@@ -59,6 +75,7 @@
 		,t.create_datetime
 		,t.status
 		,t.store_code
+		,t.company_code
 		,t.system_code
 		FROM
 		to2o_store_ticket t
@@ -92,6 +109,7 @@
 		,create_datetime
 		,status
 		,store_code
+		,company_code
 		,system_code
 		)
 		VALUES(
@@ -108,6 +126,7 @@
 		,#{createDatetime}
 		,#{status}
 		,#{storeCode}
+		,#{companyCode}
 		,#{systemCode}
 		)
 	</insert>
@@ -129,6 +148,13 @@
 	</update>
 	
 	<update id="put_onOff" parameterType="storeTicket">
+		UPDATE to2o_store_ticket
+		SET
+		status = #{status}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="invalid" parameterType="storeTicket">
 		UPDATE to2o_store_ticket
 		SET
 		status = #{status}

@@ -11,6 +11,7 @@ package com.xnjr.mall.api.impl;
 import com.xnjr.mall.ao.IStoreTicketAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
+import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.StoreTicket;
 import com.xnjr.mall.dto.req.XN808257Req;
 import com.xnjr.mall.exception.BizException;
@@ -39,7 +40,9 @@ public class XN808257 extends AProcessor {
         condition.setType(req.getType());
         condition.setStatus(req.getStatus());
         condition.setStoreCode(req.getStoreCode());
-        return storeTicketAO.queryStoreTicketList(condition);
+        condition.setCompanyCode(req.getCompanyCode());
+        condition.setSystemCode(req.getSystemCode());
+        return storeTicketAO.queryStoreTicketList(condition, req.getUserId());
     }
 
     /** 
@@ -48,6 +51,8 @@ public class XN808257 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808257Req.class);
+        StringValidater
+            .validateBlank(req.getCompanyCode(), req.getSystemCode());
     }
 
 }
