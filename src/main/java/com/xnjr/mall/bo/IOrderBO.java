@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.xnjr.mall.bo.base.IPaginableBO;
 import com.xnjr.mall.domain.Order;
+import com.xnjr.mall.domain.Product;
 
 /** 
  * @author: xieyj 
@@ -20,6 +21,8 @@ public interface IOrderBO extends IPaginableBO<Order> {
      * @history:
      */
     public boolean isOrderExist(String code);
+
+    public void calculateAmount(Order order, Product product);
 
     /**
      * 保存发货单
@@ -141,4 +144,5 @@ public interface IOrderBO extends IPaginableBO<Order> {
      * @history:
      */
     public Order getOrder(String code);
+
 }

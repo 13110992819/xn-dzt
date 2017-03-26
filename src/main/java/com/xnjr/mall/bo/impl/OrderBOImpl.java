@@ -21,6 +21,7 @@ import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.dao.IOrderDAO;
 import com.xnjr.mall.dao.IProductOrderDAO;
 import com.xnjr.mall.domain.Order;
+import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.domain.ProductOrder;
 import com.xnjr.mall.enums.EOrderStatus;
 import com.xnjr.mall.exception.BizException;
@@ -50,6 +51,10 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
             return true;
         }
         return false;
+    }
+
+    public void calculateAmount(Order order, Product product) {
+
     }
 
     /** 
@@ -253,4 +258,5 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         }
         return count;
     }
+
 }

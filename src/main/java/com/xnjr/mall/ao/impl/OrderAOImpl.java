@@ -93,41 +93,40 @@ public class OrderAOImpl implements IOrderAO {
     @Override
     @Transactional
     public String commitOrder(XN808050Req req) {
-        // 计算订单总价
-        Product product = productBO.getProduct(productCode);
-        if (product.getQuantity() != null) {
-            if ((product.getQuantity() - quantity) < 0) {
-                throw new BizException("xn0000", "该商品库存量不足，无法购买");
-            }
-            // 减去库存量
-            productBO.refreshProductQuantity(productCode, quantity);
-        }
+        Order order = new Order();
+        Integer quantity = StringValidater.toInteger(req.getQuantity());
+
+        Product product = productBO.getProduct(req.getProductCode());
+
+        // 计算订单各种金额
+        orderBO.calculateAmount(order, product);
+
         if (null != product.getPrice1()) {
             Long amount1 = quantity * product.getPrice1();
-            data.setAmount1(amount1);
+            order.setAmount1(amount1);
             // 计算订单运费
-            Long yunfei = totalYunfei(data.getSystemCode(),
+            Long yunfei = totalYunfei(product.getSystemCode(),
                 product.getCompanyCode(), amount1);
-            data.setYunfei(yunfei);
+            order.setYunfei(yunfei);
         }
         if (null != product.getPrice2()) {
             Long amount2 = quantity * product.getPrice2();
-            data.setAmount2(amount2);
+            order.setAmount2(amount2);
         }
         if (null != product.getPrice3()) {
             Long amount3 = quantity * product.getPrice3();
-            data.setAmount3(amount3);
+            order.setAmount3(amount3);
         }
         // 设置订单所属公司
-        data.setCompanyCode(product.getCompanyCode());
-        data.setSystemCode(product.getSystemCode());
+        order.setCompanyCode(product.getCompanyCode());
+        order.setSystemCode(product.getSystemCode());
         // 订单号生成
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
-        data.setCode(code);
-        orderBO.saveOrder(data);
+        order.setCode(code);
+        orderBO.saveOrder(order);
         // 订单产品快照关联
-        productOrderBO.saveProductOrder(code, productCode, quantity,
+        productOrderBO.saveProductOrder(code, req.getProductCode(), quantity,
             product.getPrice1(), product.getPrice2(), product.getPrice3(),
             product.getSystemCode());
         return code;
