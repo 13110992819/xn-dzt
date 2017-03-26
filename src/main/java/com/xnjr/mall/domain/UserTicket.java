@@ -36,34 +36,9 @@ public class UserTicket extends ABaseDO {
     private String systemCode;
 
     // *************db properties************
-    // 折扣券名称
-    private String ticketName;
-
-    // 折扣券类型
-    private String ticketType;
-
-    // 折扣券Key1
-    private Long ticketKey1;
-
-    // 折扣券key2
-    private Long ticketKey2;
-
-    // 店铺编号
-    private String storeCode;
 
     // 店铺折扣券
     private StoreTicket storeTicket;
-
-    // 店铺
-    private Store store;
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
-    }
 
     public StoreTicket getStoreTicket() {
         return storeTicket;
@@ -71,14 +46,6 @@ public class UserTicket extends ABaseDO {
 
     public void setStoreTicket(StoreTicket storeTicket) {
         this.storeTicket = storeTicket;
-    }
-
-    public String getStoreCode() {
-        return storeCode;
-    }
-
-    public void setStoreCode(String storeCode) {
-        this.storeCode = storeCode;
     }
 
     public String getCode() {
@@ -127,38 +94,6 @@ public class UserTicket extends ABaseDO {
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
-    }
-
-    public String getTicketName() {
-        return ticketName;
-    }
-
-    public void setTicketName(String ticketName) {
-        this.ticketName = ticketName;
-    }
-
-    public String getTicketType() {
-        return ticketType;
-    }
-
-    public void setTicketType(String ticketType) {
-        this.ticketType = ticketType;
-    }
-
-    public Long getTicketKey1() {
-        return ticketKey1;
-    }
-
-    public void setTicketKey1(Long ticketKey1) {
-        this.ticketKey1 = ticketKey1;
-    }
-
-    public Long getTicketKey2() {
-        return ticketKey2;
-    }
-
-    public void setTicketKey2(Long ticketKey2) {
-        this.ticketKey2 = ticketKey2;
     }
 
     public String getCompanyCode() {

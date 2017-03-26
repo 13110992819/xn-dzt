@@ -8,8 +8,6 @@
  */
 package com.xnjr.mall.bo;
 
-import java.util.Map;
-
 import com.xnjr.mall.dto.res.PayBalanceRes;
 import com.xnjr.mall.dto.res.XN802180Res;
 import com.xnjr.mall.dto.res.XN802503Res;
@@ -31,19 +29,7 @@ public interface IAccountBO {
      * @create: 2016年12月28日 下午2:29:43 xieyj
      * @history:
      */
-    public XN802503Res getAccountByUserId(String systemCode, String userId,
-            String currency);
-
-    /**
-     * 获取用户所有的账户
-     * @param systemCode
-     * @param userId
-     * @return 
-     * @create: 2017年1月10日 下午8:32:36 xieyj
-     * @history:
-     */
-    public Map<String, XN802503Res> getAccountsByUser(String systemCode,
-            String userId);
+    public XN802503Res getAccountByUserId(String userId, String currency);
 
     /**
      * 账户划转资金

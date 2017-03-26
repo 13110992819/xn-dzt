@@ -14,13 +14,13 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808240Req {
-    // 商家编号
+    // 商家编号（必填）
     private String storeCode;
 
-    // 用户编号
+    // 用户编号（必填）
     private String userId;
 
-    // 点赞/收藏
+    // 点赞/收藏（必填）
     private String type;
 
     public String getStoreCode() {

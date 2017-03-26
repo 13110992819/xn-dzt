@@ -14,23 +14,20 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808241Req {
-    // 商家编号
-    private String storeCode;
-
-    // 用户编号
+    // 用户编号（必填）
     private String userId;
 
-    // 折扣券购买记录编号
-    private String ticketCode;
+    // 商家编号（必填）
+    private String storeCode;
 
-    // 消费金额
+    // 消费金额（必填）
     private String amount;
 
-    // 支付类型
+    // 支付类型（必填）
     private String payType;
 
-    // IP
-    private String ip;
+    // 折扣券购买记录编号（选填）
+    private String ticketCode;
 
     public String getPayType() {
         return payType;
@@ -70,14 +67,6 @@ public class XN808241Req {
 
     public void setAmount(String amount) {
         this.amount = amount;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
     }
 
 }

@@ -44,22 +44,8 @@ public class AccountBOImpl implements IAccountBO {
     @Override
     public XN802503Res getAccountByUserId(String systemCode, String userId,
             String currency) {
-        Map<String, XN802503Res> map = this.getAccountsByUser(systemCode,
-            userId);
-        XN802503Res result = map.get(currency);
-        if (null == result) {
-            throw new BizException("xn000000", "用户[" + userId + "]账户不存在");
-        }
-        return result;
-    }
 
-    /**
-     * @see com.xnjr.mall.bo.IAccountBO#getAccountsByUser(java.lang.String, java.lang.String)
-     */
-    @Override
-    public Map<String, XN802503Res> getAccountsByUser(String systemCode,
-            String userId) {
-        Map<String, XN802503Res> resultMap = new HashMap<String, XN802503Res>();
+        Map<String, XN802503Res> map = new HashMap<String, XN802503Res>();
         XN802503Req req = new XN802503Req();
         req.setSystemCode(systemCode);
         req.setUserId(userId);
@@ -70,9 +56,15 @@ public class AccountBOImpl implements IAccountBO {
             new TypeToken<List<XN802503Res>>() {
             }.getType());
         for (XN802503Res xn802503Res : list) {
-            resultMap.put(xn802503Res.getCurrency(), xn802503Res);
+            map.put(xn802503Res.getCurrency(), xn802503Res);
         }
-        return resultMap;
+
+        XN802503Res result = map.get(currency);
+        if (null == result) {
+            throw new BizException("xn000000", "用户[" + userId + "]账户不存在");
+        }
+        return result;
+
     }
 
     /** 
