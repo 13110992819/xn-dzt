@@ -16,6 +16,18 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="code != null and code != '' ">
+				AND t.product_code = #{product_code}
+			</if>
+			<if test="productCode != null and productCode != '' ">
+				AND t.product_code = #{productCode}
+			</if>
+			<if test="companyCode != null and companyCode != '' ">
+				AND t.company_code = #{companyCode}
+			</if>
+			<if test="systemCode != null and systemCode != '' ">
+				AND t.system_code = #{systemCode}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_productSpecs" parameterType="productSpecs" resultMap="productSpecs_DB_Result">
@@ -68,14 +80,17 @@
 	<update id="update_productSpecs" parameterType="productSpecs">
 		UPDATE tmall_product_specs
 		SET
-		product_code = #{productCode}
-		,dkey = #{dkey}
+		dkey = #{dkey}
 		,dvalue = #{dvalue}
 		,order_no = #{orderNo}
-		,company_code = #{companyCode}
-		,system_code = #{systemCode}
 		WHERE code = #{code}
 	</update>
 
+    <delete id="delete_productSpecs" parameterType="productSpecs">
+		DELETE FROM
+		tmall_product_specs
+		WHERE
+		code = #{code}
+	</delete>
 
 </mapper>

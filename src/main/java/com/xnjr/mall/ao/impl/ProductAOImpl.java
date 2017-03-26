@@ -19,11 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xnjr.mall.ao.IProductAO;
 import com.xnjr.mall.bo.ICategoryBO;
 import com.xnjr.mall.bo.IProductBO;
+import com.xnjr.mall.bo.IProductSpecsBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Category;
 import com.xnjr.mall.domain.Product;
+import com.xnjr.mall.domain.ProductSpecs;
 import com.xnjr.mall.dto.req.XN808010Req;
 import com.xnjr.mall.dto.req.XN808012Req;
 import com.xnjr.mall.dto.req.XN808013Req;
@@ -44,6 +46,9 @@ public class ProductAOImpl implements IProductAO {
 
     @Autowired
     private IProductBO productBO;
+
+    @Autowired
+    private IProductSpecsBO productSpecsBO;
 
     @Override
     public String addProduct(XN808010Req req) {
@@ -154,6 +159,11 @@ public class ProductAOImpl implements IProductAO {
     @Override
     public Product getProduct(String code) {
         Product product = productBO.getProduct(code);
+        if (null != product) {
+            List<ProductSpecs> productSpecs = productSpecsBO
+                .queryProductSpecsList(code);
+            product.setProductSpecs(productSpecs);
+        }
         return product;
     }
 
