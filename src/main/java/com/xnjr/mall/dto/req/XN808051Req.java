@@ -3,7 +3,7 @@ package com.xnjr.mall.dto.req;
 import java.util.List;
 
 /**
- * 提交订单
+ * 购物车批量下单
  * @author: xieyj 
  * @since: 2016年5月23日 上午8:46:53 
  * @history:
@@ -98,5 +98,13 @@ public class XN808051Req {
 
     public void setReceiptTitle(String receiptTitle) {
         this.receiptTitle = receiptTitle;
+    }
+
+    public String getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
     }
 }

@@ -1,7 +1,7 @@
 package com.xnjr.mall.dto.req;
 
 /**
- * 选择一个产品，提交订单
+ * 立即下单
  * @author: xieyj 
  * @since: 2016年5月23日 上午8:46:53 
  * @history:

@@ -14,7 +14,7 @@ package com.xnjr.mall.enums;
  * @history:
  */
 public enum EOrderType {
-    SH_SALE("1", "散买"), PFS_SALE("2", "批发"), FXS_SALE("3", "分销商订单");
+    SH_SALE("1", "散买");
 
     EOrderType(String code, String value) {
         this.code = code;

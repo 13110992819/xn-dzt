@@ -43,12 +43,12 @@ import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.domain.ProductOrder;
 import com.xnjr.mall.dto.req.XN808050Req;
 import com.xnjr.mall.dto.res.XN802180Res;
-import com.xnjr.mall.dto.res.XN808051Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.EBoolean;
 import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EOrderStatus;
+import com.xnjr.mall.enums.EOrderType;
 import com.xnjr.mall.enums.EPayType;
 import com.xnjr.mall.enums.ESysUser;
 import com.xnjr.mall.exception.BizException;
@@ -92,11 +92,21 @@ public class OrderAOImpl implements IOrderAO {
     public String commitOrder(XN808050Req req) {
         Order order = new Order();
 
+        Order data = new Order();
+        data.setApplyUser(req.getApplyUser());
+        data.setApplyNote(req.getApplyNote());
+        data.setReceiptType(req.getReceiptType());
+        data.setReceiptTitle(req.getReceiptTitle());
+        data.setType(EOrderType.SH_SALE.getCode());
+        data.setReceiver(req.getReceiver());
+        data.setReMobile(req.getReMobile());
+        data.setReAddress(req.getReAddress());
+
         Integer quantity = StringValidater.toInteger(req.getQuantity());
         Product product = productBO.getProduct(req.getProductCode());
 
         // 计算订单金额
-        orderBO.calculateAmount(order, product);
+        orderBO.calculateAmount1(product);
 
         if (null != product.getPrice1()) {
             Long amount1 = quantity * product.getPrice1();
@@ -122,7 +132,7 @@ public class OrderAOImpl implements IOrderAO {
             .getCode());
         order.setCode(code);
         orderBO.saveOrder(order);
-        // 订单产品快照关联
+        // 订单产品关联
         productOrderBO.saveProductOrder(code, req.getProductCode(), quantity,
             product.getPrice1(), product.getPrice2(), product.getPrice3(),
             product.getSystemCode());
@@ -134,14 +144,10 @@ public class OrderAOImpl implements IOrderAO {
      */
     @Override
     @Transactional
-    public XN808051Res commitOrder(List<String> cartCodeList, Order data) {
-        XN808051Res res = new XN808051Res();
-        Long cnyAmount = 0L;
-        Long gwAmount = 0L;
-        Long qbAmount = 0L;
+    public List<String> commitCartOrderZH(List<String> cartCodeList, Order data) {
         List<String> result = new ArrayList<String>();
         // 按公司编号进行拆单, 遍历获取公司编号列表
-        Map<String, String> companyMap = new HashMap<String, String>();
+        List<String> companyList = new HashMap<String, String>();
         for (String cartCode : cartCodeList) {
             Cart cart = cartBO.getCart(cartCode);
             Product product = productBO.getProduct(cart.getProductCode());
@@ -158,18 +164,11 @@ public class OrderAOImpl implements IOrderAO {
                 if (company.equals(companyCode)) {
                     cartsCompany.add(cartCode);
                 }
-                cnyAmount += cart.getQuantity() * cart.getPrice1();
-                gwAmount += cart.getQuantity() * cart.getPrice2();
-                qbAmount += cart.getQuantity() * cart.getPrice3();
             }
             String orderCode = commitOneOrder(cartsCompany, data);
             result.add(orderCode);
         }
-        res.setCodeList(result);
-        res.setCnyAmount(cnyAmount);
-        res.setGwAmount(gwAmount);
-        res.setQbAmount(qbAmount);
-        return res;
+        return result;
     }
 
     private String commitOneOrder(List<String> cartCodeList, Order data) {

@@ -27,7 +27,7 @@ public class Order extends ABaseDO {
     // 编号
     private String code;
 
-    // 类型(散买，批发)
+    // 类型
     private String type;
 
     // 向谁提货
@@ -120,20 +120,14 @@ public class Order extends ABaseDO {
     // 申请开始时间止
     private Date applyDatetimeEnd;
 
-    // 更新时间起
-    private Date updateDatetimeStart;
-
-    // 更新时间止
-    private Date updateDatetimeEnd;
-
     // 模糊查询使用
     private String codeForQuery;
 
-    // 下单人手机号
-    private String mobile;
-
     // 订单产品详情列表
     List<ProductOrder> productOrderList;
+
+    // 下单人
+    private User user;
 
     public String getCode() {
         return code;
@@ -391,22 +385,6 @@ public class Order extends ABaseDO {
         this.applyDatetimeEnd = applyDatetimeEnd;
     }
 
-    public Date getUpdateDatetimeStart() {
-        return updateDatetimeStart;
-    }
-
-    public void setUpdateDatetimeStart(Date updateDatetimeStart) {
-        this.updateDatetimeStart = updateDatetimeStart;
-    }
-
-    public Date getUpdateDatetimeEnd() {
-        return updateDatetimeEnd;
-    }
-
-    public void setUpdateDatetimeEnd(Date updateDatetimeEnd) {
-        this.updateDatetimeEnd = updateDatetimeEnd;
-    }
-
     public String getCodeForQuery() {
         return codeForQuery;
     }
@@ -415,20 +393,20 @@ public class Order extends ABaseDO {
         this.codeForQuery = codeForQuery;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
     public List<ProductOrder> getProductOrderList() {
         return productOrderList;
     }
 
     public void setProductOrderList(List<ProductOrder> productOrderList) {
         this.productOrderList = productOrderList;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

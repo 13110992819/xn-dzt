@@ -6,9 +6,8 @@ import com.xnjr.mall.ao.IOrderAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.domain.Order;
 import com.xnjr.mall.dto.req.XN808051Req;
-import com.xnjr.mall.enums.EOrderType;
+import com.xnjr.mall.enums.ESystemCode;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
@@ -20,7 +19,7 @@ import com.xnjr.mall.spring.SpringContextHolder;
  * @history:
  */
 public class XN808051 extends AProcessor {
-    private IOrderAO invoiceAO = SpringContextHolder.getBean(IOrderAO.class);
+    private IOrderAO orderAO = SpringContextHolder.getBean(IOrderAO.class);
 
     private XN808051Req req = null;
 
@@ -29,16 +28,10 @@ public class XN808051 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        Order data = new Order();
-        data.setApplyUser(req.getApplyUser());
-        data.setApplyNote(req.getApplyNote());
-        data.setReceiptType(req.getReceiptType());
-        data.setReceiptTitle(req.getReceiptTitle());
-        data.setType(EOrderType.SH_SALE.getCode());
-        data.setReceiver(req.getReceiver());
-        data.setReMobile(req.getReMobile());
-        data.setReAddress(req.getReAddress());
-        return invoiceAO.commitOrder(req.getCartCodeList(), data);
+        if (ESystemCode.ZHPAY.getCode().equals(req.get)) {
+
+        }
+        return orderAO.commitCartOrder(req);
     }
 
     /** 
