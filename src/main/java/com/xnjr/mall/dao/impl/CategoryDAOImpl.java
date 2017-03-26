@@ -37,7 +37,7 @@ public class CategoryDAOImpl extends AMybatisTemplate implements ICategoryDAO {
      */
     @Override
     public int delete(Category data) {
-        return super.delete(NAMESPACE.concat("delete_category"), data);
+        return 0;
     }
 
     /** 
@@ -82,6 +82,16 @@ public class CategoryDAOImpl extends AMybatisTemplate implements ICategoryDAO {
     @Override
     public int update(Category data) {
         return super.update(NAMESPACE.concat("update_category"), data);
+    }
+
+    @Override
+    public int putOn(Category data) {
+        return super.update(NAMESPACE.concat("update_putOn"), data);
+    }
+
+    @Override
+    public int putOff(Category data) {
+        return super.update(NAMESPACE.concat("update_putOff"), data);
     }
 
 }

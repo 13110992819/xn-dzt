@@ -62,7 +62,7 @@ public class ProductAOImpl implements IProductAO {
         data.setAdvPic(req.getAdvPic());
         data.setPic(req.getPic());
         data.setDescription(req.getDescription());
-        if (ESystemCode.ZHPAY.getCode().equals(category.getSystemCode())) {
+        if (ESystemCode.ZHPAY.getCode().equals(req.getSystemCode())) {
             data.setStatus(EProductStatus.TO_APPROVE.getCode());
         } else {
             data.setStatus(EProductStatus.APPROVE_YES.getCode());
@@ -71,6 +71,7 @@ public class ProductAOImpl implements IProductAO {
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());
+        data.setBoughtCount(0);
         data.setCompanyCode(req.getCompanyCode());
         data.setSystemCode(req.getSystemCode());
         productBO.saveProduct(data);
@@ -187,6 +188,8 @@ public class ProductAOImpl implements IProductAO {
             product.setCode(code);
             product.setLocation(req.getLocation());
             product.setOrderNo(StringValidater.toInteger(req.getOrderNo()));
+            product.setOriginalPrice(StringValidater.toLong(req
+                .getOriginalPrice()));
             product.setPrice1(StringValidater.toLong(req.getPrice1()));
             product.setPrice2(StringValidater.toLong(req.getPrice2()));
             product.setPrice3(StringValidater.toLong(req.getPrice3()));

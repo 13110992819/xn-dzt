@@ -5,14 +5,14 @@
 	<resultMap id="category_DB_Result" type="category">
 		<result column="code" property="code" />
 		<result column="parent_code" property="parentCode" />
-		<result column="parent_name" property="parentName" />
-		<result column="type" property="type" />
 		<result column="name" property="name" />
 		<result column="pic" property="pic" />
 		<result column="order_no" property="orderNo" />
-		<result column="belong" property="belong" />
+		<result column="status" property="status" />
 		<result column="company_code" property="companyCode" />
 		<result column="system_code" property="systemCode" />
+		
+		<result column="parent_name" property="parentName" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -22,14 +22,14 @@
 			<if test="parentCode != null and parentCode != '' ">
 				AND t.parent_code = #{parentCode}
 			</if>
-			<if test="type != null and type != '' ">
-				AND t.type = #{type}
-			</if>
 			<if test="name != null and name != '' ">
-				AND t.name = #{name}
+				AND t.name like "%"#{name}"%"
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
 			</if>
 			<if test="companyCode != null and companyCode != '' ">
-				AND (t.company_code = #{companyCode} or (t.belong = 1 and NOT EXISTS (select * from tmall_category tc where tc.belong = t.code and tc.company_code = #{companyCode})))
+				AND t.company_code = #{companyCode}
 			</if>
 			<if test="systemCode != null and systemCode != '' ">
 				AND t.system_code = #{systemCode}
@@ -41,11 +41,10 @@
 		t.code
 		,t.parent_code
 		,(select name from tmall_category tc where tc.code = t.parent_code) as parent_name
-		,t.type
 		,t.name
 		,t.pic
 		,t.order_no
-		,t.belong
+		,t.status
 		,t.company_code
 		,t.system_code
 		FROM
@@ -70,22 +69,20 @@
 		tmall_category(
 		code
 		,parent_code
-		,type
 		,name
 		,pic
 		,order_no
-		,belong
+		,status
 		,company_code
 		,system_code
 		)
 		VALUES(
 		#{code}
 		,#{parentCode}
-		,#{type}
 		,#{name}
 		,#{pic}
 		,#{orderNo}
-		,#{belong}
+		,#{status}
 		,#{companyCode}
 		,#{systemCode}
 		)
@@ -101,10 +98,18 @@
 		WHERE code = #{code}
 	</update>
 	
-	<delete id="delete_category" parameterType="category">
-		DELETE FROM
-		tmall_category
-		WHERE
-		code = #{code}
-	</delete>
+	<update id="update_putOn" parameterType="category">
+		UPDATE tmall_category
+		SET
+		status = #{status}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_putOff" parameterType="category">
+		UPDATE tmall_category
+		SET
+		status = #{status}
+		WHERE code = #{code}
+	</update>
+	
 </mapper>

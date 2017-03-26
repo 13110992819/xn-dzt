@@ -23,6 +23,9 @@ public class XN808013Req {
     // 相对位置编号(必填)
     private String orderNo;
 
+    // 市场价/原价(必填)
+    private String originalPrice;
+
     // 价格1(必填)
     private String price1;
 
@@ -100,6 +103,14 @@ public class XN808013Req {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getOriginalPrice() {
+        return originalPrice;
+    }
+
+    public void setOriginalPrice(String originalPrice) {
+        this.originalPrice = originalPrice;
     }
 
 }

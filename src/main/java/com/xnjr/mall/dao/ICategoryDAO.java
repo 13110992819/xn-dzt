@@ -20,4 +20,8 @@ public interface ICategoryDAO extends IBaseDAO<Category> {
     String NAMESPACE = ICategoryDAO.class.getName().concat(".");
 
     public int update(Category data);
+
+    public int putOn(Category data);
+
+    public int putOff(Category data);
 }

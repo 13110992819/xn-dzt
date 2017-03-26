@@ -31,6 +31,7 @@ public class CategoryAOImpl implements ICategoryAO {
         data.setName(req.getName());
         data.setPic(req.getPic());
         data.setOrderNo(Integer.valueOf(req.getOrderNo()));
+        data.setStatus(ECategoryStatus.TO_ON.getCode());
         data.setCompanyCode(req.getCompanyCode());
         data.setSystemCode(req.getSystemCode());
         categoryBO.saveCategory(data);
