@@ -1,29 +1,26 @@
 /**
- * @Title XNlh5014.java 
+ * @Title XNlh5015.java 
  * @Package com.xnjr.moom.api.impl 
  * @Description 
  * @author haiqingzheng  
- * @date 2016年4月17日 下午8:06:49 
+ * @date 2016年4月17日 下午8:14:13 
  * @version V1.0   
  */
 package com.xnjr.mall.api.impl;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.xnjr.mall.ao.ISYSDictAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.domain.SYSDict;
 import com.xnjr.mall.dto.req.XN808906Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 列表查询数据字典
+ * 详情查询数据字典
  * @author: haiqingzheng 
- * @since: 2016年4月17日 下午8:06:49 
+ * @since: 2016年4月17日 下午8:14:13 
  * @history:
  */
 public class XN808906 extends AProcessor {
@@ -37,16 +34,7 @@ public class XN808906 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        SYSDict condition = new SYSDict();
-        condition.setType(req.getType());
-        condition.setParentKey(req.getParentKey());
-        condition.setDkey(req.getDkey());
-        String orderColumn = req.getOrderColumn();
-        if (StringUtils.isBlank(orderColumn)) {
-            orderColumn = ISYSDictAO.DEFAULT_ORDER_COLUMN;
-        }
-        condition.setOrder(orderColumn, req.getOrderDir());
-        return sysDictAO.querySysDictList(condition);
+        return sysDictAO.getSYSDict(StringValidater.toLong(req.getId()));
     }
 
     /** 
@@ -55,6 +43,6 @@ public class XN808906 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808906Req.class);
-        StringValidater.validateBlank(req.getSystemCode());
+        StringValidater.validateBlank(req.getId());
     }
 }
