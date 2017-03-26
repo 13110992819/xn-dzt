@@ -16,11 +16,13 @@ import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.StoreTicket;
+import com.xnjr.mall.domain.UserTicket;
 import com.xnjr.mall.dto.req.XN808250Req;
 import com.xnjr.mall.dto.req.XN808252Req;
 import com.xnjr.mall.enums.EBoolean;
 import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EStoreTicketStatus;
+import com.xnjr.mall.enums.EUserTicketStatus;
 import com.xnjr.mall.exception.BizException;
 
 @Service
@@ -177,27 +179,17 @@ public class StoreTicketAOImpl implements IStoreTicketAO {
     @Override
     public void doChangeStatusByInvalid() {
         logger.info("***************开始扫描失效折扣券记录***************");
-        // StoreTicket condition = new StoreTicket();
-        // condition.setStatus("12");
-        // condition.setValidateEndEnd(new Date());
-        // List<StoreTicket> storeTicketList = storeTicketBO
-        // .queryStoreTicketList(condition);
-        // if (CollectionUtils.isNotEmpty(storeTicketList)) {
-        // for (StoreTicket storeTicket : storeTicketList) {
-        // storeTicketBO.refreshStatus(storeTicket.getCode(),
-        // EStoreTicketStatus.INVAILD.getCode());
-        // UserTicket utCondition = new UserTicket();
-        // utCondition.setTicketCode(storeTicket.getCode());
-        // utCondition.setStatus(EUserTicketStatus.UNUSED.getCode());
-        // List<UserTicket> utList = userTicketBO
-        // .queryUserTicketList(utCondition);
-        // for (UserTicket userTicket : utList) {
-        // userTicketBO.refreshUserTicketStatus(userTicket.getCode(),
-        // EUserTicketStatus.INVAILD.getCode());
-        // }
-        // }
-        // }
+        List<StoreTicket> storeTicketList = storeTicketBO
+            .queryWillInValidList();
+        for (StoreTicket storeTicket : storeTicketList) {
+            storeTicketBO.invalid(storeTicket.getCode());
+            List<UserTicket> utList = userTicketBO.queryUserTicketList(
+                storeTicket.getCode(), EUserTicketStatus.UNUSED.getCode());
+            for (UserTicket userTicket : utList) {
+                userTicketBO.refreshUserTicketStatus(userTicket.getCode(),
+                    EUserTicketStatus.INVAILD.getCode());
+            }
+        }
         logger.info("***************结束扫描失效折扣券记录***************");
-
     }
 }

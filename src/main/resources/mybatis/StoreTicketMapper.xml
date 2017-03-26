@@ -135,6 +135,13 @@
 		WHERE code = #{code}
 	</update>
 	
+	<update id="invalid" parameterType="storeTicket">
+		UPDATE to2o_store_ticket
+		SET
+		status = #{status}
+		WHERE code = #{code}
+	</update>
+	
 	<delete id="delete_storeTicket" parameterType="storeTicket">
 		DELETE FROM
 		to2o_store_ticket

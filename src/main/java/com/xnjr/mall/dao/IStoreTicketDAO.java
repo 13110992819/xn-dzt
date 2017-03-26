@@ -9,4 +9,6 @@ public interface IStoreTicketDAO extends IBaseDAO<StoreTicket> {
     public int update(StoreTicket data);
 
     public int putOnOff(StoreTicket data);
+
+    public int invalid(StoreTicket data);
 }

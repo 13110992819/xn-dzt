@@ -79,6 +79,14 @@ public class UserTicketBOImpl extends PaginableBOImpl<UserTicket> implements
         return userTicketDAO.selectList(condition);
     }
 
+    public List<UserTicket> queryUserTicketList(String storeTicketCode,
+            String status) {
+        UserTicket condition = new UserTicket();
+        condition.setTicketCode(storeTicketCode);
+        condition.setStatus(status);
+        return userTicketDAO.selectList(condition);
+    }
+
     @Override
     public UserTicket getUserTicket(String code) {
         UserTicket data = null;

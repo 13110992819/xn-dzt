@@ -33,6 +33,11 @@ public class StoreTicketDAOImpl extends AMybatisTemplate implements
     }
 
     @Override
+    public int invalid(StoreTicket data) {
+        return super.update(NAMESPACE.concat("invalid"), data);
+    }
+
+    @Override
     public StoreTicket select(StoreTicket condition) {
         return super.select(NAMESPACE.concat("select_storeTicket"), condition,
             StoreTicket.class);
