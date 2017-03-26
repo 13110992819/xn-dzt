@@ -11,10 +11,9 @@ import java.util.Map;
 public enum EGeneratePrefix {
 
     CATEGORY("FL", "分类"), PRODUCT("CP", "产品"), PRODUCT_SPECS("PS", "产品"), CART(
-            "GW", "购物车"), ORDER("DD", "定单"), PRODUCT_ORDER("CD", "产品订单"), IEWEL(
-            "IW", "夺宝标的"), IEWEL_RECORD("IR", "夺宝记录"), IEWEL_NUMBER("IN",
-            "夺宝记录编号"), STORE_TICKET("ZKQ", "店铺折扣券"), USER_TICKET("UT", "用户折扣券"), STORE_ACTION(
-            "HD", "店铺互动"), STORE_PURCHASW("XF", "商家消费记录"), SHAKE("YY", "摇一摇");
+            "GW", "购物车"), ORDER("DD", "定单"), PRODUCT_ORDER("CD", "产品订单"), STORE_TICKET(
+            "ZKQ", "店铺折扣券"), USER_TICKET("UT", "用户折扣券"), STORE_ACTION("HD",
+            "店铺互动"), STORE_PURCHASW("XF", "商家消费记录");
 
     public static Map<String, EGeneratePrefix> getMap() {
         Map<String, EGeneratePrefix> map = new HashMap<String, EGeneratePrefix>();
