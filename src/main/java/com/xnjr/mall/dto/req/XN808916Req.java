@@ -14,6 +14,7 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808916Req {
+    // id （必填）
     private String id;
 
     public String getId() {

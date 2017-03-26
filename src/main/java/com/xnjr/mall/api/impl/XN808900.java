@@ -19,9 +19,9 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 新增数据字典
- * @author: haiqingzheng 
- * @since: 2016年4月17日 下午5:00:02 
+ * 新增第二层数据字典
+ * @author: myb858 
+ * @since: 2017年3月26日 上午9:08:19 
  * @history:
  */
 public class XN808900 extends AProcessor {
@@ -35,9 +35,7 @@ public class XN808900 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return new PKIdRes(sysDictAO.addSYSDict(req.getType(),
-            req.getParentKey(), req.getDkey(), req.getDvalue(),
-            req.getRemark(), req.getSystemCode()));
+        return new PKIdRes(sysDictAO.addSecondDict(req));
     }
 
     /** 
@@ -46,7 +44,8 @@ public class XN808900 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808900Req.class);
-        StringValidater.validateBlank(req.getType(), req.getDkey(),
-            req.getDvalue(), req.getSystemCode());
+        StringValidater.validateBlank(req.getParentKey(), req.getDkey(),
+            req.getDvalue(), req.getUpdater(), req.getSystemCode(),
+            req.getCompanyCode());
     }
 }

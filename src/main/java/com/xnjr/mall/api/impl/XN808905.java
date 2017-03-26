@@ -38,9 +38,12 @@ public class XN808905 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         SYSDict condition = new SYSDict();
+        condition.setCompanyCode(req.getCompanyCode());
+        condition.setSystemCode(req.getSystemCode());
         condition.setType(req.getType());
         condition.setParentKey(req.getParentKey());
         condition.setDkey(req.getDkey());
+
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = ISYSDictAO.DEFAULT_ORDER_COLUMN;
@@ -57,7 +60,8 @@ public class XN808905 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808905Req.class);
-        StringValidater.validateBlank(req.getSystemCode());
+        StringValidater
+            .validateBlank(req.getSystemCode(), req.getCompanyCode());
     }
 
 }

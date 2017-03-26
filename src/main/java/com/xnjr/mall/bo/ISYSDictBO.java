@@ -20,20 +20,18 @@ import com.xnjr.mall.domain.SYSDict;
  */
 public interface ISYSDictBO extends IPaginableBO<SYSDict> {
 
-    public Long saveSYSDict(SYSDict data);
+    public Long saveSecondDict(SYSDict sysDict);
 
-    public int removeSYSDict(Long id);
+    public void removeSYSDict(Long id);
 
-    /**
-     * 修改数据字典
-     * @param sysDict
-     * @return 
-     * @create: 2016年4月17日 下午2:41:36 haiqingzheng
-     * @history:
-     */
-    public int refreshSYSDict(SYSDict data);
+    public void checkKeys(String parentKey, String key, String systemCode,
+            String companyCode);
+
+    public void refreshSYSDict(Long id, String value, String updater,
+            String remark);
+
+    public List<SYSDict> querySYSDictList(SYSDict condition);
 
     public SYSDict getSYSDict(Long id);
 
-    public List<SYSDict> querySYSDictList(SYSDict condition);
 }

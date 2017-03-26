@@ -4,7 +4,6 @@ import com.xnjr.mall.ao.ISYSConfigAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.domain.SYSConfig;
 import com.xnjr.mall.dto.req.XN808910Req;
 import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
@@ -25,19 +24,16 @@ public class XN808910 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        SYSConfig data = new SYSConfig();
-        data.setId(StringValidater.toLong(req.getId()));
-        data.setCvalue(req.getCvalue());
-        data.setRemark(req.getRemark());
-        data.setCompanyCode(req.getCompanyCode());
-        sysConfigAO.editSYSConfig(data);
+        sysConfigAO.editSYSConfig(StringValidater.toLong(req.getId()),
+            req.getCvalue(), req.getUpdater(), req.getRemark());
         return new BooleanRes(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808910Req.class);
-        StringValidater.validateBlank(req.getId(), req.getCvalue());
+        StringValidater.validateBlank(req.getId(), req.getUpdater(),
+            req.getCvalue());
     }
 
 }
