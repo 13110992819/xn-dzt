@@ -14,13 +14,13 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808205Req {
-    // 商家编号
+    // 商家编号(必填)
     private String code;
 
-    // 操作人
+    // 操作人(必填)
     private String updater;
 
-    // 备注
+    // 备注(选填)
     private String remark;
 
     public String getCode() {

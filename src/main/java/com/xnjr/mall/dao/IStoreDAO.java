@@ -14,11 +14,11 @@ public interface IStoreDAO extends IBaseDAO<Store> {
 
     public int update(Store data);
 
-    public int updateStatus(Store data);
-
     public int updateCheck(Store data);
 
     public int updateDZ(Store data);
 
     public int updateJF(Store data);
+
+    public void insertOss(Store store);
 }

@@ -18,7 +18,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 商家消费买单
+ * 正汇O2O消费
  * @author: haiqingzheng 
  * @since: 2016年12月19日 上午12:51:49 
  * @history:

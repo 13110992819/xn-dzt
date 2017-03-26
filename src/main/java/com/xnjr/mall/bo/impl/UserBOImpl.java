@@ -79,16 +79,6 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
             Object.class);
     }
 
-    /** 
-     * @see com.xnjr.mall.bo.IUserBO#doSaveUser(com.xnjr.mall.dto.req.XN805042Req)
-     */
-    @Override
-    public String doSaveUser(XN805042Req req) {
-        XN805042Res res = BizConnecter.getBizData("805042",
-            JsonUtils.object2Json(req), XN805042Res.class);
-        return res.getUserId();
-    }
-
     @Override
     public String getUserId(String mobile, String kind, String systemCode) {
         String userId = null;
@@ -153,7 +143,7 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
         req.setProvince(province);
         req.setCity(city);
         req.setArea(area);
-        req.setKind(EUserKind.FCB.getCode());
+        req.setKind("ff3");
         String jsonStr = BizConnecter.getBizData("805060",
             JsonUtils.object2Json(req));
         Gson gson = new Gson();
@@ -161,5 +151,28 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
             new TypeToken<List<XN805060Res>>() {
             }.getType());
         return list;
+    }
+
+    @Override
+    public String isUserExist(String mobile, EUserKind kind, String systemCode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String doSaveBUser(String mobile, String updater, String systemCode,
+            String companyCode) {
+        XN805042Req req = new XN805042Req();
+        req.setLoginName(mobile);
+        req.setMobile(mobile);
+        req.setKind(EUserKind.F2.getCode());
+        req.setUpdater(updater);
+        req.setRemark("代注册商家");
+        req.setSystemCode(systemCode);
+        req.setCompanyCode(companyCode);
+        XN805042Res res = BizConnecter.getBizData("805042",
+            JsonUtils.object2Json(req), XN805042Res.class);
+        return res.getUserId();
+
     }
 }

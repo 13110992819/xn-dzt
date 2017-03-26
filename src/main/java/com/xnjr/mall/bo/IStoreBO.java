@@ -29,17 +29,9 @@ public interface IStoreBO extends IPaginableBO<Store> {
      * @create: 2016年9月20日 下午1:04:23 zuixian
      * @history: 
      */
-    public String saveStore(Store data);
+    public void saveStore(Store data);
 
-    /**
-     * 保存商家信息，加状态
-     * @param data
-     * @param status
-     * @return 
-     * @create: 2016年12月28日 下午12:12:02 xieyj
-     * @history:
-     */
-    public String saveStore(Store data, String status);
+    public void saveStoreOss(Store store);
 
     /** 
      * 更新商家信息
@@ -49,24 +41,6 @@ public interface IStoreBO extends IPaginableBO<Store> {
      * @history: 
      */
     public int refreshStore(Store data);
-
-    /** 
-     * 更新商家状态
-     * @param data
-     * @return 
-     * @create: 2016年9月20日 下午1:05:53 zuixian
-     * @history: 
-     */
-    public int refreshStoreStatus(Store data);
-
-    /**
-     * 店铺审核
-     * @param data
-     * @return 
-     * @create: 2016年12月18日 下午3:39:43 haiqingzheng
-     * @history:
-     */
-    public int refreshCheck(Store data);
 
     /**
      * 更新商家点赞数
@@ -104,4 +78,27 @@ public interface IStoreBO extends IPaginableBO<Store> {
      * @history:
      */
     public Store getStore(String storeCode);
+
+    public String isUserRefereeExist(String userReferee, String systemCode);
+
+    public void checkStore(Store dbStore, String checkResult, String checkUser,
+            String remark);
+
+    /**
+     * 一个人只能有一家店铺
+     * @param bUser
+     * @return 
+     * @create: 2017年3月26日 下午3:48:58 myb858
+     * @history:
+     */
+    public Store getStoreByUser(String bUser);
+
+    public void putOn(Store dbStore);
+
+    public void putOff(Store dbStore);
+
+    public void closeOpen(Store dbStore);
+
+    public void upLevel(Store dbStore);
+
 }

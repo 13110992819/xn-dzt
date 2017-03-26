@@ -4,7 +4,6 @@ import com.xnjr.mall.ao.IStoreAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.dto.req.XN808216Req;
 import com.xnjr.mall.dto.req.XN808218Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
@@ -23,12 +22,12 @@ public class XN808218 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        return storeAO.getStore(req.getCode());
+        return storeAO.getStoreFront(req.getCode(), req.getUserId());
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808216Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN808218Req.class);
         StringValidater.validateBlank(req.getCode());
     }
 

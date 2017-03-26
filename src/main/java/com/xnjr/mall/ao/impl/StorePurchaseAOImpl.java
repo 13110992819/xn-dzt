@@ -79,7 +79,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         Object result = null;
         Store store = storeBO.getStore(storeCode);
         String systemCode = store.getSystemCode();
-        if (!EStoreStatus.ONLINE_OPEN.getCode().equals(store.getStatus())) {
+        if (!EStoreStatus.ON_OPEN.getCode().equals(store.getStatus())) {
             throw new BizException("xn0000", "店铺不处于可消费状态");
         }
         // 优惠金额
@@ -417,5 +417,58 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                     .valueOf(yhAmount * o2oProvinceRate).longValue(),
                 EBizType.AJ_DPXF.getCode(), "优店消费买单,省合伙人分成");
         }
+
     }
+
+    // @Override
+    // @Transactional
+    // public int doDzStore(String userId, String code) {
+    // int count = 0;
+    // // 判断商店是否存在
+    // storeBO.isStoreExist(code);
+    // // 判断用户是否已经点赞过
+    // StoreAction storeAction = storeActionBO.getStoreActionByUser(code,
+    // EActionType.DZ, userId);
+    // if (storeAction != null) {
+    // storeActionBO.removeStoreActionByUser(code, userId);
+    // count = storeBO.refreshStoreDz(code, -1);
+    // } else {
+    // StoreAction talkData = new StoreAction();
+    // talkData.setStoreCode(code);
+    // talkData.setType(EActionType.DZ.getCode());
+    // talkData.setActioner(userId);
+    // storeActionBO.saveStoreAction(talkData);
+    // count = storeBO.refreshStoreDz(code, 1);
+    // }
+    // return count;
+    // }
+    //
+    // /**
+    // * @see com.xnjr.mall.ao.IStoreAO#doStorePurchase(java.lang.String,
+    // java.lang.String, java.lang.Long, java.lang.Long)
+    // */
+    // @Override
+    // @Transactional
+    // public void doStorePurchase(String fromUser, String toStore, Long amount,
+    // Long cnyAmount, Long jfCashBack, Long cnyCashBack) {
+    // Store data = storeBO.getStore(toStore);
+    // XN805901Res xn805901Res = userBO.getRemoteUser(fromUser, fromUser);
+    // // 商家累计金额增加
+    // data.setTotalJfNum(data.getTotalJfNum() + amount.intValue());
+    // storeBO.refreshStoreJF(data);
+    // // 产生消费记录
+    // storePurchaseBO.saveStorePurchase(toStore, fromUser, amount,
+    // cnyCashBack);
+    // // 账户扣除
+    // accountBO.doStorePurchase(fromUser, data.getUserId(), amount,
+    // cnyAmount, jfCashBack, cnyCashBack);
+    // // 发送短信给商家
+    // smsOutBO.sendSmsOut(
+    // data.getSmsMobile(),
+    // "尊敬的商户," + "手机号为"
+    // + PhoneUtil.hideMobile(xn805901Res.getLoginName())
+    // + "的用户向贵店消费" + amount / 1000 + "积分,请注意查收", "602906");
+    //
+    // }
+    //
 }

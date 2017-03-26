@@ -15,7 +15,7 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808203Req {
-    // 商家编号（必填）
+    // 编号（必填）
     private String code;
 
     // 名称（必填）
@@ -24,11 +24,8 @@ public class XN808203Req {
     // 类型（必填）
     private String type;
 
-    // 法人姓名（必填）
+    // 法人姓名（选填）
     private String legalPersonName;
-
-    // 推荐人（必填）
-    private String userReferee;
 
     // 使用折扣券分成比例（必填）
     private String rate1;
@@ -75,22 +72,11 @@ public class XN808203Req {
     // 附件（选填）
     private String pdf;
 
+    // 更新人（必填）
+    private String updater;
+
     // 备注（选填）
     private String remark;
-
-    // 所属公司编号
-    private String companyCode;
-
-    // 所属系统编号
-    private String systemCode;
-
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
 
     public String getCode() {
         return code;
@@ -122,14 +108,6 @@ public class XN808203Req {
 
     public void setLegalPersonName(String legalPersonName) {
         this.legalPersonName = legalPersonName;
-    }
-
-    public String getUserReferee() {
-        return userReferee;
-    }
-
-    public void setUserReferee(String userReferee) {
-        this.userReferee = userReferee;
     }
 
     public String getRate1() {
@@ -260,12 +238,12 @@ public class XN808203Req {
         this.remark = remark;
     }
 
-    public String getCompanyCode() {
-        return companyCode;
+    public String getUpdater() {
+        return updater;
     }
 
-    public void setCompanyCode(String companyCode) {
-        this.companyCode = companyCode;
+    public void setUpdater(String updater) {
+        this.updater = updater;
     }
 
 }

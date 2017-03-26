@@ -14,13 +14,11 @@ package com.xnjr.mall.enums;
  * @history:
  */
 public enum EStoreStatus {
-    TOCHECK("0", "待审核"), UNPASS("91", "审核不通过"), ONLINE_CLOSE("1", "已上架，关店"), ONLINE_OPEN(
-            "2", "已上架，开店"), OFFLINE("3", "已下架，关店");
+    TOCHECK("0", "待审核"), UNPASS("91", "审核不通过"), PASS("1", "审核通过待上架"), ON_OPEN(
+            "2", "已上架，开店"), ON_CLOSE("3", "已上架，关店"), OFF("4", "已下架");
     // 状态解释
-    // 1.审核通过，店铺自动上架，并且状态是关店
-    // 2.上架的店铺，可设置开店或关店状态
-    // 3.下架的店铺，状态是关店，不可以进行开关店操作，必须先上架
-    // 4.重新上架的店铺，状态默认是关店
+    // 待审核---审核---上架,上架后商家可自行关店开店，但其开店关店优先级小于平台的上架下架
+    // 平台上架后，并且状态是开店
 
     EStoreStatus(String code, String value) {
         this.code = code;

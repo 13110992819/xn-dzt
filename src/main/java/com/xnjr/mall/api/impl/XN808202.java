@@ -31,7 +31,7 @@ public class XN808202 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        storeAO.checkStore(req.getCode(), req.getApproveResult(),
+        storeAO.approveStore(req.getCode(), req.getApproveResult(),
             req.getApprover(), req.getRemark());
         return new BooleanRes(true);
     }

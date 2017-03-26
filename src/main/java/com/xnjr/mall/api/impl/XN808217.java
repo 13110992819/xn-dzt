@@ -7,7 +7,7 @@ import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Store;
-import com.xnjr.mall.dto.req.XN808215Req;
+import com.xnjr.mall.dto.req.XN808217Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
@@ -26,17 +26,22 @@ public class XN808217 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Store condition = new Store();
+        condition.setFromUser(req.getUserId());
         condition.setName(req.getName());
+        condition.setLevel(req.getLevel());
         condition.setType(req.getType());
-        condition.setLegalPersonName(req.getLegalPersonName());
-        condition.setUserReferee(req.getUserReferee());
+
         condition.setProvinceForQuery(req.getProvince());
         condition.setCityForQuery(req.getCity());
         condition.setAreaForQuery(req.getArea());
-        condition.setStatus(req.getStatus());
+        condition.setLatitude(req.getLatitude());
+        condition.setLongitude(req.getLongitude());
+
+        condition.setUiLocation(req.getUiLocation());
+        condition.setIsDefault(req.getIsDefault());
+
         condition.setSystemCode(req.getSystemCode());
-        condition.setUserLatitude(req.getUserLatitude());
-        condition.setUserLongitude(req.getUserLongitude());
+        condition.setCompanyCode(req.getCompanyCode());
 
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
@@ -45,12 +50,14 @@ public class XN808217 extends AProcessor {
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
-        return storeAO.queryStorePage(start, limit, condition);
+        return storeAO.queryStorePageFront(start, limit, condition);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808215Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN808217Req.class);
+        StringValidater.validateBlank(req.getStart(), req.getLimit(),
+            req.getCompanyCode(), req.getSystemCode());
     }
 
 }
