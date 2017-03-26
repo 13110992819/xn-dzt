@@ -7,9 +7,14 @@
 		<result column="user_id" property="userId" />
 		<result column="product_code" property="productCode" />
 		<result column="quantity" property="quantity" />
-		<result column="adv_pic" property="advPic" />
-		<result column="product_name" property="productName" />
-		<result column="sale_price" property="salePrice" />
+		<result column="company_code" property="companyCode" />
+		<result column="system_code" property="systemCode" />
+		
+		<result column="product_name" property="product.name" />
+		<result column="adv_pic" property="product.advPic" />
+		<result column="price1" property="product.price1" />
+		<result column="price2" property="product.price2" />
+		<result column="price3" property="product.price3" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -22,6 +27,12 @@
 			<if test="productCode != null and productCode != '' ">
 				AND t.product_code = #{productCode}
 			</if>
+			<if test="companyCode != null and companyCode != '' ">
+				AND t.company_code = #{companyCode}
+			</if>
+			<if test="systemCode != null and systemCode != '' ">
+				AND t.system_code = #{systemCode}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_cart" parameterType="cart" resultMap="cart_DB_Result">
@@ -30,6 +41,9 @@
 		,t.user_id
 		,t.product_code
 		,t.quantity
+		,t.company_code
+		,t.system_code
+		
 		,tp.name product_name
 		,tp.adv_pic adv_pic
 		,tp.price1 price1
@@ -58,6 +72,7 @@
 		,user_id
 		,product_code
 		,quantity
+		,company_code
 		,system_code
 		)
 		VALUES(
@@ -65,6 +80,7 @@
 		,#{userId}
 		,#{productCode}
 		,#{quantity}
+		,#{companyCode}
 		,#{systemCode}
 		)
 	</insert>
