@@ -17,11 +17,11 @@ public class XN808240Req {
     // 商家编号
     private String storeCode;
 
-    // 点赞/收藏
-    private String type;
-
     // 用户编号
     private String userId;
+
+    // 点赞/收藏
+    private String type;
 
     public String getStoreCode() {
         return storeCode;
@@ -31,6 +31,14 @@ public class XN808240Req {
         this.storeCode = storeCode;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -38,4 +46,5 @@ public class XN808240Req {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
 }
