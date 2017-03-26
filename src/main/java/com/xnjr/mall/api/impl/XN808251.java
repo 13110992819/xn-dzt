@@ -1,11 +1,3 @@
-/**
- * @Title XN808221.java 
- * @Package com.xnjr.mall.api.impl 
- * @Description 
- * @author haiqingzheng  
- * @date 2016年12月18日 下午9:39:55 
- * @version V1.0   
- */
 package com.xnjr.mall.api.impl;
 
 import com.xnjr.mall.ao.IStoreTicketAO;
@@ -47,5 +39,4 @@ public class XN808251 extends AProcessor {
         req = JsonUtil.json2Bean(inputparams, XN808251Req.class);
         StringValidater.validateBlank(req.getCode());
     }
-
 }

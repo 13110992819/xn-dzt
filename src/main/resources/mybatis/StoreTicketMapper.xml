@@ -124,10 +124,11 @@
 		,currency = #{currency}
 		,validate_start = #{validateStart}
 		,validate_end = #{validateEnd}
+		,status = #{status}
 		WHERE code = #{code}
 	</update>
 	
-	<update id="update_status" parameterType="storeTicket">
+	<update id="put_onOff" parameterType="storeTicket">
 		UPDATE to2o_store_ticket
 		SET
 		status = #{status}

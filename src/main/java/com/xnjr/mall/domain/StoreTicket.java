@@ -60,49 +60,14 @@ public class StoreTicket extends ABaseDO {
     private String systemCode;
 
     // ***************db properties****************
-    // 用户编号
-    private String userId;
-
-    // 是否已有 1 是 0 否
-    private String isExist;
+    // 传入的查询用户是否已购买该折扣卷
+    private String isBuy;
 
     // 有效期止开始时间
     private Date validateEndStart;
 
     // 有效期止结束时间
     private Date validateEndEnd;
-
-    public Date getValidateEndStart() {
-        return validateEndStart;
-    }
-
-    public void setValidateEndStart(Date validateEndStart) {
-        this.validateEndStart = validateEndStart;
-    }
-
-    public Date getValidateEndEnd() {
-        return validateEndEnd;
-    }
-
-    public void setValidateEndEnd(Date validateEndEnd) {
-        this.validateEndEnd = validateEndEnd;
-    }
-
-    public String getIsExist() {
-        return isExist;
-    }
-
-    public void setIsExist(String isExist) {
-        this.isExist = isExist;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getCode() {
         return code;
@@ -208,14 +173,6 @@ public class StoreTicket extends ABaseDO {
         this.storeCode = storeCode;
     }
 
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
-
     public String getCompanyCode() {
         return companyCode;
     }
@@ -224,4 +181,35 @@ public class StoreTicket extends ABaseDO {
         this.companyCode = companyCode;
     }
 
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
+    }
+
+    public String getIsBuy() {
+        return isBuy;
+    }
+
+    public void setIsBuy(String isBuy) {
+        this.isBuy = isBuy;
+    }
+
+    public Date getValidateEndStart() {
+        return validateEndStart;
+    }
+
+    public void setValidateEndStart(Date validateEndStart) {
+        this.validateEndStart = validateEndStart;
+    }
+
+    public Date getValidateEndEnd() {
+        return validateEndEnd;
+    }
+
+    public void setValidateEndEnd(Date validateEndEnd) {
+        this.validateEndEnd = validateEndEnd;
+    }
 }

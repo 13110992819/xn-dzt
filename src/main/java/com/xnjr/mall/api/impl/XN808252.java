@@ -10,10 +10,8 @@ package com.xnjr.mall.api.impl;
 
 import com.xnjr.mall.ao.IStoreTicketAO;
 import com.xnjr.mall.api.AProcessor;
-import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.domain.StoreTicket;
 import com.xnjr.mall.dto.req.XN808252Req;
 import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
@@ -37,20 +35,7 @@ public class XN808252 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        StoreTicket data = new StoreTicket();
-        data.setCode(req.getCode());
-        data.setName(req.getName());
-        data.setType(req.getType());
-        data.setKey1(StringValidater.toLong(req.getKey1()));
-        data.setKey2(StringValidater.toLong(req.getKey2()));
-        data.setDescription(req.getDescription());
-        data.setPrice(data.getKey2());
-        data.setCurrency(req.getCurrency());
-        data.setValidateStart(DateUtil.strToDate(req.getValidateStart(),
-            DateUtil.DATA_TIME_PATTERN_1));
-        data.setValidateEnd(DateUtil.strToDate(req.getValidateEnd(),
-            DateUtil.DATA_TIME_PATTERN_1));
-        storeTicketAO.editStoreTicket(data);
+        storeTicketAO.editStoreTicket(req);
         return new BooleanRes(true);
     }
 
@@ -61,9 +46,8 @@ public class XN808252 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808252Req.class);
         StringValidater.validateBlank(req.getCode(), req.getName(),
-            req.getType(), req.getKey1(), req.getKey2(), req.getDescription(),
-            req.getPrice(), req.getCurrency(), req.getValidateStart(),
-            req.getValidateEnd());
+            req.getType(), req.getDescription(), req.getPrice(),
+            req.getCurrency(), req.getValidateStart(), req.getValidateEnd(),
+            req.getIsPutaway());
     }
-
 }

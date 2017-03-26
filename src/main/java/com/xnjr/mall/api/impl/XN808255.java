@@ -40,9 +40,8 @@ public class XN808255 extends AProcessor {
         StoreTicket condition = new StoreTicket();
         condition.setName(req.getName());
         condition.setType(req.getType());
-        condition.setStatus(req.getStatus());
         condition.setStoreCode(req.getStoreCode());
-        condition.setUserId(req.getUserId());
+        condition.setStatus(req.getStatus());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = IStoreTicketAO.DEFAULT_ORDER_COLUMN;
@@ -50,7 +49,8 @@ public class XN808255 extends AProcessor {
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
-        return storeTicketAO.queryStoreTicketPage(start, limit, condition);
+        return storeTicketAO.queryStoreTicketPage(start, limit, condition,
+            req.getUserId());
     }
 
     /** 
@@ -59,7 +59,7 @@ public class XN808255 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808255Req.class);
-        StringValidater.validateBlank(req.getStart(), req.getLimit());
+        StringValidater.validateBlank(req.getStart(), req.getLimit(),
+            req.getCompanyCode(), req.getSystemCode());
     }
-
 }

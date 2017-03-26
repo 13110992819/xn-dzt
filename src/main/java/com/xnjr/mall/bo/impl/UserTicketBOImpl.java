@@ -34,6 +34,22 @@ public class UserTicketBOImpl extends PaginableBOImpl<UserTicket> implements
     }
 
     @Override
+    public boolean isExistBuyTicket(String userId, String storeTicketCode) {
+        boolean result = false;
+        if (StringUtils.isNotBlank(userId)) {
+            UserTicket condition = new UserTicket();
+            condition.setUserId(userId);
+            condition.setTicketCode(storeTicketCode);
+            condition.setStatus(EUserTicketStatus.UNUSED.getCode());
+            long total = userTicketDAO.selectTotalCount(condition);
+            if (total > 0) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public String saveUserTicket(UserTicket data) {
         String code = null;
         if (data != null) {

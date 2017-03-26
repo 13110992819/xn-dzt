@@ -23,6 +23,16 @@ public class StoreTicketDAOImpl extends AMybatisTemplate implements
     }
 
     @Override
+    public int update(StoreTicket data) {
+        return super.update(NAMESPACE.concat("update_storeTicket"), data);
+    }
+
+    @Override
+    public int putOnOff(StoreTicket data) {
+        return super.update(NAMESPACE.concat("put_onOff"), data);
+    }
+
+    @Override
     public StoreTicket select(StoreTicket condition) {
         return super.select(NAMESPACE.concat("select_storeTicket"), condition,
             StoreTicket.class);
@@ -46,15 +56,4 @@ public class StoreTicketDAOImpl extends AMybatisTemplate implements
         return super.selectList(NAMESPACE.concat("select_storeTicket"), start,
             count, condition, StoreTicket.class);
     }
-
-    @Override
-    public int update(StoreTicket data) {
-        return super.update(NAMESPACE.concat("update_storeTicket"), data);
-    }
-
-    @Override
-    public int updateStatus(StoreTicket data) {
-        return super.update(NAMESPACE.concat("update_status"), data);
-    }
-
 }

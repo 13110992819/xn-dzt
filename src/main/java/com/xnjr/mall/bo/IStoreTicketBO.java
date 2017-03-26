@@ -7,15 +7,13 @@ import com.xnjr.mall.domain.StoreTicket;
 
 public interface IStoreTicketBO extends IPaginableBO<StoreTicket> {
 
-    public boolean isStoreTicketExist(String code);
-
-    public String saveStoreTicket(StoreTicket data);
+    public void saveStoreTicket(StoreTicket data);
 
     public int removeStoreTicket(String code);
 
     public int refreshStoreTicket(StoreTicket data);
 
-    public int refreshStatus(String code, String status);
+    public int putOnOff(String code, String status);
 
     public List<StoreTicket> queryStoreTicketList(StoreTicket condition);
 

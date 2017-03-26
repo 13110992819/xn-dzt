@@ -15,43 +15,43 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808250Req {
-    // 折扣券名称
+    // 折扣券名称(必填)
     private String name;
 
-    // 类型(1 满减 2 返现)
+    // 类型(1 满减 2 返现)(必填)
     private String type;
 
-    // key1
+    // key1(选填)
     private String key1;
 
-    // key2
+    // key2(选填)
     private String key2;
 
-    // 使用详情
+    // 使用详情(必填)
     private String description;
 
-    // 销售价格
+    // 销售价格(必填)
     private String price;
 
-    // 币种
+    // 币种(必填)
     private String currency;
 
-    // 有效期起
+    // 有效期起(必填)
     private String validateStart;
 
-    // 有效期止
+    // 有效期止(必填)
     private String validateEnd;
 
-    // 商家编号
+    // 商家编号(必填)
     private String storeCode;
 
-    // 是否上架（0 不上架 1 上架）
+    // 是否上架（0 不上架 1 上架）(必填)
     private String isPutaway;
 
-    // 所属公司编号
+    // 所属公司编号(必填)
     private String companyCode;
 
-    // 系统编号
+    // 系统编号(必填)
     private String systemCode;
 
     public String getName() {
