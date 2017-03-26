@@ -19,11 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xnjr.mall.ao.IProductAO;
 import com.xnjr.mall.bo.ICategoryBO;
 import com.xnjr.mall.bo.IProductBO;
+import com.xnjr.mall.bo.IProductSpecsBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Category;
 import com.xnjr.mall.domain.Product;
+import com.xnjr.mall.domain.ProductSpecs;
 import com.xnjr.mall.dto.req.XN808010Req;
 import com.xnjr.mall.dto.req.XN808012Req;
 import com.xnjr.mall.dto.req.XN808013Req;
@@ -45,6 +47,9 @@ public class ProductAOImpl implements IProductAO {
     @Autowired
     private IProductBO productBO;
 
+    @Autowired
+    private IProductSpecsBO productSpecsBO;
+
     @Override
     public String addProduct(XN808010Req req) {
         // 根据小类获取大类
@@ -62,7 +67,7 @@ public class ProductAOImpl implements IProductAO {
         data.setAdvPic(req.getAdvPic());
         data.setPic(req.getPic());
         data.setDescription(req.getDescription());
-        if (ESystemCode.ZHPAY.getCode().equals(category.getSystemCode())) {
+        if (ESystemCode.ZHPAY.getCode().equals(req.getSystemCode())) {
             data.setStatus(EProductStatus.TO_APPROVE.getCode());
         } else {
             data.setStatus(EProductStatus.APPROVE_YES.getCode());
@@ -71,6 +76,7 @@ public class ProductAOImpl implements IProductAO {
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());
+        data.setBoughtCount(0);
         data.setCompanyCode(req.getCompanyCode());
         data.setSystemCode(req.getSystemCode());
         productBO.saveProduct(data);
@@ -153,6 +159,11 @@ public class ProductAOImpl implements IProductAO {
     @Override
     public Product getProduct(String code) {
         Product product = productBO.getProduct(code);
+        if (null != product) {
+            List<ProductSpecs> productSpecs = productSpecsBO
+                .queryProductSpecsList(code);
+            product.setProductSpecs(productSpecs);
+        }
         return product;
     }
 
@@ -187,6 +198,8 @@ public class ProductAOImpl implements IProductAO {
             product.setCode(code);
             product.setLocation(req.getLocation());
             product.setOrderNo(StringValidater.toInteger(req.getOrderNo()));
+            product.setOriginalPrice(StringValidater.toLong(req
+                .getOriginalPrice()));
             product.setPrice1(StringValidater.toLong(req.getPrice1()));
             product.setPrice2(StringValidater.toLong(req.getPrice2()));
             product.setPrice3(StringValidater.toLong(req.getPrice3()));

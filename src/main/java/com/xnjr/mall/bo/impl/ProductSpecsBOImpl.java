@@ -76,4 +76,11 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         }
         return data;
     }
+
+    @Override
+    public List<ProductSpecs> queryProductSpecsList(String productCode) {
+        ProductSpecs condition = new ProductSpecs();
+        condition.setProductCode(productCode);
+        return productSpecsDAO.selectList(condition);
+    }
 }

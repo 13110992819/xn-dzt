@@ -91,11 +91,11 @@ public class OrderAOImpl implements IOrderAO {
     @Transactional
     public String commitOrder(XN808050Req req) {
         Order order = new Order();
-        Integer quantity = StringValidater.toInteger(req.getQuantity());
 
+        Integer quantity = StringValidater.toInteger(req.getQuantity());
         Product product = productBO.getProduct(req.getProductCode());
 
-        // 计算订单各种金额
+        // 计算订单金额
         orderBO.calculateAmount(order, product);
 
         if (null != product.getPrice1()) {

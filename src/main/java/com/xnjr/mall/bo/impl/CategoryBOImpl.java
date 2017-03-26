@@ -61,7 +61,7 @@ public class CategoryBOImpl extends PaginableBOImpl<Category> implements
             Category data = new Category();
             data.setCode(code);
             data.setStatus(ECategoryStatus.OFF.getCode());
-            count = categoryDAO.putOn(data);
+            count = categoryDAO.putOff(data);
         }
         return count;
 

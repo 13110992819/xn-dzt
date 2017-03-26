@@ -7,26 +7,26 @@
 		<result column="category" property="category" />
 		<result column="type" property="type" />
 		<result column="name" property="name" />
-		<result column="adv_title" property="advTitle" />
+		<result column="slogan" property="slogan" />
+		
 		<result column="adv_pic" property="advPic" />
-		<result column="pic1" property="pic1" />
-		<result column="pic2" property="pic2" />
-		<result column="pic3" property="pic3" />
-		<result column="pic4" property="pic4" />
+		<result column="pic" property="pic" />
 		<result column="description" property="description" />
-		<result column="cost_price" property="costPrice" />
-		<result column="quantity" property="quantity" />
-		<result column="status" property="status" />
-	    <result column="updater" property="updater" />
-	    <result column="mobile" property="mobile" />
-		<result column="update_datetime" property="updateDatetime" />
-		<result column="remark" property="remark" />
+		<result column="original_price" property="originalPrice" />
 		<result column="price1" property="price1" />
+		
 		<result column="price2" property="price2" />
 		<result column="price3" property="price3" />
 		<result column="location" property="location" />
 		<result column="order_no" property="orderNo" />
+		<result column="status" property="status" />
+		
+	    <result column="updater" property="updater" />
+		<result column="update_datetime" property="updateDatetime" />
+		<result column="remark" property="remark" />
+		<result column="bought_count" property="boughtCount" />
 		<result column="company_code" property="companyCode" />
+		
 		<result column="system_code" property="systemCode" />
 	</resultMap>
 	<sql id="where_condition">
@@ -41,16 +41,7 @@
 				AND t.type = #{type}
 			</if>
 			<if test="name != null and name != '' ">
-				AND t.name = #{name}
-			</if>
-			<if test="nameForQuery != null and nameForQuery != '' ">
-				AND t.name like "%"#{nameForQuery}"%"
-			</if>
-			<if test="companyCode != null and companyCode != '' ">
-				AND t.company_code = #{companyCode}
-			</if>
-			<if test="systemCode != null and systemCode != '' ">
-				AND t.system_code = #{systemCode}
+				AND t.name like "%"#{name}"%"
 			</if>
 			<choose>
 				 <when test="status == '13'">
@@ -63,6 +54,16 @@
 				  	AND 1 = 1
 				 </otherwise>
 			</choose>
+			<if test="location != null and location != '' ">
+				AND t.location like "%"#{location}"%"
+			</if>
+			<if test="companyCode != null and companyCode != '' ">
+				AND t.company_code = #{companyCode}
+			</if>
+			<if test="systemCode != null and systemCode != '' ">
+				AND t.system_code = #{systemCode}
+			</if>
+			
 			<if test="updater != null and updater != '' ">
 				AND t.updater = #{updater}
 			</if>
@@ -77,29 +78,30 @@
 		,t.category
 		,t.type
 		,t.name
-		,t.adv_title
+		,t.slogan
+		
 		,t.adv_pic
-		,t.pic1
-		,t.pic2
-		,t.pic3
-		,t.pic4
+		,t.pic
 		,t.description
-		,t.cost_price
-		,t.quantity
-		,t.status
-		,t.updater
-		,tu.mobile
-		,t.update_datetime
-		,t.remark
+		,t.original_price
 		,t.price1
+		
 		,t.price2
 		,t.price3
 		,t.location
 		,t.order_no
+		,t.status
+		
+		,t.updater
+		,t.update_datetime
+		,t.remark
+		,t.bought_count
 		,t.company_code
+		
 		,t.system_code
+		<!-- ,tu.mobile -->
 		FROM
-		tmall_product t LEFT JOIN ${userDB}.tstd_user tu ON t.company_code = tu.user_id
+		tmall_product t <!-- LEFT JOIN ${userDB}.tstd_user tu ON t.company_code = tu.user_id -->
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -117,7 +119,7 @@
 
 	<select id="select_product_count" parameterType="product"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tmall_product t LEFT JOIN ${userDB}.tstd_user tu ON t.company_code = tu.user_id
+		SELECT count(1) FROM tmall_product t <!-- LEFT JOIN ${userDB}.tstd_user tu ON t.company_code = tu.user_id -->
 		<include refid="where_condition" />
 	</select>
 
@@ -128,19 +130,15 @@
 		,category
 		,type
 		,name
-		,adv_title
+		,slogan
 		,adv_pic
-		,pic1
-		,pic2
-		,pic3
-		,pic4
+		,pic
 		,description
-		,cost_price
-		,quantity
 		,status
 		,updater
 		,update_datetime
 		,remark
+		,bought_count
 		,company_code
 		,system_code
 		)
@@ -149,19 +147,15 @@
 		,#{category}
 		,#{type}
 		,#{name}
-		,#{advTitle}
+		,#{slogan}
 		,#{advPic}
-		,#{pic1}
-		,#{pic2}
-		,#{pic3}
-		,#{pic4}
+		,#{pic}
 		,#{description}
-		,#{costPrice}
-		,#{quantity}
 		,#{status}
 		,#{updater}
 		,#{updateDatetime}
 		,#{remark}
+		,#{boughtCount}
 		,#{companyCode}
 		,#{systemCode}
 		)
@@ -170,18 +164,13 @@
 	<update id="update_product" parameterType="product">
 		UPDATE tmall_product
 		SET
-		name = #{name}
-		,category = #{category}
+		category = #{category}
 		,type = #{type}
-		,adv_title = #{advTitle}
+		,name = #{name}
+		,slogan = #{slogan}
 		,adv_pic = #{advPic}
-		,pic1 = #{pic1}
-		,pic2 = #{pic2}
-		,pic3 = #{pic3}
-		,pic4 = #{pic4}
+		,pic = #{pic}
 		,description = #{description}
-		,cost_price = #{costPrice}
-		,quantity = #{quantity}
 		,status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
@@ -202,7 +191,8 @@
 	<update id="update_putOn" parameterType="product">
 		UPDATE tmall_product
 		SET
-		price1 = #{price1}
+		original_price = #{originalPrice}
+		,price1 = #{price1}
 		,price2 = #{price2}
 		,price3 = #{price3}
 		,location = #{location}

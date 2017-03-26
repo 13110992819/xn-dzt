@@ -49,9 +49,6 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
     public int removeProduct(String code) {
         int count = 0;
         if (StringUtils.isNotBlank(code)) {
-            if (!isProductExist(code)) {
-                throw new BizException("xn000000", "产品编号不存在");
-            }
             Product product = new Product();
             product.setCode(code);
             count = productDAO.delete(product);
@@ -93,19 +90,6 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
         return product;
     }
 
-    /**
-     * @see com.xnjr.mall.bo.IProductBO#isProductExist(java.lang.String)
-     */
-    @Override
-    public boolean isProductExist(String code) {
-        Product product = new Product();
-        product.setCode(code);
-        if (productDAO.selectTotalCount(product) == 1) {
-            return true;
-        }
-        return false;
-    }
-
     /** 
      * @see com.xnjr.mall.bo.IProductBO#approveProduct(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
@@ -140,21 +124,6 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
             product.setStatus(EProductStatus.PUBLISH_NO.getCode());
             product.setRemark(checkNote);
             count = productDAO.updateStatus(product);
-        }
-        return count;
-    }
-
-    /** 
-     * @see com.xnjr.mall.bo.IProductBO#refreshProductQuantity(java.lang.String, java.lang.Integer)
-     */
-    @Override
-    public int refreshProductQuantity(String code, Integer quantity) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            Product data = new Product();
-            data.setCode(code);
-            data.setQuantity(quantity);
-            count = productDAO.updateQuantity(data);
         }
         return count;
     }

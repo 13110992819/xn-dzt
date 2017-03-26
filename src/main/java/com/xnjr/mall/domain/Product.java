@@ -9,6 +9,7 @@
 package com.xnjr.mall.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import com.xnjr.mall.dao.base.ABaseDO;
 
@@ -91,6 +92,17 @@ public class Product extends ABaseDO {
 
     // 商户手机号
     private String mobile;
+
+    // 产品参数
+    private List<ProductSpecs> productSpecs;
+
+    public List<ProductSpecs> getProductSpecs() {
+        return productSpecs;
+    }
+
+    public void setProductSpecs(List<ProductSpecs> productSpecs) {
+        this.productSpecs = productSpecs;
+    }
 
     public String getCode() {
         return code;
