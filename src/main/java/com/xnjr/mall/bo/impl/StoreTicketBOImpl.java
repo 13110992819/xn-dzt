@@ -95,6 +95,7 @@ public class StoreTicketBOImpl extends PaginableBOImpl<StoreTicket> implements
         if (StringUtils.isNotBlank(code)) {
             StoreTicket data = new StoreTicket();
             data.setCode(code);
+            data.setStatus(EStoreTicketStatus.INVALID.getCode());
             storeTicketDAO.invalid(data);
         }
     }
