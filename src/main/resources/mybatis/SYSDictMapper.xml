@@ -8,7 +8,11 @@
 		<result column="parent_key" property="parentKey" />
 		<result column="dkey" property="dkey" />
 		<result column="dvalue" property="dvalue" />
+		
+		<result column="updater" property="updater" />
+		<result column="update_datetime" property="updateDatetime" />
 		<result column="remark" property="remark" />
+		<result column="company_code" property="companyCode" />
 		<result column="system_code" property="systemCode" />
 	</resultMap>
 	<sql id="where_condition">
@@ -19,12 +23,18 @@
 			<if test="type != null and type != '' ">
 				AND t.type = #{type}
 			</if>
-			<if test="dkey != null and dkey != '' ">
-				AND t.dkey = #{dkey}
-			</if>
 			<if test="parentKey != null and parentKey != '' ">
 				AND t.parent_key = #{parentKey}
 			</if>	
+			<if test="dkey != null and dkey != '' ">
+				AND t.dkey = #{dkey}
+			</if>
+			<if test="updater != null and updater != '' ">
+				AND t.updater = #{updater}
+			</if>
+			<if test="companyCode != null and companyCode != '' ">
+				AND t.company_code = #{companyCode}
+			</if>
 			<if test="systemCode != null and systemCode != '' ">
 				AND t.system_code = #{systemCode}
 			</if>
@@ -37,7 +47,11 @@
 		,parent_key
 		,dkey
 		,dvalue
+		
+		,updater
+		,update_datetime
 		,remark
+		,company_code
 		,system_code
 		FROM
 		tsys_dict t 
@@ -60,7 +74,11 @@
 		,parent_key
 		,dkey
 		,dvalue
+		
+		,updater
+		,update_datetime
 		,remark
+		,company_code
 		,system_code
 		)
 		VALUES(
@@ -68,7 +86,11 @@
 		,#{parentKey}
 		,#{dkey}
 		,#{dvalue}
+		
+		,#{updater}
+		,#{updateDatetime}
 		,#{remark}
+		,#{companyCode}
 		,#{systemCode}
 		)
 	</insert>
@@ -82,6 +104,8 @@
 	<update id="update_sysDict" parameterType="sysDict">
 		UPDATE tsys_dict SET
 		dvalue = #{dvalue}
+		,updater=#{updater}
+		,update_datetime=#{updateDatetime}
 		,remark=#{remark}
 		WHERE id = #{id}
 	</update>

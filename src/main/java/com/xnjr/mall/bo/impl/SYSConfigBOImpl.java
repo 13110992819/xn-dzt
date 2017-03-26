@@ -1,5 +1,6 @@
 package com.xnjr.mall.bo.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.dao.ISYSConfigDAO;
 import com.xnjr.mall.domain.SYSConfig;
+import com.xnjr.mall.exception.BizException;
 
 /**
  * 
@@ -28,75 +30,50 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
     private ISYSConfigDAO sysConfigDAO;
 
     @Override
-    public boolean isSYSConfigExist(Long Id) {
-        SYSConfig sysConfig = new SYSConfig();
-        sysConfig.setId(Id);
-        if (sysConfigDAO.selectTotalCount(sysConfig) == 1) {
-            return true;
-        }
-        return false;
+    public int refreshSYSConfig(Long id, String cvalue, String updater,
+            String remark) {
+        SYSConfig data = new SYSConfig();
+        data.setId(id);
+        data.setCvalue(cvalue);
+
+        data.setUpdater(updater);
+        data.setUpdateDatetime(new Date());
+        data.setRemark(remark);
+        return sysConfigDAO.updateValue(data);
     }
 
     @Override
-    public int saveSYSConfig(SYSConfig data) {
-        int count = 0;
-        if (data != null) {
-            data.setId(data.getId());
-            count = sysConfigDAO.insert(data);
-        }
-        return count;
-    }
-
-    @Override
-    public int refreshSYSConfig(SYSConfig data) {
-        int count = 0;
-        if (data != null) {
-            count = sysConfigDAO.updateValue(data);
-        }
-        return count;
-    }
-
-    @Override
-    public SYSConfig getConfig(Long id) {
+    public SYSConfig getSYSConfig(Long id) {
         SYSConfig sysConfig = null;
-        if (id != null) {
+        if (id > 0) {
             SYSConfig condition = new SYSConfig();
             condition.setId(id);
             sysConfig = sysConfigDAO.select(condition);
         }
+        if (sysConfig == null) {
+            throw new BizException("xn000000", "id记录不存在");
+        }
         return sysConfig;
     }
 
-    /** 
-     * @see com.xnjr.mall.bo.ISYSConfigBO#getConfigValue(java.lang.String)
-     */
     @Override
-    public String getConfigValue(String systemCode, String type,
-            String companyCode, String ckey) {
-        String result = null;
+    public SYSConfig getSYSConfig(String key, String systemCode) {
         SYSConfig sysConfig = null;
-        if (ckey != null) {
+        if (StringUtils.isNotBlank(key) && StringUtils.isNotBlank(systemCode)) {
             SYSConfig condition = new SYSConfig();
+            condition.setCkey(key);
+            condition.setCompanyCode(systemCode);
             condition.setSystemCode(systemCode);
-            condition.setType(type);
-            condition.setCompanyCode(companyCode);
-            condition.setCkey(ckey);
-            sysConfig = sysConfigDAO.select(condition);
-            if (sysConfig == null) {
-                condition.setBelong(0L);
-                condition.setCompanyCode(null);
-                sysConfig = sysConfigDAO.select(condition);
+            List<SYSConfig> sysConfigList = sysConfigDAO.selectList(condition);
+            if (CollectionUtils.isNotEmpty(sysConfigList)) {
+                sysConfig = sysConfigList.get(0);
             }
         }
-        if (sysConfig != null) {
-            result = sysConfig.getCvalue();
-        }
-        return result;
+        return sysConfig;
     }
 
     @Override
-    public Map<String, String> getConfigsMap(String systemCode,
-            String companyCode) {
+    public Map<String, String> getConfigsMap(String systemCode) {
         Map<String, String> map = new HashMap<String, String>();
         if (StringUtils.isNotBlank(systemCode)) {
             SYSConfig condition = new SYSConfig();
@@ -109,5 +86,6 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
             }
         }
         return map;
+
     }
 }

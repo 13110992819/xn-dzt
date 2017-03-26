@@ -8,6 +8,8 @@
  */
 package com.xnjr.mall.dto.req;
 
+import java.util.List;
+
 /** 
  * @author: haiqingzheng 
  * @since: 2016年11月17日 下午3:02:37 

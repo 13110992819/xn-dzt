@@ -1,7 +1,5 @@
 package com.xnjr.mall.dto.res;
 
-import com.xnjr.mall.domain.UserExt;
-
 public class XN805901Res {
     // 用户ID
     private String userId;
@@ -56,8 +54,6 @@ public class XN805901Res {
 
     // 粉丝数
     private String systemCode;
-
-    private UserExt userExt;
 
     public String getUserId() {
         return userId;
@@ -203,11 +199,4 @@ public class XN805901Res {
         this.systemCode = systemCode;
     }
 
-    public UserExt getUserExt() {
-        return userExt;
-    }
-
-    public void setUserExt(UserExt userExt) {
-        this.userExt = userExt;
-    }
 }

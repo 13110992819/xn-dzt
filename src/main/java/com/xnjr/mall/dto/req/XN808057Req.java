@@ -1,5 +1,7 @@
 package com.xnjr.mall.dto.req;
 
+import java.util.List;
+
 /**
  * 确认收货Req
  * @author: xieyj 

@@ -8,6 +8,7 @@
  */
 package com.xnjr.mall.bo.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import com.xnjr.mall.bo.ISYSDictBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.dao.ISYSDictDAO;
 import com.xnjr.mall.domain.SYSDict;
+import com.xnjr.mall.enums.EDictType;
+import com.xnjr.mall.exception.BizException;
 
 /** 
  * @author: haiqingzheng 
@@ -29,65 +32,81 @@ public class SYSDictBOImpl extends PaginableBOImpl<SYSDict> implements
     @Autowired
     private ISYSDictDAO sysDictDAO;
 
-    /** 
-     * @see com.xnjr.mall.bo.ISYSDictBO#saveSYSDict(com.xnjr.mall.domain.SYSDict)
-     */
     @Override
-    public Long saveSYSDict(SYSDict data) {
-        Long id = null;
-        if (data != null) {
-            sysDictDAO.insert(data);
-            id = data.getId();
-        }
-        return id;
-    }
-
-    /** 
-     * @see com.xnjr.mall.bo.ISYSDictBO#removeSYSDict(java.lang.Long)
-     */
-    @Override
-    public int removeSYSDict(Long id) {
-        int count = 0;
-        if (id != null) {
+    public void removeSYSDict(Long id) {
+        if (id > 0) {
             SYSDict data = new SYSDict();
             data.setId(id);
-            count = sysDictDAO.delete(data);
+            sysDictDAO.delete(data);
         }
-        return count;
     }
 
-    /** 
-     * @see com.xnjr.mall.bo.ISYSDictBO#refreshSYSDict(com.xnjr.mall.domain.SYSDict)
-     */
     @Override
-    public int refreshSYSDict(SYSDict data) {
-        int count = 0;
-        if (data != null) {
-            count = sysDictDAO.update(data);
-        }
-        return count;
+    public void refreshSYSDict(Long id, String value, String updater,
+            String remark) {
+        SYSDict data = new SYSDict();
+        data.setId(id);
+        data.setDvalue(value);
+
+        data.setUpdater(updater);
+        data.setUpdateDatetime(new Date());
+        data.setRemark(remark);
+        sysDictDAO.update(data);
+
     }
 
-    /** 
-     * @see com.xnjr.mall.bo.ISYSDictBO#getSYSDict(java.lang.Long)
-     */
     @Override
     public SYSDict getSYSDict(Long id) {
         SYSDict sysDict = null;
-        if (id != null) {
+        if (id > 0) {
             SYSDict data = new SYSDict();
             data.setId(id);
             sysDict = sysDictDAO.select(data);
         }
+        if (sysDict == null) {
+            throw new BizException("xn000000", "id记录不存在");
+        }
         return sysDict;
     }
 
-    /** 
-     * @see com.xnjr.mall.bo.ISYSDictBO#querySYSDictList(com.xnjr.mall.domain.SYSDict)
-     */
     @Override
     public List<SYSDict> querySYSDictList(SYSDict condition) {
         return sysDictDAO.selectList(condition);
+    }
+
+    @Override
+    public Long saveSecondDict(SYSDict sysDict) {
+        Long id = null;
+        if (sysDict != null) {
+            sysDictDAO.insert(sysDict);
+            id = sysDict.getId();
+        }
+        return id;
+    }
+
+    @Override
+    public void checkKeys(String parentKey, String key, String systemCode,
+            String companyCode) {
+        // 查看父节点是否存在
+        SYSDict fDict = new SYSDict();
+        fDict.setDkey(parentKey);
+        fDict.setType(EDictType.FIRST.getCode());
+        fDict.setSystemCode(systemCode);
+        fDict.setCompanyCode(companyCode);
+        if (getTotalCount(fDict) <= 0) {
+            throw new BizException("xn000000", "parentKey不存在");
+        }
+        // 第二层数据字典 在当前父节点下key不能重复
+        SYSDict condition = new SYSDict();
+        condition.setParentKey(parentKey);
+        condition.setDkey(key);
+        condition.setType(EDictType.SECOND.getCode());
+        condition.setSystemCode(systemCode);
+        condition.setCompanyCode(companyCode);
+        if (getTotalCount(condition) > 0) {
+            throw new BizException("xn000000", "当前节点下，key重复");
+        }
+
     }
 
 }
