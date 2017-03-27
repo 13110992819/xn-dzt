@@ -18,7 +18,7 @@ public class StockDAOImpl extends AMybatisTemplate implements IStockDAO {
 
     @Override
     public int delete(Stock data) {
-        return super.delete(NAMESPACE.concat("delete_stock"), data);
+        return 0;
     }
 
     @Override
@@ -46,9 +46,7 @@ public class StockDAOImpl extends AMybatisTemplate implements IStockDAO {
     }
 
     @Override
-    public int doDailyStock(Stock ele) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int doDailyStock(Stock data) {
+        return super.update(NAMESPACE.concat("update_dailyStock"), data);
     }
-
 }

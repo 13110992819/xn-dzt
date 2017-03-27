@@ -5,8 +5,7 @@ import org.unitils.spring.annotation.SpringBeanByType;
 
 import com.xnjr.mall.dao.IStockPoolDAO;
 import com.xnjr.mall.domain.StockPool;
-
-;
+import com.xnjr.mall.enums.EStockPoolType;
 
 public class IStockPoolDAOTest extends ADAOTest {
 
@@ -16,27 +15,31 @@ public class IStockPoolDAOTest extends ADAOTest {
     @Test
     public void insert() {
         StockPool data = new StockPool();
+        data.setCode("stock001");
+        data.setName("stockName");
+        data.setType(EStockPoolType.ZHPAY.getCode());
+        data.setAmount(1000L);
+        data.setUsedAmount(2000L);
         data.setCompanyCode("companyCode");
         data.setSystemCode("systemCode");
         stockPoolDAO.insert(data);
         logger.info("insert : {}");
     }
 
-    // @Test
-    // public void select() {
-    // SYSDict condition = new SYSDict();
-    // condition.setId(1L);
-    // SYSDict data = stockPoolDAO.select(condition);
-    // logger.info("select : {}", data.getId());
-    // }
-    //
-    // @Test
-    // public void selectList() {
-    // SYSDict condition = new SYSDict();
-    // condition.setType("0");
-    // condition.setParentKey("A");
-    // Long count = stockPoolDAO.selectTotalCount(condition);
-    // logger.info("selectList : {}", count);
-    // }
+    @Test
+    public void select() {
+        StockPool condition = new StockPool();
+        condition.setCode("stock001");
+        StockPool data = stockPoolDAO.select(condition);
+        logger.info("select : {}", data);
+    }
+
+    @Test
+    public void selectList() {
+        StockPool condition = new StockPool();
+        condition.setCode("stock001");
+        Long count = stockPoolDAO.selectTotalCount(condition);
+        logger.info("selectList : {}", count);
+    }
 
 }

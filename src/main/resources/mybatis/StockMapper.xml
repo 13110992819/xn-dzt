@@ -4,18 +4,23 @@
 <mapper namespace="com.xnjr.mall.dao.IStockDAO">
 	<resultMap id="stock_DB_Result" type="stock">
 		<result column="code" property="code" />
-		<result column="name" property="name" />
-		<result column="type" property="type" />
-		<result column="pic" property="pic" />
-		<result column="description" property="description" />
-		<result column="capital" property="capital" />
-		<result column="price" property="price" />
-		<result column="currency" property="currency" />
+		<result column="user_id" property="userId" />
+		<result column="pool_code" property="poolCode" />
+		<result column="cost_amount" property="costAmount" />
+		<result column="cost_currency" property="costCurrency" />
+		
 		<result column="back_interval" property="backInterval" />
+		<result column="profit_amount" property="profitAmount" />
+		<result column="profit_currency" property="profitCurrency" />
 		<result column="back_count" property="backCount" />
-		<result column="welfare1" property="welfare1" />
-		<result column="welfare2" property="welfare2" />
+		<result column="back_amount" property="backAmount" />
+		
+		<result column="today_amount" property="todayAmount" />
+		<result column="next_back_date" property="nextBackDate" />
+		<result column="create_datetime" property="createDatetime" />
 		<result column="status" property="status" />
+		<result column="company_code" property="companyCode" />
+		
 		<result column="system_code" property="systemCode" />
 	</resultMap>
 	<sql id="where_condition">
@@ -23,29 +28,59 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="userId != null and userId != '' ">
+				AND t.user_id = #{userId}
+			</if>
+			<if test="poolCode != null and poolCode != '' ">
+				AND t.pool_code = #{poolCode}
+			</if>
+			<if test="costCurrency != null and costCurrency != '' ">
+				AND t.cost_currency = #{costCurrency}
+			</if>
+			<if test="profitCurrency != null and profitCurrency != '' ">
+				AND t.profit_currency = #{profitCurrency}
+			</if>
+			<if test="nextBackDateStart != null and nextBackDateStart != '' ">
+				<![CDATA[AND t.next_back_date >= #{nextBackDateStart}]]>
+			</if>	
+			<if test="nextBackDateEnd != null and nextBackDateEnd != '' ">
+				<![CDATA[AND t.next_back_date <= #{nextBackDateEnd}]]>
+			</if>
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>
+			<if test="companyCode != null and companyCode != '' ">
+				AND t.company_code = #{companyCode}
+			</if>
+			<if test="systemCode != null and systemCode != '' ">
+				AND t.system_code = #{systemCode}
+			</if>
 		</trim>
 	</sql>
+	
 	<select id="select_stock" parameterType="stock" resultMap="stock_DB_Result">
 		SELECT
 		t.code
-		,t.name
-		,t.type
-		,t.pic
-		,t.description
-		,t.capital
-		,t.price
-		,t.currency
+		,t.user_id
+		,t.pool_code
+		,t.cost_amount
+		,t.cost_currency
+		
 		,t.back_interval
+		,t.profit_amount
+		,t.profit_currency
 		,t.back_count
-		,t.welfare1
-		,t.welfare2
+		,t.back_amount
+		
+		,t.today_amount
+		,t.next_back_date
+		,t.create_datetime
 		,t.status
+		,t.company_code
+		
 		,t.system_code
 		FROM
-		tact_stock t
+		to2o_stock t
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -56,50 +91,62 @@
 
 	<select id="select_stock_count" parameterType="stock"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tact_stock t
+		SELECT count(1) FROM to2o_stock t
 		<include refid="where_condition" />
 	</select>
 
 	<insert id="insert_stock" parameterType="stock">
 		INSERT INTO
-		tact_stock(
+		to2o_stock(
 		code
-		,name
-		,type
-		,pic
-		,description
-		,capital
-		,price
-		,currency
+		,user_id
+		,pool_code
+		,cost_amount
+		,cost_currency
+		
 		,back_interval
+		,profit_amount
+		,profit_currency
 		,back_count
-		,welfare1
-		,welfare2
+		,back_amount
+		
+		,today_amount
+		,next_back_date
+		,create_datetime
 		,status
+		,company_code
 		,system_code
 		)
 		VALUES(
 		#{code}
-		,#{name}
-		,#{type}
-		,#{pic}
-		,#{description}
-		,#{capital}
-		,#{price}
-		,#{currency}
+		,#{userId}
+		,#{poolCode}
+		,#{costAmount}
+		,#{costCurrency}
+		
 		,#{backInterval}
+		,#{profitAmount}
+		,#{profitCurrency}
 		,#{backCount}
-		,#{welfare1}
-		,#{welfare2}
+		,#{backAmount}
+		
+		,#{todayAmount}
+		,#{nextBackDate}
+		,#{createDatetime}
 		,#{status}
+		,#{companyCode}
 		,#{systemCode}
 		)
 	</insert>
 
-	<update id="update_status" parameterType="stock">
-		UPDATE tact_stock
+	<update id="update_dailyStock" parameterType="stock">
+		UPDATE to2o_stock
 		SET
-		status = #{status}
+		back_count = #{backCount}
+		,back_amount = #{backAmount}
+		,today_amount = #{todayAmount}
+		,next_back_date = #{nextBackDate}
+		,status = #{status}
 		WHERE code = #{code}
 	</update>
 </mapper>

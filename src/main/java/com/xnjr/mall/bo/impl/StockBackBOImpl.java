@@ -47,5 +47,4 @@ public class StockBackBOImpl extends PaginableBOImpl<StockBack> implements
         }
         return data;
     }
-
 }

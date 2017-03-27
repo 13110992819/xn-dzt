@@ -41,6 +41,30 @@ public class StockBack extends ABaseDO {
     // 所属系统编号
     private String systemCode;
 
+    // **************************************
+
+    // 返还时间起
+    private Date backDatetimeStart;
+
+    // 返还时间止
+    private Date backDatetimeEnd;
+
+    public Date getBackDatetimeStart() {
+        return backDatetimeStart;
+    }
+
+    public void setBackDatetimeStart(Date backDatetimeStart) {
+        this.backDatetimeStart = backDatetimeStart;
+    }
+
+    public Date getBackDatetimeEnd() {
+        return backDatetimeEnd;
+    }
+
+    public void setBackDatetimeEnd(Date backDatetimeEnd) {
+        this.backDatetimeEnd = backDatetimeEnd;
+    }
+
     public Long getId() {
         return id;
     }

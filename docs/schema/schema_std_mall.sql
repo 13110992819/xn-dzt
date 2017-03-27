@@ -253,7 +253,7 @@ CREATE TABLE `to2o_stock` (
   
   `today_amount` bigint(20) DEFAULT NULL COMMENT '今日可得福利',
   `next_back_date` datetime DEFAULT NULL COMMENT '下次返还时间',
-  `create_catetime` datetime DEFAULT NULL COMMENT '生成时间',
+  `create_datetime` datetime DEFAULT NULL COMMENT '生成时间',
   `status` varchar(4) DEFAULT NULL COMMENT '状态',  
   `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
   

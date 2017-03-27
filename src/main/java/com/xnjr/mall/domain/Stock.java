@@ -62,6 +62,29 @@ public class Stock extends ABaseDO {
     // 所属系统编号
     private String systemCode;
 
+    // *********************************
+    // 下次返还时间起
+    private Date nextBackDateStart;
+
+    // 下次返还时间止
+    private Date nextBackDateEnd;
+
+    public Date getNextBackDateStart() {
+        return nextBackDateStart;
+    }
+
+    public void setNextBackDateStart(Date nextBackDateStart) {
+        this.nextBackDateStart = nextBackDateStart;
+    }
+
+    public Date getNextBackDateEnd() {
+        return nextBackDateEnd;
+    }
+
+    public void setNextBackDateEnd(Date nextBackDateEnd) {
+        this.nextBackDateEnd = nextBackDateEnd;
+    }
+
     public String getCode() {
         return code;
     }

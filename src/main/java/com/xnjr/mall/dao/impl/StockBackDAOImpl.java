@@ -18,7 +18,7 @@ public class StockBackDAOImpl extends AMybatisTemplate implements IStockBackDAO 
 
     @Override
     public int delete(StockBack data) {
-        return super.delete(NAMESPACE.concat("delete_stockBack"), data);
+        return 0;
     }
 
     @Override
@@ -44,5 +44,4 @@ public class StockBackDAOImpl extends AMybatisTemplate implements IStockBackDAO 
         return super.selectList(NAMESPACE.concat("select_stockBack"), start,
             count, condition, StockBack.class);
     }
-
 }
