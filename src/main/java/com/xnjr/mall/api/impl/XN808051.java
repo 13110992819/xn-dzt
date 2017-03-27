@@ -31,8 +31,11 @@ public class XN808051 extends AProcessor {
     public Object doBusiness() throws BizException {
         if (ESystemCode.ZHPAY.getCode().equals(req.getPojo().getSystemCode())) {
             orderAO.commitCartOrderZH(req);
-        } else {
+        } else if (ESystemCode.Caigo.getCode().equals(
+            req.getPojo().getSystemCode())) {
             orderAO.commitCartOrderCG(req);
+        } else {
+            throw new BizException("xn000000", "系统编号不能识别");
         }
         return new BooleanRes(true);
     }

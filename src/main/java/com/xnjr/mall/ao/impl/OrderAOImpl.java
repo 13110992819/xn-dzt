@@ -34,6 +34,7 @@ import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Cart;
 import com.xnjr.mall.domain.Order;
+import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.domain.ProductOrder;
 import com.xnjr.mall.dto.req.XN808050Req;
 import com.xnjr.mall.dto.req.XN808051Req;
@@ -116,16 +117,19 @@ public class OrderAOImpl implements IOrderAO {
     @Transactional
     public String commitOrder(XN808050Req req) {
         // 立即下单，构造成购物车单个产品下单
+        Product product = productBO.getProduct(req.getProductCode());
         Cart cart = new Cart();
         cart.setProductCode(req.getProductCode());
         cart.setQuantity(StringValidater.toInteger(req.getQuantity()));
         cart.setUserId(req.getPojo().getApplyUser());
+        cart.setProduct(product);
         List<Cart> cartList = new ArrayList<Cart>();
         cartList.add(cart);
         return orderBO.saveOrder(cartList, req.getPojo(), req.getToUser());
     }
 
     @Override
+    @Transactional
     public Object toPayOrder(List<String> codeList, String payType) {
         // 暂时只实现单笔订单支付
         String code = codeList.get(0);
