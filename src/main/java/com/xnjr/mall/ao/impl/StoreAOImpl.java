@@ -20,11 +20,11 @@ import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StoreTicket;
+import com.xnjr.mall.domain.User;
 import com.xnjr.mall.dto.req.XN808200Req;
 import com.xnjr.mall.dto.req.XN808201Req;
 import com.xnjr.mall.dto.req.XN808203Req;
 import com.xnjr.mall.dto.req.XN808204Req;
-import com.xnjr.mall.dto.res.XN805901Res;
 import com.xnjr.mall.enums.EStoreLevel;
 import com.xnjr.mall.enums.EStoreStatus;
 import com.xnjr.mall.enums.EStoreTicketStatus;
@@ -72,7 +72,7 @@ public class StoreAOImpl implements IStoreAO {
                 req.getSystemCode(), req.getCompanyCode());
         } else {
             // 判断该用户是否有店铺了
-            storeBO.getStoreByUser(bUser);
+            storeBO.checkStoreByUser(bUser, req.getMobile());
         }
 
         String code = OrderNoGenerater.generateM("SJ");
@@ -82,7 +82,7 @@ public class StoreAOImpl implements IStoreAO {
         store.setType(req.getType());
         store.setSlogan(req.getSlogan());
 
-        store.setAdPic(req.getAdPic());
+        store.setAdvPic(req.getAdvPic());
         store.setPic(req.getPic());
         store.setDescription(req.getDescription());
         store.setProvince(req.getProvince());
@@ -129,7 +129,7 @@ public class StoreAOImpl implements IStoreAO {
         data.setType(req.getType());
         data.setSlogan(req.getSlogan());
 
-        data.setAdPic(req.getAdPic());
+        data.setAdvPic(req.getAdvPic());
         data.setPic(req.getPic());
         data.setDescription(req.getDescription());
         data.setProvince(req.getProvince());
@@ -159,7 +159,7 @@ public class StoreAOImpl implements IStoreAO {
     }
 
     @Override
-    public void approveStore(String code, String checkResult, String checkUser,
+    public void checkStore(String code, String checkResult, String checkUser,
             String remark) {
         Store dbStore = storeBO.getStore(code);
         if (!EStoreStatus.TOCHECK.getCode().equals(dbStore.getStatus())) {
@@ -170,6 +170,9 @@ public class StoreAOImpl implements IStoreAO {
 
     @Override
     public void editStore(XN808203Req req) {
+        // 验证店铺是否存在
+        storeBO.getStore(req.getCode());
+        // 更新字段
         Store data = new Store();
         data.setCode(req.getCode());
         data.setName(req.getName());
@@ -179,7 +182,7 @@ public class StoreAOImpl implements IStoreAO {
         data.setRate2(StringValidater.toDouble(req.getRate2()));
 
         data.setSlogan(req.getSlogan());
-        data.setAdPic(req.getAdPic());
+        data.setAdvPic(req.getAdvPic());
         data.setPic(req.getPic());
         data.setDescription(req.getDescription());
         data.setProvince(req.getProvince());
@@ -252,7 +255,7 @@ public class StoreAOImpl implements IStoreAO {
         }
         dbStore.setUpdater(dbStore.getOwner());
         dbStore.setUpdateDatetime(new Date());
-        storeBO.closeOpen(dbStore);
+        storeBO.openClose(dbStore);
     }
 
     @Override
@@ -280,7 +283,7 @@ public class StoreAOImpl implements IStoreAO {
             for (Store store : storeList) {
                 StoreTicket stCondition = new StoreTicket();
                 stCondition.setStoreCode(store.getCode());
-                stCondition.setStatus(EStoreTicketStatus.ONLINE.getCode());
+                stCondition.setStatus(EStoreTicketStatus.ON.getCode());
                 List<StoreTicket> storeTickets = storeTicketBO
                     .queryStoreTicketList(stCondition);
                 store.setStoreTickets(storeTickets);
@@ -297,8 +300,7 @@ public class StoreAOImpl implements IStoreAO {
 
     @Override
     public Store getStoreOss(String code) {
-        // TODO Auto-generated method stub
-        return null;
+        return storeBO.getStore(code);
     }
 
     @Override
@@ -307,13 +309,12 @@ public class StoreAOImpl implements IStoreAO {
         // 设置推荐人手机号
         String refereeUserId = store.getUserReferee();
         if (StringUtils.isNotBlank(refereeUserId)) {
-            XN805901Res remoteRes = userBO.getRemoteUser(refereeUserId,
-                refereeUserId);
+            User remoteRes = userBO.getRemoteUser(refereeUserId);
             store.setRefereeMobile(remoteRes.getMobile());
         }
         StoreTicket condition = new StoreTicket();
         condition.setStoreCode(store.getCode());
-        condition.setStatus(EStoreTicketStatus.ONLINE.getCode());
+        condition.setStatus(EStoreTicketStatus.ON.getCode());
         store.setStoreTickets(storeTicketBO.queryStoreTicketList(condition));
         return store;
 
@@ -328,12 +329,10 @@ public class StoreAOImpl implements IStoreAO {
             // 设置推荐人手机号
             String refereeUserId = store.getUserReferee();
             if (StringUtils.isNotBlank(refereeUserId)) {
-                XN805901Res remoteRes = userBO.getRemoteUser(refereeUserId,
-                    refereeUserId);
+                User remoteRes = userBO.getRemoteUser(refereeUserId);
                 store.setRefereeMobile(remoteRes.getMobile());
             }
         }
         return list;
     }
-
 }

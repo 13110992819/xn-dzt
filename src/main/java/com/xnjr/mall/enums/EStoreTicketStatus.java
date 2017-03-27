@@ -14,8 +14,7 @@ package com.xnjr.mall.enums;
  * @history:
  */
 public enum EStoreTicketStatus {
-    NEW("0", "待上架"), ONLINE("1", "已上架"), OFFLINE("2", "已下架"), INVALID("91",
-            "期满作废"), VALID("12", "有效的");
+    TO_ON("0", "待上架"), ON("1", "已上架"), OFF("2", "已下架"), INVALID("91", "期满作废");
 
     EStoreTicketStatus(String code, String value) {
         this.code = code;

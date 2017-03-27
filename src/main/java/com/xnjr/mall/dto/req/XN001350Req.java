@@ -1,6 +1,6 @@
 package com.xnjr.mall.dto.req;
 
-public class XN805042Req {
+public class XN001350Req {
     // 登录名（必填）
     private String loginName;
 

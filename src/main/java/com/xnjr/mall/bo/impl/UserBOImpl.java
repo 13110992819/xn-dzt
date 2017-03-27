@@ -11,14 +11,14 @@ import com.google.gson.reflect.TypeToken;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.domain.User;
+import com.xnjr.mall.dto.req.XN001102Req;
+import com.xnjr.mall.dto.req.XN001350Req;
 import com.xnjr.mall.dto.req.XN001400Req;
 import com.xnjr.mall.dto.req.XN001401Req;
-import com.xnjr.mall.dto.req.XN805042Req;
-import com.xnjr.mall.dto.req.XN805910Req;
+import com.xnjr.mall.dto.res.XN001102Res;
 import com.xnjr.mall.dto.res.XN001400Res;
 import com.xnjr.mall.dto.res.XN001401Res;
-import com.xnjr.mall.dto.res.XN805042Res;
-import com.xnjr.mall.dto.res.XN805910Res;
+import com.xnjr.mall.dto.res.XNUserRes;
 import com.xnjr.mall.enums.ESysUser;
 import com.xnjr.mall.enums.ESystemCode;
 import com.xnjr.mall.enums.EUserKind;
@@ -92,12 +92,12 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
     @Override
     public String isUserExist(String mobile, EUserKind kind, String systemCode) {
         String userId = null;
-        XN805910Req req = new XN805910Req();
+        XN001102Req req = new XN001102Req();
         req.setMobile(mobile);
         req.setKind(kind.getCode());
         req.setSystemCode(systemCode);
-        XN805910Res res = BizConnecter.getBizData("805910",
-            JsonUtils.object2Json(req), XN805910Res.class);
+        XN001102Res res = BizConnecter.getBizData("001102",
+            JsonUtils.object2Json(req), XN001102Res.class);
         if (res != null) {
             userId = res.getUserId();
         }
@@ -107,16 +107,15 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
     @Override
     public String doSaveBUser(String mobile, String updater, String systemCode,
             String companyCode) {
-        XN805042Req req = new XN805042Req();
+        XN001350Req req = new XN001350Req();
         req.setLoginName(mobile);
         req.setMobile(mobile);
-        req.setKind(EUserKind.F2.getCode());
         req.setUpdater(updater);
         req.setRemark("代注册商家");
         req.setSystemCode(systemCode);
         req.setCompanyCode(companyCode);
-        XN805042Res res = BizConnecter.getBizData("805042",
-            JsonUtils.object2Json(req), XN805042Res.class);
+        XNUserRes res = BizConnecter.getBizData("001350",
+            JsonUtils.object2Json(req), XNUserRes.class);
         return res.getUserId();
     }
 

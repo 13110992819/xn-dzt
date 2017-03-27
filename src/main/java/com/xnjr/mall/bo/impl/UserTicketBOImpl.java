@@ -11,6 +11,8 @@ import com.xnjr.mall.bo.IUserTicketBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.IUserTicketDAO;
+import com.xnjr.mall.domain.StoreTicket;
+import com.xnjr.mall.domain.User;
 import com.xnjr.mall.domain.UserTicket;
 import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EUserTicketStatus;
@@ -22,16 +24,6 @@ public class UserTicketBOImpl extends PaginableBOImpl<UserTicket> implements
 
     @Autowired
     private IUserTicketDAO userTicketDAO;
-
-    @Override
-    public boolean isUserTicketExist(String code) {
-        UserTicket condition = new UserTicket();
-        condition.setCode(code);
-        if (userTicketDAO.selectTotalCount(condition) > 0) {
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public boolean isExistBuyTicket(String userId, String storeTicketCode) {
@@ -50,33 +42,21 @@ public class UserTicketBOImpl extends PaginableBOImpl<UserTicket> implements
     }
 
     @Override
-    public String saveUserTicket(UserTicket data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater.generateM(EGeneratePrefix.USER_TICKET
-                .getCode());
-            data.setCode(code);
-            data.setStatus(EUserTicketStatus.UNUSED.getCode());
-            data.setCreateDatetime(new Date());
-            userTicketDAO.insert(data);
-        }
+    public String saveUserTicket(User user, StoreTicket storeTicket) {
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.USER_TICKET
+            .getCode());
+        UserTicket data = new UserTicket();
+        data.setCode(code);
+        data.setUserId(user.getUserId());
+        data.setTicketCode(storeTicket.getCode());
+        data.setStoreCode(storeTicket.getStoreCode());
+        data.setCreateDatetime(new Date());
+
+        data.setStatus(EUserTicketStatus.UNUSED.getCode());
+        data.setSystemCode(storeTicket.getSystemCode());
+        data.setCompanyCode(storeTicket.getCompanyCode());
+        userTicketDAO.insert(data);
         return code;
-    }
-
-    @Override
-    public int removeUserTicket(String code) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            UserTicket data = new UserTicket();
-            data.setCode(code);
-            count = userTicketDAO.delete(data);
-        }
-        return count;
-    }
-
-    @Override
-    public List<UserTicket> queryUserTicketList(UserTicket condition) {
-        return userTicketDAO.selectList(condition);
     }
 
     public List<UserTicket> queryUserTicketList(String storeTicketCode,
@@ -112,4 +92,5 @@ public class UserTicketBOImpl extends PaginableBOImpl<UserTicket> implements
         }
         return count;
     }
+
 }

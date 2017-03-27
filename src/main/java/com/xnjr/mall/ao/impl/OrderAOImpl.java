@@ -149,7 +149,7 @@ public class OrderAOImpl implements IOrderAO {
         String systemCode = order.getSystemCode();
         String fromUserId = order.getApplyUser();
         // 余额支付(菜狗币+积分)
-        if (EPayType.YEZP.getCode().equals(payType)) {
+        if (EPayType.INTEGRAL.getCode().equals(payType)) {
             // 更新订单支付金额
             orderBO.refreshPaySuccess(order, 0L, cgbAmount, jfAmount);
             // 扣除金额
@@ -240,7 +240,7 @@ public class OrderAOImpl implements IOrderAO {
         }
         if (jfAmount > 0) {
             accountBO.doTransferAmountRemote(order.getToUser(),
-                order.getApplyUser(), ECurrency.XNB, jfAmount,
+                order.getApplyUser(), ECurrency.CGJF, jfAmount,
                 EBizType.AJ_GWTK, EBizType.AJ_GWTK.getValue(),
                 EBizType.AJ_GWTK.getValue());
         }

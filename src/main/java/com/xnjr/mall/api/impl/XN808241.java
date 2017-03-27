@@ -34,7 +34,7 @@ public class XN808241 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return storePurchaseAO.storePurchase(req.getUserId(),
+        return storePurchaseAO.storePurchaseZH(req.getUserId(),
             req.getStoreCode(), StringValidater.toLong(req.getAmount()),
             req.getPayType(), req.getTicketCode());
     }

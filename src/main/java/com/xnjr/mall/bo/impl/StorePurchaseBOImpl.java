@@ -11,9 +11,13 @@ import com.xnjr.mall.bo.IStorePurchaseBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.IStorePurchaseDAO;
+import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StorePurchase;
+import com.xnjr.mall.domain.User;
+import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EGeneratePrefix;
-import com.xnjr.mall.exception.BizException;
+import com.xnjr.mall.enums.EPayType;
+import com.xnjr.mall.enums.EStorePurchaseStatus;
 
 @Component
 public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
@@ -23,56 +27,8 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
     private IStorePurchaseDAO storePurchaseDAO;
 
     @Override
-    public boolean isStorePurchaseExist(String code) {
-        StorePurchase condition = new StorePurchase();
-        condition.setCode(code);
-        if (storePurchaseDAO.selectTotalCount(condition) > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public String saveStorePurchase(StorePurchase data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
-                .getCode());
-            data.setCode(code);
-            data.setCreateDatetime(new Date());
-            storePurchaseDAO.insert(data);
-        }
-        return code;
-    }
-
-    @Override
-    public int removeStorePurchase(String code) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            StorePurchase data = new StorePurchase();
-            data.setCode(code);
-            count = storePurchaseDAO.delete(data);
-        }
-        return count;
-    }
-
-    @Override
     public List<StorePurchase> queryStorePurchaseList(StorePurchase condition) {
         return storePurchaseDAO.selectList(condition);
-    }
-
-    @Override
-    public StorePurchase getStorePurchase(String code) {
-        StorePurchase data = null;
-        if (StringUtils.isNotBlank(code)) {
-            StorePurchase condition = new StorePurchase();
-            condition.setCode(code);
-            data = storePurchaseDAO.select(condition);
-            if (data == null) {
-                throw new BizException("xn0000", "异常");
-            }
-        }
-        return data;
     }
 
     @Override
@@ -87,4 +43,86 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
         }
         return count;
     }
+
+    @Override
+    public String storePurchaseCGcgb(User user, Store store, Long price,
+            Long fdAmount) {
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
+            .getCode());
+        Date now = new Date();
+        StorePurchase data = new StorePurchase();
+        data.setCode(code);
+        data.setUserId(user.getUserId());
+        data.setStoreCode(store.getCode());
+        data.setPrice(price);
+        data.setBackAmount(fdAmount);
+        data.setBackCurrency(ECurrency.CNY.getCode());
+        data.setCreateDatetime(now);
+        data.setStatus(EStorePurchaseStatus.PAYED.getCode());
+        data.setPayType(EPayType.INTEGRAL.getCode());
+
+        data.setPayAmount2(price);
+        data.setPayDatetime(now);
+        data.setRemark("菜狗币支付O2O消费");
+        data.setSystemCode(store.getSystemCode());
+        data.setCompanyCode(store.getCompanyCode());
+
+        return code;
+    }
+
+    @Override
+    public String storePurchaseCGWX(User user, Store store, Long amount, Long jf) {
+        String payGroup = OrderNoGenerater
+            .generateM(EGeneratePrefix.STORE_PURCHASW.getCode());
+        Date now = new Date();
+        StorePurchase data = new StorePurchase();
+        data.setCode(OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
+            .getCode()));
+        data.setUserId(user.getUserId());
+        data.setStoreCode(store.getCode());
+        data.setPrice(amount);
+
+        data.setCreateDatetime(now);
+        data.setStatus(EStorePurchaseStatus.PAYED.getCode());
+        data.setPayType(EPayType.WEIXIN.getCode());
+        data.setPayGroup(payGroup);
+
+        data.setPayAmount2(jf);
+        data.setPayDatetime(now);
+        data.setRemark("微信支付O2O消费");
+        data.setSystemCode(store.getSystemCode());
+        data.setCompanyCode(store.getCompanyCode());
+
+        return payGroup;
+    }
+
+    @Override
+    public String storePurchaseZHWX(User user, Store store, Long amount) {
+        /*
+         * // 落地本地系统消费记录，状态为未支付 StorePurchase data = new StorePurchase();
+         * data.setUserId(userId); data.setStoreCode(storeCode);
+         * data.setPayType(EPayType.WEIXIN.getCode());
+         * data.setPurchaseAmount(amount); data.setAmount1(yhAmount);
+         * data.setStatus(EStorePurchaseStatus.TO_PAY.getCode());
+         * data.setSystemCode(systemCode); data.setRemark(remark);
+         * storePurchaseBO.saveStorePurchase(data);
+         */
+        return null;
+    }
+
+    @Override
+    public String storePurchaseZHYE(User user, Store store, Long amount) {
+        /*
+         * StorePurchase data = new StorePurchase(); data.setUserId(userId);
+         * data.setStoreCode(storeCode);
+         * data.setPayType(EPayType.ZH_YE.getCode());
+         * data.setPurchaseAmount(amount); data.setAmount1(yhAmount);
+         * data.setAmount2(gxjlAmount); data.setAmount3(frAmount);
+         * data.setStatus(EStorePurchaseStatus.PAYED.getCode());
+         * data.setTicketCode(ticketCode); data.setSystemCode(systemCode);
+         * data.setRemark(remark);
+         */
+        return null;
+    }
+
 }

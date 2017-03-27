@@ -36,16 +36,6 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     private IUserBO userBO;
 
     @Override
-    public boolean isStoreExist(String code) {
-        Store condition = new Store();
-        condition.setCode(code);
-        if (storeDAO.selectTotalCount(condition) == 1) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public void saveStore(Store data) {
         if (data != null) {
             storeDAO.insert(data);
@@ -55,9 +45,8 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     @Override
     public void saveStoreOss(Store store) {
         if (store != null) {
-            storeDAO.insertOss(store);
+            storeDAO.insert(store);
         }
-
     }
 
     @Override
@@ -70,38 +59,8 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     }
 
     @Override
-    public int refreshStoreDz(String code, int times) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            if (!isStoreExist(code)) {
-                throw new BizException("xn000000", "商家编号不存在");
-            }
-            Store data = new Store();
-            data.setCode(code);
-            data = storeDAO.select(data);
-            data.setTotalDzNum(data.getTotalDzNum() + times);
-            data.setUpdateDatetime(new Date());
-            count = storeDAO.updateDZ(data);
-        }
-        return count;
-    }
-
-    @Override
-    public int refreshStoreJF(Store data) {
-        int count = 0;
-        if (data != null) {
-            if (!isStoreExist(data.getCode())) {
-                throw new BizException("xn000000", "商家编号不存在");
-            }
-            data.setUpdateDatetime(new Date());
-            count = storeDAO.updateJF(data);
-        }
-        return count;
-    }
-
-    @Override
     public Store getStore(String code) {
-        if (isStoreExist(code)) {
+        if (StringUtils.isNotBlank(code)) {
             Store condition = new Store();
             condition.setCode(code);
             return storeDAO.select(condition);
@@ -118,13 +77,14 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     @Override
     public String isUserRefereeExist(String userReferee, String systemCode) {
         if (ESystemCode.ZHPAY.getCode().equals(systemCode)) {
-            String userId = userBO.getUserId(userReferee,
-                EUserKind.F1.getCode(), systemCode);
+            String userId = userBO.isUserExist(userReferee, EUserKind.F1,
+                systemCode);
             if (StringUtils.isBlank(userId)) {
                 throw new BizException("xn702002", "推荐人不存在");
             }
             return userId;
         } else {// 加盟商帮商家代注册，所以userReferee是加盟商的userId
+            userBO.getRemoteUser(userReferee);
             return userReferee;
         }
 
@@ -150,42 +110,70 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     }
 
     @Override
-    public Store getStoreByUser(String bUser) {
-        Store a = null;
+    public void checkStoreByUser(String bUser, String mobile) {
         Store condition = new Store();
         condition.setOwner(bUser);
         List<Store> list = this.queryStoreList(condition);
-        if (CollectionUtils.isNotEmpty(list)) {
-            a = list.get(0);
+        if (CollectionUtils.isNotEmpty(list) && list.size() > 0) {
+            throw new BizException("xn000000", "用户" + mobile + "已有店铺,无需再次申请");
         }
-        if (a == null) {
-            throw new BizException("xn000000", bUser + "没有店铺");
-        }
-        return a;
     }
 
     @Override
     public void putOn(Store dbStore) {
-        // TODO Auto-generated method stub
-
+        if (dbStore != null && StringUtils.isNotBlank(dbStore.getCode())) {
+            storeDAO.updatePutOn(dbStore);
+        }
     }
 
     @Override
     public void putOff(Store dbStore) {
-        // TODO Auto-generated method stub
-
+        if (dbStore != null && StringUtils.isNotBlank(dbStore.getCode())) {
+            storeDAO.updatePutOff(dbStore);
+        }
     }
 
     @Override
-    public void closeOpen(Store dbStore) {
-        // TODO Auto-generated method stub
-
+    public void openClose(Store dbStore) {
+        if (dbStore != null && StringUtils.isNotBlank(dbStore.getCode())) {
+            storeDAO.updateOpenClose(dbStore);
+        }
     }
 
     @Override
     public void upLevel(Store dbStore) {
-        // TODO Auto-generated method stub
+        if (dbStore != null && StringUtils.isNotBlank(dbStore.getCode())) {
+            storeDAO.updateLevel(dbStore);
+        }
+    }
 
+    @Override
+    public int refreshTotalDzNum(Store data) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int refreshTotalJfNum(Store data) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    /** 
+     * @see com.xnjr.mall.bo.IStoreBO#refreshTotalRmbNum(com.xnjr.mall.domain.Store)
+     */
+    @Override
+    public int refreshTotalRmbNum(Store dbStore) {
+        return 0;
+    }
+
+    /** 
+     * @see com.xnjr.mall.bo.IStoreBO#refreshTotalScNum(com.xnjr.mall.domain.Store)
+     */
+    @Override
+    public int refreshTotalScNum(Store dbStore) {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
 }
