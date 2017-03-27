@@ -34,6 +34,7 @@ import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Cart;
 import com.xnjr.mall.domain.Order;
+import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.domain.ProductOrder;
 import com.xnjr.mall.dto.req.XN808050Req;
 import com.xnjr.mall.dto.req.XN808051Req;
@@ -116,16 +117,19 @@ public class OrderAOImpl implements IOrderAO {
     @Transactional
     public String commitOrder(XN808050Req req) {
         // 立即下单，构造成购物车单个产品下单
+        Product product = productBO.getProduct(req.getProductCode());
         Cart cart = new Cart();
         cart.setProductCode(req.getProductCode());
         cart.setQuantity(StringValidater.toInteger(req.getQuantity()));
         cart.setUserId(req.getPojo().getApplyUser());
+        cart.setProduct(product);
         List<Cart> cartList = new ArrayList<Cart>();
         cartList.add(cart);
         return orderBO.saveOrder(cartList, req.getPojo(), req.getToUser());
     }
 
     @Override
+    @Transactional
     public Object toPayOrder(List<String> codeList, String payType) {
         // 暂时只实现单笔订单支付
         String code = codeList.get(0);
@@ -211,9 +215,9 @@ public class OrderAOImpl implements IOrderAO {
         }
 
         // 退款
-        if (ESystemCode.Caigo.equals(order.getSystemCode())) {
+        if (ESystemCode.Caigo.getCode().equals(order.getSystemCode())) {
             doBackAmountCG(order);
-        } else if (ESystemCode.ZHPAY.equals(order.getSystemCode())) {
+        } else if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
             doBackAmountZH(order);
         } else {
             throw new BizException("xn000000", "系统编号不能识别");
@@ -321,6 +325,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
+    @Transactional
     public void deliverLogistics(XN808054Req req) {
         Order order = orderBO.getOrder(req.getCode());
         if (!EOrderStatus.PAY_YES.getCode().equalsIgnoreCase(order.getStatus())) {
@@ -334,16 +339,22 @@ public class OrderAOImpl implements IOrderAO {
         // 发送短信
         String userId = order.getApplyUser();
         String notice = "";
-        if (order.getProductOrderList().size() > 1) {
-            notice = "尊敬的用户，您的订单[" + order.getCode() + "]中的商品["
-                    + order.getProductOrderList().get(0).getProductName()
-                    + "等]已发货，请注意查收。";
-        } else {
-            notice = "尊敬的用户，您的订单[" + order.getCode() + "]中的商品["
-                    + order.getProductOrderList().get(0).getProductName()
-                    + "]已发货，请注意查收。";
+        if (CollectionUtils.isNotEmpty(order.getProductOrderList())) {
+            if (order.getProductOrderList().size() > 1) {
+                notice = "尊敬的用户，您的订单["
+                        + order.getCode()
+                        + "]中的商品["
+                        + order.getProductOrderList().get(0).getProduct()
+                            .getName() + "等]已发货，请注意查收。";
+            } else {
+                notice = "尊敬的用户，您的订单["
+                        + order.getCode()
+                        + "]中的商品["
+                        + order.getProductOrderList().get(0).getProduct()
+                            .getName() + "]已发货，请注意查收。";
+            }
+            smsOutBO.sentContent(userId, userId, notice);
         }
-        smsOutBO.sentContent(userId, userId, notice);
     }
 
     @Override
@@ -362,9 +373,9 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不是已发货状态，无法操作");
         }
 
-        if (ESystemCode.Caigo.equals(order.getSystemCode())) {
+        if (ESystemCode.Caigo.getCode().equals(order.getSystemCode())) {
             doConfirmCG(order, updater, remark);
-        } else if (ESystemCode.ZHPAY.equals(order.getSystemCode())) {
+        } else if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
             doConfirmZH(order, updater, remark);
         } else {
             throw new BizException("xn000000", "系统编号不能识别");

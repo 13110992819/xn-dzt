@@ -168,33 +168,44 @@
 		
 		,status
 		,prompt_times
+		,updater
+		,update_datetime
+		,remark
+		
 		,pay_amount1
 		,pay_amount2
 		,pay_amount3
-		
 		,company_code
 		,system_code
 		)
 		VALUES(
 		#{code}
 		,#{type}
+		,#{toUser}
 		,#{receiver}
 		,#{reMobile}
+		
 		,#{reAddress}
 		,#{receiptType}
 		,#{receiptTitle}
 		,#{applyUser}
 		,#{applyNote}
+		
 		,#{applyDatetime}
 		,#{amount1}
 		,#{amount2}
 		,#{amount3}
 		,#{yunfei}
+		
+		,#{status}
+		,#{promptTimes}
+		,#{updater}
+		,#{updateDatetime}
+		,#{remark}
+		
 		,#{payAmount1}
 		,#{payAmount2}
 		,#{payAmount3}
-		,#{promptTimes}
-		,#{status}
 		,#{companyCode}
 		,#{systemCode}
 		)
