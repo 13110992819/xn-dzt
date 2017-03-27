@@ -1,7 +1,5 @@
 package com.xnjr.mall.dto.req;
 
-import java.util.List;
-
 /**
  * 确认收货Req
  * @author: xieyj 
@@ -11,20 +9,20 @@ import java.util.List;
 public class XN808057Req {
 
     // 编号(必填)
-    private List<String> codeList;
+    private String code;
 
     // 更新人(必填)
     private String updater;
 
-    // 备注(必填)
+    // 备注(选填)
     private String remark;
 
-    public List<String> getCodeList() {
-        return codeList;
+    public String getCode() {
+        return code;
     }
 
-    public void setCodeList(List<String> codeList) {
-        this.codeList = codeList;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getUpdater() {

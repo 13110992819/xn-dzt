@@ -1,6 +1,10 @@
 package com.xnjr.mall.dto.req;
 
 public class XN808007Req {
+
+    // 类型(选填)
+    private String type;
+
     // 父编号(选填)
     private String parentCode;
 
@@ -15,6 +19,14 @@ public class XN808007Req {
 
     // 所属系统编号(必填)
     private String systemCode;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getParentCode() {
         return parentCode;

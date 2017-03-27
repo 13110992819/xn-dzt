@@ -1,5 +1,7 @@
 package com.xnjr.mall.api.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.xnjr.mall.ao.IOrderAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
@@ -27,7 +29,7 @@ public class XN808052 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.toPayOrder(req.getCode(), req.getPayType());
+        orderAO.toPayOrder(req.getCodeList(), req.getPayType());
         return new BooleanRes(true);
     }
 
@@ -37,6 +39,9 @@ public class XN808052 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808052Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getPayType());
+        if (CollectionUtils.isEmpty(req.getCodeList())) {
+            throw new BizException("xn702000", "请选择您要支付的订单");
+        }
+        StringValidater.validateBlank(req.getPayType());
     }
 }

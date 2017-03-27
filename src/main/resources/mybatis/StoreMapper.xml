@@ -114,13 +114,15 @@
 			<if test="systemCode != null and systemCode != '' ">
 				AND t.system_code = #{systemCode}
 			</if>
+			<!-- 前端查询距离专用start -->
 			<if test="distance != null and distance != '' ">
 				<![CDATA[ having distance <= #{distance}]]>
 			</if>
+			<!-- 前端查询距离专用end -->
 		</trim>
 	</sql>
 	
-	<select id="select_store" parameterType="store" resultMap="store_DB_Result">
+	<select id="select_front_store" parameterType="store" resultMap="store_DB_Result">
 		SELECT
 		t.code
 		,t.name
@@ -176,11 +178,162 @@
 		</trim>
 	</select>
 	
+	<select id="select_front_store_count" parameterType="store"
+		resultType="java.lang.Long">
+		SELECT count(1) from (SELECT
+		t.code
+		,ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{latitude}*PI()/180-t.latitude*PI()/180)/2),2)+COS(#{latitude}*PI()/180)*COS(t.latitude*PI()/180)*POW(SIN((#{longitude}*PI()/180-t.longitude*PI()/180)/2),2)))*1000) as distance
+		FROM
+		to2o_store t
+		<include refid="where_condition" />) as store
+	</select>
+	
+	<select id="select_store" parameterType="store" resultMap="store_DB_Result">
+		SELECT
+		t.code
+		,t.name
+		,t.level
+		,t.type
+		,t.slogan
+		
+		,t.adv_pic	
+		,t.pic
+		,t.description
+		,t.province
+		,t.city
+		
+		,t.area
+		,t.address
+		,t.longitude
+		,t.latitude
+		,t.book_mobile
+		
+		,t.sms_mobile
+		,t.pdf
+		,t.ui_location
+		,t.ui_order
+		,t.legal_person_name
+		
+		,t.user_referee
+		,t.rate1
+		,t.rate2
+		,t.rate3
+		,t.is_default
+		
+		,t.status
+		,t.updater
+		,t.update_datetime
+		,t.remark
+		,t.owner
+		
+		,t.contract_no
+		,t.total_rmb_num
+		,t.total_jf_num
+		,t.total_dz_num
+		,t.total_sc_num
+		,t.company_code
+		,t.system_code
+		FROM
+		to2o_store t
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				${order}
+			</if>
+		</trim>
+	</select>
+	
 	<select id="select_store_count" parameterType="store"
 		resultType="java.lang.Long">
 		SELECT count(1) FROM to2o_store t
 		<include refid="where_condition" />
 	</select>
+	
+	<insert id="insert_store_oss" parameterType="store">
+		INSERT INTO
+		to2o_store(
+		code
+		,name
+		,level
+		,type
+		,slogan
+		
+		,adv_pic	
+		,pic
+		,description
+		,province
+		,city
+		
+		,area
+		,address
+		,longitude
+		,latitude
+		,book_mobile
+		
+		,sms_mobile
+		,pdf
+		,legal_person_name
+		,user_referee
+		,rate1
+		,rate2
+		
+		,status
+		,updater
+		,update_datetime
+		,remark
+		,owner
+		
+		,total_rmb_num
+		,total_jf_num
+		,total_dz_num
+		,total_sc_num
+		,contract_no
+		
+		,company_code
+		,system_code
+		)
+		VALUES(
+		#{code}
+		,#{name}
+		,#{level}
+		,#{type}
+		,#{slogan}
+		
+		,#{advPic}
+		,#{pic}
+		,#{description}
+		,#{province}
+		,#{city}
+		
+		,#{area}
+		,#{address}
+		,#{longitude}
+		,#{latitude}
+		,#{bookMobile}
+		
+		,#{smsMobile}
+		,#{pdf}
+		,#{legalPersonName}
+		,#{userReferee}
+		,#{rate1}
+		,#{rate2}
+	
+		,#{status}
+		,#{updater}
+		,#{updateDatetime}
+		,#{remark}
+		,#{owner}
+		
+		,#{totalRmbNum}
+		,#{totalJfNum}
+		,#{totalDzNum}
+		,#{totalScNum}
+		,#{contractNo}
+		
+		,#{companyCode}
+		,#{systemCode}
+		)
+	</insert>
 	
 	<insert id="insert_store" parameterType="store">
 		INSERT INTO
@@ -209,7 +362,6 @@
 		,user_referee
 		,rate1
 		,rate2
-		,rate3
 		
 		,status
 		,updater
@@ -250,7 +402,6 @@
 		,#{userReferee}
 		,#{rate1}
 		,#{rate2}
-		,#{rate3}
 	
 		,#{status}
 		,#{updater}

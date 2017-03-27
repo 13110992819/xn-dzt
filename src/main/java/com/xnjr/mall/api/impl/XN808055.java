@@ -35,7 +35,8 @@ public class XN808055 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.deliverOrder(req.getCode(), req.getUpdater(), req.getRemark());
+        orderAO.deliverXianchang(req.getCode(), req.getUpdater(),
+            req.getRemark());
         return new BooleanRes(true);
     }
 

@@ -34,10 +34,7 @@ public class XN808054 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.deliverOrder(req.getCode(), req.getLogisticsCompany(),
-            req.getLogisticsCode(), req.getDeliverer(),
-            req.getDeliveryDatetime(), req.getPdf(), req.getUpdater(),
-            req.getRemark());
+        orderAO.deliverLogistics(req);
         return new BooleanRes(true);
     }
 

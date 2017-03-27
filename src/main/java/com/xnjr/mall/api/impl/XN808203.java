@@ -40,7 +40,7 @@ public class XN808203 extends AProcessor {
         req = JsonUtil.json2Bean(inputparams, XN808203Req.class);
         StringValidater.validateBlank(req.getCode(), req.getName(),
             req.getType(), req.getRate1(), req.getRate2(), req.getSlogan(),
-            req.getAdPic(), req.getPic(), req.getDescription(),
+            req.getAdvPic(), req.getPic(), req.getDescription(),
             req.getProvince(), req.getCity(), req.getArea(), req.getAddress(),
             req.getLongitude(), req.getLatitude(), req.getBookMobile(),
             req.getSmsMobile(), req.getUpdater());

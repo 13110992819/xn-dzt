@@ -14,12 +14,12 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 分页查询订单
+ * 我的订单分页查询（前端）
  * @author: xieyj 
  * @since: 2016年5月23日 上午9:04:12 
  * @history:
  */
-public class XN808065 extends AProcessor {
+public class XN808068 extends AProcessor {
 
     private IOrderAO orderAO = SpringContextHolder.getBean(IOrderAO.class);
 
@@ -53,7 +53,7 @@ public class XN808065 extends AProcessor {
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
-        return orderAO.queryOrderPage(start, limit, condition);
+        return orderAO.queryMyOrderPage(start, limit, condition);
     }
 
     /** 
@@ -62,8 +62,8 @@ public class XN808065 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808065Req.class);
-        StringValidater
-            .validateBlank(req.getCompanyCode(), req.getSystemCode());
+        StringValidater.validateBlank(req.getCompanyCode(),
+            req.getSystemCode(), req.getApplyUser());
         StringValidater.validateNumber(req.getStart(), req.getLimit());
     }
 }

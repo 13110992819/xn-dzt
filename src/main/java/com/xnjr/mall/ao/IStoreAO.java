@@ -38,7 +38,7 @@ public interface IStoreAO {
     public Paginable<Store> queryStorePageOss(int start, int limit,
             Store condition);
 
-    public Paginable<Store> queryStorePageFront(int start, int limit,
+    public Paginable<Store> queryFrontStorePage(int start, int limit,
             Store condition);
 
     public Store getStoreOss(String code);

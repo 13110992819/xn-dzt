@@ -1,5 +1,7 @@
 package com.xnjr.mall.dao;
 
+import java.util.List;
+
 import com.xnjr.mall.dao.base.IBaseDAO;
 import com.xnjr.mall.domain.Store;
 
@@ -10,6 +12,8 @@ import com.xnjr.mall.domain.Store;
  */
 public interface IStoreDAO extends IBaseDAO<Store> {
     String NAMESPACE = IStoreDAO.class.getName().concat(".");
+
+    public int insertOss(Store data);
 
     public int update(Store data);
 
@@ -30,4 +34,8 @@ public interface IStoreDAO extends IBaseDAO<Store> {
     public int updateTotalDzNum(Store data);
 
     public int updateTotalScNum(Store data);
+
+    public Long selectFrontTotalCount(Store condition);
+
+    public List<Store> selectFrontList(Store condition, int start, int count);
 }

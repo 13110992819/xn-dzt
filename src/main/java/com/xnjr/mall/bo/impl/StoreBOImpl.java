@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.xnjr.mall.bo.IStoreBO;
 import com.xnjr.mall.bo.IUserBO;
+import com.xnjr.mall.bo.base.Page;
+import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.IStoreDAO;
@@ -84,6 +86,7 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
             }
             return userId;
         } else {// 加盟商帮商家代注册，所以userReferee是加盟商的userId
+            userBO.getRemoteUser(userReferee);
             return userReferee;
         }
 
@@ -109,18 +112,13 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     }
 
     @Override
-    public Store getStoreByUser(String bUser) {
-        Store a = null;
+    public void checkStoreByUser(String bUser, String mobile) {
         Store condition = new Store();
         condition.setOwner(bUser);
         List<Store> list = this.queryStoreList(condition);
-        if (CollectionUtils.isNotEmpty(list)) {
-            a = list.get(0);
+        if (CollectionUtils.isNotEmpty(list) && list.size() > 0) {
+            throw new BizException("xn000000", "用户" + mobile + "已有店铺,无需再次申请");
         }
-        if (a == null) {
-            throw new BizException("xn000000", bUser + "没有店铺");
-        }
-        return a;
     }
 
     @Override
@@ -151,33 +149,52 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
         }
     }
 
-    @Override
-    public int refreshTotalDzNum(Store data) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public int refreshTotalJfNum(Store data) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
     /** 
      * @see com.xnjr.mall.bo.IStoreBO#refreshTotalRmbNum(com.xnjr.mall.domain.Store)
      */
     @Override
-    public int refreshTotalRmbNum(Store dbStore) {
-        return 0;
+    public void refreshTotalRmbNum(Store data, Integer changeNum) {
+        if (null != data && StringUtils.isNotBlank(data.getCode())) {
+            data.setTotalRmbNum(data.getTotalRmbNum() + changeNum);
+            storeDAO.updateTotalRmbNum(data);
+        }
+    }
+
+    @Override
+    public void refreshTotalJfNum(Store data, Integer changeNum) {
+        if (null != data && StringUtils.isNotBlank(data.getCode())) {
+            data.setTotalJfNum(data.getTotalJfNum() + changeNum);
+            storeDAO.updateTotalJfNum(data);
+        }
+    }
+
+    @Override
+    public void refreshTotalDzNum(Store data, Integer changeNum) {
+        if (null != data && StringUtils.isNotBlank(data.getCode())) {
+            data.setTotalDzNum(data.getTotalDzNum() + changeNum);
+            storeDAO.updateTotalDzNum(data);
+        }
+    }
+
+    @Override
+    public void refreshTotalScNum(Store data, Integer changeNum) {
+        if (null != data && StringUtils.isNotBlank(data.getCode())) {
+            data.setTotalScNum(data.getTotalScNum() + changeNum);
+            storeDAO.updateTotalScNum(data);
+        }
     }
 
     /** 
-     * @see com.xnjr.mall.bo.IStoreBO#refreshTotalScNum(com.xnjr.mall.domain.Store)
+     * @see com.xnjr.mall.bo.IStoreBO#queryFrontPage(int, int, com.xnjr.mall.domain.Store)
      */
     @Override
-    public int refreshTotalScNum(Store dbStore) {
-        // TODO Auto-generated method stub
-        return 0;
+    public Paginable<Store> queryFrontPage(int start, int pageSize,
+            Store condition) {
+        long totalCount = storeDAO.selectFrontTotalCount(condition);
+        Paginable<Store> page = new Page<Store>(start, pageSize, totalCount);
+        List<Store> dataList = storeDAO.selectFrontList(condition,
+            page.getStart(), page.getPageSize());
+        page.setList(dataList);
+        return page;
     }
-
 }

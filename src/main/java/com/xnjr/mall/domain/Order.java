@@ -106,6 +106,15 @@ public class Order extends ABaseDO {
     // 物流单
     private String pdf;
 
+    // 更新人
+    private String updater;
+
+    // 更新时间
+    private Date updateDatetime;
+
+    // 备注
+    private String remark;
+
     // 所属公司编号
     private String companyCode;
 
@@ -119,9 +128,6 @@ public class Order extends ABaseDO {
 
     // 申请开始时间止
     private Date applyDatetimeEnd;
-
-    // 模糊查询使用
-    private String codeForQuery;
 
     // 订单产品详情列表
     List<ProductOrder> productOrderList;
@@ -385,14 +391,6 @@ public class Order extends ABaseDO {
         this.applyDatetimeEnd = applyDatetimeEnd;
     }
 
-    public String getCodeForQuery() {
-        return codeForQuery;
-    }
-
-    public void setCodeForQuery(String codeForQuery) {
-        this.codeForQuery = codeForQuery;
-    }
-
     public List<ProductOrder> getProductOrderList() {
         return productOrderList;
     }
@@ -407,6 +405,30 @@ public class Order extends ABaseDO {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(String updater) {
+        this.updater = updater;
+    }
+
+    public Date getUpdateDatetime() {
+        return updateDatetime;
+    }
+
+    public void setUpdateDatetime(Date updateDatetime) {
+        this.updateDatetime = updateDatetime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
 }

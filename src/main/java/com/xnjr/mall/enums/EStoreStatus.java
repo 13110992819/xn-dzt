@@ -16,6 +16,7 @@ package com.xnjr.mall.enums;
 public enum EStoreStatus {
     TOCHECK("0", "待审核"), UNPASS("91", "审核不通过"), PASS("1", "审核通过待上架"), ON_OPEN(
             "2", "已上架，开店"), ON_CLOSE("3", "已上架，关店"), OFF("4", "已下架");
+
     // 状态解释
     // 待审核---审核---上架,上架后商家可自行关店开店，但其开店关店优先级小于平台的上架下架
     // 平台上架后，并且状态是开店

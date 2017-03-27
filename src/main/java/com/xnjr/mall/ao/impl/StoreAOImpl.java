@@ -72,7 +72,7 @@ public class StoreAOImpl implements IStoreAO {
                 req.getSystemCode(), req.getCompanyCode());
         } else {
             // 判断该用户是否有店铺了
-            storeBO.getStoreByUser(bUser);
+            storeBO.checkStoreByUser(bUser, req.getMobile());
         }
 
         String code = OrderNoGenerater.generateM("SJ");
@@ -170,6 +170,9 @@ public class StoreAOImpl implements IStoreAO {
 
     @Override
     public void editStore(XN808203Req req) {
+        // 验证店铺是否存在
+        storeBO.getStore(req.getCode());
+        // 更新字段
         Store data = new Store();
         data.setCode(req.getCode());
         data.setName(req.getName());
@@ -267,13 +270,12 @@ public class StoreAOImpl implements IStoreAO {
         dbStore.setUpdater(dbStore.getOwner());
         dbStore.setUpdateDatetime(new Date());
         storeBO.upLevel(dbStore);
-
     }
 
     @Override
-    public Paginable<Store> queryStorePageFront(int start, int limit,
+    public Paginable<Store> queryFrontStorePage(int start, int limit,
             Store condition) {
-        Paginable<Store> paginable = storeBO.getPaginable(start, limit,
+        Paginable<Store> paginable = storeBO.queryFrontPage(start, limit,
             condition);
         List<Store> storeList = paginable.getList();
         if (CollectionUtils.isNotEmpty(storeList)) {

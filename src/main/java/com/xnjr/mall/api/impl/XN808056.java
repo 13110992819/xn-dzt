@@ -1,5 +1,7 @@
 package com.xnjr.mall.api.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.xnjr.mall.ao.IOrderAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
@@ -11,7 +13,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 商户取消订单
+ * 商户批量取消订单
  * @author: xieyj 
  * @since: 2016年5月23日 上午9:04:12 
  * @history:
@@ -27,9 +29,9 @@ public class XN808056 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        int count = orderAO.cancelOrderOss(req.getCode(), req.getUpdater(),
-            req.getRemark());
-        return new BooleanRes(count > 0 ? true : false);
+        orderAO
+            .platCancel(req.getCodeList(), req.getUpdater(), req.getRemark());
+        return new BooleanRes(true);
 
     }
 
@@ -39,7 +41,9 @@ public class XN808056 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808056Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getUpdater(),
-            req.getRemark());
+        if (CollectionUtils.isEmpty(req.getCodeList())) {
+            throw new BizException("xn000000", "订单编号列表不能为空");
+        }
+        StringValidater.validateBlank(req.getUpdater());
     }
 }

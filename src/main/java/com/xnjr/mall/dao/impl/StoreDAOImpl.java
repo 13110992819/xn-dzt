@@ -17,6 +17,11 @@ import com.xnjr.mall.domain.Store;
 public class StoreDAOImpl extends AMybatisTemplate implements IStoreDAO {
 
     @Override
+    public int insertOss(Store data) {
+        return super.insert(NAMESPACE.concat("insert_store_oss"), data);
+    }
+
+    @Override
     public int insert(Store data) {
         return super.insert(NAMESPACE.concat("insert_store"), data);
     }
@@ -103,6 +108,17 @@ public class StoreDAOImpl extends AMybatisTemplate implements IStoreDAO {
     @Override
     public Store select(Store condition) {
         return super.select("select_store", condition, Store.class);
+    }
+
+    @Override
+    public Long selectFrontTotalCount(Store condition) {
+        return super.selectTotalCount("select_front_store_count", condition);
+    }
+
+    @Override
+    public List<Store> selectFrontList(Store condition, int start, int count) {
+        return super.selectList("select_front_store", start, count, condition,
+            Store.class);
     }
 
     @Override

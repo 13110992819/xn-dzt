@@ -6,12 +6,14 @@
 		<result column="code" property="code" />
 		<result column="order_code" property="orderCode" />
 		<result column="product_code" property="productCode" />
-		<result column="product_name" property="productName" />
 		<result column="quantity" property="quantity" />
 		<result column="price1" property="price1" />
 		<result column="price2" property="price2" />
 		<result column="price3" property="price3" />
-		<result column="adv_pic" property="advPic" />
+		<result column="company_code" property="companyCode" />
+		<result column="system_code" property="systemCode" />
+		<result column="product_name" property="product.name" />
+		<result column="product_adv_pic" property="product.advPic" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -32,11 +34,13 @@
 		,t.order_code
 		,t.product_code
 		,t.quantity
-		,tp.name product_name
 		,t.price1
 		,t.price2
 		,t.price3
-		,tp.adv_pic
+		,t.company_code
+		,t.system_code
+		,tp.name product_name
+		,tp.adv_pic product_adv_pic
 		FROM
 		tmall_product_order t INNER JOIN tmall_product tp ON t.product_code = tp.code
 		<include refid="where_condition" />
@@ -62,6 +66,7 @@
 		,price1
 		,price2
 		,price3
+		,company_code
 		,system_code
 		)
 		VALUES(
@@ -72,6 +77,7 @@
 		,#{price1}
 		,#{price2}
 		,#{price3}
+		,#{companyCode}
 		,#{systemCode}
 		)
 	</insert>

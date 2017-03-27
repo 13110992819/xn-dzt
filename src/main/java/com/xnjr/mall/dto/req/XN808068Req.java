@@ -6,7 +6,7 @@ package com.xnjr.mall.dto.req;
  * @since: 2016年5月23日 上午8:46:53 
  * @history:
  */
-public class XN808065Req extends APageReq {
+public class XN808068Req extends APageReq {
 
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
