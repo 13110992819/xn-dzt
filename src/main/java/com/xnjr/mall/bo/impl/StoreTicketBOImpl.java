@@ -68,7 +68,7 @@ public class StoreTicketBOImpl extends PaginableBOImpl<StoreTicket> implements
     @Override
     public List<StoreTicket> queryWillInValidList() {
         StoreTicket condition = new StoreTicket();
-        condition.setStatus(EStoreTicketStatus.VALID.getCode());
+        condition.setStatus("12");
         condition.setValidateEndEnd(new Date());
         return storeTicketDAO.selectList(condition);
     }

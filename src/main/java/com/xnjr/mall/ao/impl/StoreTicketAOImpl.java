@@ -59,9 +59,9 @@ public class StoreTicketAOImpl implements IStoreTicketAO {
         data.setValidateEnd(validateEnd);
         data.setCreateDatetime(new Date());
         if (EBoolean.YES.getCode().equals(req.getIsPutaway())) {
-            data.setStatus(EStoreTicketStatus.ONLINE.getCode());
+            data.setStatus(EStoreTicketStatus.ON.getCode());
         } else {
-            data.setStatus(EStoreTicketStatus.NEW.getCode());
+            data.setStatus(EStoreTicketStatus.TO_ON.getCode());
         }
         data.setStoreCode(req.getStoreCode());
         data.setCompanyCode(req.getCompanyCode());
@@ -73,7 +73,7 @@ public class StoreTicketAOImpl implements IStoreTicketAO {
     @Override
     public void dropStoreTicket(String code) {
         StoreTicket storeTicket = storeTicketBO.getStoreTicket(code);
-        if (!EStoreTicketStatus.NEW.getCode().equals(storeTicket.getStatus())) {
+        if (!EStoreTicketStatus.TO_ON.getCode().equals(storeTicket.getStatus())) {
             throw new BizException("xn0000", "当前折扣券不处于待上架状态，无法删除");
         }
         storeTicketBO.removeStoreTicket(code);
@@ -82,7 +82,7 @@ public class StoreTicketAOImpl implements IStoreTicketAO {
     @Override
     public void editStoreTicket(XN808252Req req) {
         StoreTicket storeTicket = storeTicketBO.getStoreTicket(req.getCode());
-        if (!EStoreTicketStatus.NEW.getCode().equals(storeTicket.getStatus())) {
+        if (!EStoreTicketStatus.TO_ON.getCode().equals(storeTicket.getStatus())) {
             throw new BizException("xn0000", "折扣券状态不允许修改，待上架状态可修改");
         }
         Date validateStart = DateUtil.getFrontDate(req.getValidateStart(),
@@ -103,9 +103,9 @@ public class StoreTicketAOImpl implements IStoreTicketAO {
         data.setValidateStart(validateStart);
         data.setValidateEnd(validateEnd);
         if (EBoolean.YES.getCode().equals(req.getIsPutaway())) {
-            data.setStatus(EStoreTicketStatus.ONLINE.getCode());
+            data.setStatus(EStoreTicketStatus.ON.getCode());
         } else {
-            data.setStatus(EStoreTicketStatus.NEW.getCode());
+            data.setStatus(EStoreTicketStatus.TO_ON.getCode());
         }
 
         storeTicketBO.refreshStoreTicket(data);
@@ -115,14 +115,14 @@ public class StoreTicketAOImpl implements IStoreTicketAO {
     public void putOnOff(String code) {
         StoreTicket storeTicket = storeTicketBO.getStoreTicket(code);
         String status = null;
-        if (EStoreTicketStatus.OFFLINE.getCode()
+        if (EStoreTicketStatus.OFF.getCode()
             .equals(storeTicket.getStatus())
-                || EStoreTicketStatus.NEW.getCode().equals(
+                || EStoreTicketStatus.TO_ON.getCode().equals(
                     storeTicket.getStatus())) {
-            status = EStoreTicketStatus.ONLINE.getCode();
-        } else if (EStoreTicketStatus.ONLINE.getCode().equals(
+            status = EStoreTicketStatus.ON.getCode();
+        } else if (EStoreTicketStatus.ON.getCode().equals(
             storeTicket.getStatus())) {
-            status = EStoreTicketStatus.OFFLINE.getCode();
+            status = EStoreTicketStatus.OFF.getCode();
         } else {
             throw new BizException("xn0000", "折扣券状态不允许上下架操作");
         }

@@ -283,7 +283,7 @@ public class StoreAOImpl implements IStoreAO {
             for (Store store : storeList) {
                 StoreTicket stCondition = new StoreTicket();
                 stCondition.setStoreCode(store.getCode());
-                stCondition.setStatus(EStoreTicketStatus.ONLINE.getCode());
+                stCondition.setStatus(EStoreTicketStatus.ON.getCode());
                 List<StoreTicket> storeTickets = storeTicketBO
                     .queryStoreTicketList(stCondition);
                 store.setStoreTickets(storeTickets);
@@ -314,7 +314,7 @@ public class StoreAOImpl implements IStoreAO {
         }
         StoreTicket condition = new StoreTicket();
         condition.setStoreCode(store.getCode());
-        condition.setStatus(EStoreTicketStatus.ONLINE.getCode());
+        condition.setStatus(EStoreTicketStatus.ON.getCode());
         store.setStoreTickets(storeTicketBO.queryStoreTicketList(condition));
         return store;
 

@@ -14,10 +14,10 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808260Req {
-    // 折扣券编号
+    // 折扣券编号（必填）
     private String code;
 
-    // 购买用户ID
+    // 购买用户（必填）
     private String userId;
 
     public String getCode() {

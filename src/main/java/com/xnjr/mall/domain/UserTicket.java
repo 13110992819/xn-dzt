@@ -23,6 +23,9 @@ public class UserTicket extends ABaseDO {
     // 折扣券编号
     private String ticketCode;
 
+    // 折扣券所属商家编号
+    private String storeCode;
+
     // 购买时间
     private Date createDatetime;
 
@@ -39,6 +42,9 @@ public class UserTicket extends ABaseDO {
 
     // 店铺折扣券
     private StoreTicket storeTicket;
+
+    // 所属商家
+    private Store store;
 
     public StoreTicket getStoreTicket() {
         return storeTicket;
@@ -102,6 +108,22 @@ public class UserTicket extends ABaseDO {
 
     public void setCompanyCode(String companyCode) {
         this.companyCode = companyCode;
+    }
+
+    public String getStoreCode() {
+        return storeCode;
+    }
+
+    public void setStoreCode(String storeCode) {
+        this.storeCode = storeCode;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 
 }

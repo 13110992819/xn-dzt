@@ -69,6 +69,9 @@ public class StoreTicket extends ABaseDO {
     // 有效期止结束时间
     private Date validateEndEnd;
 
+    // 所属商家
+    private Store store;
+
     public String getCode() {
         return code;
     }
@@ -212,4 +215,13 @@ public class StoreTicket extends ABaseDO {
     public void setValidateEndEnd(Date validateEndEnd) {
         this.validateEndEnd = validateEndEnd;
     }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
 }
