@@ -68,75 +68,79 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
     @Autowired
     private IUserBO userBO;
 
-    // 店铺消费业务逻辑：
-    // 1、店铺信息校验
-    // 2、产生消费订单，更新折扣券信息
-    // 3、划转各个账户金额，分销
     @Override
-    @Transactional
-    public Object storePurchase(String userId, String storeCode, Long amount,
+    public Object storePurchaseCG(String userId, String storeCode, Long amount,
             String payType, String ticketCode) {
         Store store = storeBO.getStore(storeCode);
         if (!EStoreStatus.ON_OPEN.getCode().equals(store.getStatus())) {
             throw new BizException("xn0000", "店铺不处于可消费状态");
         }
-        if (StringUtils.isNotBlank(ticketCode)) {// 使用折扣券
-            // 扣除折扣券优惠
-            UserTicket userTicket = userTicketBO.getUserTicket(ticketCode);
-            return storePurchaseByTicket(userId, store, amount, payType,
-                userTicket);
-        } else {// 不使用折扣券
-            return storePurchaseDirect(userId, store, amount, payType);
-        }
-
-    }
-
-    private Object storePurchaseDirect(String userId, Store store, Long amount,
-            String payType) {
-        if (EPayType.YEZP.getCode().equals(payType)) {
-            return storePurchaseDirectYE(userId, store, amount);
+        User user = userBO.getRemoteUser(userId);
+        if (EPayType.INTEGRAL.getCode().equals(payType)) {
+            return storePurchaseCGcgb(user, store, amount);
         } else if (EPayType.WEIXIN.getCode().equals(payType)) {
-            return storePurchaseDirectWX(userId, store, amount);
+            return storePurchaseDirectWX(user, store, amount);
         } else {
             throw new BizException("xn0000", "支付方式不存在");
         }
     }
 
-    private Object storePurchaseDirectWX(String userId, Store store, Long amount) {
-        Object result = null;
-        String systemCode = store.getSystemCode();
-        // 优惠金额
-        String remark = store.getName() + " 消费" + CalculationUtil.divi(amount)
-                + "元";
-        // 获取微信APP支付信息
-        String bizNote = store.getName() + "——消费买单";
-        String body = "正汇钱包—优店";
-        XN802180Res res = accountBO.doWeiXinPay(systemCode, userId,
-            EBizType.AJ_DPXF, bizNote, body, yhAmount, ip);
-        // 落地本地系统消费记录，状态为未支付
-        StorePurchase data = new StorePurchase();
-        data.setUserId(userId);
-        data.setStoreCode(storeCode);
-        data.setPayType(EPayType.WEIXIN.getCode());
-        data.setPurchaseAmount(amount);
-        data.setAmount1(yhAmount);
-        data.setStatus(EStorePurchaseStatus.TO_PAY.getCode());
-        data.setSystemCode(systemCode);
-        data.setRemark(remark);
-        data.setJourCode(res.getJourCode());
-        storePurchaseBO.saveStorePurchase(data);
-        result = res;
-        return null;
+    private Object storePurchaseDirect(User user, Store store, Long amount,
+            String payType) {
+        if (EPayType.ZH_YE.getCode().equals(payType)) {
+            return storePurchaseDirectYE(user, store, amount);
+        } else if (EPayType.WEIXIN.getCode().equals(payType)) {
+            return storePurchaseDirectWX(user, store, amount);
+        } else {
+            throw new BizException("xn0000", "支付方式不存在");
+        }
     }
 
-    private Object storePurchaseDirectYE(String userId, Store store, Long amount) {
-        Object result = null;
-        String systemCode = store.getSystemCode();
+    @Override
+    public Object storePurchaseZH(String userId, String storeCode, Long amount,
+            String payType, String ticketCode) {
+        Store store = storeBO.getStore(storeCode);
+        if (!EStoreStatus.ON_OPEN.getCode().equals(store.getStatus())) {
+            throw new BizException("xn0000", "店铺不处于可消费状态");
+        }
+        User user = userBO.getRemoteUser(userId);
+        if (StringUtils.isNotBlank(ticketCode)) {// 使用折扣券
+            // 扣除折扣券优惠
+            UserTicket userTicket = userTicketBO.getUserTicket(ticketCode);
+            return storePurchaseTicket(user, store, amount, payType, userTicket);
+        } else {// 不使用折扣券
+            return storePurchaseDirect(user, store, amount, payType);
+        }
+
+    }
+
+    // 菜狗币支付
+    @Transactional
+    private String storePurchaseCGcgb(User user, Store store, Long amount) {
+        // 计算返点人民币
+        Long fdAmount = Double.valueOf(amount * store.getRate3()).longValue();
+        // 落地本地系统消费记录
+        String code = storePurchaseBO.storePurchaseCGcgb(user, store, amount,
+            fdAmount);
+        // 资金划转开始--------------
+        // 菜狗币从消费者回收至平台，
+        String systemUser = null;
+        accountBO.doTransferAmountRemote(user.getUserId(), systemUser,
+            ECurrency.CGB, amount, EBizType.CG_O2O_CGB, "O2O消费使用菜狗币",
+            "O2O消费回收菜狗币");
+        // 商家从平台处拿到返点（人民币）
+        accountBO.doTransferAmountRemote(systemUser, store.getOwner(),
+            ECurrency.CNY, fdAmount, EBizType.CG_O2O_CGGFD, "O2O消费支付返点人民币",
+            "O2O消费收到返点人民币");
+        // 资金划转结束--------------
+        return code;
+    }
+
+    private Object storePurchaseDirectYE(User user, Store store, Long amount) {
         // 优惠金额
         Long yhAmount = amount;
         String remark = store.getName() + " 消费" + CalculationUtil.divi(amount)
                 + "元";
-
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
         Long gxjlAmount = 0L;
         Long frAmount = 0L;
@@ -180,7 +184,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         StorePurchase data = new StorePurchase();
         data.setUserId(userId);
         data.setStoreCode(storeCode);
-        data.setPayType(EPayType.YEZP.getCode());
+        data.setPayType(EPayType.ZH_YE.getCode());
         data.setPurchaseAmount(amount);
         data.setAmount1(yhAmount);
         data.setAmount2(gxjlAmount);
@@ -216,8 +220,35 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         return null;
     }
 
-    private Object storePurchaseByTicket(String userId, Store store,
-            Long amount, String payType, UserTicket userTicket) {
+    private Object storePurchaseDirectWX(User user, Store store, Long amount) {
+        Object result = null;
+        String systemCode = store.getSystemCode();
+        // 优惠金额
+        String remark = store.getName() + " 消费" + CalculationUtil.divi(amount)
+                + "元";
+        // 获取微信APP支付信息
+        String bizNote = store.getName() + "——消费买单";
+        String body = "正汇钱包—优店";
+        XN802180Res res = accountBO.doWeiXinPay(systemCode, userId,
+            EBizType.AJ_DPXF, bizNote, body, yhAmount, ip);
+        // 落地本地系统消费记录，状态为未支付
+        StorePurchase data = new StorePurchase();
+        data.setUserId(userId);
+        data.setStoreCode(storeCode);
+        data.setPayType(EPayType.WEIXIN.getCode());
+        data.setPurchaseAmount(amount);
+        data.setAmount1(yhAmount);
+        data.setStatus(EStorePurchaseStatus.TO_PAY.getCode());
+        data.setSystemCode(systemCode);
+        data.setRemark(remark);
+        data.setJourCode(res.getJourCode());
+        storePurchaseBO.saveStorePurchase(data);
+        result = res;
+        return null;
+    }
+
+    private Object storePurchaseTicket(User user, Store store, Long amount,
+            String payType, UserTicket userTicket) {
         if (storeTicket.getValidateStart().after(new Date())) {
             throw new BizException("xn0000", "该折扣券还未生效，请选择其他折扣券");
         }
@@ -264,7 +295,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
 
     @Override
     @Transactional
-    public int paySuccess(String jourCode) {
+    public void paySuccess(String jourCode) {
         int count = 0;
         StorePurchase condition = new StorePurchase();
         condition.setJourCode(jourCode);
@@ -274,7 +305,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
             throw new BizException("XN000000", "找不到对应的消费记录");
         }
         StorePurchase storePurchase = result.get(0);
-        count = storePurchaseBO.refreshStatus(storePurchase.getCode(),
+        storePurchaseBO.refreshStatus(storePurchase.getCode(),
             EStorePurchaseStatus.PAYED.getCode());
         // 优惠券状态修改
         String ticketCode = storePurchase.getTicketCode();
@@ -283,7 +314,6 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                 EUserTicketStatus.USED.getCode());
         }
         distributeAmount(storePurchase);
-        return count;
     }
 
     // 消费买单完 各方分钱
