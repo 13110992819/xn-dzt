@@ -120,13 +120,23 @@
 		,t.yunfei
 		
 		,t.status
+		,t.pay_group
+		,t.pay_code
+		,t.pay_datetime
 		,t.pay_amount1
+		
 		,t.pay_amount2
 		,t.pay_amount3
 		,t.prompt_times
+		,t.deliverer
+		,t.delivery_datetime
 		
+		,t.logistics_company
+		,t.logistics_code
+		,t.pdf
 		,t.updater
 		,t.update_datetime
+		
 		,t.remark
 		,t.company_code
 		,t.system_code

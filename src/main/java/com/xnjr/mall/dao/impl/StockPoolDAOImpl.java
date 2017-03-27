@@ -8,47 +8,45 @@ import com.xnjr.mall.dao.IStockPoolDAO;
 import com.xnjr.mall.dao.base.support.AMybatisTemplate;
 import com.xnjr.mall.domain.StockPool;
 
-@Repository("stockHoldDAOImpl")
+@Repository("stockPoolDAOImpl")
 public class StockPoolDAOImpl extends AMybatisTemplate implements IStockPoolDAO {
 
     @Override
     public int insert(StockPool data) {
-        return super.insert(NAMESPACE.concat("insert_stockHold"), data);
+        return super.insert(NAMESPACE.concat("insert_stockPool"), data);
     }
 
     @Override
     public int delete(StockPool data) {
-        return super.delete(NAMESPACE.concat("delete_stockHold"), data);
+        return 0;
     }
 
     @Override
     public StockPool select(StockPool condition) {
-        return super.select(NAMESPACE.concat("select_stockHold"), condition,
+        return super.select(NAMESPACE.concat("select_stockPool"), condition,
             StockPool.class);
     }
 
     @Override
     public Long selectTotalCount(StockPool condition) {
         return super.selectTotalCount(
-            NAMESPACE.concat("select_stockHold_count"), condition);
+            NAMESPACE.concat("select_stockPool_count"), condition);
     }
 
     @Override
     public List<StockPool> selectList(StockPool condition) {
-        return super.selectList(NAMESPACE.concat("select_stockHold"),
+        return super.selectList(NAMESPACE.concat("select_stockPool"),
             condition, StockPool.class);
     }
 
     @Override
     public List<StockPool> selectList(StockPool condition, int start, int count) {
-        return super.selectList(NAMESPACE.concat("select_stockHold"), start,
+        return super.selectList(NAMESPACE.concat("select_stockPool"), start,
             count, condition, StockPool.class);
     }
 
     @Override
-    public int addAmount(StockPool pool) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int addAmount(StockPool data) {
+        return super.update(NAMESPACE.concat("update_amount"), data);
     }
-
 }
