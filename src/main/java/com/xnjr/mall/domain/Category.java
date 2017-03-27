@@ -26,6 +26,9 @@ public class Category extends ABaseDO {
     // 编号
     private String code;
 
+    // 类型
+    private String type;
+
     // 父编号
     private String parentCode;
 
@@ -57,6 +60,14 @@ public class Category extends ABaseDO {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getParentCode() {

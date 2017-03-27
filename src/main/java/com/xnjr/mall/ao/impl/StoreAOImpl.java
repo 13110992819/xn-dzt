@@ -270,7 +270,6 @@ public class StoreAOImpl implements IStoreAO {
         dbStore.setUpdater(dbStore.getOwner());
         dbStore.setUpdateDatetime(new Date());
         storeBO.upLevel(dbStore);
-
     }
 
     @Override
