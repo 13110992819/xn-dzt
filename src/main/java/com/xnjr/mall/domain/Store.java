@@ -27,7 +27,7 @@ public class Store extends ABaseDO {
     private String slogan;
 
     // 店铺缩略图
-    private String adPic;
+    private String advPic;
 
     // 店铺图片
     private String pic;
@@ -199,12 +199,12 @@ public class Store extends ABaseDO {
         this.slogan = slogan;
     }
 
-    public String getAdPic() {
-        return adPic;
+    public String getAdvPic() {
+        return advPic;
     }
 
-    public void setAdPic(String adPic) {
-        this.adPic = adPic;
+    public void setAdvPic(String advPic) {
+        this.advPic = advPic;
     }
 
     public String getPic() {

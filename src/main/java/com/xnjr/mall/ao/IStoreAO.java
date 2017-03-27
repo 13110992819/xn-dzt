@@ -22,7 +22,7 @@ public interface IStoreAO {
 
     public String addStore(XN808201Req req);
 
-    public void approveStore(String code, String checkResult, String checkUser,
+    public void checkStore(String code, String checkResult, String checkUser,
             String remark);
 
     public void editStore(XN808203Req req);

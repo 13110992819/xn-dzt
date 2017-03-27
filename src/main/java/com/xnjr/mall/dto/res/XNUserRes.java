@@ -1,12 +1,12 @@
 package com.xnjr.mall.dto.res;
 
-public class XN805042Res {
+public class XNUserRes {
     private String userId;
 
-    public XN805042Res() {
+    public XNUserRes() {
     }
 
-    public XN805042Res(String userId) {
+    public XNUserRes(String userId) {
         this.userId = userId;
     }
 
