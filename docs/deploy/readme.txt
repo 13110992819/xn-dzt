@@ -8,12 +8,6 @@
 3. 备份原先配置(如果第一次部署，跳过此步骤)
   ssh root@121.43.101.148 -p 22
 
-  cd /home/wwwroot/b2cmall/tomcat_std_mall/webapps
-  cp ./std-mall/WEB-INF/classes/application.properties .
-  cp ./std-mall/WEB-INF/classes/config.properties .
-  rm -rf std-mall*
-  mv /home/std-mall.war .
-  
   cd /home/wwwroot/zhpay/tomcat_std_mall/webapps
   cp ./std-mall/WEB-INF/classes/application.properties .
   cp ./std-mall/WEB-INF/classes/config.properties .
