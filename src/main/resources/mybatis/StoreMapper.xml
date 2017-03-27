@@ -5,44 +5,47 @@
 	<resultMap id="store_DB_Result" type="store">
 		<result column="code" property="code" />
 		<result column="name" property="name" />
+		<result column="level" property="level" />
 		<result column="type" property="type" />
-		<result column="legal_person_name" property="legalPersonName" />
-		<result column="user_referee" property="userReferee" />
-		
-		<result column="rate1" property="rate1" />
-		<result column="rate2" property="rate2" />
-		<result column="slogan" property="slogan" />
-		<result column="ad_pic" property="adPic" />
+	    <result column="slogan" property="slogan" />
+	    
+		<result column="adv_pic" property="advPic" />
 		<result column="pic" property="pic" />
-		
 		<result column="description" property="description" />
 		<result column="province" property="province" />
 		<result column="city" property="city" />
+		
 		<result column="area" property="area" />
 		<result column="address" property="address" />
-		
 		<result column="longitude" property="longitude" />
 		<result column="latitude" property="latitude" />
 		<result column="book_mobile" property="bookMobile" />
+		
 		<result column="sms_mobile" property="smsMobile" />
 		<result column="pdf" property="pdf" />
-		
-		<result column="is_default" property="isDefault" />
 		<result column="ui_location" property="uiLocation" />
 		<result column="ui_order" property="uiOrder" />
-		<result column="status" property="status" />
-		<result column="approver" property="approver" />
+		<result column="legal_person_name" property="legalPersonName" />
 		
-		<result column="approve_datetime" property="approveDatetime" />
+		<result column="user_referee" property="userReferee" />
+		<result column="rate1" property="rate1" />
+		<result column="rate2" property="rate2" />
+		<result column="rate3" property="rate3" />
+		<result column="is_default" property="isDefault" />
+		
+		<result column="status" property="status" />
 		<result column="updater" property="updater" />
 		<result column="update_datetime" property="updateDatetime" />
 		<result column="remark" property="remark" />
 		<result column="owner" property="owner" />
 		
+		<result column="contract_no" property="contractNo" />
 		<result column="total_jf_num" property="totalJfNum" />
 		<result column="total_dz_num" property="totalDzNum" />
+		<result column="total_sc_num" property="totalScNum" />
 		<result column="distance" property="distance" />
-		<result column="contract_no" property="contractNo" />
+		
+		<result column="company_code" property="companyCode" />
 		<result column="system_code" property="systemCode" />
 	</resultMap>
 	<sql id="where_condition">
@@ -53,14 +56,11 @@
 			<if test="name != null and name != '' ">
 				AND t.name like "%"#{name}"%"
 			</if>
+			<if test="level != null and level != '' ">
+				AND t.level = #{level}
+			</if>
 			<if test="type != null and type != '' ">
 				AND t.type = #{type}
-			</if>
-			<if test="userReferee != null and userReferee != '' ">
-				AND t.user_referee = #{userReferee}
-			</if>
-			<if test="legalPersonName != null and legalPersonName != '' ">
-				AND t.legal_person_name = #{legalPersonName}
 			</if>
 			<if test="province != null and province != '' ">
 				AND t.province = #{province}
@@ -80,6 +80,18 @@
 			<if test="areaForQuery != null and areaForQuery != '' ">
 				AND t.area like "%"#{areaForQuery}"%"
 			</if>
+			<if test="uiLocation != null and uiLocation != '' ">
+				AND t.ui_location = #{uiLocation}
+			</if>
+			<if test="legalPersonName != null and legalPersonName != '' ">
+				AND t.legal_person_name = #{legalPersonName}
+			</if>
+			<if test="userReferee != null and userReferee != '' ">
+				AND t.user_referee = #{userReferee}
+			</if>
+			<if test="isDefault != null and isDefault != '' ">
+				AND t.is_default = #{isDefault}
+			</if>
 			<if test="status != null and status != '' ">
 				<choose>
 					<when test='status == "effect"'>
@@ -93,57 +105,69 @@
 			<if test="owner != null and owner != '' ">
 				AND t.owner = #{owner}
 			</if>
+			<if test="contractNo != null and contractNo != '' ">
+				AND t.contract_no = #{contractNo}
+			</if>
+			<if test="companyCode != null and companyCode != '' ">
+				AND t.company_code = #{companyCode}
+			</if>
 			<if test="systemCode != null and systemCode != '' ">
 				AND t.system_code = #{systemCode}
+			</if>
+			<if test="distance != null and distance != '' ">
+				<![CDATA[ having distance <= #{distance}]]>
 			</if>
 		</trim>
 	</sql>
 	
 	<select id="select_store" parameterType="store" resultMap="store_DB_Result">
 		SELECT
-		code
+		t.code
 		,t.name
+		,t.level
 		,t.type
-		,t.legal_person_name
-		,t.user_referee
-		,t.rate1
-		
-		,t.rate2
 		,t.slogan
-		,t.ad_pic	
+		
+		,t.adv_pic	
 		,t.pic
 		,t.description
-		
 		,t.province
 		,t.city
+		
 		,t.area
 		,t.address
 		,t.longitude
-		
 		,t.latitude
 		,t.book_mobile
+		
 		,t.sms_mobile
 		,t.pdf
-		,t.is_default
-		
 		,t.ui_location
 		,t.ui_order
-		,t.status
-		,t.approver
-		,t.approve_datetime
+		,t.legal_person_name
 		
+		,t.user_referee
+		,t.rate1
+		,t.rate2
+		,t.rate3
+		,t.is_default
+		
+		,t.status
 		,t.updater
 		,t.update_datetime
 		,t.remark
 		,t.owner
-		,t.total_dz_num
 		
-		,t.total_jf_num
 		,t.contract_no
+		,t.total_rmb_num
+		,t.total_jf_num
+		,t.total_dz_num
+		,t.total_sc_num
+		,t.company_code
 		,t.system_code
-		,ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{userLatitude}*PI()/180-t.latitude*PI()/180)/2),2)+COS(#{userLatitude}*PI()/180)*COS(t.latitude*PI()/180)*POW(SIN((#{userLongitude}*PI()/180-t.longitude*PI()/180)/2),2)))*1000) as distance
+		,ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{latitude}*PI()/180-t.latitude*PI()/180)/2),2)+COS(#{latitude}*PI()/180)*COS(t.latitude*PI()/180)*POW(SIN((#{longitude}*PI()/180-t.longitude*PI()/180)/2),2)))*1000) as distance
 		FROM
-		to2o_store t <!-- INNER JOIN ${userDB}.tstd_user tu ON t.owner = tu.user_id -->
+		to2o_store t
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -154,7 +178,7 @@
 	
 	<select id="select_store_count" parameterType="store"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM to2o_store t <!--  LEFT JOIN ${userDB}.tstd_user tu ON t.user_id = tu.user_id -->
+		SELECT count(1) FROM to2o_store t
 		<include refid="where_condition" />
 	</select>
 	
@@ -163,27 +187,29 @@
 		to2o_store(
 		code
 		,name
+		,level
 		,type
-		,legal_person_name
-		,user_referee
-		
-		,rate1
-		,rate2
 		,slogan
-		,ad_pic	
-		,pic
 		
+		,adv_pic	
+		,pic
 		,description
 		,province
 		,city
+		
 		,area
 		,address
-		
 		,longitude
 		,latitude
 		,book_mobile
+		
 		,sms_mobile
 		,pdf
+		,legal_person_name
+		,user_referee
+		,rate1
+		,rate2
+		,rate3
 		
 		,status
 		,updater
@@ -191,41 +217,53 @@
 		,remark
 		,owner
 		
-		,contract_no
+		,total_rmb_num
+		,total_jf_num
+		,total_dz_num
+		,total_sc_num
+		
+		,company_code
 		,system_code
 		)
 		VALUES(
 		#{code}
 		,#{name}
+		,#{level}
 		,#{type}
-		,#{legalPersonName}
-		,#{userReferee}
-		
-		,#{rate1}
-		,#{rate2}
 		,#{slogan}
-		,#{adPic}
-		,#{pic}
 		
+		,#{advPic}
+		,#{pic}
 		,#{description}
 		,#{province}
 		,#{city}
+		
 		,#{area}
 		,#{address}
-		
 		,#{longitude}
 		,#{latitude}
 		,#{bookMobile}
+		
 		,#{smsMobile}
 		,#{pdf}
-		
+		,#{legalPersonName}
+		,#{userReferee}
+		,#{rate1}
+		,#{rate2}
+		,#{rate3}
+	
 		,#{status}
 		,#{updater}
 		,#{updateDatetime}
 		,#{remark}
 		,#{owner}
 		
-		,#{contractNo}
+		,#{totalRmbNum}
+		,#{totalJfNum}
+		,#{totalDzNum}
+		,#{totalScNum}
+		
+		,#{companyCode}
 		,#{systemCode}
 		)
 	</insert>
@@ -235,57 +273,110 @@
 		SET
 		name = #{name}
 		,type = #{type}
-		,legal_person_name = #{legalPersonName}
-		,rate1 = #{rate1}
-		
-		,rate2 = #{rate2}
 		,slogan = #{slogan}
-		,ad_pic = #{adPic}
+		,adv_pic = #{advPic}
 		,pic = #{pic}
-		,description = #{description}
 		
+		,description = #{description}
 		,province = #{province}
 		,city = #{city}
 		,area = #{area}
 		,address = #{address}
-		,longitude = #{longitude}
 		
+		,longitude = #{longitude}
 		,latitude = #{latitude}
 		,book_mobile = #{bookMobile}
 		,sms_mobile = #{smsMobile}
 		,pdf = #{pdf}
-		,update_datetime = #{updateDatetime}
 		
+		,legal_person_name = #{legalPersonName}
+		,rate1 = #{rate1}
+		,rate2 = #{rate2}
 		,status = #{status}
+		,updater = #{updater}
+		
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
 		WHERE code = #{code}
 	</update>
-	
-	
 	
     <update id="update_check" parameterType="store">
 		UPDATE to2o_store
 		SET
 		status = #{status}
-		,approver = #{approver}
-		,approve_datetime = #{approveDatetime}
-		<if test="contractNo != null and contractNo != '' ">
-			,contract_no = #{contractNo}
-		</if>
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,contract_no = #{contractNo}
 		,remark = #{remark}
 		WHERE code = #{code}
 	</update>
 	
-	<update id="update_storeDZ" parameterType="store">
+	<update id="update_putOn" parameterType="store">
+		UPDATE to2o_store
+		SET
+		status = #{status}
+		,ui_location = #{uiLocation}
+		,ui_order = #{uiOrder}
+		,rate1 = #{rate1}
+		,rate2 = #{rate2}
+		
+		,rate3 = #{rate3}
+		,is_default = #{isDefault}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_putOff" parameterType="store">
+		UPDATE to2o_store
+		SET
+		status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_openClose" parameterType="store">
+		UPDATE to2o_store
+		SET
+		status = #{status}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_level" parameterType="store">
+		UPDATE to2o_store
+		SET
+		level = #{level}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_totalRmbNum" parameterType="store">
+		UPDATE to2o_store
+		SET
+		total_rmb_num = #{totalRmbNum}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_totalJfNum" parameterType="store">
+		UPDATE to2o_store
+		SET
+		total_jf_num = #{totalJfNum}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_totalDzNum" parameterType="store">
 		UPDATE to2o_store
 		SET
 		total_dz_num = #{totalDzNum}
 		WHERE code = #{code}
 	</update>
 	
-	<update id="update_storeJF" parameterType="store">
+	<update id="update_totalScNum" parameterType="store">
 		UPDATE to2o_store
 		SET
-		total_jf_num = #{totalJfNum}
+		total_sc_num = #{totalScNum}
 		WHERE code = #{code}
 	</update>
 </mapper>

@@ -18,9 +18,9 @@
   <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
        <property name="triggers">  
            <list>
-              <ref bean="orderTrigger"/> 
-              <ref bean="storeTicketTrigger"/>
-           </list>  
+<!--               <ref bean="orderTrigger"/> 
+ --><!--               <ref bean="storeTicketTrigger"/>
+ -->           </list>  
        </property>  
        <property name="autoStartup" value="true"/>  
     </bean> 

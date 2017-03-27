@@ -1,13 +1,13 @@
 package com.xnjr.mall.dto.res;
 
-public class XN805910Res {
+public class XN001102Res {
     // 用户编号
     private String userId;
 
-    public XN805910Res() {
+    public XN001102Res() {
     }
 
-    public XN805910Res(String userId) {
+    public XN001102Res(String userId) {
         this.userId = userId;
     }
 

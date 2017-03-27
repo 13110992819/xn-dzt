@@ -36,7 +36,7 @@ public class XN808200Req {
     private String slogan;
 
     // 商家图片(缩略图)（必填）
-    private String adPic;
+    private String advPic;
 
     // 商家图片(多张用逗号隔开)（必填）
     private String pic;
@@ -147,12 +147,12 @@ public class XN808200Req {
         this.slogan = slogan;
     }
 
-    public String getAdPic() {
-        return adPic;
+    public String getAdvPic() {
+        return advPic;
     }
 
-    public void setAdPic(String adPic) {
-        this.adPic = adPic;
+    public void setAdvPic(String advPic) {
+        this.advPic = advPic;
     }
 
     public String getPic() {
