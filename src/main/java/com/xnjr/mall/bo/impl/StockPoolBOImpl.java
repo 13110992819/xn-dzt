@@ -15,7 +15,7 @@ public class StockPoolBOImpl extends PaginableBOImpl<StockPool> implements
         IStockPoolBO {
 
     @Autowired
-    private IStockPoolDAO stockHoldDAO;
+    private IStockPoolDAO stockPoolDAO;
 
     @Override
     public StockPool getStockPool(String code) {
@@ -23,7 +23,7 @@ public class StockPoolBOImpl extends PaginableBOImpl<StockPool> implements
         if (StringUtils.isNotBlank(code)) {
             StockPool condition = new StockPool();
             condition.setCode(code);
-            data = stockHoldDAO.select(condition);
+            data = stockPoolDAO.select(condition);
             if (data == null) {
                 throw new BizException("xn0000", code + "对应的池不存在");
             }
@@ -34,7 +34,7 @@ public class StockPoolBOImpl extends PaginableBOImpl<StockPool> implements
     @Override
     public int addAmount(StockPool pool, Long amount) {
         pool.setAmount(amount + pool.getAmount());
-        return stockHoldDAO.addAmount(pool);
+        return stockPoolDAO.addAmount(pool);
 
     }
 }

@@ -28,7 +28,7 @@ public class StockAOImpl implements IStockAO {
     private IStockBO stockBO;
 
     @Autowired
-    private IStockPoolBO stockHoldBO;
+    private IStockPoolBO stockPoolBO;
 
     @Autowired
     private IStockBackBO stockBackBO;
