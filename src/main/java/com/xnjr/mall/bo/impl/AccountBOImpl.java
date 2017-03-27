@@ -1,10 +1,9 @@
 package com.xnjr.mall.bo.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,18 +14,16 @@ import com.xnjr.mall.bo.IAccountBO;
 import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.common.SysConstants;
-import com.xnjr.mall.dto.req.XN802180Req;
-import com.xnjr.mall.dto.req.XN802503Req;
-import com.xnjr.mall.dto.req.XN802512Req;
-import com.xnjr.mall.dto.req.XN802517Req;
-import com.xnjr.mall.dto.req.XN802519Req;
+import com.xnjr.mall.domain.Account;
+import com.xnjr.mall.dto.req.XN002000Req;
+import com.xnjr.mall.dto.req.XN002100Req;
+import com.xnjr.mall.dto.req.XN002500Req;
 import com.xnjr.mall.dto.req.XN802525Req;
 import com.xnjr.mall.dto.res.PayBalanceRes;
-import com.xnjr.mall.dto.res.XN802180Res;
-import com.xnjr.mall.dto.res.XN802503Res;
+import com.xnjr.mall.dto.res.XN002000Res;
+import com.xnjr.mall.dto.res.XN002500Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECurrency;
-import com.xnjr.mall.enums.ESysUser;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.http.BizConnecter;
 import com.xnjr.mall.http.JsonUtils;
@@ -38,83 +35,57 @@ public class AccountBOImpl implements IAccountBO {
     @Autowired
     private ISYSConfigBO sysConfigBO;
 
-    /** 
-     * @see com.xnjr.mall.bo.IAccountBO#getAccountByUserId(java.lang.String)
-     */
     @Override
-    public XN802503Res getAccountByUserId(String systemCode, String userId,
-            String currency) {
-
-        Map<String, XN802503Res> map = new HashMap<String, XN802503Res>();
-        XN802503Req req = new XN802503Req();
-        req.setSystemCode(systemCode);
+    public Account getRemoteAccount(String userId, ECurrency currency) {
+        XN002000Req req = new XN002000Req();
         req.setUserId(userId);
-        String jsonStr = BizConnecter.getBizData("802503",
+        req.setCurrency(currency.getCode());
+        String jsonStr = BizConnecter.getBizData("002000",
             JsonUtils.object2Json(req));
         Gson gson = new Gson();
-        List<XN802503Res> list = gson.fromJson(jsonStr,
-            new TypeToken<List<XN802503Res>>() {
+        List<XN002000Res> list = gson.fromJson(jsonStr,
+            new TypeToken<List<XN002000Res>>() {
             }.getType());
-        for (XN802503Res xn802503Res : list) {
-            map.put(xn802503Res.getCurrency(), xn802503Res);
-        }
-
-        XN802503Res result = map.get(currency);
-        if (null == result) {
+        if (CollectionUtils.isEmpty(list)) {
             throw new BizException("xn000000", "用户[" + userId + "]账户不存在");
         }
-        return result;
+        XN002000Res res = list.get(0);
+        Account account = new Account();
+        account.setAccountNumber(res.getAccountNumber());
+        account.setUserId(res.getUserId());
+        account.setRealName(res.getRealName());
+        account.setType(res.getType());
+        account.setStatus(res.getStatus());
 
+        account.setCurrency(res.getCurrency());
+        account.setAmount(res.getAmount());
+        account.setFrozenAmount(res.getFrozenAmount());
+        account.setCreateDatetime(res.getCreateDatetime());
+        account.setLastOrder(res.getLastOrder());
+
+        account.setSystemCode(res.getSystemCode());
+        return account;
     }
 
     /** 
-     * @see com.xnjr.mall.bo.IAccountBO#doTransferAmount(java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
+     * @see com.xnjr.mall.bo.IAccountBO#doTransferAmountRemote(java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
      */
     @Override
-    public void doTransferAmount(String systemCode, String fromAccountNumber,
-            String toAccountNumber, Long amount, String bizType, String bizNote) {
+    public void doTransferAmountRemote(String fromUserId, String toUserId,
+            ECurrency currency, Long amount, EBizType bizType,
+            String fromBizNote, String toBizNote) {
         if (amount != null && amount != 0) {
-            XN802512Req req = new XN802512Req();
-            req.setSystemCode(systemCode);
-            req.setFromAccountNumber(fromAccountNumber);
-            req.setToAccountNumber(toAccountNumber);
-            req.setTransAmount(String.valueOf(amount));
-            req.setBizType(bizType);
-            req.setBizNote(bizNote);
-            BizConnecter.getBizData("802512", JsonUtils.object2Json(req),
-                Object.class);
-        }
-    }
-
-    /** 
-     * @see com.xnjr.mall.bo.IAccountBO#doTransferAmountByUser(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
-     */
-    @Override
-    public void doTransferAmountByUser(String systemCode, String fromUserId,
-            String toUserId, String currency, Long amount, String bizType,
-            String bizNote) {
-        if (amount != null && amount != 0) {
-            XN802517Req req = new XN802517Req();
-            req.setSystemCode(systemCode);
+            XN002100Req req = new XN002100Req();
             req.setFromUserId(fromUserId);
             req.setToUserId(toUserId);
-            req.setCurrency(currency);
+            req.setCurrency(currency.getCode());
             req.setTransAmount(String.valueOf(amount));
-            req.setBizType(bizType);
-            req.setBizNote(bizNote);
-            BizConnecter.getBizData("802517", JsonUtils.object2Json(req),
+            req.setBizType(bizType.getCode());
+            req.setFromBizNote(fromBizNote);
+            req.setToBizNote(toBizNote);
+            BizConnecter.getBizData("002100", JsonUtils.object2Json(req),
                 Object.class);
         }
-    }
-
-    @Override
-    public void doTransferFcBySystem(String systemCode, String userId,
-            String currency, Long transAmount, String bizType, String bizNote) {
-        if (transAmount == null || transAmount == 0) {
-            return;
-        }
-        this.doTransferAmountByUser(systemCode, ESysUser.SYS_USER.getCode(),
-            userId, currency, transAmount, bizType, bizNote);
     }
 
     /**
@@ -136,23 +107,6 @@ public class AccountBOImpl implements IAccountBO {
             Object.class);
     }
 
-    /**
-     * @see com.xnjr.mall.bo.IAccountBO#doExchangeAmount(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public void doExchangeAmount(String systemCode, String code, String rate,
-            String approveResult, String approver, String approveNote) {
-        XN802519Req req = new XN802519Req();
-        req.setSystemCode(systemCode);
-        req.setCode(code);
-        req.setRate(rate);
-        req.setApproveResult(approveResult);
-        req.setApprover(approver);
-        req.setApproveNote(approveNote);
-        BizConnecter.getBizData("802519", JsonUtils.object2Json(req),
-            Object.class);
-    }
-
     /** 
      * @see com.xnjr.mall.bo.IAccountBO#checkBalanceAmount(java.lang.String, java.lang.String, java.lang.Long)
      */
@@ -160,11 +114,9 @@ public class AccountBOImpl implements IAccountBO {
     public void checkBalanceAmount(String systemCode, String userId, Long price) {
         Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode);
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
-        XN802503Res gxjlAccount = this.getAccountByUserId(systemCode, userId,
-            ECurrency.GXJL.getCode());
+        Account gxjlAccount = getRemoteAccount(userId, ECurrency.GXJL);
         // 查询用户分润账户
-        XN802503Res frAccount = this.getAccountByUserId(systemCode, userId,
-            ECurrency.FRB.getCode());
+        Account frAccount = getRemoteAccount(userId, ECurrency.FRB);
         Double gxjl2cny = Double.valueOf(rateMap.get(SysConstants.GXJL2CNY));
         Double fr2cny = Double.valueOf(rateMap.get(SysConstants.FR2CNY));
         Long gxjlCnyAmount = Double.valueOf(gxjlAccount.getAmount() / gxjl2cny)
@@ -187,11 +139,9 @@ public class AccountBOImpl implements IAccountBO {
         Long frPrice = 0L;
         Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode);
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
-        XN802503Res gxjlAccount = this.getAccountByUserId(systemCode,
-            fromUserId, ECurrency.GXJL.getCode());
+        Account gxjlAccount = getRemoteAccount(fromUserId, ECurrency.GXJL);
         // 查询用户分润账户
-        XN802503Res frAccount = this.getAccountByUserId(systemCode, fromUserId,
-            ECurrency.FRB.getCode());
+        Account frAccount = getRemoteAccount(fromUserId, ECurrency.FRB);
         Double gxjl2cny = Double.valueOf(rateMap.get(SysConstants.GXJL2CNY));
         Double fr2cny = Double.valueOf(rateMap.get(SysConstants.FR2CNY));
         Long gxjlCnyAmount = Double.valueOf(gxjlAccount.getAmount() / gxjl2cny)
@@ -219,27 +169,23 @@ public class AccountBOImpl implements IAccountBO {
             gxjlPrice = Double.valueOf(price * gxjl2cny).longValue();
         }
         // 扣除贡献奖励
-        doTransferAmountByUser(systemCode, fromUserId, toUserId,
-            ECurrency.GXJL.getCode(), gxjlPrice, bizType.getCode(),
-            bizType.getValue());
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.GXJL, gxjlPrice,
+            bizType, bizType.getValue(), bizType.getValue());
         // 扣除分润
-        doTransferAmountByUser(systemCode, fromUserId, toUserId,
-            ECurrency.FRB.getCode(), frPrice, bizType.getCode(),
-            bizType.getValue());
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.FRB, frPrice,
+            bizType, bizType.getValue(), bizType.getValue());
         return new PayBalanceRes(gxjlPrice, frPrice);
     }
 
     @Override
     public void checkGWBQBBAmount(String systemCode, String userId,
             Long gwbPrice, Long qbbPrice) {
-        XN802503Res gwbRes = getAccountByUserId(systemCode, userId,
-            ECurrency.GWB.getCode());
-        if (gwbPrice > gwbRes.getAmount()) {
+        Account gwbAccount = getRemoteAccount(userId, ECurrency.GWB);
+        if (gwbPrice > gwbAccount.getAmount()) {
             throw new BizException("xn0000", "购物币余额不足");
         }
-        XN802503Res qbbRes = getAccountByUserId(systemCode, userId,
-            ECurrency.QBB.getCode());
-        if (qbbPrice > qbbRes.getAmount()) {
+        Account qbbAccount = getRemoteAccount(userId, ECurrency.GWB);
+        if (qbbPrice > qbbAccount.getAmount()) {
             throw new BizException("xn0000", "钱包币余额不足");
         }
     }
@@ -253,13 +199,11 @@ public class AccountBOImpl implements IAccountBO {
         // 校验购物币和钱包币
         checkGWBQBBAmount(systemCode, fromUserId, gwbPrice, qbbPrice);
         // 扣除购物币
-        doTransferAmountByUser(systemCode, fromUserId, toUserId,
-            ECurrency.GWB.getCode(), gwbPrice, bizType.getCode(),
-            bizType.getValue());
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.GWB, gwbPrice,
+            bizType, bizType.getValue(), bizType.getValue());
         // 扣除钱包币
-        doTransferAmountByUser(systemCode, fromUserId, toUserId,
-            ECurrency.QBB.getCode(), qbbPrice, bizType.getCode(),
-            bizType.getValue());
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.QBB, qbbPrice,
+            bizType, bizType.getValue(), bizType.getValue());
     }
 
     /**
@@ -284,58 +228,31 @@ public class AccountBOImpl implements IAccountBO {
         checkGwQbAndBalance(systemCode, fromUserId, gwbPrice, qbbPrice,
             cnyPrice);
         // 扣除购物币
-        doTransferAmountByUser(systemCode, fromUserId, toUserId,
-            ECurrency.GWB.getCode(), gwbPrice, bizType.getCode(),
-            bizType.getValue());
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.GWB, gwbPrice,
+            bizType, bizType.getValue(), bizType.getValue());
         // 扣除钱包币
-        doTransferAmountByUser(systemCode, fromUserId, toUserId,
-            ECurrency.QBB.getCode(), qbbPrice, bizType.getCode(),
-            bizType.getValue());
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.QBB, qbbPrice,
+            bizType, bizType.getValue(), bizType.getValue());
         // 扣除余额
         doBalancePay(systemCode, fromUserId, toUserId, cnyPrice, bizType);
     }
 
     @Override
-    public void doOrderAmountBackBySysetm(String systemCode, String toUserId,
-            Long gwbPayAmount, Long qbbPayAmount, Long cnyPayAmount,
-            EBizType bizType, String remark) {
-        Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode);
-        Double gxjl2cnyRate = Double
-            .valueOf(rateMap.get(SysConstants.GXJL2CNY));
-        // 退购物币
-        doTransferAmountByUser(systemCode, ESysUser.SYS_USER.getCode(),
-            toUserId, ECurrency.GWB.getCode(), gwbPayAmount, bizType.getCode(),
-            bizType.getValue() + remark);
-        // 退钱包币
-        doTransferAmountByUser(systemCode, ESysUser.SYS_USER.getCode(),
-            toUserId, ECurrency.QBB.getCode(), qbbPayAmount, bizType.getCode(),
-            bizType.getValue() + remark);
-        // 退人民币
-        doTransferAmountByUser(systemCode, ESysUser.SYS_USER.getCode(),
-            toUserId, ECurrency.GXJL.getCode(),
-            Double.valueOf(gxjl2cnyRate * cnyPayAmount).longValue(),
-            bizType.getCode(), bizType.getValue() + remark);
-    }
-
-    @Override
-    public XN802180Res doWeiXinPay(String systemCode, String userId,
-            EBizType bizType, String bizNote, String body, Long cnyAmount,
-            String ip) {
-        if (StringUtils.isBlank(ip)) {
-            throw new BizException("xn0000", "微信支付，ip地址不能为空");
-        }
+    public XN002500Res doWeiXinPayRemote(String fromUserId, String toUserId,
+            Long amount, EBizType bizType, String fromBizNote,
+            String toBizNote, String payGroup) {
         // 获取微信APP支付信息
-        XN802180Req req = new XN802180Req();
-        req.setSystemCode(systemCode);
-        req.setCompanyCode(systemCode);
-        req.setUserId(userId);
+        XN002500Req req = new XN002500Req();
+        req.setFromUserId(fromUserId);
+        req.setToUserId(toUserId);
         req.setBizType(bizType.getCode());
-        req.setBizNote(bizNote);
-        req.setBody(body);
-        req.setTotalFee(String.valueOf(cnyAmount));
-        req.setSpbillCreateIp(ip);
-        XN802180Res res = BizConnecter.getBizData("802180",
-            JsonUtil.Object2Json(req), XN802180Res.class);
+        req.setFromBizNote(fromBizNote);
+        req.setToBizNote(toBizNote);
+        req.setTransAmount(String.valueOf(amount));
+        req.setPayGroup(payGroup);
+        XN002500Res res = BizConnecter.getBizData("002500",
+            JsonUtil.Object2Json(req), XN002500Res.class);
         return res;
     }
+
 }

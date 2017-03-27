@@ -25,12 +25,11 @@ import com.xnjr.mall.core.CalculationUtil;
 import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StorePurchase;
 import com.xnjr.mall.domain.StoreTicket;
+import com.xnjr.mall.domain.User;
 import com.xnjr.mall.domain.UserTicket;
 import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.dto.res.XN802180Res;
 import com.xnjr.mall.dto.res.XN802503Res;
-import com.xnjr.mall.dto.res.XN805060Res;
-import com.xnjr.mall.dto.res.XN805901Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECategoryType;
 import com.xnjr.mall.enums.ECurrency;
@@ -39,6 +38,7 @@ import com.xnjr.mall.enums.EStorePurchaseStatus;
 import com.xnjr.mall.enums.EStoreStatus;
 import com.xnjr.mall.enums.EStoreTicketType;
 import com.xnjr.mall.enums.ESysUser;
+import com.xnjr.mall.enums.EUserKind;
 import com.xnjr.mall.enums.EUserTicketStatus;
 import com.xnjr.mall.exception.BizException;
 
@@ -321,99 +321,95 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         Double o2oProvinceRate = Double.valueOf(rateMap
             .get(SysConstants.O2O_PROVINCE)) * fcRate;
         // 1、买单用户C得到消费额35%的钱包币 —— 平台发放
-        accountBO.doTransferAmountByUser(systemCode,
-            ESysUser.SYS_USER.getCode(), userId, ECurrency.QBB.getCode(),
-            Double.valueOf(yhAmount * o2oCUserRate).longValue(),
-            EBizType.AJ_DPXF.getCode(), "优店消费买单，赠送钱包币");
+        accountBO.doTransferAmountRemote(ESysUser.SYS_USER_ZHPAY.getCode(),
+            userId, ECurrency.QBB, Double.valueOf(yhAmount * o2oCUserRate)
+                .longValue(), EBizType.AJ_DPXF, "优店消费买单，赠送钱包币", "优店消费买单，赠送钱包币");
         // 2、C的推荐人B可得到分润X1 B的推荐人A可得到分润X2 —— 消费额里面扣除
-        XN805901Res res = userBO.getRemoteUser(userId, userId);
-        XN805901Res refereeUser1 = null;
-        if (res != null && StringUtils.isNotBlank(res.getUserReferee())) {
-            refereeUser1 = userBO.getRemoteUser(res.getUserReferee(),
-                res.getUserReferee());
+        User user = userBO.getRemoteUser(userId);
+        User refereeUser1 = null;
+        if (user != null && StringUtils.isNotBlank(user.getUserReferee())) {
+            refereeUser1 = userBO.getRemoteUser(user.getUserReferee());
         }
         if (refereeUser1 == null) {
             logger.info("用户" + userId + "无一级推荐人,无需推荐人分成");
         } else {
             // 一级推荐人得到分润
-            accountBO.doTransferAmountByUser(systemCode, store.getOwner(),
-                refereeUser1.getUserId(), ECurrency.FRB.getCode(), Double
-                    .valueOf(yhAmount * o2oBUserRate).longValue(),
-                EBizType.AJ_DPXF.getCode(), "优店消费买单，一级推荐人分成");
-            XN805901Res refereeUser2 = null;
+            accountBO.doTransferAmountRemote(store.getOwner(),
+                refereeUser1.getUserId(), ECurrency.FRB,
+                Double.valueOf(yhAmount * o2oBUserRate).longValue(),
+                EBizType.AJ_DPXF, "优店消费买单，一级推荐人分成", "优店消费买单，一级推荐人分成");
+            User refereeUser2 = null;
             if (StringUtils.isNotBlank(refereeUser1.getUserReferee())) {
-                refereeUser2 = userBO.getRemoteUser(
-                    refereeUser1.getUserReferee(),
-                    refereeUser1.getUserReferee());
+                refereeUser2 = userBO.getRemoteUser(refereeUser1
+                    .getUserReferee());
             }
             if (refereeUser2 == null) {
                 logger.info("用户" + userId + "无二级推荐人,无需推荐人分成");
             } else {
                 // 二级推荐人得到分润
-                accountBO.doTransferAmountByUser(systemCode, store.getOwner(),
-                    refereeUser2.getUserId(), ECurrency.FRB.getCode(), Double
-                        .valueOf(yhAmount * o2oAUserRate).longValue(),
-                    EBizType.AJ_DPXF.getCode(), "优店消费买单，二级推荐人分成");
+                accountBO.doTransferAmountRemote(store.getOwner(),
+                    refereeUser2.getUserId(), ECurrency.FRB,
+                    Double.valueOf(yhAmount * o2oAUserRate).longValue(),
+                    EBizType.AJ_DPXF, "优店消费买单，二级推荐人分成", "优店消费买单，二级推荐人分成");
             }
         }
         // 3、业务员可得到分润X3 —— 消费额里面扣除
         if (StringUtils.isNotBlank(store.getUserReferee())) {
-            accountBO.doTransferAmountByUser(systemCode, store.getOwner(),
-                store.getUserReferee(), ECurrency.FRB.getCode(), Double
-                    .valueOf(yhAmount * o2oYwyRate).longValue(),
-                EBizType.AJ_DPXF.getCode(), "优店消费买单，业务员分成");
+            accountBO.doTransferAmountRemote(store.getOwner(),
+                store.getUserReferee(), ECurrency.FRB,
+                Double.valueOf(yhAmount * o2oYwyRate).longValue(),
+                EBizType.AJ_DPXF, "优店消费买单，业务员分成", "优店消费买单，业务员分成");
         } else {
             logger.info("店铺" + store.getName() + "无业务员，无需业务员分成");
         }
         // 4、店铺所在县、市、省得到分瑞X4、X5、X6 —— 消费额里面扣除
-        XN805060Res areaRes = null;
-        XN805060Res cityRes = null;
-        XN805060Res provinceRes = null;
+        User areaUser = null;
+        User cityUser = null;
+        User provinceUser = null;
         if (StringUtils.isNotBlank(store.getProvince())
                 && StringUtils.isNotBlank(store.getCity())
                 && StringUtils.isNotBlank(store.getArea())) {
             // 县合伙人
-            areaRes = userBO.getPartnerUserInfo(store.getProvince(),
-                store.getCity(), store.getArea());
+            areaUser = userBO.getPartner(store.getProvince(), store.getCity(),
+                store.getArea(), EUserKind.Partner);
             // 市合伙人
-            cityRes = userBO.getPartnerUserInfo(store.getProvince(),
-                store.getCity(), null);
+            cityUser = userBO.getPartner(store.getProvince(), store.getCity(),
+                null, EUserKind.Partner);
             // 省合伙人
-            provinceRes = userBO.getPartnerUserInfo(store.getProvince(), null,
-                null);
+            provinceUser = userBO.getPartner(store.getProvince(), null, null,
+                EUserKind.Partner);
         } else if (StringUtils.isNotBlank(store.getProvince())
                 && StringUtils.isNotBlank(store.getCity())) {
             // 市合伙人
-            cityRes = userBO.getPartnerUserInfo(store.getProvince(),
-                store.getCity(), null);
+            cityUser = userBO.getPartner(store.getProvince(), store.getCity(),
+                null, EUserKind.Partner);
             // 省合伙人
-            provinceRes = userBO.getPartnerUserInfo(store.getProvince(), null,
-                null);
+            provinceUser = userBO.getPartner(store.getProvince(), null, null,
+                EUserKind.Partner);
         } else if (StringUtils.isNotBlank(store.getProvince())) {
             // 省合伙人
-            provinceRes = userBO.getPartnerUserInfo(store.getProvince(), null,
-                null);
+            provinceUser = userBO.getPartner(store.getProvince(), null, null,
+                EUserKind.Partner);
         }
 
-        if (areaRes != null) {
-            accountBO.doTransferAmountByUser(systemCode, store.getOwner(),
-                areaRes.getUserId(), ECurrency.FRB.getCode(),
+        if (areaUser != null) {
+            accountBO.doTransferAmountRemote(store.getOwner(),
+                areaUser.getUserId(), ECurrency.FRB,
                 Double.valueOf(yhAmount * o2oAreaRate).longValue(),
-                EBizType.AJ_DPXF.getCode(), "优店消费买单,县合伙人分成");
+                EBizType.AJ_DPXF, "优店消费买单,县合伙人分成", "优店消费买单,县合伙人分成");
         }
-        if (cityRes != null) {
-            accountBO.doTransferAmountByUser(systemCode, store.getOwner(),
-                cityRes.getUserId(), ECurrency.FRB.getCode(),
+        if (cityUser != null) {
+            accountBO.doTransferAmountRemote(store.getOwner(),
+                cityUser.getUserId(), ECurrency.FRB,
                 Double.valueOf(yhAmount * o2oCityRate).longValue(),
-                EBizType.AJ_DPXF.getCode(), "优店消费买单,市合伙人分成");
+                EBizType.AJ_DPXF, "优店消费买单,市合伙人分成", "优店消费买单,市合伙人分成");
         }
-        if (provinceRes != null) {
-            accountBO.doTransferAmountByUser(systemCode, store.getOwner(),
-                provinceRes.getUserId(), ECurrency.FRB.getCode(), Double
-                    .valueOf(yhAmount * o2oProvinceRate).longValue(),
-                EBizType.AJ_DPXF.getCode(), "优店消费买单,省合伙人分成");
+        if (provinceUser != null) {
+            accountBO.doTransferAmountRemote(store.getOwner(),
+                provinceUser.getUserId(), ECurrency.FRB,
+                Double.valueOf(yhAmount * o2oProvinceRate).longValue(),
+                EBizType.AJ_DPXF, "优店消费买单,省合伙人分成", "优店消费买单,省合伙人分成");
         }
 
     }
-
 }
