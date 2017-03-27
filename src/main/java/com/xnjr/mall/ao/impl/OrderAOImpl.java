@@ -328,6 +328,7 @@ public class OrderAOImpl implements IOrderAO {
     @Override
     public Order getOrder(String code) {
         Order order = orderBO.getOrder(code);
+        order.setUser(userBO.getRemoteUser(order.getApplyUser()));
         ProductOrder imCondition = new ProductOrder();
         imCondition.setOrderCode(order.getCode());
         List<ProductOrder> productOrderList = productOrderBO
