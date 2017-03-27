@@ -27,6 +27,7 @@ public class CategoryAOImpl implements ICategoryAO {
         String code = OrderNoGenerater.generateM(EGeneratePrefix.CATEGORY
             .getCode());
         data.setCode(code);
+        data.setType(req.getType());
         data.setParentCode(req.getParentCode());
         data.setName(req.getName());
         data.setPic(req.getPic());
@@ -42,6 +43,7 @@ public class CategoryAOImpl implements ICategoryAO {
     public void editCategory(XN808002Req req) {
         Category data = new Category();
         data.setCode(req.getCode());
+        data.setType(req.getType());
         data.setParentCode(req.getParentCode());
         data.setName(req.getName());
         data.setPic(req.getPic());
