@@ -27,7 +27,6 @@ import com.xnjr.mall.bo.ICartBO;
 import com.xnjr.mall.bo.IOrderBO;
 import com.xnjr.mall.bo.IProductBO;
 import com.xnjr.mall.bo.IProductOrderBO;
-import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.bo.ISmsOutBO;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
@@ -78,9 +77,6 @@ public class OrderAOImpl implements IOrderAO {
     private IProductBO productBO;
 
     @Autowired
-    private ISYSConfigBO sysConfigBO;
-
-    @Autowired
     private ISmsOutBO smsOutBO;
 
     @Override
@@ -108,8 +104,8 @@ public class OrderAOImpl implements IOrderAO {
     @Transactional
     public String commitCartOrderCG(XN808051Req req) {
         List<String> cartCodeList = req.getCartCodeList();
-        List<Cart> productList = cartBO.queryCartList(cartCodeList);
-        String orderCode = orderBO.saveOrder(productList, req.getPojo(),
+        List<Cart> cartList = cartBO.queryCartList(cartCodeList);
+        String orderCode = orderBO.saveOrder(cartList, req.getPojo(),
             req.getToUser());
         // @TODO清空购物车
         // 删除购物车选中记录
@@ -122,8 +118,13 @@ public class OrderAOImpl implements IOrderAO {
     @Override
     @Transactional
     public String commitOrder(XN808050Req req) {
-        List<Cart> cartList = cartBO.queryCartList(req.getProductCode(),
-            StringValidater.toInteger(req.getQuantity()));
+        // 立即下单，构造成购物车单个产品下单
+        Cart cart = new Cart();
+        cart.setProductCode(req.getProductCode());
+        cart.setQuantity(StringValidater.toInteger(req.getQuantity()));
+        cart.setUserId(req.getPojo().getApplyUser());
+        List<Cart> cartList = new ArrayList<Cart>();
+        cartList.add(cart);
         return orderBO.saveOrder(cartList, req.getPojo(), req.getToUser());
     }
 

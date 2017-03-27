@@ -17,10 +17,10 @@ public class CommitOrderPOJO {
     // 申请备注（选填）
     private String applyNote;
 
-    // 发票类型（必填）
+    // 发票类型（选填）
     private String receiptType;
 
-    // 发票抬头（必填）
+    // 发票抬头（选填）
     private String receiptTitle;
 
     public String getReceiver() {

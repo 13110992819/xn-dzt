@@ -14,8 +14,10 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xnjr.mall.bo.IOrderBO;
+import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.SysConstants;
@@ -45,7 +47,10 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     private IOrderDAO orderDAO;
 
     @Autowired
-    private IProductOrderDAO orderModelDAO;
+    private IProductOrderDAO productOrderDAO;
+
+    @Autowired
+    private ISYSConfigBO sysConfigBO;
 
     /** 
      * @see com.xnjr.mall.bo.IBuyGuideBO#isBuyGuideExist(java.lang.String)
@@ -267,79 +272,78 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
+    @Transactional
     public String saveOrder(List<Cart> cartList, CommitOrderPOJO pojo,
             String toUser) {
+
+        String systemCode = cartList.get(0).getSystemCode();
+        String companyCode = cartList.get(0).getCompanyCode();
+
+        // 生成订单基本信息
         Order order = new Order();
         String code = OrderNoGenerater.generateME(EGeneratePrefix.ORDER
             .getCode());
         order.setCode(code);
-        order.setApplyUser(req.getApplyUser());
-        order.setApplyNote(req.getApplyNote());
-        order.setReceiptType(req.getReceiptType());
-        order.setReceiptTitle(req.getReceiptTitle());
+        order.setToUser(toUser);
+        order.setApplyUser(pojo.getApplyUser());
+        order.setApplyNote(pojo.getApplyNote());
+        order.setReceiptType(pojo.getReceiptType());
+        order.setReceiptTitle(pojo.getReceiptTitle());
         order.setType(EOrderType.SH_SALE.getCode());
-        order.setReceiver(req.getReceiver());
-        order.setReMobile(req.getReMobile());
-        order.setReAddress(req.getReAddress());
-
-        Integer quantity = StringValidater.toInteger(req.getQuantity());
-        Product product = productBO.getProduct(req.getProductCode());
+        order.setReceiver(pojo.getReceiver());
+        order.setReMobile(pojo.getReMobile());
+        order.setReAddress(pojo.getReAddress());
+        order.setStatus(EOrderStatus.TO_PAY.getCode());
+        order.setApplyDatetime(new Date());
+        order.setPromptTimes(0);
+        order.setCompanyCode(systemCode);
+        order.setSystemCode(companyCode);
 
         // 计算订单金额
-        orderBO.calculateAmount1(product);
-
-        if (null != product.getPrice1()) {
-            Long amount1 = quantity * product.getPrice1();
-            order.setAmount1(amount1);
-            // 计算订单运费
-            Long yunfei = totalYunfei(product.getSystemCode(),
-                product.getCompanyCode(), amount1);
-            order.setYunfei(yunfei);
-        }
-        if (null != product.getPrice2()) {
-            Long amount2 = quantity * product.getPrice2();
-            order.setAmount2(amount2);
-        }
-        if (null != product.getPrice3()) {
-            Long amount3 = quantity * product.getPrice3();
-            order.setAmount3(amount3);
-        }
-        // 设置订单所属公司
-        order.setCompanyCode(product.getCompanyCode());
-        order.setSystemCode(product.getSystemCode());
-        // 订单号生成
-
-        orderBO.saveOrder(order);
-        // 订单产品关联
-        productOrderBO.saveProductOrder(code, req.getProductCode(), quantity,
-            product.getPrice1(), product.getPrice2(), product.getPrice3(),
-            product.getSystemCode());
-
-        // 落地订单产品关联信息 计算订单总金额
-
-        String companyCode = null;
-        String systemCode = null;
-        for (String cartCode : cartCodeList) {
-            Cart cart = cartBO.getCart(cartCode);
-            Product product = productBO.getProduct(cart.getProductCode());
-            if (StringUtils.isBlank(systemCode)) {
-                // 设置系统编号
-                systemCode = product.getSystemCode();
+        Long amount1 = 0L;
+        Long amount2 = 0L;
+        Long amount3 = 0L;
+        for (Cart cart : cartList) {
+            Product product = cart.getProduct();
+            if (null != product.getPrice1()) {
+                amount1 = amount1 + (cart.getQuantity() * product.getPrice1());
+            }
+            if (null != product.getPrice2()) {
+                amount2 = amount2 + (cart.getQuantity() * product.getPrice2());
+            }
+            if (null != product.getPrice3()) {
+                amount3 = amount3 + (cart.getQuantity() * product.getPrice3());
             }
 
-            companyCode = product.getCompanyCode();
-            productOrderBO.saveProductOrder(code, cart.getProductCode(),
-                cart.getQuantity(), product.getPrice1(), product.getPrice2(),
-                product.getPrice3(), product.getSystemCode());
+            // 落地订单产品关联信息
+            ProductOrder productOrder = new ProductOrder();
+            productOrder.setCode(OrderNoGenerater
+                .generateM(EGeneratePrefix.PRODUCT_ORDER.getCode()));
+            productOrder.setOrderCode(code);
+            productOrder.setProductCode(product.getCode());
+            productOrder.setQuantity(cart.getQuantity());
+            productOrder.setPrice1(product.getPrice1());
+            productOrder.setPrice2(product.getPrice2());
+            productOrder.setPrice3(product.getPrice3());
+            productOrder.setCompanyCode(product.getCompanyCode());
+            productOrder.setSystemCode(product.getSystemCode());
+            productOrderDAO.insert(productOrder);
         }
-        order.setCompanyCode(companyCode);
-        order.setSystemCode(systemCode);
-        // 计算订单运费
-        Long yunfei = totalYunfei(systemCode, companyCode, amount2);
-        order.setYunfei(yunfei);
-        // 保存订单
-        orderBO.saveOrder(order);
 
+        // 计算订单运费
+        Long yunfei = totalYunfei(systemCode, companyCode, amount1);
+        order.setYunfei(yunfei);
+
+        // 落地订单信息
+        order.setAmount1(amount1);
+        order.setAmount2(amount2);
+        order.setAmount3(amount3);
+        order.setYunfei(yunfei);
+        order.setPayAmount1(0L);
+        order.setPayAmount2(0L);
+        order.setPayAmount3(0L);
+
+        orderDAO.insert(order);
         return code;
     }
 
@@ -348,10 +352,9 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         Long byje = StringValidater.toLong(sysConfigBO.getConfigValue(
             systemCode, null, companyCode, SysConstants.SP_BYJE)) * 1000;
         if (amount < byje) {
-            yunfei = StringValidater.toLong(sysConfigBO.getConfigValue(
-                systemCode, null, companyCode, SysConstants.SP_YUNFEI)) * 1000;
+            yunfei = StringValidater.toLong(sysConfigBO.getSYSConfig(
+                SysConstants.SP_YUNFEI, systemCode, companyCode)) * 1000;
         }
         return yunfei;
     }
-
 }
