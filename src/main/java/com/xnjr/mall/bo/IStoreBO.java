@@ -47,9 +47,9 @@ public interface IStoreBO extends IPaginableBO<Store> {
     /**
      * 一个人只能有一家店铺
      * @param bUser
-     * @return 
-     * @create: 2017年3月26日 下午3:48:58 myb858
+     * @param mobile 
+     * @create: 2017年3月27日 下午3:15:36 xieyj
      * @history:
      */
-    public Store getStoreByUser(String bUser);
+    public void checkStoreByUser(String bUser, String mobile);
 }

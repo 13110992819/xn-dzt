@@ -11,6 +11,8 @@ import com.xnjr.mall.domain.Store;
 public interface IStoreDAO extends IBaseDAO<Store> {
     String NAMESPACE = IStoreDAO.class.getName().concat(".");
 
+    public int insertOss(Store data);
+
     public int update(Store data);
 
     public int updateCheck(Store data);

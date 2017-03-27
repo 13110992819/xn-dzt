@@ -72,7 +72,7 @@ public class StoreAOImpl implements IStoreAO {
                 req.getSystemCode(), req.getCompanyCode());
         } else {
             // 判断该用户是否有店铺了
-            storeBO.getStoreByUser(bUser);
+            storeBO.checkStoreByUser(bUser, req.getMobile());
         }
 
         String code = OrderNoGenerater.generateM("SJ");
@@ -170,6 +170,9 @@ public class StoreAOImpl implements IStoreAO {
 
     @Override
     public void editStore(XN808203Req req) {
+        // 验证店铺是否存在
+        storeBO.getStore(req.getCode());
+        // 更新字段
         Store data = new Store();
         data.setCode(req.getCode());
         data.setName(req.getName());

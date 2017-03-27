@@ -84,6 +84,7 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
             }
             return userId;
         } else {// 加盟商帮商家代注册，所以userReferee是加盟商的userId
+            userBO.getRemoteUser(userReferee);
             return userReferee;
         }
 
@@ -109,18 +110,13 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     }
 
     @Override
-    public Store getStoreByUser(String bUser) {
-        Store a = null;
+    public void checkStoreByUser(String bUser, String mobile) {
         Store condition = new Store();
         condition.setOwner(bUser);
         List<Store> list = this.queryStoreList(condition);
-        if (CollectionUtils.isNotEmpty(list)) {
-            a = list.get(0);
+        if (CollectionUtils.isNotEmpty(list) && list.size() > 0) {
+            throw new BizException("xn000000", "用户" + mobile + "已有店铺,无需再次申请");
         }
-        if (a == null) {
-            throw new BizException("xn000000", bUser + "没有店铺");
-        }
-        return a;
     }
 
     @Override
