@@ -95,4 +95,22 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
     public SYSConfig getSYSConfig(String key, String systemCode) {
         return getSYSConfig(key, systemCode, systemCode);
     }
+
+    @Override
+    public Double getCNY2CGJF() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Double getCNY2ZHGXJL() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Double getCNY2ZHFR() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
