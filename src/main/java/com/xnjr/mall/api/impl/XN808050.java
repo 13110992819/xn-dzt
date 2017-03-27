@@ -35,9 +35,13 @@ public class XN808050 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808050Req.class);
+        if (null == req.getPojo()) {
+            throw new BizException("xn702000", "订单基本信息不能为空");
+        }
         StringValidater.validateBlank(req.getProductCode(), req.getQuantity(),
-            req.getReceiver(), req.getReMobile(), req.getReAddress(),
-            req.getApplyUser());
+            req.getPojo().getReceiver(), req.getPojo().getReMobile(), req
+                .getPojo().getReAddress(), req.getPojo().getApplyUser(), req
+                .getPojo().getCompanyCode(), req.getPojo().getSystemCode());
         StringValidater.validateNumber(req.getQuantity());
     }
 }

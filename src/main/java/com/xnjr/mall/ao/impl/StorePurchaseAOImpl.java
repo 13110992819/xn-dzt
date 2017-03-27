@@ -94,7 +94,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         // 积分从消费者回收至平台，
         String systemUser = ESysUser.SYS_USER_CAIGO.getCode();
         accountBO.doTransferAmountRemote(user.getUserId(), systemUser,
-            ECurrency.CGJF, jf, EBizType.CG_O2O_CGJF, "O2O消费使用积分", "O2O消费回收积分");
+            ECurrency.JF, jf, EBizType.CG_O2O_CGJF, "O2O消费使用积分", "O2O消费回收积分");
         // RMB调用微信渠道至商家
         return accountBO.doWeiXinPayRemote(user.getUserId(), store.getOwner(),
             amount - discountAmount, EBizType.CG_O2O_RMB, "O2O消费微信支付",

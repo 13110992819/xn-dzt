@@ -19,6 +19,8 @@ import com.xnjr.mall.dto.res.XN001102Res;
 import com.xnjr.mall.dto.res.XN001400Res;
 import com.xnjr.mall.dto.res.XN001401Res;
 import com.xnjr.mall.dto.res.XNUserRes;
+import com.xnjr.mall.enums.ESysUser;
+import com.xnjr.mall.enums.ESystemCode;
 import com.xnjr.mall.enums.EUserKind;
 import com.xnjr.mall.enums.EUserStatus;
 import com.xnjr.mall.exception.BizException;
@@ -115,5 +117,16 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
         XNUserRes res = BizConnecter.getBizData("001350",
             JsonUtils.object2Json(req), XNUserRes.class);
         return res.getUserId();
+    }
+
+    @Override
+    public String getSystemUser(String systemCode) {
+        if (ESystemCode.ZHPAY.getCode().equals(systemCode)) {
+            return ESysUser.SYS_USER_ZHPAY.getCode();
+        }
+        if (ESystemCode.Caigo.getCode().equals(systemCode)) {
+            return ESysUser.SYS_USER_CAIGO.getCode();
+        }
+        return null;
     }
 }

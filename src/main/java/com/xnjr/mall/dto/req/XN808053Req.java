@@ -14,7 +14,7 @@ public class XN808053Req {
     // 编号（必填）
     private String code;
 
-    // 取消原因（必填）
+    // 取消原因（选填）
     private String remark;
 
     public String getCode() {

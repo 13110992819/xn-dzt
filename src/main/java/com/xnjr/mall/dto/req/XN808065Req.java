@@ -13,7 +13,7 @@ public class XN808065Req extends APageReq {
      */
     private static final long serialVersionUID = 1L;
 
-    // 类型(散买，批发)
+    // 类型
     private String type;
 
     // 向谁提货

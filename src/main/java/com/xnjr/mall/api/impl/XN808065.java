@@ -31,11 +31,17 @@ public class XN808065 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Order condition = new Order();
-        condition.setCodeForQuery(req.getCode());
-        condition.setMobile(req.getMobile());
+        condition.setType(req.getType());
+        condition.setToUser(req.getToUser());
         condition.setApplyUser(req.getApplyUser());
         condition.setStatus(req.getStatus());
+        condition.setPayGroup(req.getPayGroup());
+        condition.setPayCode(req.getPayCode());
+        condition.setDeliverer(req.getDeliverer());
+        condition.setLogisticsCode(req.getLogisticsCode());
+        condition.setLogisticsCompany(req.getLogisticsCompany());
         condition.setCompanyCode(req.getCompanyCode());
+        condition.setSystemCode(req.getSystemCode());
         condition.setApplyDatetimeStart(DateUtil.strToDate(req.getDateStart(),
             DateUtil.DATA_TIME_PATTERN_1));
         condition.setApplyDatetimeEnd(DateUtil.strToDate(req.getDateEnd(),

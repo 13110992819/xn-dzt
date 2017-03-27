@@ -11,7 +11,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 批量确认收货
+ * 确认收货
  * @author: haiqingzheng 
  * @since: 2016年5月29日 下午3:19:39 
  * @history:
@@ -26,7 +26,7 @@ public class XN808057 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.confirmOrder(req.getCode(), req.getUpdater(), req.getRemark());
+        orderAO.confirm(req.getCode(), req.getUpdater(), req.getRemark());
         return new BooleanRes(true);
     }
 
@@ -36,7 +36,6 @@ public class XN808057 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808057Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getUpdater(),
-            req.getRemark());
+        StringValidater.validateBlank(req.getCode(), req.getUpdater());
     }
 }

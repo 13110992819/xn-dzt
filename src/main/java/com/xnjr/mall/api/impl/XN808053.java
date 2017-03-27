@@ -27,9 +27,8 @@ public class XN808053 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        int count = orderAO.cancelOrder(req.getCode(), req.getUserId(),
-            req.getRemark());
-        return new BooleanRes(count > 0 ? true : false);
+        orderAO.userCancel(req.getCode(), req.getUserId(), req.getRemark());
+        return new BooleanRes(true);
 
     }
 
@@ -39,7 +38,6 @@ public class XN808053 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808053Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getUserId(),
-            req.getRemark());
+        StringValidater.validateBlank(req.getCode(), req.getUserId());
     }
 }

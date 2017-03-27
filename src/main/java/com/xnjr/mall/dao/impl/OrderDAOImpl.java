@@ -73,56 +73,37 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
             condition, Order.class);
     }
 
-    /** 
-     * @see com.xnjr.mall.dao.IOrderDAO#updateOrderStatus(com.xnjr.mall.domain.Order)
-     */
     @Override
-    public int updateOrderStatus(Order data) {
-        return super.update("update_orderStatus", data);
-    }
-
-    /** 
-     * @see com.xnjr.mall.dao.IOrderDAO#updateOrderPayCode(com.xnjr.mall.domain.Order)
-     */
-    @Override
-    public int updateOrderPayCode(Order data) {
-        return super.update("update_orderPayCode", data);
-    }
-
-    /** 
-     * @see com.xnjr.mall.dao.IOrderDAO#updateOrderApply(com.xnjr.mall.domain.Order)
-     */
-    @Override
-    public int updateOrderCancel(Order data) {
-        return super.update("update_orderCancel", data);
-    }
-
-    /** 
-     * @see com.xnjr.mall.dao.IOrderDAO#updateOrderApprove(com.xnjr.mall.domain.Order)
-     */
-    @Override
-    public int updateOrderApprove(Order data) {
-        return super.update("update_orderApprove", data);
-    }
-
-    /** 
-     * @see com.xnjr.mall.dao.IOrderDAO#updateOrderPayAmount(com.xnjr.mall.domain.Order)
-     */
-    @Override
-    public int updateOrderPayAmount(Order data) {
-        return super.update("update_orderPayAmount", data);
+    public int updateUserCancel(Order data) {
+        return super.update(NAMESPACE.concat("update_userCancel"), data);
     }
 
     @Override
-    public int updateOrderDeliver(Order data) {
-        return super.update("update_orderDeliver", data);
+    public int updatePlatCancel(Order data) {
+        return super.update(NAMESPACE.concat("update_platCancel"), data);
     }
 
     /** 
-     * @see com.xnjr.mall.dao.IOrderDAO#updateOrderExped(com.xnjr.mall.domain.Order)
+     * @see com.xnjr.mall.dao.IOrderDAO#updatePaySuccess(com.xnjr.mall.domain.Order)
      */
     @Override
-    public int updateOrderExped(Order data) {
-        return super.update("update_order_exped", data);
+    public int updatePaySuccess(Order data) {
+        return super.update(NAMESPACE.concat("update_paySuccess"), data);
     }
+
+    @Override
+    public int updateDeliverLogistics(Order data) {
+        return super.update(NAMESPACE.concat("update_deliverLogistics"), data);
+    }
+
+    @Override
+    public int updateDeliverXianchang(Order data) {
+        return super.update(NAMESPACE.concat("update_deliverXianchang"), data);
+    }
+
+    @Override
+    public int updateConfirm(Order data) {
+        return super.update(NAMESPACE.concat("update_confirm"), data);
+    }
+
 }

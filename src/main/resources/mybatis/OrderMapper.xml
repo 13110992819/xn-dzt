@@ -48,8 +48,11 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
-			<if test="codeForQuery != null and codeForQuery != '' ">
-				AND t.code like "%"#{codeForQuery}"%"
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
+			<if test="toUser != null and toUser != '' ">
+				AND t.to_user = #{toUser}
 			</if>
 			<if test="applyUser != null and applyUser != '' ">
 				AND t.apply_user = #{applyUser}
@@ -79,17 +82,20 @@
 			<if test="payCode != null and payCode != '' ">
 				AND t.pay_code = #{payCode}
 			</if>
+			<if test="deliverer != null and deliverer != '' ">
+				AND t.deliverer = like "%"#{deliverer}"%"
+			</if>
+			<if test="logisticsCode != null and logisticsCode != '' ">
+				AND t.logistics_code = like "%"#{logisticsCode}"%"
+			</if>
+			<if test="logisticsCompany != null and logisticsCompany != '' ">
+				AND t.logistics_company = #{logisticsCompany}
+			</if>
 			<if test="companyCode != null and companyCode != '' ">
 				AND t.company_code = #{companyCode}
 			</if>
 			<if test="systemCode != null and systemCode != '' ">
 				AND t.system_code = #{systemCode}
-			</if>
-			<if test="updateDatetimeStart != null and updateDatetimeStart != '' ">
-				<![CDATA[AND t.update_datetime >= #{updateDatetimeStart}]]>
-			</if>
-			<if test="updateDatetimeEnd != null and updateDatetimeEnd != '' ">
-				<![CDATA[AND t.update_datetime <= #{updateDatetimeEnd}]]>
 			</if>
 		</trim>
 	</sql>
@@ -114,23 +120,13 @@
 		,t.yunfei
 		
 		,t.status
-		,t.pay_group
-		,t.pay_code
-		,t.pay_datetime
 		,t.pay_amount1
-		
 		,t.pay_amount2
 		,t.pay_amount3
 		,t.prompt_times
-		,t.deliverer
-		,t.delivery_datetime
 		
-		,t.logistics_company
-		,t.logistics_code
-		,t.pdf
 		,t.updater
 		,t.update_datetime
-		
 		,t.remark
 		,t.company_code
 		,t.system_code
@@ -204,23 +200,7 @@
 		)
 	</insert>
 
-	<update id="update_orderStatus" parameterType="order">
-		UPDATE tmall_order
-		SET
-		status = #{status}
-		WHERE
-		code = #{code}
-	</update>
-	
-	<update id="update_orderPayCode" parameterType="order">
-		UPDATE tmall_order
-		SET
-		pay_code = #{payCode}
-		WHERE
-		code = #{code}
-	</update>
-	
-	<update id="update_orderCancel" parameterType="order">
+	<update id="update_userCancel" parameterType="order">
 		UPDATE tmall_order
 		SET
 		status = #{status}
@@ -231,25 +211,27 @@
 		code = #{code}
 	</update>
 	
-	<update id="update_order_exped" parameterType="order">
+	<update id="update_platCancel" parameterType="order">
 		UPDATE tmall_order
 		SET
-		prompt_times = prompt_times + 1
+		status = #{status}
+		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}
 		WHERE
 		code = #{code}
 	</update>
 	
-	<update id="update_orderDeliver" parameterType="order">
+	
+	<update id="update_deliverLogistics" parameterType="order">
 		UPDATE tmall_order
 		SET
-		logistics_company = #{logisticsCompany}
-		,logistics_code = #{logisticsCode}
+		status = #{status}
 		,deliverer = #{deliverer}
 		,delivery_datetime = #{deliveryDatetime}
+		,logistics_company = #{logisticsCompany}
+		,logistics_code = #{logisticsCode}
 		,pdf = #{pdf}
-		,status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}
@@ -257,7 +239,7 @@
 		code = #{code}
 	</update>
 	
-	<update id="update_orderApprove" parameterType="order">
+	<update id="update_deliverXianchang" parameterType="order">
 		UPDATE tmall_order
 		SET
 		status = #{status}
@@ -268,7 +250,7 @@
 		code = #{code}
 	</update>
 	
-	<update id="update_orderPayAmount" parameterType="order">
+	<update id="update_paySuccess" parameterType="order">
 		UPDATE tmall_order
 		SET
 		status = #{status}
@@ -279,4 +261,16 @@
 		WHERE
 		code = #{code}
 	</update>
+	
+	<update id="update_confirm" parameterType="order">
+		UPDATE tmall_order
+		SET
+		status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE
+		code = #{code}
+	</update>
+	
 </mapper>
