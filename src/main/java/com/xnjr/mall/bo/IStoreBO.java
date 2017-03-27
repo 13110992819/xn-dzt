@@ -3,6 +3,7 @@ package com.xnjr.mall.bo;
 import java.util.List;
 
 import com.xnjr.mall.bo.base.IPaginableBO;
+import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Store;
 
 /** 
@@ -30,13 +31,16 @@ public interface IStoreBO extends IPaginableBO<Store> {
 
     public void upLevel(Store dbStore);
 
-    public int refreshTotalRmbNum(Store dbStore);
+    public void refreshTotalRmbNum(Store dbStore, Integer changeNum);
 
-    public int refreshTotalJfNum(Store dbStore);
+    public void refreshTotalJfNum(Store dbStore, Integer changeNum);
 
-    public int refreshTotalDzNum(Store dbStore);
+    public void refreshTotalDzNum(Store dbStore, Integer changeNum);
 
-    public int refreshTotalScNum(Store dbStore);
+    public void refreshTotalScNum(Store dbStore, Integer changeNum);
+
+    public Paginable<Store> queryFrontPage(int start, int pageSize,
+            Store condition);
 
     public List<Store> queryStoreList(Store data);
 

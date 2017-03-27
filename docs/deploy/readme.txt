@@ -28,5 +28,5 @@
   ../bin/startup.sh
   
 6. 验证程序
-  http://121.43.101.148:5602/std-mall/api
+  http://121.43.101.148:5604/std-mall/api
 

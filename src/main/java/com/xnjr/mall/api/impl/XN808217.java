@@ -50,7 +50,7 @@ public class XN808217 extends AProcessor {
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
-        return storeAO.queryStorePageFront(start, limit, condition);
+        return storeAO.queryFrontStorePage(start, limit, condition);
     }
 
     @Override
