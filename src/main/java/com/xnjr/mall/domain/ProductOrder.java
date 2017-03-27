@@ -50,21 +50,15 @@ public class ProductOrder extends ABaseDO {
 
     // **************db properties
 
-    // 产品名称
-    private String productName;
+    // 关联产品
+    private Product product;
 
-    // 广告图
-    private String advPic;
-
-    // 是否已经评价(0 未评论 1 已评论)
-    private String isComment;
-
-    public String getIsComment() {
-        return isComment;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setIsComment(String isComment) {
-        this.isComment = isComment;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public String getCode() {
@@ -129,22 +123,6 @@ public class ProductOrder extends ABaseDO {
 
     public void setPrice3(Long price3) {
         this.price3 = price3;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getAdvPic() {
-        return advPic;
-    }
-
-    public void setAdvPic(String advPic) {
-        this.advPic = advPic;
     }
 
     public String getSystemCode() {
