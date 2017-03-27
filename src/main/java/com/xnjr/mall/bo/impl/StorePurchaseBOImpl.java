@@ -11,8 +11,13 @@ import com.xnjr.mall.bo.IStorePurchaseBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.IStorePurchaseDAO;
+import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StorePurchase;
+import com.xnjr.mall.domain.User;
+import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EGeneratePrefix;
+import com.xnjr.mall.enums.EPayType;
+import com.xnjr.mall.enums.EStorePurchaseStatus;
 import com.xnjr.mall.exception.BizException;
 
 @Component
@@ -86,5 +91,31 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
             count = storePurchaseDAO.updateStatus(data);
         }
         return count;
+    }
+
+    @Override
+    public String storePurchaseCGcgb(User user, Store store, Long price,
+            Long fdAmount) {
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
+            .getCode());
+        Date now = new Date();
+        StorePurchase data = new StorePurchase();
+        data.setCode(code);
+        data.setUserId(user.getUserId());
+        data.setStoreCode(store.getCode());
+        data.setPrice(price);
+        data.setBackAmount(fdAmount);
+        data.setBackCurrency(ECurrency.CNY.getCode());
+        data.setCreateDatetime(now);
+        data.setStatus(EStorePurchaseStatus.PAYED.getCode());
+        data.setPayType(EPayType.INTEGRAL.getCode());
+
+        data.setPayAmount2(price);
+        data.setPayDatetime(now);
+        data.setRemark("菜狗币支付O2O消费");
+        data.setSystemCode(store.getSystemCode());
+        data.setCompanyCode(store.getCompanyCode());
+
+        return code;
     }
 }

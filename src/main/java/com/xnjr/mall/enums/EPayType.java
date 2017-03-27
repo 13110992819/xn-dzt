@@ -6,8 +6,8 @@ package com.xnjr.mall.enums;
  * @history:
  */
 public enum EPayType {
-    YEZP("1", "余额支付"), WEIXIN("2", "微信"), ALIPAY("3", "支付宝"), INTEGRAL("90",
-            "积分支付");
+    ZH_YE("1", "正汇余额"), WEIXIN("2", "微信"), ALIPAY("3", "支付宝"), INTEGRAL("90",
+            "单一虚拟币支付");
 
     EPayType(String code, String value) {
         this.code = code;

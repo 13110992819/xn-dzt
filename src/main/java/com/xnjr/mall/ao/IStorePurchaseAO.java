@@ -12,9 +12,9 @@ public interface IStorePurchaseAO {
     public Object storePurchaseCG(String userId, String storeCode, Long amount,
             String payType, String ticketCode);
 
+    public void paySuccess(String jourCode);
+
     public Paginable<StorePurchase> queryStorePurchasePage(int start,
             int limit, StorePurchase condition);
-
-    public int paySuccess(String jourCode);
 
 }

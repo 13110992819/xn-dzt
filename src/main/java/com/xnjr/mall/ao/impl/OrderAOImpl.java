@@ -165,7 +165,7 @@ public class OrderAOImpl implements IOrderAO {
         String fromUserId = order.getApplyUser();
         // 人民币+购物币+钱包币
         // 余额支付(余额支付)
-        if (EPayType.YEZP.getCode().equals(payType)) {
+        if (EPayType.ZH_YE.getCode().equals(payType)) {
             // 检验购物币和钱包币和余额是否充足
             accountBO.checkGwQbAndBalance(systemCode, fromUserId, gwAmount,
                 qbAmount, cnyAmount);
@@ -212,7 +212,7 @@ public class OrderAOImpl implements IOrderAO {
             cnyAmount += order.getAmount1();// 人民币
             gwAmount += order.getAmount2(); // 购物币
             qbAmount += order.getAmount3(); // 钱包币
-            if (EPayType.YEZP.getCode().equals(payType)) {
+            if (EPayType.ZH_YE.getCode().equals(payType)) {
                 orderBO.refreshOrderPayAmount(code, order.getAmount1(),
                     order.getAmount2(), order.getAmount3());
             }
@@ -222,7 +222,7 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 人民币+购物币+钱包币
         // 余额支付(余额支付)
-        if (EPayType.YEZP.getCode().equals(payType)) {
+        if (EPayType.ZH_YE.getCode().equals(payType)) {
             // 检验购物币和钱包币和余额是否充足
             accountBO.checkGwQbAndBalance(systemCode, applyUser, gwAmount,
                 qbAmount, cnyAmount);

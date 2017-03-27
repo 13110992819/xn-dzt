@@ -33,7 +33,7 @@ public class StorePurchase extends ABaseDO {
     private Long backAmount;
 
     // 返现币种
-    private Long backCurrency;
+    private String backCurrency;
 
     // 消费时间
     private Date createDatetime;
@@ -44,9 +44,10 @@ public class StorePurchase extends ABaseDO {
     // 支付方式
     private String payType;
 
-    //
+    // 支付组号
     private String payGroup;
 
+    // 支付编号
     private String payCode;
 
     // 人民币消费金额
@@ -123,11 +124,11 @@ public class StorePurchase extends ABaseDO {
         this.backAmount = backAmount;
     }
 
-    public Long getBackCurrency() {
+    public String getBackCurrency() {
         return backCurrency;
     }
 
-    public void setBackCurrency(Long backCurrency) {
+    public void setBackCurrency(String backCurrency) {
         this.backCurrency = backCurrency;
     }
 
