@@ -46,4 +46,13 @@ public interface ISYSConfigBO extends IPaginableBO<SYSConfig> {
     public SYSConfig getSYSConfig(String key, String companyCode,
             String systemCode);
 
+    // 获取人民币对菜狗积分配置值
+    public Double getCNY2CGJF();
+
+    // 获取人民币对正汇贡献奖励配置值
+    public Double getCNY2ZHGXJL();
+
+    // 获取人民币对正汇分润配置值
+    public Double getCNY2ZHFR();
+
 }

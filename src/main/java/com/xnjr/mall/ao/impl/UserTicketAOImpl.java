@@ -10,17 +10,18 @@ import com.xnjr.mall.ao.IUserTicketAO;
 import com.xnjr.mall.bo.IAccountBO;
 import com.xnjr.mall.bo.IStoreBO;
 import com.xnjr.mall.bo.IStoreTicketBO;
+import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.IUserTicketBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StoreTicket;
+import com.xnjr.mall.domain.User;
 import com.xnjr.mall.domain.UserTicket;
-import com.xnjr.mall.dto.res.XN802503Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EStoreStatus;
 import com.xnjr.mall.enums.EStoreTicketStatus;
-import com.xnjr.mall.enums.ESysAccount;
+import com.xnjr.mall.enums.ESysUser;
 import com.xnjr.mall.exception.BizException;
 
 @Service
@@ -38,41 +39,33 @@ public class UserTicketAOImpl implements IUserTicketAO {
     @Autowired
     private IAccountBO accountBO;
 
+    @Autowired
+    private IUserBO userBO;
+
     @Override
     @Transactional
     public String buyTicket(String code, String userId) {
+        // 判断折扣券是否可买
         StoreTicket storeTicket = storeTicketBO.getStoreTicket(code);
+        if (!EStoreTicketStatus.ON.getCode().equals(storeTicket.getStatus())) {
+            throw new BizException("xn0000", "折扣券不是上架状态，不可购买");
+        }
+        // 判断店铺是否开店
         Store store = storeBO.getStore(storeTicket.getStoreCode());
-        // 判断店铺是否已开店
         if (!EStoreStatus.ON_OPEN.getCode().equals(store.getStatus())) {
-            throw new BizException("xn0000", "该店铺不处于开店状态");
+            throw new BizException("xn0000", "折扣店对应店铺不处于上架开店状态，不可购买");
         }
-        if (!EStoreTicketStatus.ONLINE.getCode()
-            .equals(storeTicket.getStatus())) {
-            throw new BizException("xn0000", "折扣券不处于可购买状态");
-        }
-        UserTicket data = new UserTicket();
-        data.setTicketCode(code);
-        data.setUserId(userId);
-        data.setSystemCode(storeTicket.getSystemCode());
-        String ticketCode = userTicketBO.saveUserTicket(data);
-        // 获取账户信息进行划账
-        XN802503Res fromAccount = accountBO.getAccountByUserId(
-            storeTicket.getSystemCode(), userId, ECurrency.QBB.getCode());
-        String bizNote = fromAccount.getRealName() + "用户"
-                + EBizType.AJ_GMZKQ.getValue();
-        accountBO.doTransferAmountRemote(store.getSystemCode(),
-            fromAccount.getAccountNumber(), ESysAccount.QBB.getCode(),
-            storeTicket.getPrice(), EBizType.AJ_GMZKQ.getCode(), bizNote);
+        // 判断购买人是否存在
+        User user = userBO.getRemoteUser(userId);
+        // 折扣券落地
+        String ticketCode = userTicketBO.saveUserTicket(user, storeTicket);
+        // 资金划转：用户的钱包币给平台
+        String systemUser = ESysUser.SYS_USER_ZHPAY.getCode();
+        ECurrency currency = ECurrency.getResultMap().get(
+            storeTicket.getCurrency());
+        accountBO.doTransferAmountRemote(userId, systemUser, currency,
+            storeTicket.getPrice(), EBizType.AJ_GMZKQ, "折扣券购买", "折扣券购买");
         return ticketCode;
-    }
-
-    @Override
-    public int dropUserTicket(String code) {
-        if (!userTicketBO.isUserTicketExist(code)) {
-            throw new BizException("xn0000", "记录编号不存在");
-        }
-        return userTicketBO.removeUserTicket(code);
     }
 
     @Override
@@ -90,13 +83,4 @@ public class UserTicketAOImpl implements IUserTicketAO {
         return page;
     }
 
-    @Override
-    public List<UserTicket> queryUserTicketList(UserTicket condition) {
-        return userTicketBO.queryUserTicketList(condition);
-    }
-
-    @Override
-    public UserTicket getUserTicket(String code) {
-        return userTicketBO.getUserTicket(code);
-    }
 }

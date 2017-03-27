@@ -29,4 +29,8 @@ public class SysConstants {
     public static final String FR2CNY = "fr2Cny"; // 分润兑人民币
 
     public static final String GXJL2CNY = "gxjl2Cny"; // 贡献奖励兑人民币
+
+    public static final String CNY2CGB = "cny2cgb"; // 人民币兑菜狗币：1.02表示1人民币=1.02菜狗币
+
+    public static final String CGB2CGJF = "cgb2cgjf"; // 菜狗币兑菜狗积分：5表示1菜狗币=5菜狗积分
 }

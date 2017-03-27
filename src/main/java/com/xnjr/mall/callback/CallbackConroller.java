@@ -74,7 +74,7 @@ public class CallbackConroller {
                     System.out.println("**** 进入商品购物，微信APP支付服务器回调 start****");
                     orderAO.paySuccess(jourCode);
                     System.out.println("**** 进入商品购物，微信APP支付服务器回调 end****");
-                } else if (EBizType.AJ_DPXF.getCode().equals(bizType)) {
+                } else if (EBizType.ZH_O2O_RMB.getCode().equals(bizType)) {
                     System.out.println("**** 进入优店买单，微信APP支付服务器回调 start****");
                     storePurchaseAO.paySuccess(jourCode);
                     System.out.println("**** 进入优店买单，微信APP支付服务器回调 end****");
