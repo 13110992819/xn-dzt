@@ -273,9 +273,9 @@ public class StoreAOImpl implements IStoreAO {
     }
 
     @Override
-    public Paginable<Store> queryStorePageFront(int start, int limit,
+    public Paginable<Store> queryFrontStorePage(int start, int limit,
             Store condition) {
-        Paginable<Store> paginable = storeBO.getPaginable(start, limit,
+        Paginable<Store> paginable = storeBO.queryFrontPage(start, limit,
             condition);
         List<Store> storeList = paginable.getList();
         if (CollectionUtils.isNotEmpty(storeList)) {

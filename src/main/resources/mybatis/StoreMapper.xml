@@ -114,13 +114,15 @@
 			<if test="systemCode != null and systemCode != '' ">
 				AND t.system_code = #{systemCode}
 			</if>
+			<!-- 前端查询距离专用start -->
 			<if test="distance != null and distance != '' ">
 				<![CDATA[ having distance <= #{distance}]]>
 			</if>
+			<!-- 前端查询距离专用end -->
 		</trim>
 	</sql>
 	
-	<select id="select_store" parameterType="store" resultMap="store_DB_Result">
+	<select id="select_front_store" parameterType="store" resultMap="store_DB_Result">
 		SELECT
 		t.code
 		,t.name
@@ -172,6 +174,71 @@
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
 				distance asc,${order}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="select_front_store_count" parameterType="store"
+		resultType="java.lang.Long">
+		SELECT count(1) from (SELECT
+		t.code
+		,ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{latitude}*PI()/180-t.latitude*PI()/180)/2),2)+COS(#{latitude}*PI()/180)*COS(t.latitude*PI()/180)*POW(SIN((#{longitude}*PI()/180-t.longitude*PI()/180)/2),2)))*1000) as distance
+		FROM
+		to2o_store t
+		<include refid="where_condition" />) as store
+	</select>
+	
+	<select id="select_store" parameterType="store" resultMap="store_DB_Result">
+		SELECT
+		t.code
+		,t.name
+		,t.level
+		,t.type
+		,t.slogan
+		
+		,t.adv_pic	
+		,t.pic
+		,t.description
+		,t.province
+		,t.city
+		
+		,t.area
+		,t.address
+		,t.longitude
+		,t.latitude
+		,t.book_mobile
+		
+		,t.sms_mobile
+		,t.pdf
+		,t.ui_location
+		,t.ui_order
+		,t.legal_person_name
+		
+		,t.user_referee
+		,t.rate1
+		,t.rate2
+		,t.rate3
+		,t.is_default
+		
+		,t.status
+		,t.updater
+		,t.update_datetime
+		,t.remark
+		,t.owner
+		
+		,t.contract_no
+		,t.total_rmb_num
+		,t.total_jf_num
+		,t.total_dz_num
+		,t.total_sc_num
+		,t.company_code
+		,t.system_code
+		FROM
+		to2o_store t
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				${order}
 			</if>
 		</trim>
 	</select>
