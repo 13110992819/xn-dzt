@@ -6,6 +6,7 @@ import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Order;
 import com.xnjr.mall.dto.req.XN808050Req;
 import com.xnjr.mall.dto.req.XN808051Req;
+import com.xnjr.mall.dto.req.XN808054Req;
 
 /** 
  * @author: xieyj 
@@ -21,28 +22,17 @@ public interface IOrderAO {
 
     public String commitCartOrderCG(XN808051Req req);
 
-    public Object toPayOrder(String code, String payType);
+    public Object toPayOrder(List<String> codeList, String payType);
 
-    public Object toPayMixOrder(String code, String payType, String ip);
+    public void userCancel(String code, String userId, String remark);
 
-    public Object toPayMixOrderList(List<String> codeList, String payType,
-            String ip, String applyUser);
+    public void platCancel(List<String> codeList, String updater, String remark);
 
-    public void toPayOrderList(List<String> codeList, String channel);
+    public void deliverLogistics(XN808054Req req);
 
-    public void expedOrder(String code);
+    public void deliverXianchang(String code, String updater, String remark);
 
-    public int cancelOrder(String code, String userId, String applyNote);
-
-    public int cancelOrderOss(String code, String updater, String remark);
-
-    public void confirmOrder(String code, String updater, String remark);
-
-    public void deliverOrder(String code, String logisticsCompany,
-            String logisticsCode, String deliverer, String deliveryDatetime,
-            String pdf, String updater, String remark);
-
-    public void deliverOrder(String code, String updater, String remark);
+    public void confirm(String code, String updater, String remark);
 
     public Paginable<Order> queryOrderPage(int start, int limit, Order condition);
 

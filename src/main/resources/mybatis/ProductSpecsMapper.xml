@@ -16,9 +16,6 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
-			<if test="code != null and code != '' ">
-				AND t.product_code = #{product_code}
-			</if>
 			<if test="productCode != null and productCode != '' ">
 				AND t.product_code = #{productCode}
 			</if>

@@ -28,4 +28,13 @@ public interface IUserBO {
 
     public String doSaveBUser(String mobile, String updater, String systemCode,
             String companyCode);
+
+    /**
+     * 根据systemCode获取系统userId
+     * @param systemCode
+     * @return 
+     * @create: 2017年3月23日 下午2:03:03 myb858
+     * @history:
+     */
+    public String getSystemUser(String systemCode);
 }

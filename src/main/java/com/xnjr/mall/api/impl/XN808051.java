@@ -7,6 +7,7 @@ import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.dto.req.XN808051Req;
+import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.enums.ESystemCode;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
@@ -28,10 +29,12 @@ public class XN808051 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        if (ESystemCode.ZHPAY.getCode().equals(req.get)) {
-
+        if (ESystemCode.ZHPAY.getCode().equals(req.getPojo().getSystemCode())) {
+            orderAO.commitCartOrderZH(req);
+        } else {
+            orderAO.commitCartOrderCG(req);
         }
-        return orderAO.commitCartOrder(req);
+        return new BooleanRes(true);
     }
 
     /** 
@@ -40,10 +43,15 @@ public class XN808051 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808051Req.class);
-        StringValidater.validateBlank(req.getApplyUser(), req.getReceiver(),
-            req.getReMobile(), req.getReAddress());
         if (CollectionUtils.isEmpty(req.getCartCodeList())) {
             throw new BizException("xn702000", "请选择购物车中的货物");
         }
+        if (null == req.getPojo()) {
+            throw new BizException("xn702000", "订单基本信息不能为空");
+        }
+        StringValidater.validateBlank(req.getPojo().getReceiver(), req
+            .getPojo().getReMobile(), req.getPojo().getReAddress(), req
+            .getPojo().getApplyUser(), req.getPojo().getCompanyCode(), req
+            .getPojo().getSystemCode());
     }
 }

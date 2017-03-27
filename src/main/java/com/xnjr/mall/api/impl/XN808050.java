@@ -40,7 +40,8 @@ public class XN808050 extends AProcessor {
         }
         StringValidater.validateBlank(req.getProductCode(), req.getQuantity(),
             req.getPojo().getReceiver(), req.getPojo().getReMobile(), req
-                .getPojo().getReAddress(), req.getPojo().getApplyUser());
+                .getPojo().getReAddress(), req.getPojo().getApplyUser(), req
+                .getPojo().getCompanyCode(), req.getPojo().getSystemCode());
         StringValidater.validateNumber(req.getQuantity());
     }
 }

@@ -23,6 +23,12 @@ public class CommitOrderPOJO {
     // 发票抬头（选填）
     private String receiptTitle;
 
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
+    private String systemCode;
+
     public String getReceiver() {
         return receiver;
     }
@@ -77,6 +83,22 @@ public class CommitOrderPOJO {
 
     public void setReceiptTitle(String receiptTitle) {
         this.receiptTitle = receiptTitle;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
     }
 
 }
