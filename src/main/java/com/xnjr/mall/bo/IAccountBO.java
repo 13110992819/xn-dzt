@@ -8,12 +8,11 @@
  */
 package com.xnjr.mall.bo;
 
-import java.util.Map;
-
+import com.xnjr.mall.domain.Account;
 import com.xnjr.mall.dto.res.PayBalanceRes;
-import com.xnjr.mall.dto.res.XN802180Res;
-import com.xnjr.mall.dto.res.XN802503Res;
+import com.xnjr.mall.dto.res.XN002500Res;
 import com.xnjr.mall.enums.EBizType;
+import com.xnjr.mall.enums.ECurrency;
 
 /** 
  * @author: miyb 
@@ -23,71 +22,30 @@ import com.xnjr.mall.enums.EBizType;
 public interface IAccountBO {
 
     /**
-     * 根据用户编号和币种获取账户
-     * @param systemCode
-     * @param userId
-     * @param currency
-     * @return 
-     * @create: 2016年12月28日 下午2:29:43 xieyj
-     * @history:
-     */
-    public XN802503Res getAccountByUserId(String systemCode, String userId,
-            String currency);
-
-    /**
-     * 获取用户所有的账户
-     * @param systemCode
-     * @param userId
-     * @return 
-     * @create: 2017年1月10日 下午8:32:36 xieyj
-     * @history:
-     */
-    public Map<String, XN802503Res> getAccountsByUser(String systemCode,
-            String userId);
-
-    /**
-     * 账户划转资金
-     * @param systemCode
-     * @param fromAccountNumber
-     * @param toAccountNumber
-     * @param amount
-     * @param bizType
-     * @param bizNote
-     * @return 
-     * @create: 2016年12月28日 下午2:16:09 xieyj
-     * @history:
-     */
-    public void doTransferAmount(String systemCode, String fromAccountNumber,
-            String toAccountNumber, Long amount, String bizType, String bizNote);
+    * 根据用户编号和币种获取账户
+    * @param userId
+    * @param currency
+    * @return 
+    * @create: 2017年3月23日 下午12:02:11 myb858
+    * @history:
+    */
+    public Account getRemoteAccount(String userId, ECurrency currency);
 
     /**
      * 根据用户编号进行账户资金划转
-     * @param systemCode
      * @param fromUserId
      * @param toUserId
      * @param currency
      * @param amount
      * @param bizType
-     * @param bizNote 
-     * @create: 2017年1月10日 下午2:37:34 xieyj
+     * @param fromBizNote
+     * @param toBizNote 
+     * @create: 2017年3月26日 下午8:42:38 xieyj
      * @history:
      */
-    public void doTransferAmountByUser(String systemCode, String fromUserId,
-            String toUserId, String currency, Long amount, String bizType,
-            String bizNote);
-
-    /**
-     * @param systemCode
-     * @param userId
-     * @param currency
-     * @param transAmount
-     * @param bizType
-     * @param bizNote 
-     * @create: 2017年1月10日 下午3:19:52 xieyj
-     * @history:
-     */
-    public void doTransferFcBySystem(String systemCode, String userId,
-            String currency, Long transAmount, String bizType, String bizNote);
+    public void doTransferAmountRemote(String fromUserId, String toUserId,
+            ECurrency currency, Long amount, EBizType bizType,
+            String fromBizNote, String toBizNote);
 
     /**
      * 不同币种账户之间划转资金
@@ -104,19 +62,6 @@ public interface IAccountBO {
     public void doTransferAmountOnRate(String systemCode,
             String fromAccountNumber, String toAccountNumber, Long amount,
             Double rate, String bizType, String bizNote);
-
-    /**
-     * 兑换金额审批
-     * @param systemCode
-     * @param code
-     * @param approveResult
-     * @param approver
-     * @param approveNote 
-     * @create: 2017年1月5日 下午2:16:02 xieyj
-     * @history:
-     */
-    public void doExchangeAmount(String systemCode, String code, String rate,
-            String approveResult, String approver, String approveNote);
 
     /**
      * 检查购物币和钱包币余额是否足够
@@ -198,35 +143,19 @@ public interface IAccountBO {
             EBizType bizType);
 
     /**
-     * 订单退货
-     * @param systemCode
-     * @param toUserId
-     * @param gwbPayAmount
-     * @param qbbPayAmount
-     * @param cnyPayAmount
-     * @param bizType
-     * @param remark 
-     * @create: 2017年2月15日 上午10:57:28 xieyj
-     * @history:
-     */
-    public void doOrderAmountBackBySysetm(String systemCode, String toUserId,
-            Long gwbPayAmount, Long qbbPayAmount, Long cnyPayAmount,
-            EBizType bizType, String remark);
-
-    /**
      * 微信支付
-     * @param systemCode
-     * @param userId
+     * @param fromUserId
+     * @param toUserId
+     * @param amount
      * @param bizType
-     * @param bizNote
-     * @param body
-     * @param cnyAmount
-     * @param ip
+     * @param fromBizNote
+     * @param toBizNote
+     * @param payGroup
      * @return 
-     * @create: 2017年1月11日 上午11:10:19 xieyj
+     * @create: 2017年3月23日 下午8:34:24 xieyj
      * @history:
      */
-    public XN802180Res doWeiXinPay(String systemCode, String userId,
-            EBizType bizType, String bizNote, String body, Long cnyAmount,
-            String ip);
+    public XN002500Res doWeiXinPayRemote(String fromUserId, String toUserId,
+            Long amount, EBizType bizType, String fromBizNote,
+            String toBizNote, String payGroup);
 }

@@ -291,15 +291,42 @@ public class OrderAOImpl implements IOrderAO {
             Long cnyAmount = data.getPayAmount1(); // 人民币
             Long gwAmount = data.getPayAmount2(); // 购物币
             Long qbAmount = data.getPayAmount3(); // 钱包币
-            accountBO.doOrderAmountBackBySysetm(data.getSystemCode(),
-                data.getApplyUser(), gwAmount, qbAmount, cnyAmount,
-                EBizType.AJ_GWTK, " 订单号：[" + code + "]");
+            Map<String, String> rateMap = sysConfigBO.getConfigsMap(data
+                .getSystemCode());
+            Double gxjl2cnyRate = Double.valueOf(rateMap
+                .get(SysConstants.GXJL2CNY));
+            String toUserId = data.getApplyUser();
+            remark = remark + " 订单号：[" + code + "]";
+            // 退钱
+            // doOrderAmountBackBySysetm(systemCode, toUserId, gwbPayAmount,
+            // qbbPayAmount, cnyPayAmount, bizType, remark);
             // 发送短信
             String userId = data.getApplyUser();
             smsOutBO.sentContent(userId, userId, "尊敬的用户，您的订单[" + data.getCode()
                     + "]已取消,退款原因:[" + remark + "],请及时查看退款。");
         }
         return orderBO.cancelOrder(code, updater, remark, status);
+    }
+
+    public void doOrderAmountBackBySysetm(String systemCode, String toUserId,
+            Long gwbPayAmount, Long qbbPayAmount, Long cnyPayAmount,
+            EBizType bizType, String remark) {
+        Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode);
+        Double gxjl2cnyRate = Double
+            .valueOf(rateMap.get(SysConstants.GXJL2CNY));
+        // 扣除购物币
+        accountBO.doTransferAmountRemote(ESysUser.SYS_USER_ZHPAY.getCode(),
+            toUserId, ECurrency.GWB, gwbPayAmount, bizType, bizType.getValue()
+                    + remark, bizType.getValue() + remark);
+        // 扣除钱包币
+        accountBO.doTransferAmountRemote(ESysUser.SYS_USER_ZHPAY.getCode(),
+            toUserId, ECurrency.QBB, qbbPayAmount, bizType, bizType.getValue()
+                    + remark, bizType.getValue() + remark);
+        // 退人民币
+        accountBO.doTransferAmountRemote(ESysUser.SYS_USER_ZHPAY.getCode(),
+            toUserId, ECurrency.GXJL,
+            Double.valueOf(gxjl2cnyRate * cnyPayAmount).longValue(), bizType,
+            bizType.getValue() + remark, bizType.getValue() + remark);
     }
 
     /** 
