@@ -36,6 +36,9 @@ public interface IOrderAO {
 
     public Paginable<Order> queryOrderPage(int start, int limit, Order condition);
 
+    public Paginable<Order> queryMyOrderPage(int start, int limit,
+            Order condition);
+
     public List<Order> queryOrderList(Order condition);
 
     public Order getOrder(String code);

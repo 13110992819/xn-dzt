@@ -282,6 +282,18 @@ public class OrderAOImpl implements IOrderAO {
         Paginable<Order> page = orderBO.getPaginable(start, limit, condition);
         if (page != null && CollectionUtils.isNotEmpty(page.getList())) {
             for (Order order : page.getList()) {
+                order.setUser(userBO.getRemoteUser(order.getApplyUser()));
+            }
+        }
+        return page;
+    }
+
+    @Override
+    public Paginable<Order> queryMyOrderPage(int start, int limit,
+            Order condition) {
+        Paginable<Order> page = orderBO.getPaginable(start, limit, condition);
+        if (page != null && CollectionUtils.isNotEmpty(page.getList())) {
+            for (Order order : page.getList()) {
                 ProductOrder imCondition = new ProductOrder();
                 imCondition.setOrderCode(order.getCode());
                 List<ProductOrder> productOrderList = productOrderBO
