@@ -114,9 +114,11 @@
 			<if test="systemCode != null and systemCode != '' ">
 				AND t.system_code = #{systemCode}
 			</if>
+			<!-- 前端查询距离专用start -->
 			<if test="distance != null and distance != '' ">
 				<![CDATA[ having distance <= #{distance}]]>
 			</if>
+			<!-- 前端查询距离专用end -->
 		</trim>
 	</sql>
 	
