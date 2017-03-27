@@ -6,7 +6,10 @@ import com.xnjr.mall.domain.StorePurchase;
 public interface IStorePurchaseAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public Object storePurchase(String userId, String storeCode, Long amount,
+    public Object storePurchaseZH(String userId, String storeCode, Long amount,
+            String payType, String ticketCode);
+
+    public Object storePurchaseCG(String userId, String storeCode, Long amount,
             String payType, String ticketCode);
 
     public Paginable<StorePurchase> queryStorePurchasePage(int start,

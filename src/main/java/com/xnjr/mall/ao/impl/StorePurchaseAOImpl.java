@@ -68,13 +68,20 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
     @Autowired
     private IUserBO userBO;
 
+    @Override
+    public Object storePurchaseCG(String userId, String storeCode, Long amount,
+            String payType, String ticketCode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     // 店铺消费业务逻辑：
     // 1、店铺信息校验
     // 2、产生消费订单，更新折扣券信息
     // 3、划转各个账户金额，分销
     @Override
     @Transactional
-    public Object storePurchase(String userId, String storeCode, Long amount,
+    public Object storePurchaseZH(String userId, String storeCode, Long amount,
             String payType, String ticketCode) {
         Store store = storeBO.getStore(storeCode);
         if (!EStoreStatus.ON_OPEN.getCode().equals(store.getStatus())) {
