@@ -243,7 +243,7 @@ public class AccountBOImpl implements IAccountBO {
         doTransferAmountRemote(fromUserId, toUserId, ECurrency.CGB, cgbPrice,
             bizType, bizType.getValue(), bizType.getValue());
         // 扣除钱包币
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.XNB, jfPrice,
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.JF, jfPrice,
             bizType, bizType.getValue(), bizType.getValue());
     }
 
@@ -271,7 +271,7 @@ public class AccountBOImpl implements IAccountBO {
         if (cgbAmount > cgbAccount.getAmount()) {
             throw new BizException("xn0000", "菜狗币不足");
         }
-        Account xnbAccount = getRemoteAccount(userId, ECurrency.XNB);
+        Account xnbAccount = getRemoteAccount(userId, ECurrency.JF);
         if (jfAmount > xnbAccount.getAmount()) {
             throw new BizException("xn0000", "积分不足");
         }
