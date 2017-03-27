@@ -23,6 +23,12 @@ public class StockPool extends ABaseDO {
     // 从池中已经被使用的金额
     private Long usedAmount;
 
+    // 所属公司编号
+    private String companyCode;
+
+    // 所属系统编号
+    private String systemCode;
+
     public String getCode() {
         return code;
     }
@@ -61,6 +67,22 @@ public class StockPool extends ABaseDO {
 
     public void setUsedAmount(Long usedAmount) {
         this.usedAmount = usedAmount;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
     }
 
 }
