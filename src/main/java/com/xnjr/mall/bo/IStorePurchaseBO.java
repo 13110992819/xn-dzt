@@ -22,4 +22,12 @@ public interface IStorePurchaseBO extends IPaginableBO<StorePurchase> {
 
     public int refreshStatus(String code, String status);
 
+    /** 
+     * 获取店铺人民币总收入
+     * @param storeCode 
+     * @create: 2017年3月28日 下午5:11:25 xieyj
+     * @history: 
+     */
+    public Long getTotalIncome(String storeCode);
+
 }

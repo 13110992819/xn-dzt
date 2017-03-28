@@ -8,13 +8,8 @@ import com.xnjr.mall.dto.req.XN808200Req;
 import com.xnjr.mall.dto.req.XN808201Req;
 import com.xnjr.mall.dto.req.XN808203Req;
 import com.xnjr.mall.dto.req.XN808204Req;
+import com.xnjr.mall.dto.res.XN808219Res;
 
-/** 
- * 商家AO
- * @author: zuixian 
- * @since: 2016年9月20日 下午1:23:40 
- * @history:
- */
 public interface IStoreAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
@@ -45,6 +40,6 @@ public interface IStoreAO {
 
     public Store getStoreFront(String code, String fromUser);
 
-    public List<Store> getMyStore(String userId);
+    public List<XN808219Res> getMyStore(String userId);
 
 }

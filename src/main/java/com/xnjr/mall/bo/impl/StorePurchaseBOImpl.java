@@ -125,4 +125,23 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
         return null;
     }
 
+    /** 
+     * @see com.xnjr.mall.bo.IStorePurchaseBO#getTotalIncome(java.lang.String)
+     */
+    @Override
+    public Long getTotalIncome(String storeCode) {
+        Long result = 0L;
+        StorePurchase condition = new StorePurchase();
+        condition.setStoreCode(storeCode);
+        condition.setStatus(EStorePurchaseStatus.PAYED.getCode());
+        List<StorePurchase> list = storePurchaseDAO.selectList(condition);
+        for (StorePurchase storePurchase : list) {
+            if (EPayType.WEIXIN.getCode().equals(storePurchase.getPayType())
+                    || EPayType.ALIPAY.getCode().equals(
+                        storePurchase.getPayType())) {
+                result += storePurchase.getPayAmount1();
+            }
+        }
+        return result;
+    }
 }
