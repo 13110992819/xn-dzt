@@ -2,7 +2,6 @@ package com.xnjr.mall.api.impl;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.xnjr.mall.ao.ICaigopoolAO;
 import com.xnjr.mall.ao.ICaigopoolBackAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
@@ -39,7 +38,7 @@ public class XN808525 extends AProcessor {
 
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
-            orderColumn = ICaigopoolAO.DEFAULT_ORDER_COLUMN;
+            orderColumn = ICaigopoolBackAO.DEFAULT_ORDER_COLUMN;
         }
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
