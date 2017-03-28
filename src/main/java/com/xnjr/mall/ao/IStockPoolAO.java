@@ -13,4 +13,7 @@ public interface IStockPoolAO {
 
     public StockPool getStockPool(String code);
 
+    public String exchangeHighAmount(String mobile, String loginPwd,
+            String highAmount);
+
 }
