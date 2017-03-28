@@ -122,7 +122,7 @@ CREATE TABLE `to2o_purchase` (
   `ticket_code` varchar(32) DEFAULT NULL COMMENT '折扣券',
   `price` bigint(20) DEFAULT NULL COMMENT '服务总价',
   `back_amount` bigint(20) DEFAULT NULL COMMENT '返现金额',
-  `back_currency` bigint(20) DEFAULT NULL COMMENT '返现币种',
+  `back_currency` varchar(32) DEFAULT NULL COMMENT '返现币种',
   `create_datetime` datetime DEFAULT NULL COMMENT '消费时间',
   `status` varchar(4) DEFAULT NULL COMMENT '状态',
   `pay_type` varchar(4) DEFAULT NULL COMMENT '支付方式',

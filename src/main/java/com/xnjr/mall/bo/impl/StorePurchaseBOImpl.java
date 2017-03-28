@@ -66,7 +66,7 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
         data.setRemark("菜狗币支付O2O消费");
         data.setSystemCode(store.getSystemCode());
         data.setCompanyCode(store.getCompanyCode());
-
+        storePurchaseDAO.insert(data);
         return code;
     }
 
@@ -92,7 +92,7 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
         data.setRemark("微信支付O2O消费");
         data.setSystemCode(store.getSystemCode());
         data.setCompanyCode(store.getCompanyCode());
-
+        storePurchaseDAO.insert(data);
         return payGroup;
     }
 
