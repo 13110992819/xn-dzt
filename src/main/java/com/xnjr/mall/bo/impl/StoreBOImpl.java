@@ -62,13 +62,16 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
 
     @Override
     public Store getStore(String code) {
+        Store store = null;
         if (StringUtils.isNotBlank(code)) {
             Store condition = new Store();
             condition.setCode(code);
-            return storeDAO.select(condition);
-        } else {
-            throw new BizException("xn000000", "商家编号不存在");
+            store = storeDAO.select(condition);
+            if (store == null) {
+                throw new BizException("xn000000", "店铺不存在");
+            }
         }
+        return store;
     }
 
     @Override
