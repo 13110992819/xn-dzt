@@ -1,5 +1,6 @@
 package com.xnjr.mall.ao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.xnjr.mall.ao.IStoreAO;
 import com.xnjr.mall.bo.IAccountBO;
 import com.xnjr.mall.bo.ISmsOutBO;
 import com.xnjr.mall.bo.IStoreBO;
+import com.xnjr.mall.bo.IStorePurchaseBO;
 import com.xnjr.mall.bo.IStoreTicketBO;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
@@ -25,6 +27,7 @@ import com.xnjr.mall.dto.req.XN808200Req;
 import com.xnjr.mall.dto.req.XN808201Req;
 import com.xnjr.mall.dto.req.XN808203Req;
 import com.xnjr.mall.dto.req.XN808204Req;
+import com.xnjr.mall.dto.res.XN808219Res;
 import com.xnjr.mall.enums.EStoreLevel;
 import com.xnjr.mall.enums.EStoreStatus;
 import com.xnjr.mall.enums.EStoreTicketStatus;
@@ -53,6 +56,9 @@ public class StoreAOImpl implements IStoreAO {
 
     @Autowired
     private ISmsOutBO smsOutBO;
+
+    @Autowired
+    private IStorePurchaseBO storePurchaseBO;
 
     @Override
     @Transactional
@@ -320,18 +326,25 @@ public class StoreAOImpl implements IStoreAO {
     }
 
     @Override
-    public List<Store> getMyStore(String userId) {
+    public List<XN808219Res> getMyStore(String userId) {
+        List<XN808219Res> resultList = new ArrayList<XN808219Res>();
         Store condition = new Store();
         condition.setOwner(userId);
-        List<Store> list = storeBO.queryStoreList(condition);
-        for (Store store : list) {
+        List<Store> storeList = storeBO.queryStoreList(condition);
+        for (Store store : storeList) {
             // 设置推荐人手机号
             String refereeUserId = store.getUserReferee();
             if (StringUtils.isNotBlank(refereeUserId)) {
                 User remoteRes = userBO.getRemoteUser(refereeUserId);
                 store.setRefereeMobile(remoteRes.getMobile());
             }
+            XN808219Res result = new XN808219Res();
+            result.setStore(store);
+            // 获取人民币总消费记录
+            result.setTotalIncome(storePurchaseBO.getTotalIncome(store
+                .getCode()));
+            resultList.add(result);
         }
-        return list;
+        return resultList;
     }
 }
