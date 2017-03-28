@@ -13,35 +13,37 @@ public class XN808065Req extends APageReq {
      */
     private static final long serialVersionUID = 1L;
 
-    // 类型
+    // 类型（选填）
     private String type;
 
-    // 向谁提货
+    // 向谁提货（选填）
     private String toUser;
 
-    // 下单人
+    // 下单人（选填）
     private String applyUser;
 
     // 状态（选填）
     private String status;
 
+    // 支付组号（选填）
     private String payGroup;
 
+    // 橙账本流水号（选填）
     private String payCode;
 
-    // 发货人
+    // 发货人（选填）
     private String deliverer;
 
-    // 物流单号
+    // 物流单号（选填）
     private String logisticsCode;
 
-    // 物流公司
+    // 物流公司（选填）
     private String logisticsCompany;
 
-    // 所属公司编号
+    // 所属公司编号（必填）
     private String companyCode;
 
-    // 所属系统编号
+    // 所属系统编号（必填）
     private String systemCode;
 
     public String getType() {
