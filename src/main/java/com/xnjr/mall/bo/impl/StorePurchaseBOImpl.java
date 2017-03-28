@@ -139,7 +139,15 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
             if (EPayType.WEIXIN.getCode().equals(storePurchase.getPayType())
                     || EPayType.ALIPAY.getCode().equals(
                         storePurchase.getPayType())) {
-                result += storePurchase.getPayAmount1();
+                if (null != storePurchase.getPayAmount1()) {
+                    result += storePurchase.getPayAmount1();
+                }
+            }
+            if (EPayType.INTEGRAL.getCode().equals(storePurchase.getPayType())) { // 加上返现金额
+                if (ECurrency.CNY.getCode().equals(
+                    storePurchase.getBackCurrency())) {
+                    result += storePurchase.getBackAmount();
+                }
             }
         }
         return result;

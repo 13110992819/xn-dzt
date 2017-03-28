@@ -24,6 +24,7 @@ import com.xnjr.mall.dto.res.XN002000Res;
 import com.xnjr.mall.dto.res.XN002500Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECurrency;
+import com.xnjr.mall.enums.ESystemCode;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.http.BizConnecter;
 import com.xnjr.mall.http.JsonUtils;
@@ -112,7 +113,8 @@ public class AccountBOImpl implements IAccountBO {
      */
     @Override
     public void checkBalanceAmount(String userId, Long price) {
-        Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode);
+        Map<String, String> rateMap = sysConfigBO
+            .getConfigsMap(ESystemCode.ZHPAY.getCode());
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
         Account gxjlAccount = getRemoteAccount(userId, ECurrency.GXJL);
         // 查询用户分润账户
@@ -137,7 +139,8 @@ public class AccountBOImpl implements IAccountBO {
             Long price, EBizType bizType) {
         Long gxjlPrice = 0L;
         Long frPrice = 0L;
-        Map<String, String> rateMap = sysConfigBO.getConfigsMap(systemCode);
+        Map<String, String> rateMap = sysConfigBO
+            .getConfigsMap(ESystemCode.ZHPAY.getCode());
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
         Account gxjlAccount = getRemoteAccount(fromUserId, ECurrency.GXJL);
         // 查询用户分润账户
