@@ -52,6 +52,14 @@ public class CaigopoolBack extends ABaseDO {
     // 所属系统编号
     private String systemCode;
 
+    // **************************************
+
+    // 返还时间起
+    private Date createDatetimeStart;
+
+    // 返还时间止
+    private Date createDatetimeEnd;
+
     public Long getId() {
         return id;
     }
@@ -146,6 +154,22 @@ public class CaigopoolBack extends ABaseDO {
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
+    }
+
+    public Date getCreateDatetimeStart() {
+        return createDatetimeStart;
+    }
+
+    public void setCreateDatetimeStart(Date createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
+    }
+
+    public Date getCreateDatetimeEnd() {
+        return createDatetimeEnd;
+    }
+
+    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
     }
 
 }
