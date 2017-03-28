@@ -23,6 +23,12 @@ public class StockBack extends ABaseDO {
     // 因为哪个分红权
     private String stockCode;
 
+    // 成本金额
+    private Long costAmount;
+
+    // 成本币种
+    private String costCurrency;
+
     // 返还给谁的
     private String backUser;
 
@@ -135,6 +141,22 @@ public class StockBack extends ABaseDO {
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
+    }
+
+    public Long getCostAmount() {
+        return costAmount;
+    }
+
+    public void setCostAmount(Long costAmount) {
+        this.costAmount = costAmount;
+    }
+
+    public String getCostCurrency() {
+        return costCurrency;
+    }
+
+    public void setCostCurrency(String costCurrency) {
+        this.costCurrency = costCurrency;
     }
 
 }
