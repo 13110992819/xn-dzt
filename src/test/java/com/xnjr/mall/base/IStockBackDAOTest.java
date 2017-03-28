@@ -7,7 +7,6 @@ import org.unitils.spring.annotation.SpringBeanByType;
 
 import com.xnjr.mall.dao.IStockBackDAO;
 import com.xnjr.mall.domain.StockBack;
-import com.xnjr.mall.enums.ECurrency;
 
 public class IStockBackDAOTest extends ADAOTest {
 
@@ -16,13 +15,15 @@ public class IStockBackDAOTest extends ADAOTest {
 
     @Test
     public void insert() {
+
         StockBack data = new StockBack();
-        data.setPoolCode("poolCode");
+        data.setFundCode("fundCode");
         data.setStockCode("stockCode");
-        data.setBackUser("backUser");
-        data.setBackAmount(1000L);
-        data.setBackCurrency(ECurrency.CNY.getCode());
-        data.setBackDatetime(new Date());
+        data.setToUser("toUser");
+        data.setToAmount(100L);
+        data.setToCurrency("toCurrency");
+        data.setCreateDatetime(new Date());
+
         data.setCompanyCode("companyCode");
         data.setSystemCode("systemCode");
         stockBackDAO.insert(data);
@@ -32,7 +33,7 @@ public class IStockBackDAOTest extends ADAOTest {
     @Test
     public void select() {
         StockBack condition = new StockBack();
-        condition.setPoolCode("poolCode");
+        condition.setFundCode("poolCode");
         StockBack data = stockBackDAO.select(condition);
         logger.info("select : {}", data.getId());
     }
@@ -40,7 +41,7 @@ public class IStockBackDAOTest extends ADAOTest {
     @Test
     public void selectList() {
         StockBack condition = new StockBack();
-        condition.setPoolCode("poolCode");
+        condition.setFundCode("poolCode");
         Long count = stockBackDAO.selectTotalCount(condition);
         logger.info("selectList : {}", count);
     }

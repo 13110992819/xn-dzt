@@ -1,11 +1,12 @@
 package com.xnjr.mall.base;
 
+import java.util.Date;
+
 import org.junit.Test;
 import org.unitils.spring.annotation.SpringBeanByType;
 
 import com.xnjr.mall.dao.ICaigopoolDAO;
 import com.xnjr.mall.domain.Caigopool;
-import com.xnjr.mall.enums.EStockPoolType;
 
 public class ICaigopoolDAOTest extends ADAOTest {
 
@@ -17,9 +18,12 @@ public class ICaigopoolDAOTest extends ADAOTest {
         Caigopool data = new Caigopool();
         data.setCode("stock001");
         data.setName("stockName");
-        data.setType(EStockPoolType.ZHPAY.getCode());
+        data.setType("type");
         data.setAmount(1000L);
         data.setUsedAmount(2000L);
+        data.setAddUser("addUser");
+        data.setAddDatetime(new Date());
+        data.setRemark("remark");
         data.setCompanyCode("companyCode");
         data.setSystemCode("systemCode");
         stockPoolDAO.insert(data);

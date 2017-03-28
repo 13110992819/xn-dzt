@@ -18,11 +18,14 @@ public class ICaigopoolBackDAOTest extends ADAOTest {
     public void insert() {
         CaigopoolBack data = new CaigopoolBack();
         data.setPoolCode("poolCode");
-        data.setStockCode("stockCode");
-        data.setBackUser("backUser");
-        data.setBackAmount(1000L);
-        data.setBackCurrency(ECurrency.CNY.getCode());
-        data.setBackDatetime(new Date());
+        data.setPoolName("poolName");
+        data.setFromUser("mobile");
+        data.setFromAmount(1000L);
+        data.setFromCurrency(ECurrency.CG_EXT_HB.getCode());
+        data.setToUser("userId");
+        data.setToAmount(1000L);
+        data.setToCurrency(ECurrency.CGB.getCode());
+        data.setCreateDatetime(new Date());
         data.setCompanyCode("companyCode");
         data.setSystemCode("systemCode");
         caigopoolBackDAO.insert(data);

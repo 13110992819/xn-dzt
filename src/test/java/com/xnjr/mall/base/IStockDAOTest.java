@@ -22,7 +22,7 @@ public class IStockDAOTest extends ADAOTest {
         String code = OrderNoGenerater.generateM("S");
         data.setCode(code);
         data.setUserId("userId");
-        data.setPoolCode("poolCode");
+        data.setFundCode("fundCode");
         data.setCostAmount(1000L);
         data.setCostCurrency(ECurrency.CNY.getCode());
         data.setBackInterval(5);

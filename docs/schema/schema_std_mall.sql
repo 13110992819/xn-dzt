@@ -1,3 +1,83 @@
+DROP TABLE IF EXISTS `tduijie_caigopool`;
+CREATE TABLE `tduijie_caigopool` (
+  `code` varchar(32) NOT NULL COMMENT '编号',
+  `name` varchar(255) DEFAULT NULL COMMENT '名称',
+  `type` varchar(4) DEFAULT NULL COMMENT '类型',
+
+  `amount` bigint(20) DEFAULT NULL COMMENT '余额',
+  `used_amount` bigint(20) DEFAULT NULL COMMENT '被使用的金额',
+  `add_user` varchar(32) DEFAULT NULL COMMENT '最后入金人',
+  `add_datetime` datetime DEFAULT NULL COMMENT '最后入金时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  
+  `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
+  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `tduijie_caigopool_back`;
+CREATE TABLE `tduijie_caigopool_back` (
+  `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '序号',
+  `pool_code` varchar(32) DEFAULT NULL COMMENT '对应池编号',
+  `pool_name` varchar(255) DEFAULT NULL COMMENT '对应池名称',
+  
+  `from_amount` bigint(20) DEFAULT NULL COMMENT '三方系统的金额',
+  `from_currency` varchar(32) DEFAULT NULL COMMENT '三方系统的币种',
+  `from_user` varchar(32) DEFAULT NULL COMMENT '三方系统的用户（手机号）',
+  `to_amount` bigint(20) DEFAULT NULL COMMENT '我方系统的金额',
+  `to_currency` varchar(32) DEFAULT NULL COMMENT '我方系统的币种',
+  `to_user` varchar(32) DEFAULT NULL COMMENT '我方系统的用户（手机号）',
+
+  `create_datetime` datetime DEFAULT NULL COMMENT '创建时间',
+  `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
+  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `tfund_stock`;
+CREATE TABLE `tfund_stock` (
+  `code` varchar(32) NOT NULL COMMENT '编号',
+  `user_id` varchar(32) DEFAULT NULL COMMENT '拥有者',
+  `fund_code` varchar(32) DEFAULT NULL COMMENT '从哪个池中拿的钱',
+  `cost_amount` bigint(20) DEFAULT NULL COMMENT '成本金额',
+  `cost_currency` varchar(32) DEFAULT NULL COMMENT '成本币种',
+  
+  `back_interval` int(11) DEFAULT NULL COMMENT '返利间隔',
+  `profit_amount` bigint(20) DEFAULT NULL COMMENT '收益金额',
+  `profit_currency` varchar(32) DEFAULT NULL COMMENT '收益币种',
+  `back_count` int(11) DEFAULT NULL COMMENT '已返还次数',
+  `back_amount` bigint(20) DEFAULT NULL COMMENT '已返还福利',
+  
+  `today_amount` bigint(20) DEFAULT NULL COMMENT '今日可得福利',
+  `next_back_date` datetime DEFAULT NULL COMMENT '下次返还时间',
+  `create_datetime` datetime DEFAULT NULL COMMENT '生成时间',
+  `status` varchar(4) DEFAULT NULL COMMENT '状态',  
+  `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
+  
+  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `tfund_stock_back`;
+CREATE TABLE `tfund_stock_back` (
+  `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '序号',
+  `fund_code` varchar(32) DEFAULT NULL COMMENT '从哪个池中拿的钱',
+  `stock_code` varchar(32) DEFAULT NULL COMMENT '因为哪个分红权',
+  `to_user` varchar(32) DEFAULT NULL COMMENT '返还给谁的',
+  `to_amount` bigint(20) DEFAULT NULL COMMENT '返还金额',
+  
+  `to_currency` varchar(32) DEFAULT NULL COMMENT '返还币种',
+  `create_datetime` datetime DEFAULT NULL COMMENT '生成时间',
+  `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
+  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+
+
 
 DROP TABLE IF EXISTS `tmall_cart`;
 CREATE TABLE `tmall_cart` (
@@ -225,56 +305,7 @@ CREATE TABLE `to2o_user_ticket` (
   PRIMARY KEY (`code`) COMMENT '用户折扣券'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `to2o_stock_pool`;
-CREATE TABLE `to2o_stock_pool` (
-  `code` varchar(32) NOT NULL COMMENT '编号',
-  `name` varchar(255) DEFAULT NULL COMMENT '名称',
-  `type` varchar(4) DEFAULT NULL COMMENT '类型',
-  `amount` bigint(20) DEFAULT NULL COMMENT '余额',
-  `used_amount` bigint(20) DEFAULT NULL COMMENT '被使用的金额',
-  `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
-  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
-  PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `to2o_stock`;
-CREATE TABLE `to2o_stock` (
-  `code` varchar(32) NOT NULL COMMENT '编号',
-  `user_id` varchar(32) DEFAULT NULL COMMENT '拥有者',
-  `pool_code` varchar(32) DEFAULT NULL COMMENT '从哪个池中拿的钱',
-  `cost_amount` bigint(20) DEFAULT NULL COMMENT '成本金额',
-  `cost_currency` varchar(32) DEFAULT NULL COMMENT '成本币种',
-  
-  `back_interval` int(11) DEFAULT NULL COMMENT '返利间隔',
-  `profit_amount` bigint(20) DEFAULT NULL COMMENT '收益金额',
-  `profit_currency` varchar(32) DEFAULT NULL COMMENT '收益币种',
-  `back_count` int(11) DEFAULT NULL COMMENT '已返还次数',
-  `back_amount` bigint(20) DEFAULT NULL COMMENT '已返还福利',
-  
-  `today_amount` bigint(20) DEFAULT NULL COMMENT '今日可得福利',
-  `next_back_date` datetime DEFAULT NULL COMMENT '下次返还时间',
-  `create_datetime` datetime DEFAULT NULL COMMENT '生成时间',
-  `status` varchar(4) DEFAULT NULL COMMENT '状态',  
-  `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
-  
-  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
-  PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `to2o_stock_back`;
-CREATE TABLE `to2o_stock_back` (
-  `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '序号',
-  `pool_code` varchar(32) DEFAULT NULL COMMENT '从哪个池中拿的钱',
-  `stock_code` varchar(32) DEFAULT NULL COMMENT '因为哪个分红权',
-  `back_user` varchar(32) DEFAULT NULL COMMENT '返还给谁的',
-  `back_amount` bigint(20) DEFAULT NULL COMMENT '返还金额',
-  
-  `back_currency` varchar(32) DEFAULT NULL COMMENT '返还币种',
-  `back_datetime` datetime DEFAULT NULL COMMENT '返还时间',
-  `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
-  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tsys_config`;
 CREATE TABLE `tsys_config` (
