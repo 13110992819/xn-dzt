@@ -4,12 +4,13 @@
 <mapper namespace="com.xnjr.mall.dao.IStockBackDAO">
 	<resultMap id="stockBack_DB_Result" type="stockBack">
 		<result column="id" property="id" />
-		<result column="pool_code" property="poolCode" />
+		<result column="fund_code" property="fundCode" />
 		<result column="stock_code" property="stockCode" />
-		<result column="back_user" property="backUser" />
-		<result column="back_amount" property="backAmount" />
-		<result column="back_currency" property="backCurrency" />
-		<result column="back_datetime" property="backDatetime" />
+		
+		<result column="to_user" property="toUser" />
+		<result column="to_amount" property="toAmount" />
+		<result column="to_currency" property="toCurrency" />
+		<result column="create_datetime" property="createDatetime" />
 		<result column="company_code" property="companyCode" />
 		<result column="system_code" property="systemCode" />
 	</resultMap>
@@ -18,20 +19,25 @@
 			<if test="id != null and id != '' ">
 				AND t.id = #{id}
 			</if>
-			<if test="poolCode != null and poolCode != '' ">
-				AND t.pool_code = #{poolCode}
+			<if test="fundCode != null and fundCode != '' ">
+				AND t.fund_code = #{fundCode}
 			</if>
-			<if test="backUser != null and backUser != '' ">
-				AND t.back_user = #{backUser}
+			<if test="stockCode != null and stockCode != '' ">
+				AND t.stock_code = #{stockCode}
 			</if>
-			<if test="backCurrency != null and backCurrency != '' ">
-				AND t.back_currency = #{backCurrency}
+			
+			<if test="toUser != null and toUser != '' ">
+				AND t.to_user = #{toUser}
 			</if>
-			<if test="backDatetimeStart != null and backDatetimeStart != '' ">
-				<![CDATA[AND t.back_datetime >= #{backDatetimeStart}]]>
+			<if test="toCurrency != null and toCurrency != '' ">
+				AND t.to_currency = #{toCurrency}
+			</if>
+			
+			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
+				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>
 			</if>	
-			<if test="backDatetimeEnd != null and backDatetimeEnd != '' ">
-				<![CDATA[AND t.back_datetime <= #{backDatetimeEnd}]]>
+			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
+				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
 			</if>
 			<if test="companyCode != null and companyCode != '' ">
 				AND t.company_code = #{companyCode}
@@ -45,17 +51,17 @@
 	<select id="select_stockBack" parameterType="stockBack" resultMap="stockBack_DB_Result">
 		SELECT
 		t.id
-		,t.pool_code
+		,t.fund_code
 		,t.stock_code
-		,t.back_user
-		,t.back_amount
 		
-		,t.back_currency
-		,t.back_datetime
+		,t.to_user
+		,t.to_amount
+		,t.to_currency
+		,t.create_datetime
 		,t.company_code
 		,t.system_code
 		FROM
-		to2o_stock_back t
+		tfund_stock_back t
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -66,31 +72,31 @@
 
 	<select id="select_stockBack_count" parameterType="stockBack"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM to2o_stock_back t
+		SELECT count(1) FROM tfund_stock_back t
 		<include refid="where_condition" />
 	</select>
 
 	<insert id="insert_stockBack" parameterType="stockBack">
 		INSERT INTO
-		to2o_stock_back(
-		pool_code
+		tfund_stock_back(
+		fund_code
 		,stock_code
-		,back_user
-		,back_amount
-		,back_currency
+		,to_user
+		,to_amount
+		,to_currency
 		
-		,back_datetime
+		,create_datetime
 		,company_code
 		,system_code
 		)
 		VALUES(
-		#{poolCode}
+		#{fundCode}
 		,#{stockCode}
-		,#{backUser}
-		,#{backAmount}
-		,#{backCurrency}
+		,#{toUser}
+		,#{toAmount}
+		,#{toCurrency}
 		
-		,#{backDatetime}
+		,#{createDatetime}
 		,#{companyCode}
 		,#{systemCode}
 		)

@@ -1,8 +1,16 @@
 package com.xnjr.mall.domain;
 
+import java.util.Date;
+
 import com.xnjr.mall.dao.base.ABaseDO;
 
-public class StockPool extends ABaseDO {
+/**
+ * 菜狗对接池
+ * @author: myb858 
+ * @since: 2017年3月28日 下午5:35:39 
+ * @history:
+ */
+public class Caigopool extends ABaseDO {
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
      */
@@ -14,7 +22,7 @@ public class StockPool extends ABaseDO {
     // 名称
     private String name;
 
-    // 类型(01菜狗对接池；11正汇基金；12消费者基金；13商家基金)
+    // 类型(01菜狗对接池)
     private String type;
 
     // 余额
@@ -22,6 +30,15 @@ public class StockPool extends ABaseDO {
 
     // 从池中已经被使用的金额
     private Long usedAmount;
+
+    // 最近入金人
+    private String addUser;
+
+    // 最近入金时间
+    private Date addDatetime;
+
+    // 备注
+    private String remark;
 
     // 所属公司编号
     private String companyCode;
@@ -83,6 +100,30 @@ public class StockPool extends ABaseDO {
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
+    }
+
+    public String getAddUser() {
+        return addUser;
+    }
+
+    public void setAddUser(String addUser) {
+        this.addUser = addUser;
+    }
+
+    public Date getAddDatetime() {
+        return addDatetime;
+    }
+
+    public void setAddDatetime(Date addDatetime) {
+        this.addDatetime = addDatetime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
 }

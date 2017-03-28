@@ -1,6 +1,6 @@
 package com.xnjr.mall.dto.req;
 
-public class XN808406Req {
+public class XN808516Req {
     // 编号（必填）
     private String code;
 

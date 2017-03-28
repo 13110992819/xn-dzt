@@ -1,36 +1,17 @@
 package com.xnjr.mall.dto.req;
 
-/**
- * @author: xieyj 
- * @since: 2017年1月4日 下午10:10:02 
- * @history:
- */
 public class XN808500Req {
-    // 系统编号(必填)
-    private String systemCode;
-
-    // 流水编号(必填)
+    // 编号（必填）
     private String code;
 
-    // 业务类型(必填)
-    private String bizType;
+    // 增加的余额（必填）
+    private String amount;
 
-    // 审批结果
-    private String approveResult;
+    // 最近入金人（必填）
+    private String addUser;
 
-    // 审批人
-    private String approver;
-
-    // 审批说明
-    private String approveNote;
-
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
+    // 备注（选填）
+    private String remark;
 
     public String getCode() {
         return code;
@@ -40,35 +21,28 @@ public class XN808500Req {
         this.code = code;
     }
 
-    public String getBizType() {
-        return bizType;
+    public String getAmount() {
+        return amount;
     }
 
-    public void setBizType(String bizType) {
-        this.bizType = bizType;
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
-    public String getApproveResult() {
-        return approveResult;
+    public String getAddUser() {
+        return addUser;
     }
 
-    public void setApproveResult(String approveResult) {
-        this.approveResult = approveResult;
+    public void setAddUser(String addUser) {
+        this.addUser = addUser;
     }
 
-    public String getApprover() {
-        return approver;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setApprover(String approver) {
-        this.approver = approver;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
-    public String getApproveNote() {
-        return approveNote;
-    }
-
-    public void setApproveNote(String approveNote) {
-        this.approveNote = approveNote;
-    }
 }

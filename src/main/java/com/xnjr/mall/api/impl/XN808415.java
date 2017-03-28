@@ -35,6 +35,7 @@ public class XN808415 extends AProcessor {
     public Object doBusiness() throws BizException {
         Stock condition = new Stock();
         condition.setUserId(req.getUserId());
+        condition.setFundCode(req.getFundCode());
         condition.setStatus(req.getStatus());
         condition.setSystemCode(req.getSystemCode());
         condition.setCompanyCode(req.getCompanyCode());

@@ -10,12 +10,12 @@ package com.xnjr.mall.api.impl;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.xnjr.mall.ao.IStockPoolAO;
+import com.xnjr.mall.ao.ICaigopoolAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.domain.StockPool;
-import com.xnjr.mall.dto.req.XN808405Req;
+import com.xnjr.mall.domain.Caigopool;
+import com.xnjr.mall.dto.req.XN808515Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
@@ -26,27 +26,32 @@ import com.xnjr.mall.spring.SpringContextHolder;
  * @since: 2017年3月27日 下午6:33:14 
  * @history:
  */
-public class XN808405 extends AProcessor {
-    private IStockPoolAO stockHoldAO = SpringContextHolder
-        .getBean(IStockPoolAO.class);
+public class XN808515 extends AProcessor {
+    private ICaigopoolAO stockHoldAO = SpringContextHolder
+        .getBean(ICaigopoolAO.class);
 
-    private XN808405Req req = null;
+    private XN808515Req req = null;
 
     /** 
      * @see com.xnjr.mall.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        StockPool condition = new StockPool();
+        Caigopool condition = new Caigopool();
+        condition.setName(req.getName());
         condition.setType(req.getType());
+        condition.setAddUser(req.getAddUser());
+        condition.setSystemCode(req.getSystemCode());
+        condition.setCompanyCode(req.getCompanyCode());
+
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
-            orderColumn = IStockPoolAO.DEFAULT_ORDER_COLUMN;
+            orderColumn = ICaigopoolAO.DEFAULT_ORDER_COLUMN;
         }
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
-        return stockHoldAO.queryStockPoolPage(start, limit, condition);
+        return stockHoldAO.queryCaigopoolPage(start, limit, condition);
     }
 
     /** 
@@ -54,8 +59,9 @@ public class XN808405 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808405Req.class);
-        StringValidater.validateBlank(req.getStart(), req.getLimit());
+        req = JsonUtil.json2Bean(inputparams, XN808515Req.class);
+        StringValidater.validateBlank(req.getStart(), req.getLimit(),
+            req.getSystemCode(), req.getCompanyCode());
     }
 
 }

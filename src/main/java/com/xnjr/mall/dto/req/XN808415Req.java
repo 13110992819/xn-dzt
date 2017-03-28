@@ -10,6 +10,9 @@ public class XN808415Req extends APageReq {
     // 拥有者(选填)
     private String userId;
 
+    // 从哪个基金中拿的钱(选填)
+    private String fundCode;
+
     // 状态(选填)
     private String status;
 
@@ -25,6 +28,14 @@ public class XN808415Req extends APageReq {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getFundCode() {
+        return fundCode;
+    }
+
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
     public String getStatus() {

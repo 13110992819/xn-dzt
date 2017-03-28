@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xnjr.mall.dao.IStockPoolDAO">
-	<resultMap id="stockPool_DB_Result" type="stockPool">
+<mapper namespace="com.xnjr.mall.dao.ICaigopoolDAO">
+	<resultMap id="caigopool_DB_Result" type="caigopool">
 		<result column="code" property="code" />
 		<result column="name" property="name" />
 		<result column="type" property="type" />
+		
 		<result column="amount" property="amount" />
 		<result column="used_amount" property="usedAmount" />
+		<result column="add_user" property="addUser" />
+		<result column="add_datetime" property="addDatetime" />
+		<result column="remark" property="remark" />
+		
 		<result column="company_code" property="companyCode" />
 		<result column="system_code" property="systemCode" />
 	</resultMap>
@@ -22,6 +27,11 @@
 			<if test="type != null and type != '' ">
 				AND t.type = #{type}
 			</if>
+			
+			<if test="addUser != null and addUser != '' ">
+				AND t.add_user = #{addUser}
+			</if>
+			
 			<if test="companyCode != null and companyCode != '' ">
 				AND t.company_code = #{companyCode}
 			</if>
@@ -30,17 +40,22 @@
 			</if>
 		</trim>
 	</sql>
-	<select id="select_stockPool" parameterType="stockPool" resultMap="stockPool_DB_Result">
+	<select id="select_caigopool" parameterType="caigopool" resultMap="caigopool_DB_Result">
 		SELECT
 		t.code
 		,t.name
 		,t.type
+		
 		,t.amount
 		,t.used_amount
+		,t.add_user
+		,t.add_datetime
+		,t.remark
+		
 		,t.company_code
 		,t.system_code
 		FROM
-		to2o_stock_pool t
+		tduijie_caigopool t
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -49,45 +64,29 @@
 		</trim>
 	</select>
 
-	<select id="select_stockPool_count" parameterType="stockPool"
+	<select id="select_caigopool_count" parameterType="caigopool"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM to2o_stock_pool t
+		SELECT count(1) FROM tduijie_caigopool t
 		<include refid="where_condition" />
 	</select>
 
-	<insert id="insert_stockPool" parameterType="stockPool">
-		INSERT INTO
-		to2o_stock_pool(
-		code
-		,name
-		,type
-		,amount
-		,used_amount
-		,company_code
-		,system_code
-		)
-		VALUES(
-		#{code}
-		,#{name}
-		,#{type}
-		,#{amount}
-		,#{usedAmount}
-		,#{companyCode}
-		,#{systemCode}
-		)
-	</insert>
+	
 
-	<update id="update_amount" parameterType="stockPool">
-		UPDATE to2o_stock_pool
+	<update id="update_addAmount" parameterType="caigopool">
+		UPDATE tduijie_caigopool
 		SET
 		amount = #{amount}
+		,add_user = #{addUser}
+		,add_datetime = #{addDatetime}
+		,remark = #{remark}
 		WHERE code = #{code}
 	</update>
 	
-	<update id="update_usedAmount" parameterType="stockPool">
-		UPDATE to2o_stock_pool
+	<update id="update_outAmount" parameterType="caigopool">
+		UPDATE tduijie_caigopool
 		SET
 		used_Amount = #{usedAmount}
+		,amount = #{amount}
 		WHERE code = #{code}
 	</update>
 </mapper>

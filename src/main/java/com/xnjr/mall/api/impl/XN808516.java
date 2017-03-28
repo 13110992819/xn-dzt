@@ -8,11 +8,11 @@
  */
 package com.xnjr.mall.api.impl;
 
-import com.xnjr.mall.ao.IStockPoolAO;
+import com.xnjr.mall.ao.ICaigopoolAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
-import com.xnjr.mall.dto.req.XN808406Req;
+import com.xnjr.mall.dto.req.XN808516Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
@@ -23,18 +23,18 @@ import com.xnjr.mall.spring.SpringContextHolder;
  * @since: 2017年3月27日 下午6:33:22 
  * @history:
  */
-public class XN808406 extends AProcessor {
-    private IStockPoolAO stockHoldAO = SpringContextHolder
-        .getBean(IStockPoolAO.class);
+public class XN808516 extends AProcessor {
+    private ICaigopoolAO caigopoolAO = SpringContextHolder
+        .getBean(ICaigopoolAO.class);
 
-    private XN808406Req req = null;
+    private XN808516Req req = null;
 
     /** 
      * @see com.xnjr.mall.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        return stockHoldAO.getStockPool(req.getCode());
+        return caigopoolAO.getCaigopool(req.getCode());
     }
 
     /** 
@@ -42,7 +42,7 @@ public class XN808406 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808406Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN808516Req.class);
         StringValidater.validateBlank(req.getCode());
     }
 

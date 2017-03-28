@@ -35,9 +35,9 @@ public class XN808425 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         StockBack condition = new StockBack();
-        condition.setPoolCode(req.getPoolCode());
+        condition.setFundCode(req.getFundCode());
         condition.setStockCode(req.getStockCode());
-        condition.setBackUser(req.getBackUser());
+        condition.setToUser(req.getToUser());
         condition.setSystemCode(req.getSystemCode());
         condition.setCompanyCode(req.getCompanyCode());
 

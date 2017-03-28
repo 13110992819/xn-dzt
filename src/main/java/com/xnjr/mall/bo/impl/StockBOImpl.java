@@ -28,6 +28,23 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
             .getCode());
         Stock data = new Stock();
         data.setCode(code);
+        data.setUserId(userId);
+        data.setFundCode(fundCode);
+        data.setCostAmount(costAmount);
+        data.setCostCurrency(costCurrency);
+
+        data.setBackInterval(backInterval);
+        data.setProfitAmount(profitAmount);
+        data.setProfitCurrency(profitCurrency);
+        data.setBackCount(0);
+        data.setBackAmount(0L);
+
+        data.setTodayAmount(0L);
+        data.setNextBackDate(nextBackDate);
+        data.setCreateDatetime(new Date());
+        data.setStatus(status);
+        data.setSystemCode(systemCode);
+        data.setCompanyCode(companyCode);
         stockDAO.insert(data);
         return code;
     }

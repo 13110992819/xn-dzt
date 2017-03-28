@@ -7,13 +7,14 @@ public class XN808425Req extends APageReq {
     private static final long serialVersionUID = -8602122225038194507L;
 
     // 从哪个池中拿的钱(选填)
-    private String poolCode;
+
+    private String fundCode;
 
     // 因为哪个分红权(选填)
     private String stockCode;
 
     // 返还给谁的(选填)
-    private String backUser;
+    private String toUser;
 
     // 所属公司编号(必填)
     private String companyCode;
@@ -21,12 +22,12 @@ public class XN808425Req extends APageReq {
     // 所属系统编号(必填)
     private String systemCode;
 
-    public String getPoolCode() {
-        return poolCode;
+    public String getFundCode() {
+        return fundCode;
     }
 
-    public void setPoolCode(String poolCode) {
-        this.poolCode = poolCode;
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
     public String getStockCode() {
@@ -37,12 +38,12 @@ public class XN808425Req extends APageReq {
         this.stockCode = stockCode;
     }
 
-    public String getBackUser() {
-        return backUser;
+    public String getToUser() {
+        return toUser;
     }
 
-    public void setBackUser(String backUser) {
-        this.backUser = backUser;
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
     }
 
     public String getCompanyCode() {

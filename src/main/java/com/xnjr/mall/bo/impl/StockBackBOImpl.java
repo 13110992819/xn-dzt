@@ -22,12 +22,12 @@ public class StockBackBOImpl extends PaginableBOImpl<StockBack> implements
     @Override
     public Long saveStockBack(Stock stock) {
         StockBack data = new StockBack();
-        data.setPoolCode(stock.getPoolCode());
+        data.setFundCode(stock.getFundCode());
         data.setStockCode(stock.getCode());
-        data.setBackUser(stock.getUserId());
-        data.setBackAmount(stock.getTodayAmount());
-        data.setBackCurrency(stock.getProfitCurrency());
-        data.setBackDatetime(new Date());
+        data.setToUser(stock.getUserId());
+        data.setToAmount(stock.getTodayAmount());
+        data.setToCurrency(stock.getProfitCurrency());
+        data.setCreateDatetime(new Date());
         data.setSystemCode(stock.getSystemCode());
         data.setCompanyCode(stock.getCompanyCode());
         stockBackDAO.insert(data);

@@ -1,6 +1,6 @@
 package com.xnjr.mall.dto.req;
 
-public class XN808401Req {
+public class XN808501Req {
 
     // 手机号（必填）
     private String mobile;

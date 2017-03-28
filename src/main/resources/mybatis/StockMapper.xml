@@ -5,7 +5,7 @@
 	<resultMap id="stock_DB_Result" type="stock">
 		<result column="code" property="code" />
 		<result column="user_id" property="userId" />
-		<result column="pool_code" property="poolCode" />
+		<result column="fund_code" property="fundCode" />
 		<result column="cost_amount" property="costAmount" />
 		<result column="cost_currency" property="costCurrency" />
 		
@@ -31,8 +31,8 @@
 			<if test="userId != null and userId != '' ">
 				AND t.user_id = #{userId}
 			</if>
-			<if test="poolCode != null and poolCode != '' ">
-				AND t.pool_code = #{poolCode}
+			<if test="fundCode != null and fundCode != '' ">
+				AND t.fund_code = #{fundCode}
 			</if>
 			<if test="costCurrency != null and costCurrency != '' ">
 				AND t.cost_currency = #{costCurrency}
@@ -62,7 +62,7 @@
 		SELECT
 		t.code
 		,t.user_id
-		,t.pool_code
+		,t.fund_code
 		,t.cost_amount
 		,t.cost_currency
 		
@@ -80,7 +80,7 @@
 		
 		,t.system_code
 		FROM
-		to2o_stock t
+		tfund_stock t
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -91,16 +91,16 @@
 
 	<select id="select_stock_count" parameterType="stock"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM to2o_stock t
+		SELECT count(1) FROM tfund_stock t
 		<include refid="where_condition" />
 	</select>
 
 	<insert id="insert_stock" parameterType="stock">
 		INSERT INTO
-		to2o_stock(
+		tfund_stock(
 		code
 		,user_id
-		,pool_code
+		,fund_code
 		,cost_amount
 		,cost_currency
 		
@@ -120,7 +120,7 @@
 		VALUES(
 		#{code}
 		,#{userId}
-		,#{poolCode}
+		,#{fundCode}
 		,#{costAmount}
 		,#{costCurrency}
 		
@@ -140,7 +140,7 @@
 	</insert>
 
 	<update id="update_dailyStock" parameterType="stock">
-		UPDATE to2o_stock
+		UPDATE tfund_stock
 		SET
 		back_count = #{backCount}
 		,back_amount = #{backAmount}

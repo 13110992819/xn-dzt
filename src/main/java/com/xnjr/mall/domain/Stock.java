@@ -20,11 +20,8 @@ public class Stock extends ABaseDO {
     // 拥有者
     private String userId;
 
-    // 从哪个池中拿的钱
-    private String poolCode;
-
-    // 从哪个池中拿的钱
-    private String poolName;
+    // 从哪个基金中拿的钱
+    private String fundCode;
 
     // 成本金额
     private Long costAmount;
@@ -208,20 +205,12 @@ public class Stock extends ABaseDO {
         this.backInterval = backInterval;
     }
 
-    public String getPoolCode() {
-        return poolCode;
+    public String getFundCode() {
+        return fundCode;
     }
 
-    public void setPoolCode(String poolCode) {
-        this.poolCode = poolCode;
-    }
-
-    public String getPoolName() {
-        return poolName;
-    }
-
-    public void setPoolName(String poolName) {
-        this.poolName = poolName;
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
 }

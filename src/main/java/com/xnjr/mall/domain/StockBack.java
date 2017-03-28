@@ -17,32 +17,23 @@ public class StockBack extends ABaseDO {
     // 编号
     private Long id;
 
-    // 从哪个池中拿的钱
-    private String poolCode;
-
-    // 从哪个池中拿的钱
-    private String poolName;
+    // 从哪个基金中拿的钱
+    private String fundCode;
 
     // 因为哪个分红权
     private String stockCode;
 
-    // 成本金额
-    private Long costAmount;
-
-    // 成本币种
-    private String costCurrency;
-
     // 返还给谁的
-    private String backUser;
+    private String toUser;
 
     // 返还金额
-    private Long backAmount;
+    private Long toAmount;
 
     // 返还币种
-    private String backCurrency;
+    private String toCurrency;
 
     // 返还时间
-    private Date backDatetime;
+    private Date createDatetime;
 
     // 所属公司编号
     private String companyCode;
@@ -53,26 +44,10 @@ public class StockBack extends ABaseDO {
     // **************************************
 
     // 返还时间起
-    private Date backDatetimeStart;
+    private Date createDatetimeStart;
 
     // 返还时间止
-    private Date backDatetimeEnd;
-
-    public Date getBackDatetimeStart() {
-        return backDatetimeStart;
-    }
-
-    public void setBackDatetimeStart(Date backDatetimeStart) {
-        this.backDatetimeStart = backDatetimeStart;
-    }
-
-    public Date getBackDatetimeEnd() {
-        return backDatetimeEnd;
-    }
-
-    public void setBackDatetimeEnd(Date backDatetimeEnd) {
-        this.backDatetimeEnd = backDatetimeEnd;
-    }
+    private Date createDatetimeEnd;
 
     public Long getId() {
         return id;
@@ -82,12 +57,12 @@ public class StockBack extends ABaseDO {
         this.id = id;
     }
 
-    public String getPoolCode() {
-        return poolCode;
+    public String getFundCode() {
+        return fundCode;
     }
 
-    public void setPoolCode(String poolCode) {
-        this.poolCode = poolCode;
+    public void setFundCode(String fundCode) {
+        this.fundCode = fundCode;
     }
 
     public String getStockCode() {
@@ -98,36 +73,36 @@ public class StockBack extends ABaseDO {
         this.stockCode = stockCode;
     }
 
-    public String getBackUser() {
-        return backUser;
+    public String getToUser() {
+        return toUser;
     }
 
-    public void setBackUser(String backUser) {
-        this.backUser = backUser;
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
     }
 
-    public Long getBackAmount() {
-        return backAmount;
+    public Long getToAmount() {
+        return toAmount;
     }
 
-    public void setBackAmount(Long backAmount) {
-        this.backAmount = backAmount;
+    public void setToAmount(Long toAmount) {
+        this.toAmount = toAmount;
     }
 
-    public String getBackCurrency() {
-        return backCurrency;
+    public String getToCurrency() {
+        return toCurrency;
     }
 
-    public void setBackCurrency(String backCurrency) {
-        this.backCurrency = backCurrency;
+    public void setToCurrency(String toCurrency) {
+        this.toCurrency = toCurrency;
     }
 
-    public Date getBackDatetime() {
-        return backDatetime;
+    public Date getCreateDatetime() {
+        return createDatetime;
     }
 
-    public void setBackDatetime(Date backDatetime) {
-        this.backDatetime = backDatetime;
+    public void setCreateDatetime(Date createDatetime) {
+        this.createDatetime = createDatetime;
     }
 
     public String getCompanyCode() {
@@ -146,28 +121,20 @@ public class StockBack extends ABaseDO {
         this.systemCode = systemCode;
     }
 
-    public Long getCostAmount() {
-        return costAmount;
+    public Date getCreateDatetimeStart() {
+        return createDatetimeStart;
     }
 
-    public void setCostAmount(Long costAmount) {
-        this.costAmount = costAmount;
+    public void setCreateDatetimeStart(Date createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
     }
 
-    public String getCostCurrency() {
-        return costCurrency;
+    public Date getCreateDatetimeEnd() {
+        return createDatetimeEnd;
     }
 
-    public void setCostCurrency(String costCurrency) {
-        this.costCurrency = costCurrency;
-    }
-
-    public String getPoolName() {
-        return poolName;
-    }
-
-    public void setPoolName(String poolName) {
-        this.poolName = poolName;
+    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
     }
 
 }
