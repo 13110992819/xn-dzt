@@ -17,7 +17,6 @@ import java.util.Map;
  * @history:
  */
 public enum ECurrency {
-
     CNY("CNY", "人民币"), JF("JF", "积分"), FRB("FRB", "分润币"), GXJL("GXJL", "贡献奖励"), QBB(
             "QBB", "钱包币"), GWB("GWB", "购物币"), HBB("HBB", "红包币"), HBYJ("HBYJ",
             "红包业绩"), CGB("CGB", "菜狗币");

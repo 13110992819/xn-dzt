@@ -25,6 +25,7 @@ import com.xnjr.mall.domain.StorePurchase;
 import com.xnjr.mall.domain.StoreTicket;
 import com.xnjr.mall.domain.User;
 import com.xnjr.mall.domain.UserTicket;
+import com.xnjr.mall.dto.res.XN808248Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EPayType;
@@ -39,7 +40,6 @@ import com.xnjr.mall.exception.BizException;
 
 @Service
 public class StorePurchaseAOImpl implements IStorePurchaseAO {
-
     static Logger logger = Logger.getLogger(StorePurchaseAOImpl.class);
 
     @Autowired
@@ -344,4 +344,41 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         }
     }
 
+    /** 
+     * @see com.xnjr.mall.ao.IStorePurchaseAO#getLasterStorePurchase(java.lang.String)
+     */
+    @Override
+    public XN808248Res getLasterStorePurchase(String storeCode) {
+        XN808248Res result = null;
+        StorePurchase condition = new StorePurchase();
+        condition.setStoreCode(storeCode);
+        condition.setStatus(EStorePurchaseStatus.PAYED.getCode());
+        condition.setOrder("code", "desc");
+        Paginable<StorePurchase> page = storePurchaseBO.getPaginable(1, 1,
+            condition);
+
+        List<StorePurchase> list = page.getList();
+        if (page != null && CollectionUtils.isNotEmpty(list)) {
+            StorePurchase data = list.get(0);
+            if (EPayType.INTEGRAL.getCode().equals(data.getPayType())) {
+                result = new XN808248Res();
+                result.setAmount(data.getPayAmount2());
+                result.setCurrency(ECurrency.CGB.getCode());
+                User user = userBO.getRemoteUser(data.getUserId());
+
+                result.setCode(data.getCode());
+                result.setPrice(data.getPrice());
+                result.setMobile(user.getMobile());
+                result.setNickName(user.getNickname());
+                result.setCreateDatetime(data.getCreateDatetime());
+
+                result.setStoreCode(data.getStoreCode());
+                result.setCompanyCode(data.getCompanyCode());
+                result.setSystemCode(data.getSystemCode());
+            } else {
+                result = null;
+            }
+        }
+        return result;
+    }
 }

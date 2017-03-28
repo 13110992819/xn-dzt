@@ -283,6 +283,7 @@ public class OrderAOImpl implements IOrderAO {
         if (page != null && CollectionUtils.isNotEmpty(page.getList())) {
             for (Order order : page.getList()) {
                 order.setUser(userBO.getRemoteUser(order.getApplyUser()));
+
             }
         }
         return page;

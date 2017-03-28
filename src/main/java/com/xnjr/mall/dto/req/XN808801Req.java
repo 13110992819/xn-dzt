@@ -6,25 +6,47 @@ package com.xnjr.mall.dto.req;
  * @history:
  */
 public class XN808801Req {
-    // 系统编号（必填）
-    private String systemCode;
+    // 上级用户编号
+    private String fromUserId;
 
-    // 用户编号（必填）
-    private String userId;
+    // 下发用户编号
+    private String toUserId;
 
-    public String getSystemCode() {
-        return systemCode;
+    // 划转金额(必填)
+    private String amount;
+
+    // 币种(菜狗币和积分币)(必填)
+    private String currency;
+
+    public String getFromUserId() {
+        return fromUserId;
     }
 
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
+    public void setFromUserId(String fromUserId) {
+        this.fromUserId = fromUserId;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getToUserId() {
+        return toUserId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setToUserId(String toUserId) {
+        this.toUserId = toUserId;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

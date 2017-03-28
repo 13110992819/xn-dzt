@@ -46,6 +46,8 @@ public interface IStoreBO extends IPaginableBO<Store> {
 
     public Store getStore(String storeCode);
 
+    public Store getStoreByUser(String userId);
+
     public String isUserRefereeExist(String userReferee, String systemCode);
 
     /**

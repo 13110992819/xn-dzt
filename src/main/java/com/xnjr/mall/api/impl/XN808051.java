@@ -7,7 +7,6 @@ import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.dto.req.XN808051Req;
-import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.enums.ESystemCode;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
@@ -29,15 +28,16 @@ public class XN808051 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
+        Object result = null;
         if (ESystemCode.ZHPAY.getCode().equals(req.getPojo().getSystemCode())) {
-            orderAO.commitCartOrderZH(req);
+            result = orderAO.commitCartOrderZH(req);
         } else if (ESystemCode.Caigo.getCode().equals(
             req.getPojo().getSystemCode())) {
-            orderAO.commitCartOrderCG(req);
+            result = orderAO.commitCartOrderCG(req);
         } else {
             throw new BizException("xn000000", "系统编号不能识别");
         }
-        return new BooleanRes(true);
+        return result;
     }
 
     /** 

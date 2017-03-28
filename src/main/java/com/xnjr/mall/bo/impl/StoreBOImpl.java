@@ -197,4 +197,21 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
         page.setList(dataList);
         return page;
     }
+
+    /** 
+     * @see com.xnjr.mall.bo.IStoreBO#getStoreByUser(java.lang.String)
+     */
+    @Override
+    public Store getStoreByUser(String userId) {
+        Store result = null;
+        Store condition = new Store();
+        condition.setOwner(userId);
+        List<Store> dataList = storeDAO.selectList(condition);
+        if (CollectionUtils.isNotEmpty(dataList)) {
+            result = dataList.get(0);
+        } else {
+            throw new BizException("xn702002", "该用户没有店铺");
+        }
+        return result;
+    }
 }

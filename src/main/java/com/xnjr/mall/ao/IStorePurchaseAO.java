@@ -2,6 +2,7 @@ package com.xnjr.mall.ao;
 
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.StorePurchase;
+import com.xnjr.mall.dto.res.XN808248Res;
 
 public interface IStorePurchaseAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
@@ -17,4 +18,5 @@ public interface IStorePurchaseAO {
     public Paginable<StorePurchase> queryStorePurchasePage(int start,
             int limit, StorePurchase condition);
 
+    public XN808248Res getLasterStorePurchase(String storeCode);
 }
