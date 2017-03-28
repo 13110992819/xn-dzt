@@ -4,7 +4,7 @@ import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Caigopool;
 
 public interface ICaigopoolAO {
-    static final String DEFAULT_ORDER_COLUMN = "id";
+    static final String DEFAULT_ORDER_COLUMN = "code";
 
     public void addAmount(String code, Long amount, String addUser,
             String remark);
