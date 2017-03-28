@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.xnjr.mall.ao.IStockAO;
 import com.xnjr.mall.bo.IAccountBO;
+import com.xnjr.mall.bo.ICaigopoolBO;
 import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.bo.IStockBO;
 import com.xnjr.mall.bo.IStockBackBO;
-import com.xnjr.mall.bo.ICaigopoolBO;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.DateUtil;
@@ -28,7 +28,7 @@ public class StockAOImpl implements IStockAO {
     private IStockBO stockBO;
 
     @Autowired
-    private ICaigopoolBO stockPoolBO;
+    private ICaigopoolBO caigopoolBO;
 
     @Autowired
     private IStockBackBO stockBackBO;

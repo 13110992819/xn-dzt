@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.xnjr.mall.ao.IStorePurchaseAO;
 import com.xnjr.mall.bo.IAccountBO;
-import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.bo.ICaigopoolBO;
+import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.bo.IStoreBO;
 import com.xnjr.mall.bo.IStorePurchaseBO;
 import com.xnjr.mall.bo.IStoreTicketBO;
@@ -66,7 +66,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
     private IUserBO userBO;
 
     @Autowired
-    private ICaigopoolBO stockPoolBO;
+    private ICaigopoolBO caigopoolBO;
 
     @Override
     public Object storePurchaseCG(String userId, String storeCode, Long amount,

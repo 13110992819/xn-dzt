@@ -13,6 +13,12 @@ import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
+/**
+ * 分页查询池出金记录
+ * @author: myb858 
+ * @since: 2017年3月28日 下午9:45:59 
+ * @history:
+ */
 public class XN808525 extends AProcessor {
     private ICaigopoolBackAO caigopoolBackAO = SpringContextHolder
         .getBean(ICaigopoolBackAO.class);
