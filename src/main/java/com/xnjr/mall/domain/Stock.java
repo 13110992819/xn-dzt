@@ -23,6 +23,9 @@ public class Stock extends ABaseDO {
     // 从哪个池中拿的钱
     private String poolCode;
 
+    // 从哪个池中拿的钱
+    private String poolName;
+
     // 成本金额
     private Long costAmount;
 
@@ -211,6 +214,14 @@ public class Stock extends ABaseDO {
 
     public void setPoolCode(String poolCode) {
         this.poolCode = poolCode;
+    }
+
+    public String getPoolName() {
+        return poolName;
+    }
+
+    public void setPoolName(String poolName) {
+        this.poolName = poolName;
     }
 
 }

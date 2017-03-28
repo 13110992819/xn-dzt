@@ -20,6 +20,9 @@ public class StockBack extends ABaseDO {
     // 从哪个池中拿的钱
     private String poolCode;
 
+    // 从哪个池中拿的钱
+    private String poolName;
+
     // 因为哪个分红权
     private String stockCode;
 
@@ -157,6 +160,14 @@ public class StockBack extends ABaseDO {
 
     public void setCostCurrency(String costCurrency) {
         this.costCurrency = costCurrency;
+    }
+
+    public String getPoolName() {
+        return poolName;
+    }
+
+    public void setPoolName(String poolName) {
+        this.poolName = poolName;
     }
 
 }
