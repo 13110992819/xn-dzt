@@ -1,9 +1,10 @@
 package com.xnjr.mall.enums;
 
-public enum EStockPoolType {
-    CAIGO("01", "菜狗对接池");
+public enum EZhPool {
+    ZHPAY_JJ("11", "正汇基金池"), ZHPAY_CUSTOMER("12", "正汇消费者池"), ZHPAY_STORE("13",
+            "正汇商家池");
 
-    EStockPoolType(String code, String value) {
+    EZhPool(String code, String value) {
         this.code = code;
         this.value = value;
     }
