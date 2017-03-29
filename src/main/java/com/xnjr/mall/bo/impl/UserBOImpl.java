@@ -12,6 +12,7 @@ import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.domain.User;
 import com.xnjr.mall.dto.req.XN001102Req;
+import com.xnjr.mall.dto.req.XN001301Req;
 import com.xnjr.mall.dto.req.XN001350Req;
 import com.xnjr.mall.dto.req.XN001400Req;
 import com.xnjr.mall.dto.req.XN001401Req;
@@ -115,6 +116,22 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
         req.setSystemCode(systemCode);
         req.setCompanyCode(companyCode);
         XNUserRes res = BizConnecter.getBizData("001350",
+            JsonUtils.object2Json(req), XNUserRes.class);
+        return res.getUserId();
+    }
+
+    @Override
+    public String doSaveCUser(String mobile, String loginPwd, String updater,
+            String remark, String systemCode) {
+        XN001301Req req = new XN001301Req();
+        req.setMobile(mobile);
+        req.setLoginPwd(loginPwd);
+        req.setUpdater(updater);
+        req.setUserReferee(ESysUser.SYS_USER_CAIGO.getCode());
+        req.setRemark(remark);
+        req.setCompanyCode(systemCode);
+        req.setSystemCode(systemCode);
+        XNUserRes res = BizConnecter.getBizData("001301",
             JsonUtils.object2Json(req), XNUserRes.class);
         return res.getUserId();
     }

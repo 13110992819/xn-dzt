@@ -1,7 +1,9 @@
 package com.xnjr.mall.bo.impl;
 
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +12,6 @@ import com.xnjr.mall.bo.ICaigopoolBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.dao.ICaigopoolDAO;
 import com.xnjr.mall.domain.Caigopool;
-import com.xnjr.mall.domain.User;
 import com.xnjr.mall.exception.BizException;
 
 @Component
@@ -19,6 +20,19 @@ public class CaigopoolBOImpl extends PaginableBOImpl<Caigopool> implements
 
     @Autowired
     private ICaigopoolDAO stockPoolDAO;
+
+    @Override
+    public Caigopool getCaigopool() {
+        Caigopool result = null;
+        Caigopool condition = new Caigopool();
+        List<Caigopool> dataList = stockPoolDAO.selectList(condition);
+        if (CollectionUtils.isNotEmpty(dataList)) {
+            result = dataList.get(0);
+        } else {
+            throw new BizException("xn0000", "池不存在");
+        }
+        return result;
+    }
 
     @Override
     public Caigopool getCaigopool(String code) {
@@ -46,7 +60,7 @@ public class CaigopoolBOImpl extends PaginableBOImpl<Caigopool> implements
     }
 
     @Override
-    public int outAmount(Caigopool pool, User user, Long highAmount) {
+    public int outAmount(Caigopool pool, Long highAmount) {
         pool.setAmount(pool.getAmount() - highAmount);
         pool.setUsedAmount(pool.getUsedAmount() + highAmount);
         return stockPoolDAO.outAmount(pool);

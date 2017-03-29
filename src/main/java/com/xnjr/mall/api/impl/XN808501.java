@@ -5,6 +5,7 @@ import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.dto.req.XN808501Req;
+import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
@@ -23,8 +24,9 @@ public class XN808501 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        return stockPoolAO.exchangeHighAmount(req.getMobile(),
-            req.getLoginPwd(), StringValidater.toLong(req.getHighAmount()));
+        stockPoolAO.exchangeHighAmount(req.getMobile(), req.getLoginPwd(),
+            StringValidater.toLong(req.getHighAmount()));
+        return new BooleanRes(true);
     }
 
     @Override

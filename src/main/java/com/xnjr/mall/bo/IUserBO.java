@@ -26,6 +26,9 @@ public interface IUserBO {
     public User getPartner(String province, String city, String area,
             EUserKind kind);
 
+    public String doSaveCUser(String mobile, String loginPwd, String updater,
+            String remark, String systemCode);
+
     public String doSaveBUser(String mobile, String updater, String systemCode,
             String companyCode);
 
