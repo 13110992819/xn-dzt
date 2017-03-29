@@ -165,6 +165,8 @@ public class OrderAOImpl implements IOrderAO {
                 accountBO.doCgbJfPay(fromUserId, systemUserId, cgbAmount,
                     jfAmount, EBizType.AJ_GW);
             }
+        } else {
+            throw new BizException("xn0000", "支付类型不支持");
         }
         return new BooleanRes(true);
     }

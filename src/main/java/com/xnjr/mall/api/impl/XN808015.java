@@ -41,8 +41,8 @@ public class XN808015 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808015Req.class);
-        StringValidater.validateBlank(req.getApproveResult(),
-            req.getApprover(), req.getApproveNote());
+        StringValidater
+            .validateBlank(req.getApproveResult(), req.getApprover());
         if (CollectionUtils.isEmpty(req.getCodeList())) {
             throw new BizException("xn000000", "商品编号列表不能为空");
         }
