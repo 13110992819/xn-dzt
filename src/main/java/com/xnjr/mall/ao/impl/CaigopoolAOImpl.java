@@ -56,6 +56,11 @@ public class CaigopoolAOImpl implements ICaigopoolAO {
     }
 
     @Override
+    public void changeRate(String code, Double rate) {
+        caigopoolBO.changeRate(code, rate);
+    }
+
+    @Override
     public String exchangeHighAmount(String mobile, String loginPwd,
             Long highAmount) {
         Caigopool pool = caigopoolBO.getCaigopool();
@@ -74,10 +79,11 @@ public class CaigopoolAOImpl implements ICaigopoolAO {
         }
         // 再在对应的菜狗币账户上根据汇率折算加上菜狗币；
         // 对“菜狗对接池”出金，
-        Long caigoAmount = highAmount;
         caigopoolBO.outAmount(pool, highAmount);
         // 并记录出金记录
         User user = userBO.getRemoteUser(userId);
+        Long caigoAmount = Double.valueOf(highAmount * pool.getRate())
+            .longValue();
         caigopoolBackBO.saveCaigopoolBack(pool, user, caigoAmount, mobile,
             highAmount);
         // 划转菜狗币给用户
@@ -87,4 +93,5 @@ public class CaigopoolAOImpl implements ICaigopoolAO {
             EBizType.CG_HB2CGB.getValue());
         return userId;
     }
+
 }

@@ -3,6 +3,7 @@ CREATE TABLE `tduijie_caigopool` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `name` varchar(255) DEFAULT NULL COMMENT '名称',
   `type` varchar(4) DEFAULT NULL COMMENT '类型',
+  `rate` decimal(18,8) DEFAULT NULL COMMENT '1个三方币，兑换rate个菜狗币',
 
   `amount` bigint(20) DEFAULT NULL COMMENT '余额',
   `used_amount` bigint(20) DEFAULT NULL COMMENT '被使用的金额',

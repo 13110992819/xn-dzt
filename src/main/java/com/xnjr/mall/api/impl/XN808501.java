@@ -11,28 +11,29 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 菜狗嗨币对接
+ * 调整菜狗对接池的兑换比例
  * @author: myb858 
- * @since: 2017年3月28日 上午10:01:14 
+ * @since: 2017年3月29日 下午7:06:01 
  * @history:
  */
 public class XN808501 extends AProcessor {
-    private ICaigopoolAO stockPoolAO = SpringContextHolder
+    private ICaigopoolAO caigopoolAO = SpringContextHolder
         .getBean(ICaigopoolAO.class);
 
     private XN808501Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        stockPoolAO.exchangeHighAmount(req.getMobile(), req.getLoginPwd(),
-            StringValidater.toLong(req.getHighAmount()));
+        caigopoolAO.changeRate(req.getCode(),
+            StringValidater.toDouble(req.getRate()));
         return new BooleanRes(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808501Req.class);
-        StringValidater.validateBlank(req.getMobile(), req.getHighAmount());
+        StringValidater.validateBlank(req.getCode(), req.getRate());
+
     }
 
 }

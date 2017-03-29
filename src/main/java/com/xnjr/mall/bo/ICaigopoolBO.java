@@ -14,4 +14,6 @@ public interface ICaigopoolBO extends IPaginableBO<Caigopool> {
 
     public int outAmount(Caigopool pool, Long highAmount);
 
+    public int changeRate(String code, Double rate);
+
 }

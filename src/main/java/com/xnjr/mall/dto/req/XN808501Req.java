@@ -1,38 +1,26 @@
 package com.xnjr.mall.dto.req;
 
 public class XN808501Req {
+    // 编号（必填）
+    private String code;
 
-    // 手机号（必填）
-    private String mobile;
+    // 1个三方币兑换rate个菜狗币（必填）
+    private String rate;
 
-    // 登录密码（选填）
-    private String loginPwd;
-
-    // 本次兑换的嗨币金额（必填）
-    private String highAmount;
-
-    public String getMobile() {
-        return mobile;
+    public String getCode() {
+        return code;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getHighAmount() {
-        return highAmount;
+    public String getRate() {
+        return rate;
     }
 
-    public void setHighAmount(String highAmount) {
-        this.highAmount = highAmount;
-    }
-
-    public String getLoginPwd() {
-        return loginPwd;
-    }
-
-    public void setLoginPwd(String loginPwd) {
-        this.loginPwd = loginPwd;
+    public void setRate(String rate) {
+        this.rate = rate;
     }
 
 }

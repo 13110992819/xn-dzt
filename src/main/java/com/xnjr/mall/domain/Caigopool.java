@@ -25,7 +25,10 @@ public class Caigopool extends ABaseDO {
     // 类型(01菜狗对接池)
     private String type;
 
-    // 余额
+    // 兑换汇率:1个三方币，兑换rate个菜狗币
+    private Double rate;
+
+    // 可被兑换的三方币总余额
     private Long amount;
 
     // 从池中已经被使用的金额
@@ -124,6 +127,14 @@ public class Caigopool extends ABaseDO {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
     }
 
 }

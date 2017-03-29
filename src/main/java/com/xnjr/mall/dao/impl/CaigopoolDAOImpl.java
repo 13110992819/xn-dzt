@@ -54,4 +54,9 @@ public class CaigopoolDAOImpl extends AMybatisTemplate implements ICaigopoolDAO 
     public int outAmount(Caigopool data) {
         return super.update(NAMESPACE.concat("update_outAmount"), data);
     }
+
+    @Override
+    public int changeRate(Caigopool data) {
+        return super.update(NAMESPACE.concat("update_changeRate"), data);
+    }
 }

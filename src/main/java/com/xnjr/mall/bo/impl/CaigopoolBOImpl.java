@@ -66,4 +66,12 @@ public class CaigopoolBOImpl extends PaginableBOImpl<Caigopool> implements
         return stockPoolDAO.outAmount(pool);
 
     }
+
+    @Override
+    public int changeRate(String code, Double rate) {
+        Caigopool pool = new Caigopool();
+        pool.setCode(code);
+        pool.setRate(rate);
+        return stockPoolDAO.changeRate(pool);
+    }
 }

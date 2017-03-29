@@ -9,6 +9,8 @@ public interface ICaigopoolAO {
     public void addAmount(String code, Long amount, String addUser,
             String remark);
 
+    public void changeRate(String code, Double rate);
+
     public Paginable<Caigopool> queryCaigopoolPage(int start, int limit,
             Caigopool condition);
 

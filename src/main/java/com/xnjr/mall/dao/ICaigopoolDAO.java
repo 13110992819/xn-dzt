@@ -10,4 +10,6 @@ public interface ICaigopoolDAO extends IBaseDAO<Caigopool> {
     int addAmount(Caigopool pool);
 
     int outAmount(Caigopool pool);
+
+    int changeRate(Caigopool pool);
 }

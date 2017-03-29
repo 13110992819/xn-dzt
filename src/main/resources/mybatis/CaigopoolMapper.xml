@@ -6,6 +6,7 @@
 		<result column="code" property="code" />
 		<result column="name" property="name" />
 		<result column="type" property="type" />
+		<result column="rate" property="rate" />
 		
 		<result column="amount" property="amount" />
 		<result column="used_amount" property="usedAmount" />
@@ -45,6 +46,7 @@
 		t.code
 		,t.name
 		,t.type
+		,t.rate
 		
 		,t.amount
 		,t.used_amount
@@ -87,6 +89,13 @@
 		SET
 		used_Amount = #{usedAmount}
 		,amount = #{amount}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_changeRate" parameterType="caigopool">
+		UPDATE tduijie_caigopool
+		SET
+		rate = #{rate}
 		WHERE code = #{code}
 	</update>
 </mapper>
