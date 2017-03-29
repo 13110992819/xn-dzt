@@ -65,22 +65,22 @@ public class CaigopoolAOImpl implements ICaigopoolAO {
         if (pool.getAmount() < highAmount) {
             throw new BizException("xn000000", "可兑换嗨币不足，请联系菜狗平台");
         }
-        // 根据手机号检查用户是否存在
+        // 根据手机号检查用户是否存在，不存在先注册
         String userId = userBO.isUserExist(mobile, EUserKind.F1,
             pool.getSystemCode());
-        // 不存在先注册
         if (StringUtils.isBlank(userId)) {
             userId = userBO.doSaveCUser(mobile, loginPwd, "system", "嗨币代注册",
                 pool.getSystemCode());
         }
-        User user = userBO.getRemoteUser(userId);
         // 再在对应的菜狗币账户上根据汇率折算加上菜狗币；
-        // 对“菜狗对接池”出金，并记录stockBack
+        // 对“菜狗对接池”出金，
         Long caigoAmount = highAmount;
         caigopoolBO.outAmount(pool, highAmount);
-        // 记录日志
+        // 并记录出金记录
+        User user = userBO.getRemoteUser(userId);
         caigopoolBackBO.saveCaigopoolBack(pool, user, caigoAmount, mobile,
             highAmount);
+        // 划转菜狗币给用户
         accountBO.doTransferAmountRemote(ESysUser.SYS_USER_CAIGO.getCode(),
             userId, ECurrency.CGB, caigoAmount, EBizType.CG_HB2CGB, "用户"
                     + mobile + EBizType.CG_HB2CGB.getValue(),
