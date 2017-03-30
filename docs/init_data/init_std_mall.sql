@@ -1,3 +1,6 @@
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('R','cny2cgb','1.02','admin',now(),'人民币兑菜狗币,100个人民币兑换102菜狗币','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('R','cny2jf','1.6','admin',now(),'人民币兑积分币,100个人民币兑换160菜狗币','CD-CCG000007','CD-CCG000007');
+
 /*
 -- Query: SELECT `type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code` FROM tsys_dict where system_code = 'CD-CCG000007'
 LIMIT 0, 10000

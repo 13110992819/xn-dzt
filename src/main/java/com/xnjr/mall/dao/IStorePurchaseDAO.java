@@ -8,4 +8,6 @@ public interface IStorePurchaseDAO extends IBaseDAO<StorePurchase> {
     String NAMESPACE = IStorePurchaseDAO.class.getName().concat(".");
 
     public int updateStatus(StorePurchase data);
+
+    public int updatePaySuccess(StorePurchase data);
 }

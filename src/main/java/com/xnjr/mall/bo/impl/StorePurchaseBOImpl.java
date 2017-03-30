@@ -3,7 +3,7 @@ package com.xnjr.mall.bo.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +18,7 @@ import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EPayType;
 import com.xnjr.mall.enums.EStorePurchaseStatus;
+import com.xnjr.mall.exception.BizException;
 
 @Component
 public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
@@ -29,19 +30,6 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
     @Override
     public List<StorePurchase> queryStorePurchaseList(StorePurchase condition) {
         return storePurchaseDAO.selectList(condition);
-    }
-
-    @Override
-    public int refreshStatus(String code, String status) {
-        int count = 0;
-        if (StringUtils.isNotBlank(status)) {
-            StorePurchase data = new StorePurchase();
-            data.setCode(code);
-            data.setStatus(status);
-            data.setPayDatetime(new Date());
-            count = storePurchaseDAO.updateStatus(data);
-        }
-        return count;
     }
 
     @Override
@@ -111,6 +99,30 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
     }
 
     @Override
+    public String storePurchaseZHZFB(User user, Store store, Long amount) {
+        String payGroup = OrderNoGenerater
+            .generateM(EGeneratePrefix.STORE_PURCHASW.getCode());
+        Date now = new Date();
+        StorePurchase data = new StorePurchase();
+        data.setCode(OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
+            .getCode()));
+        data.setUserId(user.getUserId());
+        data.setStoreCode(store.getCode());
+        data.setPrice(amount);
+
+        data.setCreateDatetime(now);
+        data.setStatus(EStorePurchaseStatus.TO_PAY.getCode());
+        data.setPayType(EPayType.ALIPAY.getCode());
+        data.setPayGroup(payGroup);
+
+        data.setRemark("支付宝支付O2O消费");
+        data.setSystemCode(store.getSystemCode());
+        data.setCompanyCode(store.getCompanyCode());
+        storePurchaseDAO.insert(data);
+        return payGroup;
+    }
+
+    @Override
     public String storePurchaseZHYE(User user, Store store, Long amount) {
         /*
          * StorePurchase data = new StorePurchase(); data.setUserId(userId);
@@ -151,5 +163,26 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
             }
         }
         return result;
+    }
+
+    @Override
+    public StorePurchase getStorePurchaseByPayGroup(String payGroup) {
+        StorePurchase condition = new StorePurchase();
+        condition.setPayGroup(payGroup);
+        List<StorePurchase> result = queryStorePurchaseList(condition);
+        if (CollectionUtils.isEmpty(result)) {
+            throw new BizException("XN000000", "找不到对应的消费记录");
+        }
+        return result.get(0);
+    }
+
+    @Override
+    public void paySuccess(StorePurchase storePurchase, String payCode,
+            Long payAmount) {
+        storePurchase.setStatus(EStorePurchaseStatus.PAYED.getCode());
+        storePurchase.setPayAmount1(payAmount);
+        storePurchase.setPayCode(payCode);
+        storePurchase.setPayDatetime(new Date());
+        storePurchaseDAO.updatePaySuccess(storePurchase);
     }
 }
