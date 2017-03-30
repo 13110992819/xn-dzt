@@ -62,6 +62,7 @@ public class XN808905 extends AProcessor {
         req = JsonUtil.json2Bean(inputparams, XN808905Req.class);
         StringValidater
             .validateBlank(req.getSystemCode(), req.getCompanyCode());
+        StringValidater.validateNumber(req.getStart(), req.getLimit());
     }
 
 }

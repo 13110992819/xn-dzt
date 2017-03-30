@@ -20,4 +20,5 @@ public interface ISYSDictDAO extends IBaseDAO<SYSDict> {
     String NAMESPACE = ISYSDictDAO.class.getName().concat(".");
 
     public int update(SYSDict data);
+
 }
