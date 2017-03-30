@@ -118,6 +118,18 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
 
     }
 
+    private Object storePurchaseZHZFB(User user, Store store, Long amount) {
+        // 落地本地系统消费记录
+        String payGroup = storePurchaseBO.storePurchaseZHZFB(user, store,
+            amount);
+        // 资金划转开始--------------
+        // RMB调用支付宝渠道至商家
+        return accountBO.doAlipayRemote(user.getUserId(), store.getOwner(),
+            amount, EBizType.ZH_O2O, "O2O消费支付宝支付", "O2O消费支付宝支付", payGroup);
+        // 资金划转结束--------------
+
+    }
+
     // 菜狗币支付
     @Transactional
     private String storePurchaseCGcgb(User user, Store store, Long amount) {
@@ -159,6 +171,8 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
             return storePurchaseZHYE(user, store, amount, isUseTickect);
         } else if (EPayType.WEIXIN.getCode().equals(payType)) {
             return storePurchaseZHWX(user, store, amount);
+        } else if (EPayType.ALIPAY.getCode().equals(payType)) {
+            return storePurchaseZHZFB(user, store, amount);
         } else {
             throw new BizException("xn0000", "支付方式不存在");
         }
@@ -342,23 +356,21 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
 
     @Override
     @Transactional
-    public void paySuccess(String jourCode) {
-
-        StorePurchase condition = new StorePurchase();
-        // condition.setJourCode(jourCode);
-        List<StorePurchase> result = storePurchaseBO
-            .queryStorePurchaseList(condition);
-        if (CollectionUtils.isEmpty(result)) {
-            throw new BizException("XN000000", "找不到对应的消费记录");
-        }
-        StorePurchase storePurchase = result.get(0);
-        storePurchaseBO.refreshStatus(storePurchase.getCode(),
-            EStorePurchaseStatus.PAYED.getCode());
-        // 优惠券状态修改
-        String ticketCode = storePurchase.getTicketCode();
-        if (StringUtils.isNotBlank(ticketCode)) {
-            userTicketBO.refreshUserTicketStatus(ticketCode,
-                EUserTicketStatus.USED.getCode());
+    public void paySuccess(String payGroup, String payCode, Long payAmount) {
+        StorePurchase storePurchase = storePurchaseBO
+            .getStorePurchaseByPayGroup(payGroup);
+        if (EStorePurchaseStatus.TO_PAY.getCode().equals(
+            storePurchase.getStatus())) {
+            // 更新支付记录
+            storePurchaseBO.paySuccess(storePurchase, payCode, payAmount);
+            // 优惠券状态修改
+            String ticketCode = storePurchase.getTicketCode();
+            if (StringUtils.isNotBlank(ticketCode)) {
+                userTicketBO.refreshUserTicketStatus(ticketCode,
+                    EUserTicketStatus.USED.getCode());
+            }
+        } else {
+            logger.info("订单号：" + storePurchase.getCode() + "已支付，重复回调");
         }
     }
 
