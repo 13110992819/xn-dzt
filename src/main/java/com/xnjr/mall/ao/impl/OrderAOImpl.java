@@ -285,7 +285,10 @@ public class OrderAOImpl implements IOrderAO {
         if (page != null && CollectionUtils.isNotEmpty(page.getList())) {
             for (Order order : page.getList()) {
                 order.setUser(userBO.getRemoteUser(order.getApplyUser()));
-
+                if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
+                    order.setCompanyUser(userBO.getRemoteUser(order
+                        .getCompanyCode()));
+                }
             }
         }
         return page;

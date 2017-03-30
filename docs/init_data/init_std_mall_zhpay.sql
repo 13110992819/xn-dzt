@@ -1,3 +1,19 @@
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
+
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('X','hb2Fr','1','admin',now(),'1红包=1分润','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('X','hbyj2Fr','2','admin',now(),'2红包业绩=1分润','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('X','hbyj2Gxjl','1','admin',now(),'1红包业绩=1贡献值','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('X','fr2Cny','1','admin',now(),'1分润=1人民币','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('X','gxjl2Cny','1','admin',now(),'1贡献值=1人民币','CD-CZH000001','CD-CZH000001');
+
 /*
 -- Query: SELECT `type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code` FROM tsys_dict where system_code = 'CD-CZH000001'
 LIMIT 0, 10000

@@ -135,6 +135,17 @@ public class Order extends ABaseDO {
     // 下单人
     private User user;
 
+    // 商户用户信息
+    private User companyUser;
+
+    public User getCompanyUser() {
+        return companyUser;
+    }
+
+    public void setCompanyUser(User companyUser) {
+        this.companyUser = companyUser;
+    }
+
     public String getCode() {
         return code;
     }
