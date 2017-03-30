@@ -52,4 +52,9 @@ public class StorePurchaseDAOImpl extends AMybatisTemplate implements
         return super.update(NAMESPACE.concat("update_status"), data);
     }
 
+    @Override
+    public int updatePaySuccess(StorePurchase data) {
+        return super.update(NAMESPACE.concat("update_paySuccess"), data);
+    }
+
 }

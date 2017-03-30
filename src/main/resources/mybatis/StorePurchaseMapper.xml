@@ -171,4 +171,14 @@
 		,pay_datetime = #{payDatetime}
 		WHERE code = #{code}
 	</update>
+	
+	<update id="update_paySuccess" parameterType="storePurchase">
+		UPDATE to2o_purchase
+		SET
+		status = #{status}
+		,pay_code = #{payCode}
+		,pay_amount1 = #{payAmount1}
+		,pay_datetime = #{payDatetime}
+		WHERE code = #{code}
+	</update>
 </mapper>

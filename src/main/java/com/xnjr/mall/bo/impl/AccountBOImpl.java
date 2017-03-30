@@ -18,10 +18,12 @@ import com.xnjr.mall.domain.Account;
 import com.xnjr.mall.dto.req.XN002000Req;
 import com.xnjr.mall.dto.req.XN002100Req;
 import com.xnjr.mall.dto.req.XN002500Req;
+import com.xnjr.mall.dto.req.XN002510Req;
 import com.xnjr.mall.dto.req.XN802525Req;
 import com.xnjr.mall.dto.res.PayBalanceRes;
 import com.xnjr.mall.dto.res.XN002000Res;
 import com.xnjr.mall.dto.res.XN002500Res;
+import com.xnjr.mall.dto.res.XN002510Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.ESystemCode;
@@ -278,6 +280,24 @@ public class AccountBOImpl implements IAccountBO {
         if (jfAmount > xnbAccount.getAmount()) {
             throw new BizException("xn0000", "积分不足");
         }
+    }
+
+    @Override
+    public XN002510Res doAlipayRemote(String fromUserId, String toUserId,
+            Long amount, EBizType bizType, String fromBizNote,
+            String toBizNote, String payGroup) {
+        // 获取支付宝APP支付信息
+        XN002510Req req = new XN002510Req();
+        req.setFromUserId(fromUserId);
+        req.setToUserId(toUserId);
+        req.setBizType(bizType.getCode());
+        req.setFromBizNote(fromBizNote);
+        req.setToBizNote(toBizNote);
+        req.setTransAmount(String.valueOf(amount));
+        req.setPayGroup(payGroup);
+        XN002510Res res = BizConnecter.getBizData("002510",
+            JsonUtil.Object2Json(req), XN002510Res.class);
+        return res;
     }
 
 }

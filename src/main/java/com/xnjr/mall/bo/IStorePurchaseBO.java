@@ -16,11 +16,11 @@ public interface IStorePurchaseBO extends IPaginableBO<StorePurchase> {
 
     public String storePurchaseZHWX(User user, Store store, Long amount);
 
+    public String storePurchaseZHZFB(User user, Store store, Long amount);
+
     public String storePurchaseZHYE(User user, Store store, Long amount);
 
     public List<StorePurchase> queryStorePurchaseList(StorePurchase condition);
-
-    public int refreshStatus(String code, String status);
 
     /** 
      * 获取店铺人民币总收入
@@ -29,5 +29,10 @@ public interface IStorePurchaseBO extends IPaginableBO<StorePurchase> {
      * @history: 
      */
     public Long getTotalIncome(String storeCode);
+
+    public StorePurchase getStorePurchaseByPayGroup(String payGroup);
+
+    public void paySuccess(StorePurchase storePurchase, String payCode,
+            Long payAmount);
 
 }
