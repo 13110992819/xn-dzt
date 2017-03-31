@@ -1,5 +1,7 @@
 package com.xnjr.mall.dto.req;
 
+import java.util.List;
+
 /**
  * 订单分页查询
  * @author: xieyj 
@@ -45,6 +47,9 @@ public class XN808065Req extends APageReq {
 
     // 所属系统编号（必填）
     private String systemCode;
+
+    // 状态List
+    private List<String> statusList;
 
     public String getType() {
         return type;
@@ -132,6 +137,14 @@ public class XN808065Req extends APageReq {
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
+    }
+
+    public List<String> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<String> statusList) {
+        this.statusList = statusList;
     }
 
 }

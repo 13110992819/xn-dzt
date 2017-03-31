@@ -76,6 +76,12 @@
 					</otherwise>
 				</choose>
 			</if>
+			<if test="statusList != null and statusList != '' ">
+				AND t.status_code in 
+                <foreach item="item" index="index" collection="statusList" open="(" separator="," close=")">
+	            	#{item}
+                </foreach> 
+			</if>
 			<if test="payGroup != null and payGroup != '' ">
 				AND t.pay_group = #{payGroup}
 			</if>
