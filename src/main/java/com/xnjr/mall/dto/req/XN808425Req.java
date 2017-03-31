@@ -7,7 +7,6 @@ public class XN808425Req extends APageReq {
     private static final long serialVersionUID = -8602122225038194507L;
 
     // 从哪个池中拿的钱(选填)
-
     private String fundCode;
 
     // 因为哪个分红权(选填)
