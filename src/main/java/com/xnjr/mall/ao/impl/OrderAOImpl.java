@@ -31,6 +31,7 @@ import com.xnjr.mall.bo.ISmsOutBO;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.DateUtil;
+import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Cart;
 import com.xnjr.mall.domain.Order;
@@ -42,6 +43,7 @@ import com.xnjr.mall.dto.req.XN808054Req;
 import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECurrency;
+import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EOrderStatus;
 import com.xnjr.mall.enums.EPayType;
 import com.xnjr.mall.enums.ESystemCode;
@@ -181,8 +183,26 @@ public class OrderAOImpl implements IOrderAO {
 
     @Transactional
     private Object toPayOrderCSW(Order order, String payType) {
-        // 城市网（人民币与积分支付待实现）
-        return null;
+        Long jeAmount = order.getAmount1(); // 现金
+        Long jfAmount = order.getAmount3(); // 积分
+        String systemCode = order.getSystemCode();
+        String fromUserId = order.getApplyUser();
+        // 现金支付(现金+积分)
+        if (EPayType.WEIXIN.getCode().equals(payType)) {
+            // 更新订单支付金额
+            orderBO.refreshPaySuccess(order, jeAmount, 0L, jfAmount);
+            // 扣除金额
+            String systemUserId = userBO.getSystemUser(systemCode);
+            String payGroup = OrderNoGenerater
+                .generateM(EGeneratePrefix.PRODUCT_ORDER.getCode());
+            accountBO.doCSWJfPay(fromUserId, systemUserId, jfAmount,
+                EBizType.CSW_PAY);
+            accountBO.doWeiXinPayRemote(fromUserId, systemUserId, jeAmount,
+                EBizType.CSW_PAY, "城市网商品购买", "城市网商品购买", payGroup);
+        } else {
+            throw new BizException("xn0000", "支付类型不支持");
+        }
+        return new BooleanRes(true);
     }
 
     /** 
@@ -229,6 +249,8 @@ public class OrderAOImpl implements IOrderAO {
             doBackAmountCG(order);
         } else if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
             doBackAmountZH(order);
+        } else if (ESystemCode.CSW.getCode().equals(order.getSystemCode())) {
+            // 订单作废，金额不退还
         } else {
             throw new BizException("xn000000", "系统编号不能识别");
         }
@@ -236,11 +258,16 @@ public class OrderAOImpl implements IOrderAO {
         // 更新订单信息
         orderBO.platCancel(code, updater, remark, status);
 
-        // 发送短信
         String userId = order.getApplyUser();
-        smsOutBO.sentContent(userId, userId, "尊敬的用户，您的订单[" + order.getCode()
-                + "]已取消,退款原因:[" + remark + "],请及时查看退款。");
-
+        // 发送短信
+        if (!ESystemCode.CSW.getCode().equals(order.getSystemCode())) {
+            smsOutBO.sentContent(userId, userId,
+                "尊敬的用户，您的订单[" + order.getCode() + "]已取消,退款原因:[" + remark
+                        + "],请及时查看退款。");
+        } else {
+            smsOutBO.sentContent(userId, userId,
+                "尊敬的用户，您的订单[" + order.getCode() + "]已取消,原因:[" + remark + "]。");
+        }
     }
 
     private void doBackAmountCG(Order order) {

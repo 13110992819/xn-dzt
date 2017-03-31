@@ -144,6 +144,18 @@ public interface IAccountBO {
             Long jfPrice, EBizType bizType);
 
     /**
+     * 城市网积分支付
+     * @param fromUserId
+     * @param toUserId
+     * @param jfAmount
+     * @param bizType 
+     * @create: 2017年3月31日 下午5:34:08 asus
+     * @history:
+     */
+    public void doCSWJfPay(String fromUserId, String toUserId, Long jfAmount,
+            EBizType bizType);
+
+    /**
      * 微信支付
      * @param fromUserId
      * @param toUserId
@@ -165,4 +177,5 @@ public interface IAccountBO {
             String toBizNote, String payGroup);
 
     public void checkCgbJf(String userId, Long cgbAmount, Long jfAmount);
+
 }
