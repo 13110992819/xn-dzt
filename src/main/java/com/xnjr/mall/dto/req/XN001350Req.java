@@ -16,11 +16,22 @@ public class XN001350Req {
     // 备注(选填)
     private String remark;
 
+    // 是否注册环信(选填)
+    private String isRegHx;
+
     // 系统编号(必填)
     private String systemCode;
 
     // 公司编号(必填)
     private String companyCode;
+
+    public String getIsRegHx() {
+        return isRegHx;
+    }
+
+    public void setIsRegHx(String isRegHx) {
+        this.isRegHx = isRegHx;
+    }
 
     public String getLoginName() {
         return loginName;

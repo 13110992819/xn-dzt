@@ -20,6 +20,7 @@ import com.xnjr.mall.dto.res.XN001102Res;
 import com.xnjr.mall.dto.res.XN001400Res;
 import com.xnjr.mall.dto.res.XN001401Res;
 import com.xnjr.mall.dto.res.XNUserRes;
+import com.xnjr.mall.enums.EBoolean;
 import com.xnjr.mall.enums.ESysUser;
 import com.xnjr.mall.enums.ESystemCode;
 import com.xnjr.mall.enums.EUserKind;
@@ -113,6 +114,9 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
         req.setMobile(mobile);
         req.setUpdater(updater);
         req.setRemark("代注册商家");
+        if (ESystemCode.ZHPAY.getCode().equals(systemCode)) {
+            req.setIsRegHx(EBoolean.YES.getCode());
+        }
         req.setSystemCode(systemCode);
         req.setCompanyCode(companyCode);
         XNUserRes res = BizConnecter.getBizData("001350",
