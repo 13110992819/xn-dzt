@@ -1,12 +1,16 @@
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('D','gsyj','0.33','admin',now(),'公司用券交易金额*1%分润','CD-CCG000007','CD-CCG000007');
+/*
+-- Query: SELECT `code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code` FROM std_mall_200.tmall_category where system_code = 'CD-CZH000001'
+LIMIT 0, 10000
+
+-- Date: 2017-03-31 10:45
+*/
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('FL201700000000000001','1','0','剁手合集','',1,'1','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('FL201700000000000002','1','0','0元试购','',1,'1','CD-CZH000001','CD-CZH000001');
+
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('FL201700000000000003','1','FL201700000000000001','剁手合集1','',1,'1','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('FL201700000000000004','1','FL201700000000000001','剁手合集2','',1,'1','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('FL201700000000000005','1','FL201700000000000002','0元试购1','',1,'1','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('FL201700000000000006','1','FL201700000000000002','0元试购2','',1,'1','CD-CZH000001','CD-CZH000001');
 
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('X','hb2Fr','1','admin',now(),'1红包=1分润','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('X','hbyj2Fr','2','admin',now(),'2红包业绩=1分润','CD-CZH000001','CD-CZH000001');
