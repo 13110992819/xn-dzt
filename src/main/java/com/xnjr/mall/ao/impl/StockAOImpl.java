@@ -95,18 +95,25 @@ public class StockAOImpl implements IStockAO {
     }
 
     @Override
-    // 空实现
     public Stock getMyNextStock(String userId) {
-        Stock data = new Stock();
-        data.setCostAmount(100000L);
-        return data;
+        return stockBO.getMyNextStock(userId);
     }
 
     @Override
     public XN808419Res getMyTodayStocks(String userId) {
         XN808419Res res = new XN808419Res();
-        res.setStockCount(3);
-        res.setTodayProfitAmount(1000000L);
+        List<Stock> list = stockBO.queryMyStockList(userId);
+        if (CollectionUtils.isNotEmpty(list)) {
+            Long todayProfitAmount = 0L;
+            for (Stock ele : list) {
+                todayProfitAmount = todayProfitAmount + ele.getTodayAmount();
+            }
+            res.setStockCount(list.size());
+            res.setTodayProfitAmount(todayProfitAmount);
+        } else {
+            res.setStockCount(0);
+            res.setTodayProfitAmount(0L);
+        }
         return res;
     }
 }

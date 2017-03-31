@@ -17,4 +17,6 @@ public interface IStockBO extends IPaginableBO<Stock> {
 
     public int doDailyStock(Stock ele);
 
+    public Stock getMyNextStock(String userId);
+
 }

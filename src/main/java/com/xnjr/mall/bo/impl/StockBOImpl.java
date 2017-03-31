@@ -3,6 +3,7 @@ package com.xnjr.mall.bo.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,8 +13,8 @@ import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.IStockDAO;
 import com.xnjr.mall.domain.Stock;
-import com.xnjr.mall.enums.EDiviFlag;
 import com.xnjr.mall.enums.EGeneratePrefix;
+import com.xnjr.mall.enums.EStockStatus;
 import com.xnjr.mall.exception.BizException;
 
 @Component
@@ -68,7 +69,7 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
     public List<Stock> queryMyStockList(String userId) {
         Stock condition = new Stock();
         condition.setUserId(userId);
-        condition.setStatus(EDiviFlag.EFFECT.getCode());
+        condition.setStatus(EStockStatus.DOING.getCode());
         return stockDAO.selectList(condition);
     }
 
@@ -84,6 +85,19 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
             count = stockDAO.doDailyStock(ele);
         }
         return count;
+    }
+
+    @Override
+    public Stock getMyNextStock(String userId) {
+        Stock result = null;
+        Stock condition = new Stock();
+        condition.setUserId(userId);
+        condition.setStatus(EStockStatus.TODO.getCode());
+        List<Stock> list = stockDAO.selectList(condition);
+        if (CollectionUtils.isNotEmpty(list)) {
+            result = list.get(0);
+        }
+        return result;
     }
 
 }

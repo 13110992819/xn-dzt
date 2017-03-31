@@ -1,7 +1,7 @@
 package com.xnjr.mall.enums;
 
 public enum EStockStatus {
-    DOING("1", "返利中"), DONE("2", "已结算");
+    TODO("1", "待形成"), DOING("2", "返利中"), DONE("3", "已结算");
 
     EStockStatus(String code, String value) {
         this.code = code;
