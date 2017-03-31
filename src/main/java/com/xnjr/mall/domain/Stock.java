@@ -53,7 +53,7 @@ public class Stock extends ABaseDO {
     // 生成时间
     private Date createDatetime;
 
-    // 状态(返利中/已用完)
+    // 状态(待形成/返利中/已用完)
     private String status;
 
     // 所属公司编号

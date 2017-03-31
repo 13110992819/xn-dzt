@@ -1,6 +1,6 @@
 package com.xnjr.mall.dto.req;
 
-public class XN808417Req {
+public class XN808418Req {
     // 拥有者(必填)
     private String userId;
 

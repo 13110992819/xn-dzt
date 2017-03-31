@@ -18,6 +18,7 @@ import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.domain.Stock;
+import com.xnjr.mall.dto.res.XN808419Res;
 import com.xnjr.mall.enums.EStockStatus;
 
 @Service
@@ -91,5 +92,21 @@ public class StockAOImpl implements IStockAO {
             }
         }
 
+    }
+
+    @Override
+    // 空实现
+    public Stock getMyNextStock(String userId) {
+        Stock data = new Stock();
+        data.setCostAmount(100000L);
+        return data;
+    }
+
+    @Override
+    public XN808419Res getMyTodayStocks(String userId) {
+        XN808419Res res = new XN808419Res();
+        res.setStockCount(3);
+        res.setTodayProfitAmount(1000000L);
+        return res;
     }
 }
