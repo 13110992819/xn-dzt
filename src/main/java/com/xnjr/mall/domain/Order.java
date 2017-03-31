@@ -138,6 +138,9 @@ public class Order extends ABaseDO {
     // 商户用户信息
     private User companyUser;
 
+    // 状态list
+    private List<String> statusList;
+
     public User getCompanyUser() {
         return companyUser;
     }
@@ -440,6 +443,14 @@ public class Order extends ABaseDO {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public List<String> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<String> statusList) {
+        this.statusList = statusList;
     }
 
 }

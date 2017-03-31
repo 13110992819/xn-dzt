@@ -141,6 +141,8 @@ public class OrderAOImpl implements IOrderAO {
             return toPayOrderCG(order, payType);
         } else if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
             return toPayOrderZH(order, payType);
+        } else if (ESystemCode.Canshiw.getCode().equals(order.getSystemCode())) {
+            return toPayOrderCSW(order, payType);
         } else {
             throw new BizException("xn000000", "系统编号不能识别");
         }
@@ -174,6 +176,12 @@ public class OrderAOImpl implements IOrderAO {
     @Transactional
     private Object toPayOrderZH(Order order, String payType) {
         // todo 正汇支付待实现
+        return null;
+    }
+
+    @Transactional
+    private Object toPayOrderCSW(Order order, String payType) {
+        // 城市网（人民币与积分支付待实现）
         return null;
     }
 
