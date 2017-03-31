@@ -77,7 +77,7 @@
 				</choose>
 			</if>
 			<if test="statusList != null and statusList != '' ">
-				AND t.status_code in 
+				AND t.status in 
                 <foreach item="item" index="index" collection="statusList" open="(" separator="," close=")">
 	            	#{item}
                 </foreach> 

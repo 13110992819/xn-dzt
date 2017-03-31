@@ -141,7 +141,7 @@ public class OrderAOImpl implements IOrderAO {
             return toPayOrderCG(order, payType);
         } else if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
             return toPayOrderZH(order, payType);
-        } else if (ESystemCode.Canshiw.getCode().equals(order.getSystemCode())) {
+        } else if (ESystemCode.CSW.getCode().equals(order.getSystemCode())) {
             return toPayOrderCSW(order, payType);
         } else {
             throw new BizException("xn000000", "系统编号不能识别");
