@@ -8,7 +8,7 @@ import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Order;
-import com.xnjr.mall.dto.req.XN808068Req;
+import com.xnjr.mall.dto.req.XN808069Req;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
@@ -19,11 +19,11 @@ import com.xnjr.mall.spring.SpringContextHolder;
  * @since: 2016年5月23日 上午9:04:12 
  * @history:
  */
-public class XN808068 extends AProcessor {
+public class XN808069 extends AProcessor {
 
     private IOrderAO orderAO = SpringContextHolder.getBean(IOrderAO.class);
 
-    private XN808068Req req = null;
+    private XN808069Req req = null;
 
     /** 
      * @see com.xnjr.mall.api.IProcessor#doBusiness()
@@ -61,9 +61,8 @@ public class XN808068 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN808068Req.class);
-        StringValidater.validateBlank(req.getCompanyCode(),
-            req.getSystemCode(), req.getApplyUser());
+        req = JsonUtil.json2Bean(inputparams, XN808069Req.class);
+        StringValidater.validateBlank(req.getSystemCode(), req.getApplyUser());
         StringValidater.validateNumber(req.getStart(), req.getLimit());
     }
 }
