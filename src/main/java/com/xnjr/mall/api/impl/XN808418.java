@@ -10,7 +10,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 我的下一个股份查询
+ * 我的下一个分红权查询
  * @author: myb858 
  * @since: 2017年3月31日 上午10:36:42 
  * @history:

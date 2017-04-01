@@ -21,7 +21,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 分页查询股份
+ * 分页查询分红权
  * @author: myb858 
  * @since: 2017年3月27日 下午7:38:36 
  * @history:

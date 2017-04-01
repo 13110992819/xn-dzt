@@ -123,7 +123,7 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
     private Long getDayRemindCount(String userId) {
         Long remindCount = null;// 还可以生成“生效中”分红权的个数
         Long dayMaxCount = 3L;// 当天最大分红权个数，配置参数
-        List<Stock> ingList = this.queryIngList(userId);
+        List<Stock> ingList = this.queryIngStockList(userId);
         if (CollectionUtils.isNotEmpty(ingList)) {
             remindCount = dayMaxCount - ingList.size();
         } else {
@@ -264,7 +264,8 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         return stockDAO.selectList(condition);
     }
 
-    private List<Stock> queryIngList(String userId) {
+    @Override
+    public List<Stock> queryIngStockList(String userId) {
         Stock condition = new Stock();
         condition.setUserId(userId);
         condition.setStatus(EStockStatus.ING_effect.getCode());

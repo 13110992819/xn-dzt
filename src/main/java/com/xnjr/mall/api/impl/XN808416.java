@@ -18,7 +18,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 详情查询股份
+ * 详情查询分红权
  * @author: haiqingzheng 
  * @since: 2016年12月19日 下午5:40:47 
  * @history:

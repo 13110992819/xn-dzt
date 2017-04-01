@@ -12,9 +12,13 @@ public interface IStockBO extends IPaginableBO<Stock> {
 
     public Stock getStock(String code);
 
+    public List<Stock> queryStockList(Stock condition);
+
+    // 获取我的非“等待生效”的分红权
     public List<Stock> queryMyStockList(String userId);
 
-    public List<Stock> queryStockList(Stock condition);
+    // 获取“生效中”的分红权
+    public List<Stock> queryIngStockList(String userId);
 
     public int doDailyStock(Stock ele);
 
