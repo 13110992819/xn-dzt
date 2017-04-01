@@ -298,4 +298,19 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         return result;
     }
 
+    @Override
+    public void awakenStock(String userId) {
+        Stock result = null;
+        Stock condition = new Stock();
+        condition.setUserId(userId);
+        condition.setStatus(EStockStatus.WILL_effect.getCode());
+        List<Stock> list = stockDAO.selectList(condition);
+        if (CollectionUtils.isNotEmpty(list)) {
+            result = list.get(0);
+            result.setStatus(EStockStatus.ING_effect.getCode());
+            stockDAO.awakenStock(result);
+        }
+
+    }
+
 }

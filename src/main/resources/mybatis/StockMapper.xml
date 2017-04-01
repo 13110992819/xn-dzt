@@ -158,4 +158,10 @@
 		cost_amount = #{costAmount}
 		WHERE code = #{code}
 	</update>
+	<update id="update_awakenStock" parameterType="stock">
+		UPDATE tfund_stock
+		SET
+		status = #{status}
+		WHERE code = #{code}
+	</update>
 </mapper>

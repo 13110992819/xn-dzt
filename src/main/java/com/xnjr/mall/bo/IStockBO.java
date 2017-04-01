@@ -18,6 +18,10 @@ public interface IStockBO extends IPaginableBO<Stock> {
 
     public int doDailyStock(Stock ele);
 
+    // 获取“"等待生效"”的分红权
     public Stock getMyNextStock(String userId);
+
+    // 唤醒分红权：把“可以生效待生效”的分红权，变成“生效中”状态
+    public void awakenStock(String userId);
 
 }

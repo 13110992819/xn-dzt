@@ -18,9 +18,10 @@
   <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
        <property name="triggers">  
            <list>
-<!--               <ref bean="orderTrigger"/> 
- --><!--               <ref bean="storeTicketTrigger"/>
- -->           </list>  
+           	  <ref bean="orderTrigger"/> 
+              <ref bean="storeTicketTrigger"/>
+              <ref bean="stockTrigger"/>
+          </list>  
        </property>  
        <property name="autoStartup" value="true"/>  
     </bean> 
@@ -35,8 +36,6 @@
 	        <property name="concurrent" value="true"/>  <!--  是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程-->  
 	</bean>
 	
-
-	
 	<bean id="storeTicketTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
        <property name="jobDetail" ref="storeTicketJobDetail"/>  
        <property name="cronExpression" value="0 0/2 * * * ?"/>
@@ -44,6 +43,16 @@
 	<bean id="storeTicketJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
 	        <property name="targetObject" ref="storeTicketAOImpl"/>  
 	        <property name="targetMethod" value="doChangeStatusByInvalid"/>  
+	        <property name="concurrent" value="true"/>  <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程   -->
+	</bean> 
+	
+	<bean id="stockTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="stockJobDetail"/>  
+       <property name="cronExpression" value="0 0 22 * * ?"/><!-- 每天22点执行 -->
+	</bean>
+	<bean id="stockJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+	        <property name="targetObject" ref="stockAOImpl"/>  
+	        <property name="targetMethod" value="doDailyStock"/>  
 	        <property name="concurrent" value="true"/>  <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程   -->
 	</bean> 
 </beans>
