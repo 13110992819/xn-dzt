@@ -10,11 +10,15 @@ import org.springframework.stereotype.Component;
 
 import com.xnjr.mall.bo.IStockBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
+import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.IStockDAO;
 import com.xnjr.mall.domain.Stock;
+import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EStockStatus;
+import com.xnjr.mall.enums.ESystemCode;
+import com.xnjr.mall.enums.EZhPool;
 import com.xnjr.mall.exception.BizException;
 
 @Component
@@ -24,31 +28,218 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
     private IStockDAO stockDAO;
 
     @Override
-    public String generateStock(Long frAmount, Long rmbAmount, String userId,
-            String poolCode) {
+    public void generateCStock(Long frAmount, String buyUser) {
+        Long peopleRemindCount = getPeopleRemindCount(buyUser);
+        if (peopleRemindCount > 0) {
+            Long remindCount = getDayRemindCount(buyUser);
+            Long mod = frAmount % 500;
+            Long zheng = (frAmount - mod) / 500;// 整数部分
+            Long yu = frAmount - zheng * 500;// 余数部分
+
+            if (zheng > 0) {// 针对整数,生成整数个分红权
+                for (int i = 0; i < zheng; i++) {
+                    if (remindCount > 0) {
+                        generateCFullStock(EStockStatus.ING_effect, buyUser);
+                        remindCount = remindCount - 1;
+                    } else {
+                        generateCFullStock(EStockStatus.WILL_effect, buyUser);
+                    }
+                }
+            }
+
+            if (yu > 0) {// 针对余数,跟“等待生效”的分红权有关
+                Stock dbStock = this.getMyNextStock(buyUser);
+                if (dbStock == null) {
+                    generateCPartStock(yu, buyUser);
+                } else {
+                    Long twoYu = dbStock.getCostAmount() + yu;
+                    if (twoYu > 500) {// 且肯定小于1000
+                        if (remindCount > 0) {
+                            generateCFullStock(EStockStatus.ING_effect, buyUser);
+                        } else {
+                            generateCFullStock(EStockStatus.WILL_effect,
+                                buyUser);
+                        }
+                        refreshCostAmount(dbStock, twoYu - 500);
+                    } else {// 且肯定大于0
+                        refreshCostAmount(dbStock, twoYu);
+                    }
+                }
+            }
+
+        }
+    }
+
+    @Override
+    public void generateBStock(Long amount, String storeOwner) {
+        Long remindCount = getDayRemindCount(storeOwner);
+        Long mod = amount % 500;
+        Long zheng = (amount - mod) / 500;// 整数部分
+        Long yu = amount - zheng * 500;// 余数部分
+
+        if (zheng > 0) {// 针对整数,生成整数个分红权
+            for (int i = 0; i < zheng; i++) {
+                if (remindCount > 0) {
+                    generateBFullStock(EStockStatus.ING_effect, storeOwner);
+                    remindCount = remindCount - 1;
+                } else {
+                    generateBFullStock(EStockStatus.WILL_effect, storeOwner);
+                }
+            }
+        }
+
+        if (yu > 0) {// 针对余数,跟“等待生效”的分红权有关
+            Stock dbStock = this.getMyNextStock(storeOwner);
+            if (dbStock == null) {
+                generateBPartStock(yu, storeOwner);
+            } else {
+                Long twoYu = dbStock.getCostAmount() + yu;
+                if (twoYu > 500) {// 且肯定小于1000
+                    if (remindCount > 0) {
+                        generateBFullStock(EStockStatus.ING_effect, storeOwner);
+                    } else {
+                        generateBFullStock(EStockStatus.WILL_effect, storeOwner);
+                    }
+                    refreshCostAmount(dbStock, twoYu - 500);
+                } else {// 且肯定大于0
+                    refreshCostAmount(dbStock, twoYu);
+                }
+            }
+        }
+    }
+
+    private Long getPeopleRemindCount(String userId) {
+        Long remindCount = null;// 一个人还可以生成分红权的个数
+        Long peopleMaxCount = 60L;// 单人最大分红权个数，配置参数
+        List<Stock> list = this.queryMyStockList(userId);
+        if (CollectionUtils.isNotEmpty(list)) {
+            remindCount = peopleMaxCount - list.size();
+        } else {
+            remindCount = peopleMaxCount;
+        }
+        return remindCount;
+    }
+
+    private Long getDayRemindCount(String userId) {
+        Long remindCount = null;// 还可以生成“生效中”分红权的个数
+        Long dayMaxCount = 3L;// 当天最大分红权个数，配置参数
+        List<Stock> ingList = this.queryIngList(userId);
+        if (CollectionUtils.isNotEmpty(ingList)) {
+            remindCount = dayMaxCount - ingList.size();
+        } else {
+            remindCount = dayMaxCount;
+        }
+        return remindCount;
+    }
+
+    private void refreshCostAmount(Stock dbStock, long newYu) {
+        dbStock.setCostAmount(newYu);
+        stockDAO.updateCostAmount(dbStock);
+    }
+
+    private void generateBPartStock(Long yu, String storeOwner) {
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.STOCK
+            .getCode());
+        Stock data = new Stock();
+        data.setCode(code);
+        data.setUserId(storeOwner);
+        data.setFundCode(EZhPool.ZHPAY_STORE.getCode());
+        data.setCostAmount(yu);
+        data.setCostCurrency(ECurrency.ZH_FRB.getCode());
+
+        data.setBackInterval(1);
+        data.setProfitAmount(150L);
+        data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
+        data.setBackCount(null);
+        data.setBackAmount(null);
+
+        data.setTodayAmount(null);
+        data.setNextBackDate(null);
+        data.setCreateDatetime(null);
+        data.setStatus(EStockStatus.TO_effect.getCode());
+        data.setSystemCode(ESystemCode.ZHPAY.getCode());
+        data.setCompanyCode(ESystemCode.ZHPAY.getCode());
+        stockDAO.insert(data);
+
+    }
+
+    private void generateCPartStock(Long yu, String userId) {
         String code = OrderNoGenerater.generateM(EGeneratePrefix.STOCK
             .getCode());
         Stock data = new Stock();
         data.setCode(code);
         data.setUserId(userId);
-        data.setFundCode(fundCode);
-        data.setCostAmount(costAmount);
-        data.setCostCurrency(costCurrency);
+        data.setFundCode(EZhPool.ZHPAY_CUSTOMER.getCode());
+        data.setCostAmount(yu);
+        data.setCostCurrency(ECurrency.ZH_FRB.getCode());
 
-        data.setBackInterval(backInterval);
-        data.setProfitAmount(profitAmount);
-        data.setProfitCurrency(profitCurrency);
+        data.setBackInterval(1);
+        data.setProfitAmount(495L);
+        data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
+        data.setBackCount(null);
+        data.setBackAmount(null);
+
+        data.setTodayAmount(null);
+        data.setNextBackDate(null);
+        data.setCreateDatetime(null);
+        data.setStatus(EStockStatus.TO_effect.getCode());
+        data.setSystemCode(ESystemCode.ZHPAY.getCode());
+        data.setCompanyCode(ESystemCode.ZHPAY.getCode());
+        stockDAO.insert(data);
+
+    }
+
+    private void generateBFullStock(EStockStatus status, String storeOwner) {
+        Date now = new Date();
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.STOCK
+            .getCode());
+        Stock data = new Stock();
+        data.setCode(code);
+        data.setUserId(storeOwner);
+        data.setFundCode(EZhPool.ZHPAY_STORE.getCode());
+        data.setCostAmount(500L);
+        data.setCostCurrency(ECurrency.ZH_FRB.getCode());
+
+        data.setBackInterval(1);
+        data.setProfitAmount(150L);
+        data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
         data.setBackCount(0);
         data.setBackAmount(0L);
 
         data.setTodayAmount(0L);
-        data.setNextBackDate(nextBackDate);
-        data.setCreateDatetime(new Date());
-        data.setStatus(status);
-        data.setSystemCode(systemCode);
-        data.setCompanyCode(companyCode);
+        data.setNextBackDate(DateUtil.getTomorrowStart(now));
+        data.setCreateDatetime(now);
+        data.setStatus(status.getCode());
+        data.setSystemCode(ESystemCode.ZHPAY.getCode());
+        data.setCompanyCode(ESystemCode.ZHPAY.getCode());
         stockDAO.insert(data);
-        return code;
+
+    }
+
+    private void generateCFullStock(EStockStatus status, String userId) {
+        Date now = new Date();
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.STOCK
+            .getCode());
+        Stock data = new Stock();
+        data.setCode(code);
+        data.setUserId(userId);
+        data.setFundCode(EZhPool.ZHPAY_CUSTOMER.getCode());
+        data.setCostAmount(500L);
+        data.setCostCurrency(ECurrency.ZH_FRB.getCode());
+
+        data.setBackInterval(1);
+        data.setProfitAmount(495L);
+        data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
+        data.setBackCount(0);
+        data.setBackAmount(0L);
+
+        data.setTodayAmount(0L);
+        data.setNextBackDate(DateUtil.getTomorrowStart(now));
+        data.setCreateDatetime(now);
+        data.setStatus(status.getCode());
+        data.setSystemCode(ESystemCode.ZHPAY.getCode());
+        data.setCompanyCode(ESystemCode.ZHPAY.getCode());
+        stockDAO.insert(data);
     }
 
     @Override
@@ -69,7 +260,14 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
     public List<Stock> queryMyStockList(String userId) {
         Stock condition = new Stock();
         condition.setUserId(userId);
-        condition.setStatus(EStockStatus.DOING.getCode());
+        condition.setNoStatus(EStockStatus.TO_effect.getCode());
+        return stockDAO.selectList(condition);
+    }
+
+    private List<Stock> queryIngList(String userId) {
+        Stock condition = new Stock();
+        condition.setUserId(userId);
+        condition.setStatus(EStockStatus.ING_effect.getCode());
         return stockDAO.selectList(condition);
     }
 
@@ -92,7 +290,7 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         Stock result = null;
         Stock condition = new Stock();
         condition.setUserId(userId);
-        condition.setStatus(EStockStatus.TODO.getCode());
+        condition.setStatus(EStockStatus.TO_effect.getCode());
         List<Stock> list = stockDAO.selectList(condition);
         if (CollectionUtils.isNotEmpty(list)) {
             result = list.get(0);

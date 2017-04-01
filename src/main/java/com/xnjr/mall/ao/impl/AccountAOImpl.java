@@ -54,7 +54,7 @@ public class AccountAOImpl implements IAccountAO {
             throw new BizException("xn0000", "手机号用户不存在");
         }
         EBizType ebizType = null;
-        if (ECurrency.CGB.getCode().equals(currency)) {
+        if (ECurrency.CG_CGB.getCode().equals(currency)) {
             ebizType = EBizType.CG_GIVE_AMOUNT_DX;
         } else if (ECurrency.JF.getCode().equals(currency)) {
             ebizType = EBizType.CG_GIVE_AMOUNT_DF;
@@ -78,7 +78,7 @@ public class AccountAOImpl implements IAccountAO {
         userBO.getRemoteUser(toUserId);
 
         EBizType ebizType = null;
-        if (ECurrency.CGB.getCode().equals(currency)) {
+        if (ECurrency.CG_CGB.getCode().equals(currency)) {
             ebizType = EBizType.CG_GIVE_AMOUNT_DX;
         } else if (ECurrency.JF.getCode().equals(currency)) {
             ebizType = EBizType.CG_GIVE_AMOUNT_DF;

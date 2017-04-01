@@ -27,14 +27,14 @@ public class IStockDAOTest extends ADAOTest {
         data.setCostCurrency(ECurrency.CNY.getCode());
         data.setBackInterval(5);
         data.setProfitAmount(1000L);
-        data.setProfitCurrency(ECurrency.FRB.getCode());
+        data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
         data.setBackCount(10);
         data.setBackAmount(1000L);
         data.setTodayAmount(1000L);
         Date date = new Date();
         data.setNextBackDate(date);
         data.setCreateDatetime(date);
-        data.setStatus(EStockStatus.DOING.getCode());
+        data.setStatus(EStockStatus.WILL_effect.getCode());
         data.setCompanyCode("companyCode");
         data.setSystemCode("systemCode");
         stockDAO.insert(data);

@@ -8,4 +8,6 @@ public interface IStockDAO extends IBaseDAO<Stock> {
 
     int doDailyStock(Stock ele);
 
+    int updateCostAmount(Stock dbStock);
+
 }

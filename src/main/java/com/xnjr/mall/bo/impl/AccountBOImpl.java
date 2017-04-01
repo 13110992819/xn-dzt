@@ -118,9 +118,9 @@ public class AccountBOImpl implements IAccountBO {
         Map<String, String> rateMap = sysConfigBO
             .getConfigsMap(ESystemCode.ZHPAY.getCode());
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
-        Account gxjlAccount = getRemoteAccount(userId, ECurrency.GXJL);
+        Account gxjlAccount = getRemoteAccount(userId, ECurrency.ZH_GXZ);
         // 查询用户分润账户
-        Account frAccount = getRemoteAccount(userId, ECurrency.FRB);
+        Account frAccount = getRemoteAccount(userId, ECurrency.ZH_FRB);
         Double gxjl2cny = Double.valueOf(rateMap.get(SysConstants.GXJL2CNY));
         Double fr2cny = Double.valueOf(rateMap.get(SysConstants.FR2CNY));
         Long gxjlCnyAmount = Double.valueOf(gxjlAccount.getAmount() / gxjl2cny)
@@ -144,9 +144,9 @@ public class AccountBOImpl implements IAccountBO {
         Map<String, String> rateMap = sysConfigBO
             .getConfigsMap(ESystemCode.ZHPAY.getCode());
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
-        Account gxjlAccount = getRemoteAccount(fromUserId, ECurrency.GXJL);
+        Account gxjlAccount = getRemoteAccount(fromUserId, ECurrency.ZH_GXZ);
         // 查询用户分润账户
-        Account frAccount = getRemoteAccount(fromUserId, ECurrency.FRB);
+        Account frAccount = getRemoteAccount(fromUserId, ECurrency.ZH_FRB);
         Double gxjl2cny = Double.valueOf(rateMap.get(SysConstants.GXJL2CNY));
         Double fr2cny = Double.valueOf(rateMap.get(SysConstants.FR2CNY));
         Long gxjlCnyAmount = Double.valueOf(gxjlAccount.getAmount() / gxjl2cny)
@@ -174,21 +174,21 @@ public class AccountBOImpl implements IAccountBO {
             gxjlPrice = Double.valueOf(price * gxjl2cny).longValue();
         }
         // 扣除贡献奖励
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.GXJL, gxjlPrice,
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_GXZ, gxjlPrice,
             bizType, bizType.getValue(), bizType.getValue());
         // 扣除分润
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.FRB, frPrice,
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_FRB, frPrice,
             bizType, bizType.getValue(), bizType.getValue());
         return new PayBalanceRes(gxjlPrice, frPrice);
     }
 
     @Override
     public void checkGWBQBBAmount(String userId, Long gwbPrice, Long qbbPrice) {
-        Account gwbAccount = getRemoteAccount(userId, ECurrency.GWB);
+        Account gwbAccount = getRemoteAccount(userId, ECurrency.ZH_GWB);
         if (gwbPrice > gwbAccount.getAmount()) {
             throw new BizException("xn0000", "购物币余额不足");
         }
-        Account qbbAccount = getRemoteAccount(userId, ECurrency.QBB);
+        Account qbbAccount = getRemoteAccount(userId, ECurrency.ZH_QBB);
         if (qbbPrice > qbbAccount.getAmount()) {
             throw new BizException("xn0000", "钱包币余额不足");
         }
@@ -203,10 +203,10 @@ public class AccountBOImpl implements IAccountBO {
         // 校验购物币和钱包币
         checkGWBQBBAmount(fromUserId, gwbPrice, qbbPrice);
         // 扣除购物币
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.GWB, gwbPrice,
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_GWB, gwbPrice,
             bizType, bizType.getValue(), bizType.getValue());
         // 扣除钱包币
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.QBB, qbbPrice,
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_QBB, qbbPrice,
             bizType, bizType.getValue(), bizType.getValue());
     }
 
@@ -230,10 +230,10 @@ public class AccountBOImpl implements IAccountBO {
         // 检验购物币和钱包币和余额是否充足
         checkGwQbAndBalance(fromUserId, gwbPrice, qbbPrice, cnyPrice);
         // 扣除购物币
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.GWB, gwbPrice,
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_GWB, gwbPrice,
             bizType, bizType.getValue(), bizType.getValue());
         // 扣除钱包币
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.QBB, qbbPrice,
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_QBB, qbbPrice,
             bizType, bizType.getValue(), bizType.getValue());
         // 扣除余额
         doBalancePay(fromUserId, toUserId, cnyPrice, bizType);
@@ -245,7 +245,7 @@ public class AccountBOImpl implements IAccountBO {
         // 检验菜狗币和积分是否充足
         checkCgbJf(fromUserId, cgbPrice, jfPrice);
         // 扣除购物币
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.CGB, cgbPrice,
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.CG_CGB, cgbPrice,
             bizType, bizType.getValue(), bizType.getValue());
         // 扣除钱包币
         doTransferAmountRemote(fromUserId, toUserId, ECurrency.JF, jfPrice,
@@ -287,7 +287,7 @@ public class AccountBOImpl implements IAccountBO {
 
     @Override
     public void checkCgbJf(String userId, Long cgbAmount, Long jfAmount) {
-        Account cgbAccount = getRemoteAccount(userId, ECurrency.CGB);
+        Account cgbAccount = getRemoteAccount(userId, ECurrency.CG_CGB);
         if (cgbAmount > cgbAccount.getAmount()) {
             throw new BizException("xn0000", "菜狗币不足");
         }

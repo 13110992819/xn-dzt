@@ -6,8 +6,9 @@ import com.xnjr.mall.bo.base.IPaginableBO;
 import com.xnjr.mall.domain.Stock;
 
 public interface IStockBO extends IPaginableBO<Stock> {
-    public String generateStock(Long frAmount, Long rmbAmount, String userId,
-            String poolCode);
+    public void generateCStock(Long frAmount, String buyUser);
+
+    public void generateBStock(Long frAmount, String storeOwner);
 
     public Stock getStock(String code);
 

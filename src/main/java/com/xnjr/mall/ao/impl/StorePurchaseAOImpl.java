@@ -14,6 +14,7 @@ import com.xnjr.mall.ao.IStorePurchaseAO;
 import com.xnjr.mall.bo.IAccountBO;
 import com.xnjr.mall.bo.ICaigopoolBO;
 import com.xnjr.mall.bo.ISYSConfigBO;
+import com.xnjr.mall.bo.IStockBO;
 import com.xnjr.mall.bo.IStoreBO;
 import com.xnjr.mall.bo.IStorePurchaseBO;
 import com.xnjr.mall.bo.IStoreTicketBO;
@@ -49,6 +50,9 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
 
     @Autowired
     private IStoreBO storeBO;
+
+    @Autowired
+    private IStockBO stockBO;
 
     @Autowired
     private IStoreTicketBO storeTicketBO;
@@ -142,7 +146,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         // 菜狗币从消费者回收至平台，
         String systemUser = ESysUser.SYS_USER_CAIGO.getCode();
         accountBO.doTransferAmountRemote(user.getUserId(), systemUser,
-            ECurrency.CGB, amount, EBizType.CG_O2O_CGB, "O2O消费使用菜狗币",
+            ECurrency.CG_CGB, amount, EBizType.CG_O2O_CGB, "O2O消费使用菜狗币",
             "O2O消费回收菜狗币");
         // 商家从平台处拿到返点（人民币）
         accountBO.doTransferAmountRemote(systemUser, store.getOwner(),
@@ -216,10 +220,10 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         String storeUserId = store.getOwner();
         // 1、贡献奖励+分润<yhAmount 余额不足
         Account gxjlAccount = accountBO.getRemoteAccount(buyUserId,
-            ECurrency.GXJL);
+            ECurrency.ZH_GXZ);
         Long gxjlAmount = gxjlAccount.getAmount();
-        Account frAccount = accountBO
-            .getRemoteAccount(buyUserId, ECurrency.FRB);
+        Account frAccount = accountBO.getRemoteAccount(buyUserId,
+            ECurrency.ZH_FRB);
         Double gxjl2cnyRate = sysConfigBO.getCNY2ZHGXJL();
         Double fr2cnyRate = sysConfigBO.getCNY2ZHFR();
         if (gxjlAccount.getAmount() / gxjl2cnyRate + frAccount.getAmount()
@@ -249,46 +253,46 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         String systemUser = ESysUser.SYS_USER_ZHPAY.getCode();
         if (gxjlResultAmount > 0L) {// 贡献值是给平台的，贡献值等值的(1:1)分润有平台给商家
             accountBO.doTransferAmountRemote(buyUserId, systemUser,
-                ECurrency.GXJL, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
+                ECurrency.ZH_GXZ, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
                 "正汇O2O支付");
             accountBO.doTransferAmountRemote(systemUser, storeUserId,
-                ECurrency.FRB, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
+                ECurrency.ZH_FRB, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
                 "正汇O2O支付");
         }
         if (frResultAmount > 0L) {
             accountBO.doTransferAmountRemote(buyUserId, storeUserId,
-                ECurrency.FRB, frResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
+                ECurrency.ZH_FRB, frResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
                 "正汇O2O支付");
         }
         if (isUseTickect) {// 使用折扣券只给公司1%
             Long X1 = Double.valueOf(amount * 0.01).longValue();
             accountBO.doTransferAmountRemote(storeUserId, systemUser,
-                ECurrency.FRB, X1, EBizType.ZH_O2O, "正汇O2O抵扣卷消费佣金",
+                ECurrency.ZH_FRB, X1, EBizType.ZH_O2O, "正汇O2O抵扣卷消费佣金",
                 "正汇O2O抵扣卷消费佣金");
         } else {
             if (EStoreLevel.NOMAL.getCode().equals(store.getLevel())) {
                 // 1、买单用户得到消费额35%的钱包币 —— 平台发放
                 Long c = Double.valueOf(amount * 0.35).longValue();
                 accountBO.doTransferAmountRemote(systemUser, buyUserId,
-                    ECurrency.QBB, c, EBizType.ZH_O2O, "正汇O2O平台赠送钱包币",
+                    ECurrency.ZH_QBB, c, EBizType.ZH_O2O, "正汇O2O平台赠送钱包币",
                     "正汇O2O平台赠送钱包币");
                 // 21、买单用户的推荐人B可得到分润X1
                 User bUser = userBO.getRemoteUser(user.getUserReferee());
                 Long X1 = Double.valueOf(amount * 0.015).longValue();
                 accountBO.doTransferAmountRemote(storeUserId,
-                    bUser.getUserId(), ECurrency.FRB, X1, EBizType.ZH_O2O,
+                    bUser.getUserId(), ECurrency.ZH_FRB, X1, EBizType.ZH_O2O,
                     "正汇O2O一级推荐人分成", "正汇O2O一级推荐人分成");
                 // 22、B的推荐人A可得到分润X2
                 User aUser = userBO.getRemoteUser(bUser.getUserReferee());
                 Long X2 = Double.valueOf(amount * 0.015).longValue();
                 accountBO.doTransferAmountRemote(storeUserId,
-                    aUser.getUserId(), ECurrency.FRB, X2, EBizType.ZH_O2O,
+                    aUser.getUserId(), ECurrency.ZH_FRB, X2, EBizType.ZH_O2O,
                     "正汇O2O二级推荐人分成", "正汇O2O二级推荐人分成");
                 // 23、店铺推荐人可得到分润X3 —— 消费额里面扣除
                 if (StringUtils.isNotBlank(store.getUserReferee())) {
                     Long X3 = Double.valueOf(amount * 0.01).longValue();
                     accountBO.doTransferAmountRemote(storeUserId,
-                        store.getUserReferee(), ECurrency.FRB, X3,
+                        store.getUserReferee(), ECurrency.ZH_FRB, X3,
                         EBizType.ZH_O2O, "正汇O2O业务员分成", "正汇O2O业务员分成");
                 }
                 // 24、店铺所在县得到分瑞X4—— 消费额里面扣除
@@ -298,34 +302,38 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                     User areaUser = userBO.getPartner(store.getProvince(),
                         store.getCity(), store.getArea(), EUserKind.Partner);
                     accountBO.doTransferAmountRemote(storeUserId,
-                        areaUser.getUserId(), ECurrency.FRB, X4,
+                        areaUser.getUserId(), ECurrency.ZH_FRB, X4,
                         EBizType.ZH_O2O, "正汇O2O县合伙人分成", "正汇O2O县合伙人分成");
                 }
                 // 25、公司X5—— 消费额里面扣除
                 Long X5 = Double.valueOf(amount * 0.045).longValue();
                 accountBO.doTransferAmountRemote(storeUserId, systemUser,
-                    ECurrency.FRB, X5, EBizType.ZH_O2O, "正汇O2O公司分成",
+                    ECurrency.ZH_FRB, X5, EBizType.ZH_O2O, "正汇O2O公司分成",
                     "正汇O2O公司分成");
 
             }
             if (EStoreLevel.FINANCIAL.getCode().equals(store.getLevel())) {
+                // 形成B端分红权处理
+                stockBO.generateBStock(amount, storeUserId);
+                // 形成C端分红权处理
+                stockBO.generateBStock(frResultAmount, buyUserId);
                 // 31、进基金池Y1
                 Long Y1 = Double.valueOf(amount * 0.01).longValue();
                 String poolUser = EZhPool.ZHPAY_JJ.getCode();
                 accountBO.doTransferAmountRemote(storeUserId, poolUser,
-                    ECurrency.FRB, Y1, EBizType.ZH_O2O, "正汇O2O入基金池",
+                    ECurrency.ZH_FRB, Y1, EBizType.ZH_O2O, "正汇O2O入基金池",
                     "正汇O2O入基金池");
                 // 32、进商家池Y2
                 Long Y2 = Double.valueOf(amount * 0.04).longValue();
                 poolUser = EZhPool.ZHPAY_STORE.getCode();
                 accountBO.doTransferAmountRemote(storeUserId, poolUser,
-                    ECurrency.FRB, Y2, EBizType.ZH_O2O, "正汇O2O入商家池",
+                    ECurrency.ZH_FRB, Y2, EBizType.ZH_O2O, "正汇O2O入商家池",
                     "正汇O2O入商家池");
                 // 31、进基金池Y3
                 Long Y3 = Double.valueOf(amount * 0.15).longValue();
                 poolUser = EZhPool.ZHPAY_CUSTOMER.getCode();
                 accountBO.doTransferAmountRemote(storeUserId, poolUser,
-                    ECurrency.FRB, Y3, EBizType.ZH_O2O, "正汇O2O入消费者池",
+                    ECurrency.ZH_FRB, Y3, EBizType.ZH_O2O, "正汇O2O入消费者池",
                     "正汇O2O入消费者池");
             }
         }
@@ -393,7 +401,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
             if (EPayType.INTEGRAL.getCode().equals(data.getPayType())) {
                 result = new XN808248Res();
                 result.setAmount(data.getPayAmount2());
-                result.setCurrency(ECurrency.CGB.getCode());
+                result.setCurrency(ECurrency.CG_CGB.getCode());
                 User user = userBO.getRemoteUser(data.getUserId());
 
                 result.setCode(data.getCode());

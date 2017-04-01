@@ -18,7 +18,8 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 我的股份查询
+ * 我的分红权查询:显示不是“等待生效”的所有分红权，包含WILL_effect("2", "可以生效待生效"), ING_effect("3", "生效中"), DONE(
+            "4", "结算完成")
  * @author: myb858 
  * @since: 2017年3月27日 下午6:49:42 
  * @history:

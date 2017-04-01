@@ -31,7 +31,7 @@ public class CaigopoolBackBOImpl extends PaginableBOImpl<CaigopoolBack>
         data.setFromCurrency(ECurrency.CG_EXT_HB.getCode());
         data.setToUser(user.getUserId());
         data.setToAmount(caigoAmount);
-        data.setToCurrency(ECurrency.CGB.getCode());
+        data.setToCurrency(ECurrency.CG_CGB.getCode());
         data.setCreateDatetime(new Date());
         data.setCompanyCode(pool.getCompanyCode());
         data.setSystemCode(pool.getSystemCode());

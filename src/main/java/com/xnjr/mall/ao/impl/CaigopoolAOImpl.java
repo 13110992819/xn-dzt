@@ -88,7 +88,7 @@ public class CaigopoolAOImpl implements ICaigopoolAO {
             highAmount);
         // 划转菜狗币给用户
         accountBO.doTransferAmountRemote(ESysUser.SYS_USER_CAIGO.getCode(),
-            userId, ECurrency.CGB, caigoAmount, EBizType.CG_HB2CGB, "用户"
+            userId, ECurrency.CG_CGB, caigoAmount, EBizType.CG_HB2CGB, "用户"
                     + mobile + EBizType.CG_HB2CGB.getValue(),
             EBizType.CG_HB2CGB.getValue());
         return userId;

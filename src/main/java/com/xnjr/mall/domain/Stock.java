@@ -29,7 +29,7 @@ public class Stock extends ABaseDO {
     // 成本币种
     private String costCurrency;
 
-    // 返利间隔
+    // 返利间隔(单位天)
     private Integer backInterval;
 
     // 收益金额
@@ -53,7 +53,7 @@ public class Stock extends ABaseDO {
     // 生成时间
     private Date createDatetime;
 
-    // 状态(待形成/返利中/已用完)
+    // 状态
     private String status;
 
     // 所属公司编号
@@ -68,6 +68,9 @@ public class Stock extends ABaseDO {
 
     // 下次返还时间止
     private Date nextBackDateEnd;
+
+    // 排除的状态，供查询
+    private String noStatus;
 
     public Date getNextBackDateStart() {
         return nextBackDateStart;
@@ -211,6 +214,14 @@ public class Stock extends ABaseDO {
 
     public void setFundCode(String fundCode) {
         this.fundCode = fundCode;
+    }
+
+    public String getNoStatus() {
+        return noStatus;
+    }
+
+    public void setNoStatus(String noStatus) {
+        this.noStatus = noStatus;
     }
 
 }

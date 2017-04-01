@@ -62,7 +62,7 @@ public class StockAOImpl implements IStockAO {
     public void doDailyStock() {
         Date now = new Date();
         Stock condition = new Stock();
-        condition.setStatus(EStockStatus.DOING.getCode());
+        condition.setStatus(EStockStatus.ING_effect.getCode());
         List<Stock> list = stockBO.queryStockList(condition);
         if (CollectionUtils.isNotEmpty(list)) {
             for (Stock ele : list) {

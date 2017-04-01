@@ -275,7 +275,7 @@ public class OrderAOImpl implements IOrderAO {
         Long jfAmount = order.getPayAmount3(); // 积分
         if (cgbAmount > 0) {
             accountBO.doTransferAmountRemote(order.getToUser(),
-                order.getApplyUser(), ECurrency.CGB, cgbAmount,
+                order.getApplyUser(), ECurrency.CG_CGB, cgbAmount,
                 EBizType.AJ_GWTK, EBizType.AJ_GWTK.getValue(),
                 EBizType.AJ_GWTK.getValue());
         }

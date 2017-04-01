@@ -24,7 +24,7 @@ public class ICaigopoolBackDAOTest extends ADAOTest {
         data.setFromCurrency(ECurrency.CG_EXT_HB.getCode());
         data.setToUser("userId");
         data.setToAmount(1000L);
-        data.setToCurrency(ECurrency.CGB.getCode());
+        data.setToCurrency(ECurrency.CG_CGB.getCode());
         data.setCreateDatetime(new Date());
         data.setCompanyCode("companyCode");
         data.setSystemCode("systemCode");

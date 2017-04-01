@@ -46,6 +46,9 @@
 			<if test="nextBackDateEnd != null and nextBackDateEnd != '' ">
 				<![CDATA[AND t.next_back_date <= #{nextBackDateEnd}]]>
 			</if>
+			<if test="noStatus != null and noStatus != '' ">
+				AND t.status != #{noStatus}
+			</if>
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>
@@ -147,6 +150,12 @@
 		,today_amount = #{todayAmount}
 		,next_back_date = #{nextBackDate}
 		,status = #{status}
+		WHERE code = #{code}
+	</update>
+	<update id="update_costAmount" parameterType="stock">
+		UPDATE tfund_stock
+		SET
+		cost_amount = #{costAmount}
 		WHERE code = #{code}
 	</update>
 </mapper>
