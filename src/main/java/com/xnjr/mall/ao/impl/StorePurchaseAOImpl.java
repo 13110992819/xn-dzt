@@ -317,6 +317,42 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                 stockBO.generateBStock(amount, storeUserId);
                 // 形成C端分红权处理
                 stockBO.generateBStock(frResultAmount, buyUserId);
+
+                // 21、买单用户的推荐人B可得到分润X1
+                User bUser = userBO.getRemoteUser(user.getUserReferee());
+                Long X1 = Double.valueOf(amount * 0.008).longValue();
+                accountBO.doTransferAmountRemote(storeUserId,
+                    bUser.getUserId(), ECurrency.ZH_FRB, X1, EBizType.ZH_O2O,
+                    "正汇O2O一级推荐人分成", "正汇O2O一级推荐人分成");
+                // 22、B的推荐人A可得到分润X2
+                User aUser = userBO.getRemoteUser(bUser.getUserReferee());
+                Long X2 = Double.valueOf(amount * 0.008).longValue();
+                accountBO.doTransferAmountRemote(storeUserId,
+                    aUser.getUserId(), ECurrency.ZH_FRB, X2, EBizType.ZH_O2O,
+                    "正汇O2O二级推荐人分成", "正汇O2O二级推荐人分成");
+                // 23、店铺推荐人可得到分润X3 —— 消费额里面扣除
+                if (StringUtils.isNotBlank(store.getUserReferee())) {
+                    Long X3 = Double.valueOf(amount * 0.009).longValue();
+                    accountBO.doTransferAmountRemote(storeUserId,
+                        store.getUserReferee(), ECurrency.ZH_FRB, X3,
+                        EBizType.ZH_O2O, "正汇O2O业务员分成", "正汇O2O业务员分成");
+                }
+                // 24、店铺所在县得到分瑞X4—— 消费额里面扣除
+                if (StringUtils.isNotBlank(store.getArea())) {
+                    // 县合伙人
+                    Long X4 = Double.valueOf(amount * 0.015).longValue();
+                    User areaUser = userBO.getPartner(store.getProvince(),
+                        store.getCity(), store.getArea(), EUserKind.Partner);
+                    accountBO.doTransferAmountRemote(storeUserId,
+                        areaUser.getUserId(), ECurrency.ZH_FRB, X4,
+                        EBizType.ZH_O2O, "正汇O2O县合伙人分成", "正汇O2O县合伙人分成");
+                }
+                // 25、公司X5—— 消费额里面扣除
+                Long X5 = Double.valueOf(amount * 0.01).longValue();
+                accountBO.doTransferAmountRemote(storeUserId, systemUser,
+                    ECurrency.ZH_FRB, X5, EBizType.ZH_O2O, "正汇O2O公司分成",
+                    "正汇O2O公司分成");
+
                 // 31、进基金池Y1
                 Long Y1 = Double.valueOf(amount * 0.01).longValue();
                 String poolUser = EZhPool.ZHPAY_JJ.getCode();
