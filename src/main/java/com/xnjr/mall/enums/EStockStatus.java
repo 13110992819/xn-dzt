@@ -1,7 +1,7 @@
 package com.xnjr.mall.enums;
 
 public enum EStockStatus {
-    TO_effect("1", "等待生效"), WILL_effect("2", "可以生效待生效"), ING_effect("3", "生效中"), DONE(
+    TO_effect("1", "待形成"), WILL_effect("2", "待生效"), ING_effect("3", "生效中"), DONE(
             "4", "结算完成");
 
     EStockStatus(String code, String value) {
