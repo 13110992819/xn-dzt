@@ -8,16 +8,12 @@
  */
 package com.xnjr.mall.dto.req;
 
-/** 
- * 店铺审核
- * @author: haiqingzheng 
- * @since: 2016年12月18日 下午1:00:31 
- * @history:
- */
+import java.util.List;
+
 public class XN808202Req {
 
     // 店铺ID编号（必填）
-    private String code;
+    private List<String> storeCodeList;
 
     // 审核结果（必填）
     private String approveResult;
@@ -28,12 +24,12 @@ public class XN808202Req {
     // 审核备注（选填）
     private String remark;
 
-    public String getCode() {
-        return code;
+    public List<String> getStoreCodeList() {
+        return storeCodeList;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setStoreCodeList(List<String> storeCodeList) {
+        this.storeCodeList = storeCodeList;
     }
 
     public String getApproveResult() {

@@ -8,6 +8,8 @@
  */
 package com.xnjr.mall.api.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.xnjr.mall.ao.IStoreAO;
 import com.xnjr.mall.api.AProcessor;
 import com.xnjr.mall.common.JsonUtil;
@@ -31,16 +33,20 @@ public class XN808202 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        storeAO.checkStore(req.getCode(), req.getApproveResult(),
-            req.getApprover(), req.getRemark());
+        for (String code : req.getStoreCodeList()) {
+            storeAO.checkStore(code, req.getApproveResult(), req.getApprover(),
+                req.getRemark());
+        }
         return new BooleanRes(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN808202Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getApproveResult(),
-            req.getApprover());
+        StringValidater
+            .validateBlank(req.getApproveResult(), req.getApprover());
+        if (CollectionUtils.isEmpty(req.getStoreCodeList())) {
+            throw new BizException("xn000000", "店铺编号List不能为空");
+        }
     }
-
 }
