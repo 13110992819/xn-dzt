@@ -279,7 +279,7 @@ public class StoreAOImpl implements IStoreAO {
     }
 
     @Override
-    public Paginable<Store> queryFrontStorePage(int start, int limit,
+    public Paginable<Store> queryStorePageFront(int start, int limit,
             Store condition) {
         Paginable<Store> paginable = storeBO.queryFrontPage(start, limit,
             condition);
@@ -300,12 +300,43 @@ public class StoreAOImpl implements IStoreAO {
     @Override
     public Paginable<Store> queryStorePageOss(int start, int limit,
             Store condition) {
-        return storeBO.getPaginable(start, limit, condition);
+        Paginable<Store> page = storeBO.getPaginable(start, limit, condition);
+        List<Store> list = page.getList();
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (Store ele : list) {
+                // 设置推荐人手机号
+                String refereeUserId = ele.getUserReferee();
+                if (StringUtils.isNotBlank(refereeUserId)) {
+                    User remoteRes = userBO.getRemoteUser(refereeUserId);
+                    ele.setRefereeMobile(remoteRes.getMobile());
+                }
+                // 设置店铺主人手机号
+                String ownerId = ele.getOwner();
+                if (StringUtils.isNotBlank(ownerId)) {
+                    User remoteRes = userBO.getRemoteUser(ownerId);
+                    ele.setMobile(remoteRes.getMobile());
+                }
+            }
+        }
+        return page;
     }
 
     @Override
     public Store getStoreOss(String code) {
-        return storeBO.getStore(code);
+        Store ele = storeBO.getStore(code);
+        // 设置推荐人手机号
+        String refereeUserId = ele.getUserReferee();
+        if (StringUtils.isNotBlank(refereeUserId)) {
+            User remoteRes = userBO.getRemoteUser(refereeUserId);
+            ele.setRefereeMobile(remoteRes.getMobile());
+        }
+        // 设置店铺主人手机号
+        String ownerId = ele.getOwner();
+        if (StringUtils.isNotBlank(ownerId)) {
+            User remoteRes = userBO.getRemoteUser(ownerId);
+            ele.setMobile(remoteRes.getMobile());
+        }
+        return ele;
     }
 
     @Override

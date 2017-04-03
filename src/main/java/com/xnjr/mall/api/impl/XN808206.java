@@ -19,7 +19,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 店铺主人自行开店/关店
+ * 店铺主人自行开店/关店(front)
  * @author: haiqingzheng 
  * @since: 2016年12月18日 下午2:56:07 
  * @history:

@@ -11,7 +11,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 店铺上架
+ * 店铺上架(oss)
  * @author: myb858 
  * @since: 2017年3月25日 下午5:47:52 
  * @history:

@@ -10,7 +10,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 菜狗O2O消费
+ * 菜狗O2O消费(front)
  * @author: myb858 
  * @since: 2017年3月26日 下午2:08:56 
  * @history:

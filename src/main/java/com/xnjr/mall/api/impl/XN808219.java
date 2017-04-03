@@ -18,7 +18,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 我的店铺查询（商家查询自己的店铺）
+ * 我的店铺查询（商家查询自己的店铺front）
  * @author: haiqingzheng 
  * @since: 2016年12月22日 下午6:28:45 
  * @history:

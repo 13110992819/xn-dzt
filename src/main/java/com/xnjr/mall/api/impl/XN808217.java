@@ -14,7 +14,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 分页查询店铺信息(前端专用)
+ * 分页查询店铺信息(front专用)
  * @author: myb858 
  * @since: 2017年3月25日 下午6:11:34 
  * @history:
@@ -52,7 +52,7 @@ public class XN808217 extends AProcessor {
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
-        return storeAO.queryFrontStorePage(start, limit, condition);
+        return storeAO.queryStorePageFront(start, limit, condition);
     }
 
     @Override

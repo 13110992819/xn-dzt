@@ -18,10 +18,10 @@ import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
-/** 
- * 店铺资料提交
- * @author: haiqingzheng 
- * @since: 2016年12月17日 上午10:55:49 
+/**
+ * 店铺提交(front)
+ * @author: myb858 
+ * @since: 2017年4月3日 下午1:34:49 
  * @history:
  */
 public class XN808201 extends AProcessor {
