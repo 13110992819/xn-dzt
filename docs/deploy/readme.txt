@@ -2,7 +2,7 @@
 1，eclipse导出war包
 
 2. 本地war包上传至服务器
-   scp -P 22 std-mall.war root@121.43.101.148:/home  
+   scp -P 22 std-mall.war root@121.43.101.148:/home
    T6dh%$%$ss1
 
 3. 备份原先配置(如果第一次部署，跳过此步骤)
