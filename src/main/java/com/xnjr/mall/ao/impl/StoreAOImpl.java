@@ -27,6 +27,7 @@ import com.xnjr.mall.dto.req.XN808200Req;
 import com.xnjr.mall.dto.req.XN808201Req;
 import com.xnjr.mall.dto.req.XN808203Req;
 import com.xnjr.mall.dto.req.XN808204Req;
+import com.xnjr.mall.dto.req.XN808208Req;
 import com.xnjr.mall.dto.res.XN808219Res;
 import com.xnjr.mall.enums.EStoreLevel;
 import com.xnjr.mall.enums.EStoreStatus;
@@ -116,6 +117,45 @@ public class StoreAOImpl implements IStoreAO {
         store.setCompanyCode(req.getCompanyCode());
         storeBO.saveStoreOss(store);
         return code;
+    }
+
+    @Override
+    public void editStoreOss(XN808208Req req) {
+        Store dbStore = storeBO.getStore(req.getStoreCode());
+        // 验证推荐人是否是平台的已注册用户,将userReferee手机号转化为用户编号
+        String userRefereeUserId = storeBO.isUserRefereeExist(
+            req.getUserReferee(), dbStore.getSystemCode());
+        dbStore.setUserReferee(userRefereeUserId);
+
+        dbStore.setName(req.getName());
+        dbStore.setLevel(req.getLevel());
+        dbStore.setType(req.getType());
+        dbStore.setLegalPersonName(req.getLegalPersonName());
+
+        dbStore.setRate1(StringValidater.toDouble(req.getRate1()));
+        dbStore.setRate2(StringValidater.toDouble(req.getRate2()));
+        dbStore.setSlogan(req.getSlogan());
+        dbStore.setAdvPic(req.getAdvPic());
+        dbStore.setPic(req.getPic());
+
+        dbStore.setDescription(req.getDescription());
+        dbStore.setProvince(req.getProvince());
+        dbStore.setCity(req.getCity());
+        dbStore.setArea(req.getArea());
+        dbStore.setAddress(req.getAddress());
+
+        dbStore.setLongitude(req.getLongitude());
+        dbStore.setLatitude(req.getLatitude());
+        dbStore.setBookMobile(req.getBookMobile());
+        dbStore.setSmsMobile(req.getSmsMobile());
+        dbStore.setPdf(req.getPdf());
+
+        dbStore.setStatus(EStoreStatus.PASS.getCode());
+        dbStore.setUpdater(req.getUpdater());
+        dbStore.setUpdateDatetime(new Date());
+        dbStore.setRemark(req.getRemark());
+        storeBO.refreshStoreOss(dbStore);
+
     }
 
     @Override
@@ -378,4 +418,5 @@ public class StoreAOImpl implements IStoreAO {
         }
         return resultList;
     }
+
 }

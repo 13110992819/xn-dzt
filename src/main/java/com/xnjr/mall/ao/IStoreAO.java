@@ -8,12 +8,15 @@ import com.xnjr.mall.dto.req.XN808200Req;
 import com.xnjr.mall.dto.req.XN808201Req;
 import com.xnjr.mall.dto.req.XN808203Req;
 import com.xnjr.mall.dto.req.XN808204Req;
+import com.xnjr.mall.dto.req.XN808208Req;
 import com.xnjr.mall.dto.res.XN808219Res;
 
 public interface IStoreAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
     public String addStoreOss(XN808200Req req);
+
+    public void editStoreOss(XN808208Req req);
 
     public String addStore(XN808201Req req);
 

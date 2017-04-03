@@ -38,16 +38,25 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     private IUserBO userBO;
 
     @Override
-    public void saveStore(Store data) {
-        if (data != null) {
-            storeDAO.insert(data);
+    public void saveStoreOss(Store store) {
+        if (store != null) {
+            storeDAO.insert(store);
         }
     }
 
     @Override
-    public void saveStoreOss(Store store) {
-        if (store != null) {
-            storeDAO.insert(store);
+    public int refreshStoreOss(Store data) {
+        int count = 0;
+        if (data != null) {
+            count = storeDAO.update(data);
+        }
+        return count;
+    }
+
+    @Override
+    public void saveStore(Store data) {
+        if (data != null) {
+            storeDAO.insert(data);
         }
     }
 
@@ -217,4 +226,5 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
         }
         return result;
     }
+
 }

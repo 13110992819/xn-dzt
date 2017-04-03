@@ -16,6 +16,8 @@ public interface IStoreBO extends IPaginableBO<Store> {
 
     public void saveStoreOss(Store data);
 
+    public int refreshStoreOss(Store data);
+
     public void saveStore(Store data);
 
     public int refreshStore(Store data);
@@ -58,4 +60,5 @@ public interface IStoreBO extends IPaginableBO<Store> {
      * @history:
      */
     public void checkStoreByUser(String bUser, String mobile);
+
 }
