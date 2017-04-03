@@ -8,6 +8,7 @@ import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.dto.req.XN808217Req;
+import com.xnjr.mall.enums.EStoreStatus;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
@@ -31,6 +32,7 @@ public class XN808217 extends AProcessor {
         condition.setLevel(req.getLevel());
         condition.setType(req.getType());
 
+        condition.setStatus(EStoreStatus.ON_OPEN.getCode());
         condition.setProvinceForQuery(req.getProvince());
         condition.setCityForQuery(req.getCity());
         condition.setAreaForQuery(req.getArea());

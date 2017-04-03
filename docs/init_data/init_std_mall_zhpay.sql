@@ -1,3 +1,4 @@
+
 /*
 -- Query: SELECT `code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code` FROM std_mall_200.tmall_category where system_code = 'CD-CZH000001'
 LIMIT 0, 10000
@@ -11,6 +12,21 @@ INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no
 INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('FL201700000000000004','1','FL201700000000000001','剁手合集2','',1,'1','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('FL201700000000000005','1','FL201700000000000002','0元试购1','',1,'1','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('FL201700000000000006','1','FL201700000000000002','0元试购2','',1,'1','CD-CZH000001','CD-CZH000001');
+
+/*
+-- Query: SELECT * FROM zh_std_mall.tmall_category where type='2'
+LIMIT 0, 10000
+
+-- Date: 2017-04-01 19:37
+*/
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('1','2','0','美食','OSS_1491027779926_269_220.png',1,'1','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('2','2','0','KTV','OSS_1491029248023_391_220.jpg',2,'2','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('3','2','0','美发','OSS_1491046329344_2200_1628.png',3,'1','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('4','2','0','便利店','OSS_1491046343857_363_220.jpg',4,'1','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('5','2','0','足浴','OSS_1491046368486_391_220.jpg',5,'1','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('6','2','0','酒店','OSS_1491046380821_500_280.gif',6,'1','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('7','2','0','亲子','OSS_1491046397939_256_256.gif',7,'1','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('8','2','0','蔬果','OSS_1491046413509_369_220.jpg',8,'1','CD-CZH000001','CD-CZH000001');
 
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('X','hb2Fr','1','admin',now(),'1红包=1分润','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('X','hbyj2Fr','2','admin',now(),'2红包业绩=1分润','CD-CZH000001','CD-CZH000001');

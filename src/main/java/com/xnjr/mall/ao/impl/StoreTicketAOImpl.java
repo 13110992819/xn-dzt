@@ -20,6 +20,7 @@ import com.xnjr.mall.domain.UserTicket;
 import com.xnjr.mall.dto.req.XN808250Req;
 import com.xnjr.mall.dto.req.XN808252Req;
 import com.xnjr.mall.enums.EBoolean;
+import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EStoreTicketStatus;
 import com.xnjr.mall.enums.EUserTicketStatus;
@@ -54,7 +55,7 @@ public class StoreTicketAOImpl implements IStoreTicketAO {
         data.setKey2(StringValidater.toLong(req.getKey2()));
         data.setDescription(req.getDescription());
         data.setPrice(StringValidater.toLong(req.getPrice()));
-        data.setCurrency(req.getCurrency());
+        data.setCurrency(ECurrency.ZH_QBB.getCode());
         data.setValidateStart(validateStart);
         data.setValidateEnd(validateEnd);
         data.setCreateDatetime(new Date());
@@ -99,7 +100,7 @@ public class StoreTicketAOImpl implements IStoreTicketAO {
         data.setKey2(StringValidater.toLong(req.getKey2()));
         data.setDescription(req.getDescription());
         data.setPrice(StringValidater.toLong(req.getPrice()));
-        data.setCurrency(req.getCurrency());
+        data.setCurrency(ECurrency.ZH_QBB.getCode());
         data.setValidateStart(validateStart);
         data.setValidateEnd(validateEnd);
         if (EBoolean.YES.getCode().equals(req.getIsPutaway())) {
@@ -115,8 +116,7 @@ public class StoreTicketAOImpl implements IStoreTicketAO {
     public void putOnOff(String code) {
         StoreTicket storeTicket = storeTicketBO.getStoreTicket(code);
         String status = null;
-        if (EStoreTicketStatus.OFF.getCode()
-            .equals(storeTicket.getStatus())
+        if (EStoreTicketStatus.OFF.getCode().equals(storeTicket.getStatus())
                 || EStoreTicketStatus.TO_ON.getCode().equals(
                     storeTicket.getStatus())) {
             status = EStoreTicketStatus.ON.getCode();

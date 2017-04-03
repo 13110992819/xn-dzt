@@ -177,8 +177,17 @@ public class OrderAOImpl implements IOrderAO {
 
     @Transactional
     private Object toPayOrderZH(Order order, String payType) {
-        // todo 正汇支付待实现
-        return null;
+        Long cnyAmount = order.getAmount1();// 人民币
+        Long gwbAmount = order.getAmount2();// 购物币
+        Long qbbAmount = order.getAmount3();// 钱包币
+        // 余额支付
+        if (EPayType.ZH_YE.getCode().equals(payType)) {
+            // 更新订单支付金额
+            orderBO.refreshPaySuccess(order, cnyAmount, gwbAmount, qbbAmount);
+        } else {
+            throw new BizException("xn0000", "支付类型不支持");
+        }
+        return new BooleanRes(true);
     }
 
     @Transactional

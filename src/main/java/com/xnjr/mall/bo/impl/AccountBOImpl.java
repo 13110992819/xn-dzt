@@ -118,7 +118,7 @@ public class AccountBOImpl implements IAccountBO {
         Map<String, String> rateMap = sysConfigBO
             .getConfigsMap(ESystemCode.ZHPAY.getCode());
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
-        Account gxjlAccount = getRemoteAccount(userId, ECurrency.ZH_GXZ);
+        Account gxjlAccount = getRemoteAccount(userId, ECurrency.ZH_GXJL);
         // 查询用户分润账户
         Account frAccount = getRemoteAccount(userId, ECurrency.ZH_FRB);
         Double gxjl2cny = Double.valueOf(rateMap.get(SysConstants.GXJL2CNY));
@@ -144,7 +144,7 @@ public class AccountBOImpl implements IAccountBO {
         Map<String, String> rateMap = sysConfigBO
             .getConfigsMap(ESystemCode.ZHPAY.getCode());
         // 余额支付业务规则：优先扣贡献奖励，其次扣分润
-        Account gxjlAccount = getRemoteAccount(fromUserId, ECurrency.ZH_GXZ);
+        Account gxjlAccount = getRemoteAccount(fromUserId, ECurrency.ZH_GXJL);
         // 查询用户分润账户
         Account frAccount = getRemoteAccount(fromUserId, ECurrency.ZH_FRB);
         Double gxjl2cny = Double.valueOf(rateMap.get(SysConstants.GXJL2CNY));
@@ -174,7 +174,7 @@ public class AccountBOImpl implements IAccountBO {
             gxjlPrice = Double.valueOf(price * gxjl2cny).longValue();
         }
         // 扣除贡献奖励
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_GXZ, gxjlPrice,
+        doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_GXJL, gxjlPrice,
             bizType, bizType.getValue(), bizType.getValue());
         // 扣除分润
         doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_FRB, frPrice,

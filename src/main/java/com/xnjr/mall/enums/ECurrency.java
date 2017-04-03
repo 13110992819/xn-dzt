@@ -19,9 +19,9 @@ import java.util.Map;
 public enum ECurrency {
     CNY("CNY", "人民币"), JF("JF", "积分"),
 
-    ZH_FRB("FRB", "分润币"), ZH_GXZ("GXZ", "贡献值"), ZH_QBB("QBB", "钱包币"), ZH_GWB("GWB",
-            "购物币"), ZH_HBB("HBB", "红包币"), ZH_HBYJ("HBYJ", "红包业绩"), CG_CGB("CGB", "菜狗币"), CG_EXT_HB(
-            "EXT_HB", "菜狗外界嗨币");
+    ZH_FRB("FRB", "分润币"), ZH_GXJL("GXJL", "贡献值"), ZH_QBB("QBB", "钱包币"), ZH_GWB(
+            "GWB", "购物币"), ZH_HBB("HBB", "红包币"), ZH_HBYJ("HBYJ", "红包业绩"), CG_CGB(
+            "CGB", "菜狗币"), CG_EXT_HB("EXT_HB", "菜狗外界嗨币");
 
     public static Map<String, ECurrency> getResultMap() {
         Map<String, ECurrency> map = new HashMap<String, ECurrency>();

@@ -73,6 +73,8 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
         req.setArea(area);
         req.setKind(kind.getCode());
         req.setStatus(EUserStatus.NORMAL.getCode());
+        req.setSystemCode(ESystemCode.ZHPAY.getCode());
+        req.setCompanyCode(ESystemCode.ZHPAY.getCode());
         XN001401Res result = null;
         String jsonStr = BizConnecter.getBizData("001401",
             JsonUtils.object2Json(req));

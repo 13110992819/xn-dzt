@@ -220,7 +220,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         String storeUserId = store.getOwner();
         // 1、贡献奖励+分润<yhAmount 余额不足
         Account gxjlAccount = accountBO.getRemoteAccount(buyUserId,
-            ECurrency.ZH_GXZ);
+            ECurrency.ZH_GXJL);
         Long gxjlAmount = gxjlAccount.getAmount();
         Account frAccount = accountBO.getRemoteAccount(buyUserId,
             ECurrency.ZH_FRB);
@@ -253,7 +253,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         String systemUser = ESysUser.SYS_USER_ZHPAY.getCode();
         if (gxjlResultAmount > 0L) {// 贡献值是给平台的，贡献值等值的(1:1)分润有平台给商家
             accountBO.doTransferAmountRemote(buyUserId, systemUser,
-                ECurrency.ZH_GXZ, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
+                ECurrency.ZH_GXJL, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
                 "正汇O2O支付");
             accountBO.doTransferAmountRemote(systemUser, storeUserId,
                 ECurrency.ZH_FRB, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
@@ -301,9 +301,11 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                     Long X4 = Double.valueOf(amount * 0.015).longValue();
                     User areaUser = userBO.getPartner(store.getProvince(),
                         store.getCity(), store.getArea(), EUserKind.Partner);
-                    accountBO.doTransferAmountRemote(storeUserId,
-                        areaUser.getUserId(), ECurrency.ZH_FRB, X4,
-                        EBizType.ZH_O2O, "正汇O2O县合伙人分成", "正汇O2O县合伙人分成");
+                    if (areaUser != null) {
+                        accountBO.doTransferAmountRemote(storeUserId,
+                            areaUser.getUserId(), ECurrency.ZH_FRB, X4,
+                            EBizType.ZH_O2O, "正汇O2O县合伙人分成", "正汇O2O县合伙人分成");
+                    }
                 }
                 // 25、公司X5—— 消费额里面扣除
                 Long X5 = Double.valueOf(amount * 0.045).longValue();
@@ -343,9 +345,11 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                     Long X4 = Double.valueOf(amount * 0.015).longValue();
                     User areaUser = userBO.getPartner(store.getProvince(),
                         store.getCity(), store.getArea(), EUserKind.Partner);
-                    accountBO.doTransferAmountRemote(storeUserId,
-                        areaUser.getUserId(), ECurrency.ZH_FRB, X4,
-                        EBizType.ZH_O2O, "正汇O2O县合伙人分成", "正汇O2O县合伙人分成");
+                    if (null != areaUser) {
+                        accountBO.doTransferAmountRemote(storeUserId,
+                            areaUser.getUserId(), ECurrency.ZH_FRB, X4,
+                            EBizType.ZH_O2O, "正汇O2O县合伙人分成", "正汇O2O县合伙人分成");
+                    }
                 }
                 // 25、公司X5—— 消费额里面扣除
                 Long X5 = Double.valueOf(amount * 0.01).longValue();
@@ -373,9 +377,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                     "正汇O2O入消费者池");
             }
         }
-
         return code;
-
     }
 
     @Override
