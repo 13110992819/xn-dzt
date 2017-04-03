@@ -18,12 +18,12 @@ public interface IStoreAO {
 
     public void editStoreOss(XN808208Req req);
 
-    public String addStore(XN808201Req req);
+    public String addStoreFront(XN808201Req req);
+
+    public void editStoreFront(XN808203Req req);
 
     public void checkStore(String code, String checkResult, String checkUser,
             String remark);
-
-    public void editStore(XN808203Req req);
 
     public void putOn(XN808204Req req);
 

@@ -31,7 +31,7 @@ public class XN808201 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        String code = storeAO.addStore(req);
+        String code = storeAO.addStoreFront(req);
         return new PKCodeRes(code);
     }
 

@@ -40,7 +40,7 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     @Override
     public void saveStoreOss(Store store) {
         if (store != null) {
-            storeDAO.insert(store);
+            storeDAO.insertStoreOss(store);
         }
     }
 
@@ -48,23 +48,23 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
     public int refreshStoreOss(Store data) {
         int count = 0;
         if (data != null) {
-            count = storeDAO.update(data);
+            count = storeDAO.updateStoreOss(data);
         }
         return count;
     }
 
     @Override
-    public void saveStore(Store data) {
+    public void saveStoreFront(Store data) {
         if (data != null) {
-            storeDAO.insert(data);
+            storeDAO.insertStoreFront(data);
         }
     }
 
     @Override
-    public int refreshStore(Store data) {
+    public int refreshStoreFront(Store data) {
         int count = 0;
         if (data != null) {
-            count = storeDAO.update(data);
+            count = storeDAO.updateStoreFront(data);
         }
         return count;
     }

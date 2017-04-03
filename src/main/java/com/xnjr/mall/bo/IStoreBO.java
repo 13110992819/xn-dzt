@@ -18,9 +18,9 @@ public interface IStoreBO extends IPaginableBO<Store> {
 
     public int refreshStoreOss(Store data);
 
-    public void saveStore(Store data);
+    public void saveStoreFront(Store data);
 
-    public int refreshStore(Store data);
+    public int refreshStoreFront(Store data);
 
     public void checkStore(Store dbStore, String checkResult, String checkUser,
             String remark);

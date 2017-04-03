@@ -13,9 +13,13 @@ import com.xnjr.mall.domain.Store;
 public interface IStoreDAO extends IBaseDAO<Store> {
     String NAMESPACE = IStoreDAO.class.getName().concat(".");
 
-    public int insertOss(Store data);
+    public int insertStoreOss(Store store);
 
-    public int update(Store data);
+    public int updateStoreOss(Store data);
+
+    public int insertStoreFront(Store data);
+
+    public int updateStoreFront(Store data);
 
     public int updateCheck(Store data);
 
@@ -38,4 +42,5 @@ public interface IStoreDAO extends IBaseDAO<Store> {
     public Long selectFrontTotalCount(Store condition);
 
     public List<Store> selectFrontList(Store condition, int start, int count);
+
 }

@@ -31,7 +31,7 @@ public class XN808203 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        storeAO.editStore(req);
+        storeAO.editStoreFront(req);
         return new BooleanRes(true);
     }
 

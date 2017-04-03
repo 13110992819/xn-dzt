@@ -17,13 +17,28 @@ import com.xnjr.mall.domain.Store;
 public class StoreDAOImpl extends AMybatisTemplate implements IStoreDAO {
 
     @Override
-    public int insertOss(Store data) {
+    public int insertStoreOss(Store data) {
         return super.insert(NAMESPACE.concat("insert_store_oss"), data);
     }
 
     @Override
+    public int updateStoreOss(Store data) {
+        return super.update(NAMESPACE.concat("update_store_oss"), data);
+    }
+
+    @Override
+    public int insertStoreFront(Store data) {
+        return super.insert(NAMESPACE.concat("insert_store_front"), data);
+    }
+
+    @Override
+    public int updateStoreFront(Store data) {
+        return super.update(NAMESPACE.concat("update_store_front"), data);
+    }
+
+    @Override
     public int insert(Store data) {
-        return super.insert(NAMESPACE.concat("insert_store"), data);
+        return 0;
     }
 
     @Override
@@ -32,74 +47,45 @@ public class StoreDAOImpl extends AMybatisTemplate implements IStoreDAO {
     }
 
     @Override
-    public int update(Store data) {
-        return super.update(NAMESPACE.concat("update_store"), data);
-    }
-
-    @Override
     public int updateCheck(Store data) {
         return super.update(NAMESPACE.concat("update_check"), data);
     }
 
-    /** 
-     * @see com.xnjr.mall.dao.IStoreDAO#updatePutOn(com.xnjr.mall.domain.Store)
-     */
     @Override
     public int updatePutOn(Store data) {
         return super.update(NAMESPACE.concat("update_putOn"), data);
     }
 
-    /** 
-     * @see com.xnjr.mall.dao.IStoreDAO#updatePutOff(com.xnjr.mall.domain.Store)
-     */
     @Override
     public int updatePutOff(Store data) {
         return super.update(NAMESPACE.concat("update_putOff"), data);
     }
 
-    /** 
-     * @see com.xnjr.mall.dao.IStoreDAO#updateOpenClose(com.xnjr.mall.domain.Store)
-     */
     @Override
     public int updateOpenClose(Store data) {
         return super.update(NAMESPACE.concat("update_openClose"), data);
     }
 
-    /** 
-     * @see com.xnjr.mall.dao.IStoreDAO#updateLevel(com.xnjr.mall.domain.Store)
-     */
     @Override
     public int updateLevel(Store data) {
         return super.update(NAMESPACE.concat("update_level"), data);
     }
 
-    /** 
-     * @see com.xnjr.mall.dao.IStoreDAO#updateTotalRmbNum(com.xnjr.mall.domain.Store)
-     */
     @Override
     public int updateTotalRmbNum(Store data) {
         return super.update(NAMESPACE.concat("update_totalRmbNum"), data);
     }
 
-    /** 
-     * @see com.xnjr.mall.dao.IStoreDAO#updateTotalJfNum(com.xnjr.mall.domain.Store)
-     */
     @Override
     public int updateTotalJfNum(Store data) {
         return super.update(NAMESPACE.concat("update_totalJfNum"), data);
     }
 
-    /** 
-     * @see com.xnjr.mall.dao.IStoreDAO#updateTotalDzNum(com.xnjr.mall.domain.Store)
-     */
     @Override
     public int updateTotalDzNum(Store data) {
         return super.update(NAMESPACE.concat("update_totalDzNum"), data);
     }
 
-    /** 
-     * @see com.xnjr.mall.dao.IStoreDAO#updateTotalScNum(com.xnjr.mall.domain.Store)
-     */
     @Override
     public int updateTotalScNum(Store data) {
         return super.update(NAMESPACE.concat("update_totalScNum"), data);
@@ -136,4 +122,5 @@ public class StoreDAOImpl extends AMybatisTemplate implements IStoreDAO {
         return super.selectList("select_store", start, count, condition,
             Store.class);
     }
+
 }

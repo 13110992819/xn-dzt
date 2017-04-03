@@ -64,13 +64,13 @@ public class StoreAOImpl implements IStoreAO {
     @Override
     @Transactional
     public String addStoreOss(XN808200Req req) {
-        Store store = new Store();
+
         // 验证推荐人是否是平台的已注册用户,将userReferee手机号转化为用户编号
         String systemCode = req.getSystemCode();
         String userReferee = req.getUserReferee();
         String userRefereeUserId = storeBO.isUserRefereeExist(userReferee,
             systemCode);
-        store.setUserReferee(userRefereeUserId);
+
         // 验证B端用户
         String bUser = userBO.isUserExist(req.getMobile(), EUserKind.F2,
             req.getSystemCode());
@@ -81,8 +81,8 @@ public class StoreAOImpl implements IStoreAO {
             // 判断该用户是否有店铺了
             storeBO.checkStoreByUser(bUser, req.getMobile());
         }
-
         String code = OrderNoGenerater.generateM("SJ");
+        Store store = new Store();
         store.setCode(code);
         store.setName(req.getName());
         store.setLevel(req.getLevel());
@@ -94,25 +94,33 @@ public class StoreAOImpl implements IStoreAO {
         store.setDescription(req.getDescription());
         store.setProvince(req.getProvince());
         store.setCity(req.getCity());
+
         store.setArea(req.getArea());
         store.setAddress(req.getAddress());
         store.setLongitude(req.getLongitude());
         store.setLatitude(req.getLatitude());
-
         store.setBookMobile(req.getBookMobile());
+
         store.setSmsMobile(req.getSmsMobile());
         store.setPdf(req.getPdf());
-
         store.setLegalPersonName(req.getLegalPersonName());
+
+        store.setUserReferee(userRefereeUserId);
         store.setRate1(StringValidater.toDouble(req.getRate1()));
         store.setRate2(StringValidater.toDouble(req.getRate2()));
-        store.setStatus(EStoreStatus.PASS.getCode());
 
+        store.setStatus(EStoreStatus.PASS.getCode());
         store.setUpdater(req.getUpdater());
         store.setUpdateDatetime(new Date());
         store.setRemark(req.getRemark());
         store.setOwner(bUser);
+
         store.setContractNo(OrderNoGenerater.generateM("ZHS-"));
+        store.setTotalRmbNum(0);
+        store.setTotalJfNum(0);
+        store.setTotalDzNum(0);
+        store.setTotalScNum(0);
+
         store.setSystemCode(req.getSystemCode());
         store.setCompanyCode(req.getCompanyCode());
         storeBO.saveStoreOss(store);
@@ -125,50 +133,52 @@ public class StoreAOImpl implements IStoreAO {
         // 验证推荐人是否是平台的已注册用户,将userReferee手机号转化为用户编号
         String userRefereeUserId = storeBO.isUserRefereeExist(
             req.getUserReferee(), dbStore.getSystemCode());
-        dbStore.setUserReferee(userRefereeUserId);
 
         dbStore.setName(req.getName());
         dbStore.setLevel(req.getLevel());
         dbStore.setType(req.getType());
-        dbStore.setLegalPersonName(req.getLegalPersonName());
-
-        dbStore.setRate1(StringValidater.toDouble(req.getRate1()));
-        dbStore.setRate2(StringValidater.toDouble(req.getRate2()));
         dbStore.setSlogan(req.getSlogan());
+
         dbStore.setAdvPic(req.getAdvPic());
         dbStore.setPic(req.getPic());
-
         dbStore.setDescription(req.getDescription());
         dbStore.setProvince(req.getProvince());
         dbStore.setCity(req.getCity());
+
         dbStore.setArea(req.getArea());
         dbStore.setAddress(req.getAddress());
-
         dbStore.setLongitude(req.getLongitude());
         dbStore.setLatitude(req.getLatitude());
         dbStore.setBookMobile(req.getBookMobile());
+
         dbStore.setSmsMobile(req.getSmsMobile());
         dbStore.setPdf(req.getPdf());
+        dbStore.setLegalPersonName(req.getLegalPersonName());
+
+        dbStore.setUserReferee(userRefereeUserId);
+        dbStore.setRate1(StringValidater.toDouble(req.getRate1()));
+        dbStore.setRate2(StringValidater.toDouble(req.getRate2()));
 
         dbStore.setStatus(EStoreStatus.PASS.getCode());
         dbStore.setUpdater(req.getUpdater());
         dbStore.setUpdateDatetime(new Date());
         dbStore.setRemark(req.getRemark());
+
         storeBO.refreshStoreOss(dbStore);
 
     }
 
     @Override
     @Transactional
-    public String addStore(XN808201Req req) {
-        Store data = new Store();
+    public String addStoreFront(XN808201Req req) {
+
         // 验证推荐人是否是平台的已注册用户,将userReferee手机号转化为用户编号
         String systemCode = req.getSystemCode();
         String userReferee = req.getUserReferee();
         String userId = storeBO.isUserRefereeExist(userReferee, systemCode);
-        data.setUserReferee(userId);
 
         String code = OrderNoGenerater.generateM("SJ");
+        Store data = new Store();
         data.setCode(code);
         data.setName(req.getName());
         data.setLevel(EStoreLevel.NOMAL.getCode());
@@ -190,32 +200,30 @@ public class StoreAOImpl implements IStoreAO {
         data.setSmsMobile(req.getSmsMobile());
         data.setPdf(req.getPdf());
         data.setLegalPersonName(req.getLegalPersonName());
+
+        data.setUserReferee(userId);
         data.setRate1(StringValidater.toDouble(req.getRate1()));
         data.setRate2(StringValidater.toDouble(req.getRate2()));
 
         data.setStatus(EStoreStatus.TOCHECK.getCode());
-
+        data.setUpdater(req.getOwner());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());
         data.setOwner(req.getOwner());
+
+        data.setTotalRmbNum(0);
+        data.setTotalJfNum(0);
+        data.setTotalDzNum(0);
+        data.setTotalScNum(0);
+
         data.setSystemCode(req.getSystemCode());
         data.setCompanyCode(req.getCompanyCode());
-        storeBO.saveStore(data);
+        storeBO.saveStoreFront(data);
         return code;
     }
 
     @Override
-    public void checkStore(String code, String checkResult, String checkUser,
-            String remark) {
-        Store dbStore = storeBO.getStore(code);
-        if (!EStoreStatus.TOCHECK.getCode().equals(dbStore.getStatus())) {
-            throw new BizException("xn000000", "商家不处于待审核状态，不能进行审核操作");
-        }
-        storeBO.checkStore(dbStore, checkResult, checkUser, remark);
-    }
-
-    @Override
-    public void editStore(XN808203Req req) {
+    public void editStoreFront(XN808203Req req) {
         // 验证店铺是否存在
         storeBO.getStore(req.getCode());
         // 更新字段
@@ -223,11 +231,8 @@ public class StoreAOImpl implements IStoreAO {
         data.setCode(req.getCode());
         data.setName(req.getName());
         data.setType(req.getType());
-        data.setLegalPersonName(req.getLegalPersonName());
-        data.setRate1(StringValidater.toDouble(req.getRate1()));
-        data.setRate2(StringValidater.toDouble(req.getRate2()));
-
         data.setSlogan(req.getSlogan());
+
         data.setAdvPic(req.getAdvPic());
         data.setPic(req.getPic());
         data.setDescription(req.getDescription());
@@ -239,14 +244,29 @@ public class StoreAOImpl implements IStoreAO {
         data.setLongitude(req.getLongitude());
         data.setLatitude(req.getLatitude());
         data.setBookMobile(req.getBookMobile());
+
         data.setSmsMobile(req.getSmsMobile());
         data.setPdf(req.getPdf());
+        data.setLegalPersonName(req.getLegalPersonName());
+
+        data.setRate1(StringValidater.toDouble(req.getRate1()));
+        data.setRate2(StringValidater.toDouble(req.getRate2()));
 
         data.setStatus(EStoreStatus.TOCHECK.getCode());
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());
-        storeBO.refreshStore(data);
+        storeBO.refreshStoreFront(data);
+    }
+
+    @Override
+    public void checkStore(String code, String checkResult, String checkUser,
+            String remark) {
+        Store dbStore = storeBO.getStore(code);
+        if (!EStoreStatus.TOCHECK.getCode().equals(dbStore.getStatus())) {
+            throw new BizException("xn000000", "商家不处于待审核状态，不能进行审核操作");
+        }
+        storeBO.checkStore(dbStore, checkResult, checkUser, remark);
     }
 
     @Override
