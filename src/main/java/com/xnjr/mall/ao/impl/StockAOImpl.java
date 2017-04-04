@@ -17,9 +17,14 @@ import com.xnjr.mall.bo.IStockBackBO;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.DateUtil;
+import com.xnjr.mall.common.SysConstants;
 import com.xnjr.mall.domain.Stock;
 import com.xnjr.mall.dto.res.XN808419Res;
+import com.xnjr.mall.enums.EBizType;
+import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EStockStatus;
+import com.xnjr.mall.enums.ESystemCode;
+import com.xnjr.mall.enums.EZhPool;
 
 @Service
 public class StockAOImpl implements IStockAO {
@@ -60,38 +65,59 @@ public class StockAOImpl implements IStockAO {
 
     @Override
     public void doDailyStock() {
-        Date now = new Date();
+        logger.info("***************开始扫描分红权***************");
+        // Date now = new Date();
         Stock condition = new Stock();
         condition.setStatus(EStockStatus.ING_effect.getCode());
+        condition.setNextBackDateStart(DateUtil.getTodayStart());// 确定是今天的才开始
+        condition.setNextBackDateEnd(DateUtil.getTodayEnd());
         List<Stock> list = stockBO.queryStockList(condition);
         if (CollectionUtils.isNotEmpty(list)) {
             for (Stock ele : list) {
-                // 确定是今天的才开始
-                if (DateUtil.daysBetweenDate(now, ele.getNextBackDate()) == 0) {
-                    // 更新返还金额
-                    Date nextBackDate = DateUtil.getRelativeDate(
+                // 更新返还金额
+                String status = null;
+                Date nextBackDate = null;
+                Long todayAmount = getTodayAmount(ele);
+                Long backAmount = ele.getBackAmount() + todayAmount;
+                if (backAmount == ele.getProfitAmount()) {// 本分红权返利结束
+                    status = EStockStatus.DONE.getCode();
+                    nextBackDate = null;
+                    stockBO.awakenStock(ele.getUserId());
+                } else {
+                    status = ele.getStatus();
+                    nextBackDate = DateUtil.getRelativeDate(
                         DateUtil.getTodayStart(),
                         ele.getBackInterval() * 24 * 60 * 60);
-                    Long todayAmount = 100L;
-                    Long backAmount = ele.getBackAmount() + todayAmount;
-                    String status = null;
-                    if (backAmount == ele.getProfitAmount()) {// 本分红权返利结束
-                        status = EStockStatus.DONE.getCode();
-                        nextBackDate = null;
-                        stockBO.awakenStock(ele.getUserId());
-                    }
-                    // 更新股权
-                    ele.setBackCount(ele.getBackCount() + 1);
-                    ele.setBackAmount(backAmount);
-                    ele.setTodayAmount(todayAmount);
-                    ele.setNextBackDate(nextBackDate);
-                    ele.setStatus(status);
-                    stockBO.doDailyStock(ele);
-                    // 落地返还记录
-                    stockBackBO.saveStockBack(ele);
                 }
+                // 更新股权
+                ele.setBackCount(ele.getBackCount() + 1);
+                ele.setBackAmount(backAmount);
+                ele.setTodayAmount(todayAmount);
+                ele.setNextBackDate(nextBackDate);
+                ele.setStatus(status);
+                stockBO.doDailyStock(ele);
+                // 落地返还记录
+                stockBackBO.saveStockBack(ele);
+                // 扣减池金额
+                accountBO.doTransferAmountRemote(ele.getFundCode(),
+                    ele.getUserId(), ECurrency.ZH_FRB, todayAmount,
+                    EBizType.ZH_STOCK, "正汇分红权分红", "正汇分红权分红");
             }
         }
+        logger.info("***************结束扫描分红权***************");
+    }
+
+    private Long getTodayAmount(Stock ele) {
+        Long todayAmount = null;
+        if (EZhPool.ZHPAY_STORE.getCode().equals(ele.getFundCode())) {
+            todayAmount = sysConfigBO.getSYSConfig(
+                SysConstants.STORE_STOCK_DAYBACK, ESystemCode.ZHPAY.getCode());
+        }
+        if (EZhPool.ZHPAY_CUSTOMER.getCode().equals(ele.getFundCode())) {
+            todayAmount = sysConfigBO.getSYSConfig(
+                SysConstants.USER_STOCK_DAYBACK, ESystemCode.ZHPAY.getCode());
+        }
+        return todayAmount;
     }
 
     @Override
