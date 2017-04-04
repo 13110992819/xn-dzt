@@ -162,13 +162,11 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         User user = userBO.getRemoteUser(userId);
         // 折扣券可扣减优惠金额
         Long ticketAmount = getTicketAmount(ticketCode, amount);
-        boolean isUseTickect = false;
         if (ticketAmount > 0) {
-            isUseTickect = true;
             amount = amount - ticketAmount;
         }
         if (EPayType.ZH_YE.getCode().equals(payType)) {
-            return storePurchaseZHYE(user, store, amount, isUseTickect);
+            return storePurchaseZHYE(user, store, amount, ticketCode);
         } else if (EPayType.WEIXIN.getCode().equals(payType)) {
             return storePurchaseZHWX(user, store, amount);
         } else if (EPayType.ALIPAY.getCode().equals(payType)) {
@@ -208,7 +206,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
     }
 
     private String storePurchaseZHYE(User user, Store store, Long amount,
-            boolean isUseTickect) {
+            String ticketCode) {
         Long frResultAmount = 0L;// 需要支付的分润金额
         Long gxjlResultAmount = 0L;// 需要支付的贡献值金额计算
 
@@ -242,7 +240,8 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                 .longValue();
         }
         // 落地本地系统消费记录
-        String code = storePurchaseBO.storePurchaseZHYE(user, store, amount);
+        String code = storePurchaseBO.storePurchaseZHYE(user, store,
+            ticketCode, amount, frResultAmount, gxjlResultAmount);
         // ---资金划拨开始-----
         // 会员扣分润和贡献值，商家收分润，先全额收掉。
         String systemUser = ESysUser.SYS_USER_ZHPAY.getCode();
@@ -260,7 +259,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                 "正汇O2O消费者的分润支付", "正汇O2O消费者的分润支付");
         }
         // 用商家的钱开始分销
-        if (isUseTickect) {
+        if (StringUtils.isNotBlank(ticketCode)) {
             distributeBO.distribute1Amount(amount, store, user);
         } else {
             if (EStoreLevel.NOMAL.getCode().equals(store.getLevel())) {

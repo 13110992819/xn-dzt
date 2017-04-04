@@ -123,17 +123,30 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
     }
 
     @Override
-    public String storePurchaseZHYE(User user, Store store, Long amount) {
-        /*
-         * StorePurchase data = new StorePurchase(); data.setUserId(userId);
-         * data.setStoreCode(storeCode);
-         * data.setPayType(EPayType.ZH_YE.getCode());
-         * data.setPurchaseAmount(amount); data.setAmount1(yhAmount);
-         * data.setAmount2(gxjlAmount); data.setAmount3(frAmount);
-         * data.setStatus(EStorePurchaseStatus.PAYED.getCode());
-         * data.setTicketCode(ticketCode); data.setSystemCode(systemCode);
-         * data.setRemark(remark);
-         */
+    public String storePurchaseZHYE(User user, Store store, String ticketCode,
+            Long amount, Long frResultAmount, Long gxjlResultAmount) {
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
+            .getCode());
+        Date now = new Date();
+        StorePurchase data = new StorePurchase();
+        data.setCode(code);
+        data.setUserId(user.getUserId());
+        data.setStoreCode(store.getCode());
+        data.setTicketCode(ticketCode);
+        data.setPrice(amount);
+
+        data.setCreateDatetime(now);
+        data.setStatus(EStorePurchaseStatus.TO_PAY.getCode());
+        data.setPayType(EPayType.ZH_YE.getCode());
+
+        data.setPayAmount2(frResultAmount);
+        data.setPayAmount3(gxjlResultAmount);
+
+        data.setPayDatetime(now);
+        data.setRemark("余额支付O2O消费");
+        data.setSystemCode(store.getSystemCode());
+        data.setCompanyCode(store.getCompanyCode());
+        storePurchaseDAO.insert(data);
         return null;
     }
 
