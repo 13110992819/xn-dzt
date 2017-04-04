@@ -91,7 +91,8 @@ public class AccountBOImpl implements IAccountBO {
     @Override
     public Double getExchangeRateRemote(ECurrency currency) {
         XN002051Req req = new XN002051Req();
-        req.setCurrency(currency.getCode());
+        req.setFromCurrency(ECurrency.CNY.getCode());
+        req.setToCurrency(currency.getCode());
         XN002051Res res = BizConnecter.getBizData("002051",
             JsonUtil.Object2Json(req), XN002051Res.class);
         return res.getRate();

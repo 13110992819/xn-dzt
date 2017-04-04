@@ -324,58 +324,71 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                 // 21、买单用户的推荐人B可得到分润X1
                 User bUser = userBO.getRemoteUser(user.getUserReferee());
                 Long X1 = Double.valueOf(amount * 0.008).longValue();
-                accountBO.doTransferAmountRemote(storeUserId,
-                    bUser.getUserId(), ECurrency.ZH_FRB, X1, EBizType.ZH_O2O,
-                    "正汇O2O一级推荐人分成", "正汇O2O一级推荐人分成");
+                if (X1 > 0 && bUser != null) {
+                    accountBO.doTransferAmountRemote(storeUserId,
+                        bUser.getUserId(), ECurrency.ZH_FRB, X1,
+                        EBizType.ZH_O2O, "正汇O2O一级推荐人分成", "正汇O2O一级推荐人分成");
+                }
                 // 22、B的推荐人A可得到分润X2
                 User aUser = userBO.getRemoteUser(bUser.getUserReferee());
                 Long X2 = Double.valueOf(amount * 0.008).longValue();
-                accountBO.doTransferAmountRemote(storeUserId,
-                    aUser.getUserId(), ECurrency.ZH_FRB, X2, EBizType.ZH_O2O,
-                    "正汇O2O二级推荐人分成", "正汇O2O二级推荐人分成");
-                // 23、店铺推荐人可得到分润X3 —— 消费额里面扣除
-                if (StringUtils.isNotBlank(store.getUserReferee())) {
-                    Long X3 = Double.valueOf(amount * 0.009).longValue();
+                if (X2 > 0 && aUser != null) {
                     accountBO.doTransferAmountRemote(storeUserId,
-                        store.getUserReferee(), ECurrency.ZH_FRB, X3,
+                        aUser.getUserId(), ECurrency.ZH_FRB, X2,
+                        EBizType.ZH_O2O, "正汇O2O二级推荐人分成", "正汇O2O二级推荐人分成");
+                }
+                // 23、店铺推荐人可得到分润X3 —— 消费额里面扣除
+                Long X3 = Double.valueOf(amount * 0.009).longValue();
+                User storeReferee = userBO
+                    .getRemoteUser(store.getUserReferee());
+                if (X3 > 0 && storeReferee != null) {
+                    accountBO.doTransferAmountRemote(storeUserId,
+                        storeReferee.getUserId(), ECurrency.ZH_FRB, X3,
                         EBizType.ZH_O2O, "正汇O2O业务员分成", "正汇O2O业务员分成");
                 }
                 // 24、店铺所在县得到分瑞X4—— 消费额里面扣除
-                if (StringUtils.isNotBlank(store.getArea())) {
-                    // 县合伙人
-                    Long X4 = Double.valueOf(amount * 0.015).longValue();
-                    User areaUser = userBO.getPartner(store.getProvince(),
-                        store.getCity(), store.getArea(), EUserKind.Partner);
-                    if (null != areaUser) {
-                        accountBO.doTransferAmountRemote(storeUserId,
-                            areaUser.getUserId(), ECurrency.ZH_FRB, X4,
-                            EBizType.ZH_O2O, "正汇O2O县合伙人分成", "正汇O2O县合伙人分成");
-                    }
+                Long X4 = Double.valueOf(amount * 0.015).longValue();
+                User areaUser = userBO.getPartner(store.getProvince(),
+                    store.getCity(), store.getArea(), EUserKind.Partner);
+                if (X4 > 0 && areaUser != null) {
+                    accountBO.doTransferAmountRemote(storeUserId,
+                        areaUser.getUserId(), ECurrency.ZH_FRB, X4,
+                        EBizType.ZH_O2O, "正汇O2O县合伙人分成", "正汇O2O县合伙人分成");
+
                 }
                 // 25、公司X5—— 消费额里面扣除
                 Long X5 = Double.valueOf(amount * 0.01).longValue();
-                accountBO.doTransferAmountRemote(storeUserId, systemUser,
-                    ECurrency.ZH_FRB, X5, EBizType.ZH_O2O, "正汇O2O公司分成",
-                    "正汇O2O公司分成");
-
+                if (X5 > 0) {
+                    accountBO.doTransferAmountRemote(storeUserId, systemUser,
+                        ECurrency.ZH_FRB, X5, EBizType.ZH_O2O, "正汇O2O公司分成",
+                        "正汇O2O公司分成");
+                }
                 // 31、进基金池Y1
                 Long Y1 = Double.valueOf(amount * 0.01).longValue();
                 String poolUser = EZhPool.ZHPAY_JJ.getCode();
-                accountBO.doTransferAmountRemote(storeUserId, poolUser,
-                    ECurrency.ZH_FRB, Y1, EBizType.ZH_O2O, "正汇O2O入基金池",
-                    "正汇O2O入基金池");
+                if (Y1 > 0 && StringUtils.isNotBlank(poolUser)) {
+                    accountBO.doTransferAmountRemote(storeUserId, poolUser,
+                        ECurrency.ZH_FRB, Y1, EBizType.ZH_O2O, "正汇O2O入基金池",
+                        "正汇O2O入基金池");
+                }
+
                 // 32、进商家池Y2
                 Long Y2 = Double.valueOf(amount * 0.04).longValue();
                 poolUser = EZhPool.ZHPAY_STORE.getCode();
-                accountBO.doTransferAmountRemote(storeUserId, poolUser,
-                    ECurrency.ZH_FRB, Y2, EBizType.ZH_O2O, "正汇O2O入商家池",
-                    "正汇O2O入商家池");
+                if (Y2 > 0 && StringUtils.isNotBlank(poolUser)) {
+                    accountBO.doTransferAmountRemote(storeUserId, poolUser,
+                        ECurrency.ZH_FRB, Y2, EBizType.ZH_O2O, "正汇O2O入商家池",
+                        "正汇O2O入商家池");
+                }
+
                 // 31、进基金池Y3
                 Long Y3 = Double.valueOf(amount * 0.15).longValue();
                 poolUser = EZhPool.ZHPAY_CUSTOMER.getCode();
-                accountBO.doTransferAmountRemote(storeUserId, poolUser,
-                    ECurrency.ZH_FRB, Y3, EBizType.ZH_O2O, "正汇O2O入消费者池",
-                    "正汇O2O入消费者池");
+                if (Y3 > 0 && StringUtils.isNotBlank(poolUser)) {
+                    accountBO.doTransferAmountRemote(storeUserId, poolUser,
+                        ECurrency.ZH_FRB, Y3, EBizType.ZH_O2O, "正汇O2O入消费者池",
+                        "正汇O2O入消费者池");
+                }
             }
         }
         return code;

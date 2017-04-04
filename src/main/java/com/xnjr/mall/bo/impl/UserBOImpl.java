@@ -15,16 +15,15 @@ import com.xnjr.mall.dto.req.XN001102Req;
 import com.xnjr.mall.dto.req.XN001301Req;
 import com.xnjr.mall.dto.req.XN001350Req;
 import com.xnjr.mall.dto.req.XN001400Req;
-import com.xnjr.mall.dto.req.XN001401Req;
+import com.xnjr.mall.dto.req.XN001403Req;
 import com.xnjr.mall.dto.res.XN001102Res;
 import com.xnjr.mall.dto.res.XN001400Res;
-import com.xnjr.mall.dto.res.XN001401Res;
+import com.xnjr.mall.dto.res.XN001403Res;
 import com.xnjr.mall.dto.res.XNUserRes;
 import com.xnjr.mall.enums.EBoolean;
 import com.xnjr.mall.enums.ESysUser;
 import com.xnjr.mall.enums.ESystemCode;
 import com.xnjr.mall.enums.EUserKind;
-import com.xnjr.mall.enums.EUserStatus;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.http.BizConnecter;
 import com.xnjr.mall.http.JsonUtils;
@@ -39,22 +38,25 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
 
     @Override
     public User getRemoteUser(String userId) {
-        XN001400Req req = new XN001400Req();
-        req.setTokenId(userId);
-        req.setUserId(userId);
-        XN001400Res res = BizConnecter.getBizData("001400",
-            JsonUtils.object2Json(req), XN001400Res.class);
-        if (res == null) {
-            throw new BizException("XN000000", "编号为" + userId + "的用户不存在");
+        User user = null;
+        if (StringUtils.isNotBlank(userId)) {
+            XN001400Req req = new XN001400Req();
+            req.setTokenId(userId);
+            req.setUserId(userId);
+            XN001400Res res = BizConnecter.getBizData("001400",
+                JsonUtils.object2Json(req), XN001400Res.class);
+            if (res == null) {
+                throw new BizException("XN000000", "编号为" + userId + "的用户不存在");
+            }
+            user = new User();
+            user.setUserId(res.getUserId());
+            user.setLoginName(res.getLoginName());
+            user.setNickname(res.getNickname());
+            user.setPhoto(res.getPhoto());
+            user.setMobile(res.getMobile());
+            user.setIdentityFlag(res.getIdentityFlag());
+            user.setUserReferee(res.getUserReferee());
         }
-        User user = new User();
-        user.setUserId(res.getUserId());
-        user.setLoginName(res.getLoginName());
-        user.setNickname(res.getNickname());
-        user.setPhoto(res.getPhoto());
-        user.setMobile(res.getMobile());
-        user.setIdentityFlag(res.getIdentityFlag());
-        user.setUserReferee(res.getUserReferee());
         return user;
     }
 
@@ -67,20 +69,19 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
         } else if (StringUtils.isBlank(area)) {
             area = city;
         }
-        XN001401Req req = new XN001401Req();
+        XN001403Req req = new XN001403Req();
         req.setProvince(province);
         req.setCity(city);
         req.setArea(area);
         req.setKind(kind.getCode());
-        req.setStatus(EUserStatus.NORMAL.getCode());
         req.setSystemCode(ESystemCode.ZHPAY.getCode());
         req.setCompanyCode(ESystemCode.ZHPAY.getCode());
-        XN001401Res result = null;
-        String jsonStr = BizConnecter.getBizData("001401",
+        XN001403Res result = null;
+        String jsonStr = BizConnecter.getBizData("001403",
             JsonUtils.object2Json(req));
         Gson gson = new Gson();
-        List<XN001401Res> list = gson.fromJson(jsonStr,
-            new TypeToken<List<XN001401Res>>() {
+        List<XN001403Res> list = gson.fromJson(jsonStr,
+            new TypeToken<List<XN001403Res>>() {
             }.getType());
         User user = null;
         if (CollectionUtils.isNotEmpty(list)) {
