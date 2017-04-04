@@ -96,21 +96,4 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
         return getSYSConfig(key, systemCode, systemCode);
     }
 
-    @Override
-    public Double getCNY2CGJF() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Double getCNY2ZHGXJL() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Double getCNY2ZHFR() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

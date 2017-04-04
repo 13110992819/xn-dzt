@@ -14,10 +14,12 @@ import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.domain.Account;
 import com.xnjr.mall.dto.req.XN002050Req;
+import com.xnjr.mall.dto.req.XN002051Req;
 import com.xnjr.mall.dto.req.XN002100Req;
 import com.xnjr.mall.dto.req.XN002500Req;
 import com.xnjr.mall.dto.req.XN002510Req;
 import com.xnjr.mall.dto.res.XN002050Res;
+import com.xnjr.mall.dto.res.XN002051Res;
 import com.xnjr.mall.dto.res.XN002500Res;
 import com.xnjr.mall.dto.res.XN002510Res;
 import com.xnjr.mall.enums.EBizType;
@@ -84,6 +86,15 @@ public class AccountBOImpl implements IAccountBO {
             BizConnecter.getBizData("002100", JsonUtils.object2Json(req),
                 Object.class);
         }
+    }
+
+    @Override
+    public Double getExchangeRateRemote(ECurrency currency) {
+        XN002051Req req = new XN002051Req();
+        req.setCurrency(currency.getCode());
+        XN002051Res res = BizConnecter.getBizData("002051",
+            JsonUtil.Object2Json(req), XN002051Res.class);
+        return res.getRate();
     }
 
     @Override

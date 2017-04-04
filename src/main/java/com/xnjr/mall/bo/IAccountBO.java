@@ -47,6 +47,15 @@ public interface IAccountBO {
             ECurrency currency, Long amount, EBizType bizType,
             String fromBizNote, String toBizNote);
 
+    /**
+     * 获取虚拟币的价值：1人民币等于多少虚拟币
+     * @param currency
+     * @return 
+     * @create: 2017年4月4日 下午12:13:25 myb858
+     * @history:
+     */
+    public Double getExchangeRateRemote(ECurrency currency);
+
     public void doCgbJfPay(String fromUserId, String toUserId, Long cgbPrice,
             Long jfPrice, EBizType bizType);
 

@@ -93,8 +93,9 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         // 计算折扣，即积分扣钱金额
         Long discountAmount = Double.valueOf(amount * store.getRate2())
             .longValue();
-        Long jf = Double.valueOf(discountAmount * sysConfigBO.getCNY2CGJF())
-            .longValue();
+
+        Double cgjf2cnyRate = accountBO.getExchangeRateRemote(ECurrency.CGJF);
+        Long jf = Double.valueOf(discountAmount * cgjf2cnyRate).longValue();
         // 落地本地系统消费记录
         String payGroup = storePurchaseBO.storePurchaseCGWX(user, store,
             amount, jf);
@@ -220,12 +221,12 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         String storeUserId = store.getOwner();
         // 1、贡献奖励+分润<yhAmount 余额不足
         Account gxjlAccount = accountBO.getRemoteAccount(buyUserId,
-            ECurrency.ZH_GXJL);
+            ECurrency.ZH_GXZ);
         Long gxjlAmount = gxjlAccount.getAmount();
         Account frAccount = accountBO.getRemoteAccount(buyUserId,
             ECurrency.ZH_FRB);
-        Double gxjl2cnyRate = sysConfigBO.getCNY2ZHGXJL();
-        Double fr2cnyRate = sysConfigBO.getCNY2ZHFR();
+        Double gxjl2cnyRate = accountBO.getExchangeRateRemote(ECurrency.ZH_GXZ);
+        Double fr2cnyRate = accountBO.getExchangeRateRemote(ECurrency.ZH_FRB);
         if (gxjlAccount.getAmount() / gxjl2cnyRate + frAccount.getAmount()
                 / fr2cnyRate < amount) {
             throw new BizException("xn0000", "余额不足");
@@ -253,7 +254,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         String systemUser = ESysUser.SYS_USER_ZHPAY.getCode();
         if (gxjlResultAmount > 0L) {// 贡献值是给平台的，贡献值等值的(1:1)分润有平台给商家
             accountBO.doTransferAmountRemote(buyUserId, systemUser,
-                ECurrency.ZH_GXJL, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
+                ECurrency.ZH_GXZ, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
                 "正汇O2O支付");
             accountBO.doTransferAmountRemote(systemUser, storeUserId,
                 ECurrency.ZH_FRB, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
