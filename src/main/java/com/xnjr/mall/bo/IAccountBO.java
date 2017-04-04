@@ -73,6 +73,10 @@ public interface IAccountBO {
             EBizType bizType);
 
     public void doZHYEPay(String fromUserId, String systemUserId,
-            Long cnyAmount, Long gwbAmount, Long qbbAmount, EBizType ajGw);
+            Long frbAmount, Long gxzAmount, Long gwbAmount, Long qbbAmount,
+            EBizType ajGw);
+
+    public void checkZHYE(String userId, Long frbAmount, Long gxzAmount,
+            Long cnyAmount, Long gwbAmount, Long qbbAmount);
 
 }

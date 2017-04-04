@@ -127,6 +127,7 @@ CREATE TABLE `tmall_order` (
   `pay_code` varchar(32) DEFAULT NULL COMMENT '支付编号',
   `pay_datetime` datetime DEFAULT NULL COMMENT '支付时间',
   `pay_amount1` bigint(20) DEFAULT NULL COMMENT '支付金额1',
+  `pay_amount1_1` bigint(20) DEFAULT NULL COMMENT '支付金额1_1（多种币种合并时使用）',
   `pay_amount2` bigint(20) DEFAULT NULL COMMENT '支付金额2',
   `pay_amount3` bigint(20) DEFAULT NULL COMMENT '支付金额3',
   `prompt_times` int(11) DEFAULT NULL COMMENT '催货次数',

@@ -175,46 +175,28 @@ public class AccountBOImpl implements IAccountBO {
     }
 
     @Override
-    public void doZHYEPay(String fromUserId, String toUserId, Long cnyAmount,
-            Long gwbAmount, Long qbbAmount, EBizType bizType) {
-        Account frbAccount = getRemoteAccount(fromUserId, ECurrency.ZH_FRB);
-        Double frbRate = getExchangeRateRemote(ECurrency.ZH_FRB);
-        Account gxzAccount = getRemoteAccount(fromUserId, ECurrency.ZH_GXZ);
-        Double gxzRate = getExchangeRateRemote(ECurrency.ZH_GXZ);
-        // 计算分润币和贡献值分别价值多少人民币
-        Long frbAmount = frbAccount.getAmount() / frbRate.longValue();
-        Long gxzAmount = gxzAccount.getAmount() / gxzRate.longValue();
-        // 检验人民币、购物币和钱包币是否充足
-        checkZHYE(fromUserId, frbAmount, gxzAmount, cnyAmount, gwbAmount,
-            qbbAmount);
-        // 扣除人民币（分润币+贡献值可抵用；优先扣贡献值，其次扣分润）
-        // 贡献值<0 直接扣分润
-        if (gxzAmount <= 0L) {
+    public void doZHYEPay(String fromUserId, String toUserId, Long frbAmount,
+            Long gxzAmount, Long gwbAmount, Long qbbAmount, EBizType bizType) {
+        if (frbAmount > 0) {
             doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_FRB,
-                cnyAmount * frbRate.longValue(), bizType, bizType.getValue(),
-                bizType.getValue());
-        } else if (gxzAmount < cnyAmount) {
-            // 0<贡献值<cnyAmount 先扣除所有贡献奖励，再扣分润
-            doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_GXZ,
-                gxzAccount.getAmount(), bizType, bizType.getValue(),
-                bizType.getValue());
-            doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_FRB,
-                (cnyAmount - gxzAmount) * frbRate.longValue(), bizType,
-                bizType.getValue(), bizType.getValue());
-        } else {// 贡献值>=cnyAmount 直接扣贡献奖励
-            doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_GXZ,
-                cnyAmount * gxzRate.longValue(), bizType, bizType.getValue(),
-                bizType.getValue());
+                frbAmount, bizType, bizType.getValue(), bizType.getValue());
         }
-        // 扣除购物币
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_GWB,
-            gwbAmount, bizType, bizType.getValue(), bizType.getValue());
-        // 扣除钱包币
-        doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_QBB,
-            qbbAmount, bizType, bizType.getValue(), bizType.getValue());
+        if (gxzAmount > 0) {
+            doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_GXZ,
+                gxzAmount, bizType, bizType.getValue(), bizType.getValue());
+        }
+        if (gwbAmount > 0) {
+            doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_GWB,
+                gwbAmount, bizType, bizType.getValue(), bizType.getValue());
+        }
+        if (qbbAmount > 0) {
+            doTransferAmountRemote(fromUserId, toUserId, ECurrency.ZH_QBB,
+                qbbAmount, bizType, bizType.getValue(), bizType.getValue());
+        }
     }
 
-    private void checkZHYE(String userId, Long frbAmount, Long gxzAmount,
+    @Override
+    public void checkZHYE(String userId, Long frbAmount, Long gxzAmount,
             Long cnyAmount, Long gwbAmount, Long qbbAmount) {
 
         if (cnyAmount > frbAmount + gxzAmount) {

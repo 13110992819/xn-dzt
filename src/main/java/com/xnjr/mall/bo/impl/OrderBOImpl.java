@@ -126,15 +126,20 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
      * @see com.xnjr.mall.bo.IOrderBO#refreshOrderPayAmount(java.lang.String, java.lang.Long)
      */
     @Override
-    public int refreshPaySuccess(Order order, Long payAmount1, Long payAmount2,
-            Long payAmount3) {
+    public int refreshPaySuccess(Order order, Long payAmount1,
+            Long payAmount11, Long payAmount2, Long payAmount3) {
         int count = 0;
         if (order != null && StringUtils.isNotBlank(order.getCode())) {
+            Date now = new Date();
             order.setStatus(EOrderStatus.PAY_YES.getCode());
-            order.setPayDatetime(new Date());
+            order.setPayDatetime(now);
             order.setPayAmount1(payAmount1);
+            order.setPayAmount11(payAmount11);
             order.setPayAmount2(payAmount2);
             order.setPayAmount3(payAmount3);
+            order.setUpdater(order.getApplyUser());
+            order.setUpdateDatetime(now);
+            order.setRemark("订单已成功支付");
             count = orderDAO.updatePaySuccess(order);
         }
         return count;
@@ -225,6 +230,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         order.setAmount3(amount3);
         order.setYunfei(yunfei);
         order.setPayAmount1(0L);
+        order.setPayAmount11(0L);
         order.setPayAmount2(0L);
         order.setPayAmount3(0L);
         return order;
