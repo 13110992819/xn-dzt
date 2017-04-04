@@ -133,6 +133,9 @@ public class OrderAOImpl implements IOrderAO {
     public String commitOrder(XN808050Req req) {
         // 立即下单，构造成购物车单个产品下单
         Product product = productBO.getProduct(req.getProductCode());
+        req.getPojo().setCompanyCode(product.getCompanyCode());
+        req.getPojo().setSystemCode(product.getSystemCode());
+
         Cart cart = new Cart();
         cart.setProductCode(req.getProductCode());
         cart.setQuantity(StringValidater.toInteger(req.getQuantity()));
@@ -140,6 +143,7 @@ public class OrderAOImpl implements IOrderAO {
         cart.setProduct(product);
         List<Cart> cartList = new ArrayList<Cart>();
         cartList.add(cart);
+
         return orderBO.saveOrder(cartList, req.getPojo(), req.getToUser());
     }
 
