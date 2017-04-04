@@ -106,4 +106,9 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
         return super.update(NAMESPACE.concat("update_confirm"), data);
     }
 
+    @Override
+    public int updatePayGroup(Order data) {
+        return super.update(NAMESPACE.concat("update_payGroup"), data);
+    }
+
 }

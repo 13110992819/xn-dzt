@@ -24,13 +24,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xnjr.mall.ao.IOrderAO;
 import com.xnjr.mall.bo.IAccountBO;
 import com.xnjr.mall.bo.ICartBO;
+import com.xnjr.mall.bo.IDistributeBO;
 import com.xnjr.mall.bo.IOrderBO;
 import com.xnjr.mall.bo.IProductBO;
 import com.xnjr.mall.bo.IProductOrderBO;
 import com.xnjr.mall.bo.ISmsOutBO;
+import com.xnjr.mall.bo.IStoreBO;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.DateUtil;
+import com.xnjr.mall.core.CalculationUtil;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Account;
@@ -38,6 +41,8 @@ import com.xnjr.mall.domain.Cart;
 import com.xnjr.mall.domain.Order;
 import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.domain.ProductOrder;
+import com.xnjr.mall.domain.Store;
+import com.xnjr.mall.domain.User;
 import com.xnjr.mall.dto.req.XN808050Req;
 import com.xnjr.mall.dto.req.XN808051Req;
 import com.xnjr.mall.dto.req.XN808054Req;
@@ -81,6 +86,12 @@ public class OrderAOImpl implements IOrderAO {
 
     @Autowired
     private ISmsOutBO smsOutBO;
+
+    @Autowired
+    private IStoreBO storeBO;
+
+    @Autowired
+    private IDistributeBO distributeBO;
 
     @Override
     @Transactional
@@ -179,6 +190,7 @@ public class OrderAOImpl implements IOrderAO {
 
     @Transactional
     private Object toPayOrderZH(Order order, String payType) {
+        Long cnyAmount = order.getAmount1();// 人民币
         Long gwbAmount = order.getAmount2();// 购物币
         Long qbbAmount = order.getAmount3();// 钱包币
         String systemCode = order.getSystemCode();
@@ -196,10 +208,19 @@ public class OrderAOImpl implements IOrderAO {
             String systemUserId = userBO.getSystemUser(systemCode);
             accountBO.doZHYEPay(fromUserId, systemUserId, frbAmount, gxzAmount,
                 gwbAmount, qbbAmount, EBizType.AJ_GW);
+            return new BooleanRes(true);
+        }
+        if (EPayType.ALIPAY.getCode().equals(payType)) {
+            // 检查购物币和钱包币是否充足
+            accountBO.checkZHGwbQbb(fromUserId, gwbAmount, qbbAmount);
+            // 生成payGroup,并把这组订单（orderCodeList）归为一组进行支付。
+            String payGroup = orderBO.addPayGroup(order.getCode());
+            return accountBO.doAlipayRemote(fromUserId,
+                ESysUser.SYS_USER_ZHPAY.getCode(), cnyAmount, EBizType.AJ_GW,
+                EBizType.AJ_GW.getValue(), EBizType.AJ_GW.getValue(), payGroup);
         } else {
             throw new BizException("xn0000", "支付类型不支持");
         }
-        return new BooleanRes(true);
     }
 
     private Order calculateToPayFrbAndGxz(Order order) {
@@ -511,9 +532,15 @@ public class OrderAOImpl implements IOrderAO {
             order.getCompanyCode(), ECurrency.ZH_FRB, frbAmount,
             EBizType.AJ_QRSH, EBizType.AJ_QRSH.getValue(),
             EBizType.AJ_QRSH.getValue());
+        // 分销
+        Store store = storeBO.getStoreByUser(order.getCompanyCode());
+        User user = userBO.getRemoteUser(order.getApplyUser());
+        distributeBO.distribute25Amount(frbAmount, order.getPayAmount1(),
+            store, user);
+        // 短信通知商户
         smsOutBO.sentContent(order.getCompanyCode(), order.getCompanyCode(),
-            "尊敬的商户，订单号[" + order.getCode() + "]的用户已确认收货,本次收入分润：" + frbAmount
-                    / 1000 + ",请注意查收!");
+            "尊敬的商户，订单号[" + order.getCode() + "]的用户已确认收货,本次收入分润："
+                    + CalculationUtil.divi(frbAmount) + ",请注意查收!");
     }
 
     /**
@@ -521,7 +548,32 @@ public class OrderAOImpl implements IOrderAO {
      */
     @Override
     @Transactional
-    public void paySuccess(String payCode) {
+    public void paySuccess(String payGroup, String payCode, Long payAmount) {
+        List<Order> orderList = orderBO.queryOrderListByPayGroup(payGroup);
+        if (CollectionUtils.isEmpty(orderList)) {
+            throw new BizException("XN000000", "找不到对应的订单记录");
+        }
+        Order order = orderList.get(0);
+        if (EOrderStatus.TO_PAY.getCode().equals(order.getStatus())) {
+            Long cnyAmount = order.getAmount1();// 人民币
+            Long gwbAmount = order.getAmount2();// 购物币
+            Long qbbAmount = order.getAmount3();// 钱包币
+            // 扣除购物币和钱包币
+            accountBO.doZHYEPay(order.getApplyUser(),
+                ESysUser.SYS_USER_ZHPAY.getCode(), 0L, 0L, gwbAmount,
+                qbbAmount, EBizType.AJ_GW);
+            // 更新支付金额
+            orderBO.refreshPaySuccess(order, cnyAmount, 0L, gwbAmount,
+                qbbAmount);
+            smsOutBO.sentContent(
+                order.getApplyUser(),
+                order.getApplyUser(),
+                "您的订单" + order.getCode() + "已支付成功，支付金额为"
+                        + CalculationUtil.divi(payAmount) + "元");
+        } else {
+            logger.info("订单号：" + order.getCode() + "已支付，重复回调");
+        }
+
         // Order condition = new Order();
         // condition.setPayCode(payCode);
         // List<Order> result = orderBO.queryOrderList(condition);

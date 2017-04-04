@@ -304,4 +304,25 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         return yunfei;
     }
 
+    @Override
+    public String addPayGroup(String code) {
+        String payGroup = null;
+        if (StringUtils.isNotBlank(code)) {
+            Order data = new Order();
+            data.setCode(code);
+            payGroup = OrderNoGenerater.generateM(EGeneratePrefix.PAY_GROUP
+                .getCode());
+            data.setPayGroup(payGroup);
+            orderDAO.updatePayGroup(data);
+        }
+        return payGroup;
+    }
+
+    @Override
+    public List<Order> queryOrderListByPayGroup(String payGroup) {
+        Order condition = new Order();
+        condition.setPayGroup(payGroup);
+        return orderDAO.selectList(condition);
+    }
+
 }

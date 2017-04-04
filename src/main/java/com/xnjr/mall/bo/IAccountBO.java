@@ -79,4 +79,6 @@ public interface IAccountBO {
     public void checkZHYE(String userId, Long frbAmount, Long gxzAmount,
             Long cnyAmount, Long gwbAmount, Long qbbAmount);
 
+    public void checkZHGwbQbb(String userId, Long gwbAmount, Long qbbAmount);
+
 }

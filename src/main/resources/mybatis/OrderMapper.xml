@@ -310,4 +310,11 @@
 		code = #{code}
 	</update>
 	
+	<update id="update_payGroup" parameterType="order">
+		UPDATE tmall_order
+		SET
+		pay_grop = #{payGrop}
+		WHERE code = #{code}
+	</update>
+	
 </mapper>

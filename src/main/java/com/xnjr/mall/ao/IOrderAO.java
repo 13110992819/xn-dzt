@@ -43,7 +43,7 @@ public interface IOrderAO {
 
     public Order getOrder(String code);
 
-    public void paySuccess(String payCode);
+    public void paySuccess(String payGroup, String payCode, Long payAmount);
 
     public void doChangeOrderStatusDaily();
 

@@ -198,16 +198,18 @@ public class AccountBOImpl implements IAccountBO {
     @Override
     public void checkZHYE(String userId, Long frbAmount, Long gxzAmount,
             Long cnyAmount, Long gwbAmount, Long qbbAmount) {
-
         if (cnyAmount > frbAmount + gxzAmount) {
             throw new BizException("xn0000", "分润币+贡献值不足");
         }
+        checkZHGwbQbb(userId, gwbAmount, qbbAmount);
+    }
 
+    @Override
+    public void checkZHGwbQbb(String userId, Long gwbAmount, Long qbbAmount) {
         Account gwbAccount = getRemoteAccount(userId, ECurrency.ZH_GWB);
         if (gwbAmount > gwbAccount.getAmount()) {
             throw new BizException("xn0000", "购物币不足");
         }
-
         Account qbbAccount = getRemoteAccount(userId, ECurrency.ZH_QBB);
         if (qbbAmount > qbbAccount.getAmount()) {
             throw new BizException("xn0000", "钱包币不足");
