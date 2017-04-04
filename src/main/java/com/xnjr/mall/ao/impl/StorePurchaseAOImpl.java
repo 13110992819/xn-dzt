@@ -152,6 +152,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
     }
 
     @Override
+    @Transactional
     public Object storePurchaseZH(String userId, String storeCode, Long amount,
             String payType, String ticketCode) {
         Store store = storeBO.getStore(storeCode);
@@ -219,10 +220,10 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         Long gxjlAmount = gxjlAccount.getAmount();
         Account frAccount = accountBO.getRemoteAccount(buyUserId,
             ECurrency.ZH_FRB);
+        Long frAmount = frAccount.getAmount();
         Double gxjl2cnyRate = accountBO.getExchangeRateRemote(ECurrency.ZH_GXZ);
         Double fr2cnyRate = accountBO.getExchangeRateRemote(ECurrency.ZH_FRB);
-        if (gxjlAccount.getAmount() / gxjl2cnyRate + frAccount.getAmount()
-                / fr2cnyRate < amount) {
+        if (gxjlAmount / gxjl2cnyRate + frAmount / fr2cnyRate < amount) {
             throw new BizException("xn0000", "余额不足");
         }
         // 2、计算frResultAmount和gxjlResultAmount
