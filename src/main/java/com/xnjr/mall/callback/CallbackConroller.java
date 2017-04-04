@@ -30,7 +30,7 @@ public class CallbackConroller {
     @Autowired
     IStorePurchaseAO storePurchaseAO;
 
-    @RequestMapping("/pay/callback")
+    @RequestMapping("/thirdPay/callback")
     public synchronized void doCallbackZhpay(HttpServletRequest request,
             HttpServletResponse response) throws IOException {
         boolean isSuccess = Boolean.valueOf(request.getParameter("isSuccess"));
