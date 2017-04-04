@@ -180,10 +180,16 @@ public class OrderAOImpl implements IOrderAO {
         Long cnyAmount = order.getAmount1();// 人民币
         Long gwbAmount = order.getAmount2();// 购物币
         Long qbbAmount = order.getAmount3();// 钱包币
+        String systemCode = order.getSystemCode();
+        String fromUserId = order.getApplyUser();
         // 余额支付
         if (EPayType.ZH_YE.getCode().equals(payType)) {
             // 更新订单支付金额
             orderBO.refreshPaySuccess(order, cnyAmount, gwbAmount, qbbAmount);
+            // 付钱给平台
+            String systemUserId = userBO.getSystemUser(systemCode);
+            accountBO.doZHYEPay(fromUserId, systemUserId, cnyAmount, gwbAmount,
+                qbbAmount, EBizType.AJ_GW);
         } else {
             throw new BizException("xn0000", "支付类型不支持");
         }
