@@ -56,34 +56,6 @@ public interface IAccountBO {
      */
     public Double getExchangeRateRemote(ECurrency currency);
 
-    public void doCgbJfPay(String fromUserId, String toUserId, Long cgbPrice,
-            Long jfPrice, EBizType bizType);
-
-    /**
-     * 城市网积分支付
-     * @param fromUserId
-     * @param toUserId
-     * @param jfAmount
-     * @param bizType 
-     * @create: 2017年3月31日 下午5:34:08 asus
-     * @history:
-     */
-    public void doCSWJfPay(String fromUserId, String toUserId, Long jfAmount,
-            EBizType bizType);
-
-    /**
-     * 微信支付
-     * @param fromUserId
-     * @param toUserId
-     * @param amount
-     * @param bizType
-     * @param fromBizNote
-     * @param toBizNote
-     * @param payGroup
-     * @return 
-     * @create: 2017年3月23日 下午8:34:24 xieyj
-     * @history:
-     */
     public XN002500Res doWeiXinPayRemote(String fromUserId, String toUserId,
             Long amount, EBizType bizType, String fromBizNote,
             String toBizNote, String payGroup);
@@ -92,6 +64,15 @@ public interface IAccountBO {
             Long amount, EBizType bizType, String fromBizNote,
             String toBizNote, String payGroup);
 
+    public void doCgbJfPay(String fromUserId, String toUserId, Long cgbPrice,
+            Long jfPrice, EBizType bizType);
+
     public void checkCgbJf(String userId, Long cgbAmount, Long jfAmount);
+
+    public void doCSWJfPay(String fromUserId, String toUserId, Long jfAmount,
+            EBizType bizType);
+
+    public void doZHYEPay(String fromUserId, String systemUserId,
+            Long cnyAmount, Long gwbAmount, Long qbbAmount, EBizType ajGw);
 
 }
