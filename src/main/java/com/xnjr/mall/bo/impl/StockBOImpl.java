@@ -61,13 +61,34 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
                                 buyUser);
                         }
                         refreshCostAmount(dbStock, twoYu - 500000);
-                    } else {// 且肯定大于0
+                    } else if (twoYu < 500000) {// 且肯定大于0
                         refreshCostAmount(dbStock, twoYu);
+                    } else {// 等于500'
+                        if (remindCount > 0) {
+                            refreshTOeffectStatus(dbStock,
+                                EStockStatus.ING_effect);
+                        } else {
+                            refreshTOeffectStatus(dbStock,
+                                EStockStatus.WILL_effect);
+                        }
                     }
                 }
             }
 
         }
+    }
+
+    private void refreshTOeffectStatus(Stock dbStock, EStockStatus status) {
+        Date now = new Date();
+        dbStock.setCostAmount(500000L);
+        dbStock.setBackCount(0);
+        dbStock.setBackAmount(0L);
+        dbStock.setTodayAmount(0L);
+        dbStock.setNextBackDate(DateUtil.getTomorrowStart(now));
+        dbStock.setCreateDatetime(now);
+        dbStock.setStatus(status.getCode());
+        stockDAO.updateTOeffectStatus(dbStock);
+
     }
 
     @Override
@@ -101,10 +122,17 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
                         generateBFullStock(EStockStatus.WILL_effect, storeOwner);
                     }
                     refreshCostAmount(dbStock, twoYu - 500000);
-                } else {// 且肯定大于0
+                } else if (twoYu < 500000) {// 且肯定大于0
                     refreshCostAmount(dbStock, twoYu);
+                } else {// 等于500'
+                    if (remindCount > 0) {
+                        refreshTOeffectStatus(dbStock, EStockStatus.ING_effect);
+                    } else {
+                        refreshTOeffectStatus(dbStock, EStockStatus.WILL_effect);
+                    }
                 }
             }
+
         }
     }
 

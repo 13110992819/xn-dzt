@@ -10,6 +10,8 @@ public interface IStockDAO extends IBaseDAO<Stock> {
 
     int updateCostAmount(Stock dbStock);
 
+    int updateTOeffectStatus(Stock dbStock);
+
     int awakenStock(Stock data);
 
 }
