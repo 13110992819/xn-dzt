@@ -86,14 +86,17 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
             List<SYSConfig> sysConfigList = sysConfigDAO.selectList(condition);
             if (CollectionUtils.isNotEmpty(sysConfigList)) {
                 sysConfig = sysConfigList.get(0);
+            } else {
+                throw new BizException("xn000000", key + "对应记录不存在");
             }
         }
         return sysConfig;
     }
 
     @Override
-    public SYSConfig getSYSConfig(String key, String systemCode) {
-        return getSYSConfig(key, systemCode, systemCode);
+    public Long getSYSConfig(String key, String systemCode) {
+        return Long.valueOf(getSYSConfig(key, systemCode, systemCode)
+            .getCvalue());
     }
 
 }
