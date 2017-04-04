@@ -148,7 +148,7 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         data.setCostCurrency(ECurrency.ZH_FRB.getCode());
 
         data.setBackInterval(1);
-        data.setProfitAmount(150L);
+        data.setProfitAmount(150000L);
         data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
         data.setBackCount(null);
         data.setBackAmount(null);
@@ -174,7 +174,7 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         data.setCostCurrency(ECurrency.ZH_FRB.getCode());
 
         data.setBackInterval(1);
-        data.setProfitAmount(495L);
+        data.setProfitAmount(495000L);
         data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
         data.setBackCount(null);
         data.setBackAmount(null);
@@ -197,11 +197,11 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         data.setCode(code);
         data.setUserId(storeOwner);
         data.setFundCode(EZhPool.ZHPAY_STORE.getCode());
-        data.setCostAmount(500L);
+        data.setCostAmount(500000L);
         data.setCostCurrency(ECurrency.ZH_FRB.getCode());
 
         data.setBackInterval(1);
-        data.setProfitAmount(150L);
+        data.setProfitAmount(150000L);
         data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
         data.setBackCount(0);
         data.setBackAmount(0L);
@@ -224,11 +224,11 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         data.setCode(code);
         data.setUserId(userId);
         data.setFundCode(EZhPool.ZHPAY_CUSTOMER.getCode());
-        data.setCostAmount(500L);
+        data.setCostAmount(500000L);
         data.setCostCurrency(ECurrency.ZH_FRB.getCode());
 
         data.setBackInterval(1);
-        data.setProfitAmount(495L);
+        data.setProfitAmount(495000L);
         data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
         data.setBackCount(0);
         data.setBackAmount(0L);

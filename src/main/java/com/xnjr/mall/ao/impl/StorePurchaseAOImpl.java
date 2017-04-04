@@ -248,16 +248,16 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         String systemUser = ESysUser.SYS_USER_ZHPAY.getCode();
         if (gxjlResultAmount > 0L) {// 贡献值是给平台的，贡献值等值的(1:1)分润有平台给商家
             accountBO.doTransferAmountRemote(buyUserId, systemUser,
-                ECurrency.ZH_GXZ, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
-                "正汇O2O支付");
+                ECurrency.ZH_GXZ, gxjlResultAmount, EBizType.ZH_O2O,
+                "正汇O2O消费者的贡献值回收", "正汇O2O消费者的贡献值回收");
             accountBO.doTransferAmountRemote(systemUser, storeUserId,
-                ECurrency.ZH_FRB, gxjlResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
-                "正汇O2O支付");
+                ECurrency.ZH_FRB, gxjlResultAmount, EBizType.ZH_O2O,
+                "正汇O2O平台返现分润", "正汇O2O平台返现分润");
         }
         if (frResultAmount > 0L) {
             accountBO.doTransferAmountRemote(buyUserId, storeUserId,
-                ECurrency.ZH_FRB, frResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
-                "正汇O2O支付");
+                ECurrency.ZH_FRB, frResultAmount, EBizType.ZH_O2O,
+                "正汇O2O消费者的分润支付", "正汇O2O消费者的分润支付");
         }
         // 用商家的钱开始分销
         if (isUseTickect) {
