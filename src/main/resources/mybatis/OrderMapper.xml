@@ -313,7 +313,7 @@
 	<update id="update_payGroup" parameterType="order">
 		UPDATE tmall_order
 		SET
-		pay_grop = #{payGrop}
+		pay_group = #{payGroup}
 		WHERE code = #{code}
 	</update>
 	

@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import com.xnjr.mall.bo.IAccountBO;
 import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.common.JsonUtil;
+import com.xnjr.mall.common.PropertiesUtil;
 import com.xnjr.mall.domain.Account;
 import com.xnjr.mall.dto.req.XN002050Req;
 import com.xnjr.mall.dto.req.XN002051Req;
@@ -129,6 +130,7 @@ public class AccountBOImpl implements IAccountBO {
         req.setToBizNote(toBizNote);
         req.setTransAmount(String.valueOf(amount));
         req.setPayGroup(payGroup);
+        req.setBackUrl(PropertiesUtil.Config.PAY_BACK_URL);
         XN002510Res res = BizConnecter.getBizData("002510",
             JsonUtil.Object2Json(req), XN002510Res.class);
         return res;
