@@ -176,7 +176,7 @@ public class OrderAOImpl implements IOrderAO {
         // 余额支付(菜狗币+积分)
         if (EPayType.INTEGRAL.getCode().equals(payType)) {
             // 更新订单支付金额
-            orderBO.refreshPaySuccess(order, 0L, 0L, cgbAmount, jfAmount);
+            orderBO.refreshPaySuccess(order, 0L, 0L, cgbAmount, jfAmount, null);
             // 扣除金额
             if (StringUtils.isNotBlank(order.getToUser())) {// 付给加盟店
                 accountBO.doCgbJfPay(fromUserId, order.getToUser(), cgbAmount,
@@ -207,7 +207,7 @@ public class OrderAOImpl implements IOrderAO {
             Long gxzAmount = order.getPayAmount11();
             // 更新订单支付金额
             orderBO.refreshPaySuccess(order, frbAmount, gxzAmount, gwbAmount,
-                qbbAmount);
+                qbbAmount, null);
             // 付钱给平台
             String systemUserId = userBO.getSystemUser(systemCode);
             accountBO.doZHYEPay(fromUserId, systemUserId, frbAmount, gxzAmount,
@@ -272,7 +272,7 @@ public class OrderAOImpl implements IOrderAO {
         // 现金支付(现金+积分)
         if (EPayType.WEIXIN.getCode().equals(payType)) {
             // 更新订单支付金额
-            orderBO.refreshPaySuccess(order, jeAmount, 0L, 0L, jfAmount);
+            orderBO.refreshPaySuccess(order, jeAmount, 0L, 0L, jfAmount, null);
             // 扣除金额
             String systemUserId = userBO.getSystemUser(systemCode);
             String payGroup = OrderNoGenerater
@@ -568,7 +568,7 @@ public class OrderAOImpl implements IOrderAO {
                 qbbAmount, EBizType.AJ_GW);
             // 更新支付金额
             orderBO.refreshPaySuccess(order, cnyAmount, 0L, gwbAmount,
-                qbbAmount);
+                qbbAmount, null);
             smsOutBO.sentContent(
                 order.getApplyUser(),
                 order.getApplyUser(),

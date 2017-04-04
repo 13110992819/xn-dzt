@@ -292,6 +292,7 @@
 		,pay_amount2 = #{payAmount2}
 		,pay_amount3 = #{payAmount3}
 		,pay_datetime = #{payDatetime}
+		,pay_code = #{payCode}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}
