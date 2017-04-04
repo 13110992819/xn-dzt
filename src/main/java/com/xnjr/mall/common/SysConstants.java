@@ -10,4 +10,8 @@ public class SysConstants {
 
     public static final String MAX_DAY_STOCK = "MAX_DAY_STOCK"; // 每天最多有效分红权个数
 
+    public static final String USER_STOCK_DAYBACK = "USER_STOCK_DAYBACK"; // 用户每个分红权可以领钱金额
+
+    public static final String STORE_STOCK_DAYBACK = "STORE_STOCK_DAYBACK"; // 商家每个分红权可以领钱金额
+
 }

@@ -37,6 +37,9 @@ public class XN002510Req {
     // 支付组号(必填)
     private String payGroup;
 
+    // 回调地址(必填)
+    private String backUrl;
+
     public String getFromUserId() {
         return fromUserId;
     }
@@ -91,6 +94,14 @@ public class XN002510Req {
 
     public void setPayGroup(String payGroup) {
         this.payGroup = payGroup;
+    }
+
+    public String getBackUrl() {
+        return backUrl;
+    }
+
+    public void setBackUrl(String backUrl) {
+        this.backUrl = backUrl;
     }
 
 }

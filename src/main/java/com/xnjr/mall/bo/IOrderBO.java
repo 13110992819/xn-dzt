@@ -28,13 +28,17 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public int deliverXianchang(String code, String updater, String remark);
 
-    public int refreshPaySuccess(Order order, Long payAmount1, Long payAmount2,
-            Long payAmount3);
+    public int refreshPaySuccess(Order order, Long payAmount1,
+            Long payAmount11, Long payAmount2, Long payAmount3);
 
     public int confirm(Order order, String updater, String remark);
 
     public List<Order> queryOrderList(Order data);
 
     public Order getOrder(String code);
+
+    public String addPayGroup(String code);
+
+    public List<Order> queryOrderListByPayGroup(String payGroup);
 
 }
