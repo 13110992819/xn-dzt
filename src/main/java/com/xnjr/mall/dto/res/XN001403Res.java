@@ -1,20 +1,6 @@
-/**
- * @Title UserExt.java 
- * @Package com.std.user.domain 
- * @Description 
- * @author xieyj  
- * @date 2016年9月18日 上午10:45:44 
- * @version V1.0   
- */
 package com.xnjr.mall.dto.res;
 
-/** 
- * 用户扩展表
- * @author: xieyj 
- * @since: 2016年9月18日 上午10:45:44 
- * @history:
- */
-public class XN001401Res {
+public class XN001403Res {
     // 用户编号
     private String userId;
 
@@ -223,4 +209,5 @@ public class XN001401Res {
     public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
+
 }
