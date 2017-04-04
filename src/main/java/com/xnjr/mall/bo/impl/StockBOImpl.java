@@ -8,9 +8,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.bo.IStockBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.common.DateUtil;
+import com.xnjr.mall.common.SysConstants;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.IStockDAO;
 import com.xnjr.mall.domain.Stock;
@@ -26,6 +28,9 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
 
     @Autowired
     private IStockDAO stockDAO;
+
+    @Autowired
+    private ISYSConfigBO sysConfigBO;
 
     @Override
     public void generateCStock(Long frAmount, String buyUser) {
@@ -138,7 +143,9 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
 
     private Long getPeopleRemindCount(String userId) {
         Long remindCount = null;// 一个人还可以生成分红权的个数
-        Long peopleMaxCount = 60L;// 单人最大分红权个数，配置参数
+        // Long peopleMaxCount =60L;
+        Long peopleMaxCount = sysConfigBO.getSYSConfig(
+            SysConstants.MAX_PERSON_STOCK, ESystemCode.ZHPAY.getCode());
         List<Stock> list = this.queryMyStockList(userId);
         if (CollectionUtils.isNotEmpty(list)) {
             remindCount = peopleMaxCount - list.size();
@@ -150,7 +157,10 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
 
     private Long getDayRemindCount(String userId) {
         Long remindCount = null;// 还可以生成“生效中”分红权的个数
-        Long dayMaxCount = 3L;// 当天最大分红权个数，配置参数
+        // Long dayMaxCount = 3L;// 当天最大分红权个数，配置参数
+        Long dayMaxCount = sysConfigBO.getSYSConfig(SysConstants.MAX_DAY_STOCK,
+            ESystemCode.ZHPAY.getCode());
+
         List<Stock> ingList = this.queryIngStockList(userId);
         if (CollectionUtils.isNotEmpty(ingList)) {
             remindCount = dayMaxCount - ingList.size();

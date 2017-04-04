@@ -41,7 +41,7 @@ public interface ISYSConfigBO extends IPaginableBO<SYSConfig> {
      * @create: 2017年3月22日 下午3:45:54 myb858
      * @history:
      */
-    public SYSConfig getSYSConfig(String key, String systemCode);
+    public Long getSYSConfig(String key, String systemCode);
 
     public SYSConfig getSYSConfig(String key, String companyCode,
             String systemCode);
