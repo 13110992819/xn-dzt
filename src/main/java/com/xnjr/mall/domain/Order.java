@@ -79,13 +79,16 @@ public class Order extends ABaseDO {
     // 实际支付时间
     private Date payDatetime;
 
-    // 实际支付金额
+    // 实际支付金额1
     private Long payAmount1;
 
-    // 实际支付金额
+    // 实际支付金额1_1（正汇系统用来记录贡献值）
+    private Long payAmount11;
+
+    // 实际支付金额2
     private Long payAmount2;
 
-    // 实际支付金额
+    // 实际支付金额3
     private Long payAmount3;
 
     // 催货次数
@@ -307,6 +310,14 @@ public class Order extends ABaseDO {
 
     public void setPayAmount1(Long payAmount1) {
         this.payAmount1 = payAmount1;
+    }
+
+    public Long getPayAmount11() {
+        return payAmount11;
+    }
+
+    public void setPayAmount11(Long payAmount11) {
+        this.payAmount11 = payAmount11;
     }
 
     public Long getPayAmount2() {

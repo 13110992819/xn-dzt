@@ -27,18 +27,19 @@
 		<result column="pay_datetime" property="payDatetime" />
 		<result column="pay_amount1" property="payAmount1" />
 		
+		<result column="pay_amount1_1" property="payAmount11" />
 		<result column="pay_amount2" property="payAmount2" />
 		<result column="pay_amount3" property="payAmount3" />
 		<result column="prompt_times" property="promptTimes" />
 		<result column="deliverer" property="deliverer" />
-		<result column="delivery_datetime" property="deliveryDatetime" />
 		
+		<result column="delivery_datetime" property="deliveryDatetime" />
 		<result column="logistics_company" property="logisticsCompany" />
 		<result column="logistics_code" property="logisticsCode" />
 		<result column="pdf" property="pdf" />
 		<result column="updater" property="updater" />
-		<result column="update_datetime" property="updateDatetime" />
 		
+		<result column="update_datetime" property="updateDatetime" />
 		<result column="remark" property="remark" />
 		<result column="company_code" property="companyCode" />
 		<result column="system_code" property="systemCode" />
@@ -131,18 +132,19 @@
 		,t.pay_datetime
 		,t.pay_amount1
 		
+		,t.pay_amount1_1
 		,t.pay_amount2
 		,t.pay_amount3
 		,t.prompt_times
 		,t.deliverer
-		,t.delivery_datetime
 		
+		,t.delivery_datetime
 		,t.logistics_company
 		,t.logistics_code
 		,t.pdf
 		,t.updater
-		,t.update_datetime
 		
+		,t.update_datetime
 		,t.remark
 		,t.company_code
 		,t.system_code
@@ -189,9 +191,11 @@
 		,remark
 		
 		,pay_amount1
+		,pay_amount1_1
 		,pay_amount2
 		,pay_amount3
 		,company_code
+		
 		,system_code
 		)
 		VALUES(
@@ -220,9 +224,11 @@
 		,#{remark}
 		
 		,#{payAmount1}
+		,#{payAmount11}
 		,#{payAmount2}
 		,#{payAmount3}
 		,#{companyCode}
+		
 		,#{systemCode}
 		)
 	</insert>
@@ -282,9 +288,13 @@
 		SET
 		status = #{status}
 		,pay_amount1 = #{payAmount1}
+		,pay_amount1_1 = #{payAmount11}
 		,pay_amount2 = #{payAmount2}
 		,pay_amount3 = #{payAmount3}
 		,pay_datetime = #{payDatetime}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
 		WHERE
 		code = #{code}
 	</update>
@@ -298,6 +308,13 @@
 		,remark = #{remark}
 		WHERE
 		code = #{code}
+	</update>
+	
+	<update id="update_payGroup" parameterType="order">
+		UPDATE tmall_order
+		SET
+		pay_group = #{payGroup}
+		WHERE code = #{code}
 	</update>
 	
 </mapper>
