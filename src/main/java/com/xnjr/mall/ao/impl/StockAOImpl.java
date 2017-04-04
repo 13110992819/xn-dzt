@@ -79,9 +79,11 @@ public class StockAOImpl implements IStockAO {
                 Date nextBackDate = null;
                 Long todayAmount = getTodayAmount(ele);
                 Long backAmount = ele.getBackAmount() + todayAmount;
-                if (backAmount == ele.getProfitAmount()) {// 本分红权返利结束
+                if (backAmount >= ele.getProfitAmount()) {// 本分红权返利结束
                     status = EStockStatus.DONE.getCode();
                     nextBackDate = null;
+                    todayAmount = ele.getProfitAmount() - ele.getBackAmount();
+                    backAmount = ele.getProfitAmount();
                     stockBO.awakenStock(ele.getUserId());
                 } else {
                     status = ele.getStatus();
