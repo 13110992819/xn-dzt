@@ -32,9 +32,9 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         Long peopleRemindCount = getPeopleRemindCount(buyUser);
         if (peopleRemindCount > 0) {
             Long remindCount = getDayRemindCount(buyUser);
-            Long mod = frAmount % 500;
-            Long zheng = (frAmount - mod) / 500;// 整数部分
-            Long yu = frAmount - zheng * 500;// 余数部分
+            Long mod = frAmount % 500000;
+            Long zheng = (frAmount - mod) / 500000;// 整数部分
+            Long yu = frAmount - zheng * 500000;// 余数部分
 
             if (zheng > 0) {// 针对整数,生成整数个分红权
                 for (int i = 0; i < zheng; i++) {
@@ -53,16 +53,24 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
                     generateCPartStock(yu, buyUser);
                 } else {
                     Long twoYu = dbStock.getCostAmount() + yu;
-                    if (twoYu > 500) {// 且肯定小于1000
+                    if (twoYu > 500000) {// 且肯定小于1000
                         if (remindCount > 0) {
                             generateCFullStock(EStockStatus.ING_effect, buyUser);
                         } else {
                             generateCFullStock(EStockStatus.WILL_effect,
                                 buyUser);
                         }
-                        refreshCostAmount(dbStock, twoYu - 500);
-                    } else {// 且肯定大于0
+                        refreshCostAmount(dbStock, twoYu - 500000);
+                    } else if (twoYu < 500000) {// 且肯定大于0
                         refreshCostAmount(dbStock, twoYu);
+                    } else {// 等于500'
+                        if (remindCount > 0) {
+                            refreshTOeffectStatus(dbStock,
+                                EStockStatus.ING_effect);
+                        } else {
+                            refreshTOeffectStatus(dbStock,
+                                EStockStatus.WILL_effect);
+                        }
                     }
                 }
             }
@@ -70,12 +78,25 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         }
     }
 
+    private void refreshTOeffectStatus(Stock dbStock, EStockStatus status) {
+        Date now = new Date();
+        dbStock.setCostAmount(500000L);
+        dbStock.setBackCount(0);
+        dbStock.setBackAmount(0L);
+        dbStock.setTodayAmount(0L);
+        dbStock.setNextBackDate(DateUtil.getTomorrowStart(now));
+        dbStock.setCreateDatetime(now);
+        dbStock.setStatus(status.getCode());
+        stockDAO.updateTOeffectStatus(dbStock);
+
+    }
+
     @Override
     public void generateBStock(Long amount, String storeOwner) {
         Long remindCount = getDayRemindCount(storeOwner);
-        Long mod = amount % 500;
-        Long zheng = (amount - mod) / 500;// 整数部分
-        Long yu = amount - zheng * 500;// 余数部分
+        Long mod = amount % 500000;
+        Long zheng = (amount - mod) / 500000;// 整数部分
+        Long yu = amount - zheng * 500000;// 余数部分
 
         if (zheng > 0) {// 针对整数,生成整数个分红权
             for (int i = 0; i < zheng; i++) {
@@ -94,17 +115,24 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
                 generateBPartStock(yu, storeOwner);
             } else {
                 Long twoYu = dbStock.getCostAmount() + yu;
-                if (twoYu > 500) {// 且肯定小于1000
+                if (twoYu > 500000) {// 且肯定小于1000
                     if (remindCount > 0) {
                         generateBFullStock(EStockStatus.ING_effect, storeOwner);
                     } else {
                         generateBFullStock(EStockStatus.WILL_effect, storeOwner);
                     }
-                    refreshCostAmount(dbStock, twoYu - 500);
-                } else {// 且肯定大于0
+                    refreshCostAmount(dbStock, twoYu - 500000);
+                } else if (twoYu < 500000) {// 且肯定大于0
                     refreshCostAmount(dbStock, twoYu);
+                } else {// 等于500'
+                    if (remindCount > 0) {
+                        refreshTOeffectStatus(dbStock, EStockStatus.ING_effect);
+                    } else {
+                        refreshTOeffectStatus(dbStock, EStockStatus.WILL_effect);
+                    }
                 }
             }
+
         }
     }
 
@@ -148,7 +176,7 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         data.setCostCurrency(ECurrency.ZH_FRB.getCode());
 
         data.setBackInterval(1);
-        data.setProfitAmount(150L);
+        data.setProfitAmount(150000L);
         data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
         data.setBackCount(null);
         data.setBackAmount(null);
@@ -174,7 +202,7 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         data.setCostCurrency(ECurrency.ZH_FRB.getCode());
 
         data.setBackInterval(1);
-        data.setProfitAmount(495L);
+        data.setProfitAmount(495000L);
         data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
         data.setBackCount(null);
         data.setBackAmount(null);
@@ -197,11 +225,11 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         data.setCode(code);
         data.setUserId(storeOwner);
         data.setFundCode(EZhPool.ZHPAY_STORE.getCode());
-        data.setCostAmount(500L);
+        data.setCostAmount(500000L);
         data.setCostCurrency(ECurrency.ZH_FRB.getCode());
 
         data.setBackInterval(1);
-        data.setProfitAmount(150L);
+        data.setProfitAmount(150000L);
         data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
         data.setBackCount(0);
         data.setBackAmount(0L);
@@ -224,11 +252,11 @@ public class StockBOImpl extends PaginableBOImpl<Stock> implements IStockBO {
         data.setCode(code);
         data.setUserId(userId);
         data.setFundCode(EZhPool.ZHPAY_CUSTOMER.getCode());
-        data.setCostAmount(500L);
+        data.setCostAmount(500000L);
         data.setCostCurrency(ECurrency.ZH_FRB.getCode());
 
         data.setBackInterval(1);
-        data.setProfitAmount(495L);
+        data.setProfitAmount(495000L);
         data.setProfitCurrency(ECurrency.ZH_FRB.getCode());
         data.setBackCount(0);
         data.setBackAmount(0L);

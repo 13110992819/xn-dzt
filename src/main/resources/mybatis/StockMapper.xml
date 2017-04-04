@@ -158,6 +158,20 @@
 		cost_amount = #{costAmount}
 		WHERE code = #{code}
 	</update>
+	
+	<update id="update_TOeffectStatus" parameterType="stock">
+		UPDATE tfund_stock
+		SET
+		cost_amount = #{costAmount}
+		,back_count = #{backCount}
+		,back_amount = #{backAmount}
+		,today_amount = #{todayAmount}
+		,next_back_date = #{nextBackDate}
+		,create_datetime = #{createDatetime}
+		,status = #{status}
+		WHERE code = #{code}
+	</update>
+	
 	<update id="update_awakenStock" parameterType="stock">
 		UPDATE tfund_stock
 		SET

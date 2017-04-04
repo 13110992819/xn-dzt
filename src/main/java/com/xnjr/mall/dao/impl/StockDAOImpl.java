@@ -56,6 +56,11 @@ public class StockDAOImpl extends AMybatisTemplate implements IStockDAO {
     }
 
     @Override
+    public int updateTOeffectStatus(Stock data) {
+        return super.update(NAMESPACE.concat("update_TOeffectStatus"), data);
+    }
+
+    @Override
     public int awakenStock(Stock data) {
         return super.update(NAMESPACE.concat("update_awakenStock"), data);
     }
