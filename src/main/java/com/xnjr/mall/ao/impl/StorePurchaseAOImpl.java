@@ -250,7 +250,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         // 落地本地系统消费记录
         String code = storePurchaseBO.storePurchaseZHYE(user, store, amount);
         // ---资金划拨开始-----
-        // 商家流水
+        // 会员扣分润和贡献值，商家收分润，先全额收掉。
         String systemUser = ESysUser.SYS_USER_ZHPAY.getCode();
         if (gxjlResultAmount > 0L) {// 贡献值是给平台的，贡献值等值的(1:1)分润有平台给商家
             accountBO.doTransferAmountRemote(buyUserId, systemUser,
@@ -265,6 +265,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
                 ECurrency.ZH_FRB, frResultAmount, EBizType.ZH_O2O, "正汇O2O支付",
                 "正汇O2O支付");
         }
+        // 用商家的钱开始分销
         if (isUseTickect) {// 使用折扣券只给公司1%
             Long X1 = Double.valueOf(amount * 0.01).longValue();
             if (X1 > 0) {
