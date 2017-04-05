@@ -36,6 +36,7 @@ import com.xnjr.mall.domain.SYSConfig;
 import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EOrderStatus;
 import com.xnjr.mall.enums.EOrderType;
+import com.xnjr.mall.enums.ESystemCode;
 import com.xnjr.mall.exception.BizException;
 
 /** 
@@ -213,12 +214,14 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
             // 落地订单产品关联信息
             saveProductOrder(order.getCode(), product, cart.getQuantity());
         }
-        // 计算订单运费(菜狗暂时不考虑运费)
-        // Long yunfei = totalYunfei(pojo.getSystemCode(),
-        // pojo.getCompanyCode(),
-        // amount1);
+        // 计算订单运费（菜狗暂时不考虑运费）
+        Long yunfei = 0L;
+        if (ESystemCode.ZHPAY.getCode().equals(pojo.getSystemCode())) {
+            yunfei = totalYunfei(pojo.getSystemCode(), pojo.getCompanyCode(),
+                amount1);
+        }
         // 计算订单金额
-        order = getOrder(order, amount1, amount2, amount3, 0L);
+        order = getOrder(order, amount1, amount2, amount3, yunfei);
         // 落地订单
         orderDAO.insert(order);
         return order.getCode();
