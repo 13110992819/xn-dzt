@@ -361,7 +361,7 @@ public class StoreAOImpl implements IStoreAO {
     @Override
     public Paginable<Store> queryStorePageOss(int start, int limit,
             Store condition) {
-        Paginable<Store> page = storeBO.getPaginable(start, limit, condition);
+        Paginable<Store> page = storeBO.queryOssPage(start, limit, condition);
         List<Store> list = page.getList();
         if (CollectionUtils.isNotEmpty(list)) {
             for (Store ele : list) {

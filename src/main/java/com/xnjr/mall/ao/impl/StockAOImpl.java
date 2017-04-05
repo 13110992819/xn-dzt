@@ -18,6 +18,8 @@ import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.SysConstants;
+import com.xnjr.mall.domain.Account;
+import com.xnjr.mall.domain.SYSConfig;
 import com.xnjr.mall.domain.Stock;
 import com.xnjr.mall.dto.res.XN808419Res;
 import com.xnjr.mall.enums.EBizType;
@@ -74,20 +76,29 @@ public class StockAOImpl implements IStockAO {
         List<Stock> list = stockBO.queryStockList(condition);
         if (CollectionUtils.isNotEmpty(list)) {
             for (Stock ele : list) {
+                Account fund = accountBO.getRemoteAccount(ele.getFundCode(),
+                    ECurrency.ZH_FRB);
                 // 更新返还金额
                 String status = null;
                 Date nextBackDate = null;
                 Long todayAmount = getTodayAmount(ele);
                 Long backAmount = ele.getBackAmount() + todayAmount;
-                if (backAmount == ele.getProfitAmount()) {// 本分红权返利结束
+                if (backAmount >= ele.getProfitAmount()) {// 本分红权返利结束
                     status = EStockStatus.DONE.getCode();
                     nextBackDate = null;
-                    stockBO.awakenStock(ele.getUserId());
+                    todayAmount = ele.getProfitAmount() - ele.getBackAmount();
+                    backAmount = ele.getProfitAmount();
                 } else {
                     status = ele.getStatus();
                     nextBackDate = DateUtil.getRelativeDate(
                         DateUtil.getTodayStart(),
                         ele.getBackInterval() * 24 * 60 * 60);
+                }
+                if (fund.getAmount() < todayAmount) {// 池不够钱时
+                    continue;
+                }
+                if (EStockStatus.DONE.getCode().equals(status)) {
+                    stockBO.awakenStock(ele.getUserId());
                 }
                 // 更新股权
                 ele.setBackCount(ele.getBackCount() + 1);
@@ -110,14 +121,16 @@ public class StockAOImpl implements IStockAO {
     private Long getTodayAmount(Stock ele) {
         Long todayAmount = null;
         if (EZhPool.ZHPAY_STORE.getCode().equals(ele.getFundCode())) {
-            todayAmount = sysConfigBO.getSYSConfig(
+            SYSConfig config = sysConfigBO.getSYSConfig(
                 SysConstants.STORE_STOCK_DAYBACK, ESystemCode.ZHPAY.getCode());
+            todayAmount = Long.valueOf(config.getCvalue());
         }
         if (EZhPool.ZHPAY_CUSTOMER.getCode().equals(ele.getFundCode())) {
-            todayAmount = sysConfigBO.getSYSConfig(
+            SYSConfig config = sysConfigBO.getSYSConfig(
                 SysConstants.USER_STOCK_DAYBACK, ESystemCode.ZHPAY.getCode());
+            todayAmount = Long.valueOf(config.getCvalue());
         }
-        return todayAmount;
+        return todayAmount * 1000;
     }
 
     @Override

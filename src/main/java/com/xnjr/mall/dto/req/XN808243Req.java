@@ -1,6 +1,6 @@
 package com.xnjr.mall.dto.req;
 
-public class XN808242Req {
+public class XN808243Req {
     // 用户编号（必填）
     private String userId;
 
@@ -10,7 +10,7 @@ public class XN808242Req {
     // 消费金额（必填）
     private String amount;
 
-    // 支付类型（必填）:菜狗币支付，目前仅支持菜狗币余额支付
+    // 支付类型（必填）:余额支付/微信支付
     private String payType;
 
     public String getUserId() {
