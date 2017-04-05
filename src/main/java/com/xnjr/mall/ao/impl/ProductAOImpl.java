@@ -53,14 +53,14 @@ public class ProductAOImpl implements IProductAO {
     @Override
     public String addProduct(XN808010Req req) {
         // 根据小类获取大类
-        Category category = categoryBO.getCategory(req.getCategory());
+        Category category = categoryBO.getCategory(req.getType());
 
         Product data = new Product();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.PRODUCT
             .getCode());
         data.setCode(code);
         data.setCategory(category.getParentCode());
-        data.setType(req.getCategory());
+        data.setType(req.getType());
         data.setName(req.getName());
         data.setSlogan(req.getSlogan());
 
