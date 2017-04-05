@@ -59,6 +59,33 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
     }
 
     @Override
+    public String storePurchaseCGrmbjf(User user, Store store, Long amount,
+            Long payRMB, Long payJF) {
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
+            .getCode());
+        Date now = new Date();
+        StorePurchase data = new StorePurchase();
+        data.setCode(code);
+        data.setUserId(user.getUserId());
+        data.setStoreCode(store.getCode());
+        data.setPrice(amount);
+
+        data.setCreateDatetime(now);
+        data.setStatus(EStorePurchaseStatus.PAYED.getCode());
+        data.setPayType(EPayType.CG_YE.getCode());
+
+        data.setPayAmount1(payRMB);
+        data.setPayAmount3(payJF);
+
+        data.setPayDatetime(now);
+        data.setRemark("人民币积分组合支付O2O消费");
+        data.setSystemCode(store.getSystemCode());
+        data.setCompanyCode(store.getCompanyCode());
+        storePurchaseDAO.insert(data);
+        return code;
+    }
+
+    @Override
     public String storePurchaseCGWX(User user, Store store, Long amount, Long jf) {
         String payGroup = OrderNoGenerater
             .generateM(EGeneratePrefix.STORE_PURCHASW.getCode());
@@ -198,4 +225,5 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
         storePurchase.setPayDatetime(new Date());
         storePurchaseDAO.updatePaySuccess(storePurchase);
     }
+
 }

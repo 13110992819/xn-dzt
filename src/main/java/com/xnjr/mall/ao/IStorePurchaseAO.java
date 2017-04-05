@@ -10,8 +10,11 @@ public interface IStorePurchaseAO {
     public Object storePurchaseZH(String userId, String storeCode, Long amount,
             String payType, String ticketCode);
 
-    public Object storePurchaseCG(String userId, String storeCode, Long amount,
-            String payType, String ticketCode);
+    public Object storePurchaseCGB(String userId, String storeCode,
+            Long amount, String payType);
+
+    public Object storePurchaseRMBJF(String userId, String storeCode,
+            Long long1, String payType);
 
     public void paySuccess(String payGroup, String payCode, Long payAmount);
 
@@ -19,4 +22,5 @@ public interface IStorePurchaseAO {
             int limit, StorePurchase condition);
 
     public XN808248Res getLasterStorePurchase(String storeCode);
+
 }
