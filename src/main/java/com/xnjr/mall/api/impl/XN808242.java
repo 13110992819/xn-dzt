@@ -33,7 +33,6 @@ public class XN808242 extends AProcessor {
         req = JsonUtil.json2Bean(inputparams, XN808242Req.class);
         StringValidater.validateBlank(req.getUserId(), req.getStoreCode(),
             req.getAmount(), req.getAmount());
-
     }
 
 }
