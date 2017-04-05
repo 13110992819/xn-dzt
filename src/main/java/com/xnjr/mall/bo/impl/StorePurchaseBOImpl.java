@@ -16,6 +16,7 @@ import com.xnjr.mall.domain.StorePurchase;
 import com.xnjr.mall.domain.User;
 import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EGeneratePrefix;
+import com.xnjr.mall.enums.EO2OPayType;
 import com.xnjr.mall.enums.EPayType;
 import com.xnjr.mall.enums.EStorePurchaseStatus;
 import com.xnjr.mall.exception.BizException;
@@ -47,7 +48,7 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
         data.setBackCurrency(ECurrency.CNY.getCode());
         data.setCreateDatetime(now);
         data.setStatus(EStorePurchaseStatus.PAYED.getCode());
-        data.setPayType(EPayType.INTEGRAL.getCode());
+        data.setPayType(EO2OPayType.CG_O2O_CGB.getCode());
 
         data.setPayAmount2(price);
         data.setPayDatetime(now);
@@ -72,7 +73,7 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
 
         data.setCreateDatetime(now);
         data.setStatus(EStorePurchaseStatus.PAYED.getCode());
-        data.setPayType(EPayType.CG_YE.getCode());
+        data.setPayType(EO2OPayType.CG_02O_RMBJF.getCode());
 
         data.setPayAmount1(payRMB);
         data.setPayAmount3(payJF);
@@ -99,7 +100,7 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
 
         data.setCreateDatetime(now);
         data.setStatus(EStorePurchaseStatus.PAYED.getCode());
-        data.setPayType(EPayType.WEIXIN.getCode());
+        data.setPayType(EO2OPayType.WEIXIN.getCode());
         data.setPayGroup(payGroup);
 
         data.setPayAmount2(jf);
@@ -112,34 +113,54 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
     }
 
     @Override
-    public String storePurchaseZHWX(User user, Store store, Long amount) {
-        /*
-         * // 落地本地系统消费记录，状态为未支付 StorePurchase data = new StorePurchase();
-         * data.setUserId(userId); data.setStoreCode(storeCode);
-         * data.setPayType(EPayType.WEIXIN.getCode());
-         * data.setPurchaseAmount(amount); data.setAmount1(yhAmount);
-         * data.setStatus(EStorePurchaseStatus.TO_PAY.getCode());
-         * data.setSystemCode(systemCode); data.setRemark(remark);
-         * storePurchaseBO.saveStorePurchase(data);
-         */
-        return null;
-    }
-
-    @Override
-    public String storePurchaseZHZFB(User user, Store store, Long amount) {
+    public String storePurchaseZHWX(User user, Store store, Long amount,
+            String ticketCode) {
         String payGroup = OrderNoGenerater
             .generateM(EGeneratePrefix.STORE_PURCHASW.getCode());
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
+            .getCode());
         Date now = new Date();
+        // 落地本地系统消费记录，状态为未支付
         StorePurchase data = new StorePurchase();
-        data.setCode(OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
-            .getCode()));
+        data.setCode(code);
         data.setUserId(user.getUserId());
         data.setStoreCode(store.getCode());
+        data.setTicketCode(ticketCode);
         data.setPrice(amount);
 
         data.setCreateDatetime(now);
         data.setStatus(EStorePurchaseStatus.TO_PAY.getCode());
-        data.setPayType(EPayType.ALIPAY.getCode());
+        data.setPayType(EO2OPayType.WEIXIN.getCode());
+
+        data.setPayGroup(payGroup);
+
+        data.setRemark("微信支付O2O消费");
+        data.setSystemCode(store.getSystemCode());
+        data.setCompanyCode(store.getCompanyCode());
+        storePurchaseDAO.insert(data);
+        return payGroup;
+    }
+
+    @Override
+    public String storePurchaseZHZFB(User user, Store store, Long amount,
+            String ticketCode) {
+        String payGroup = OrderNoGenerater
+            .generateM(EGeneratePrefix.STORE_PURCHASW.getCode());
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
+            .getCode());
+        Date now = new Date();
+        // 落地本地系统消费记录，状态为未支付
+        StorePurchase data = new StorePurchase();
+        data.setCode(code);
+        data.setUserId(user.getUserId());
+        data.setStoreCode(store.getCode());
+        data.setTicketCode(ticketCode);
+        data.setPrice(amount);
+
+        data.setCreateDatetime(now);
+        data.setStatus(EStorePurchaseStatus.TO_PAY.getCode());
+        data.setPayType(EO2OPayType.ALIPAY.getCode());
+
         data.setPayGroup(payGroup);
 
         data.setRemark("支付宝支付O2O消费");
@@ -164,7 +185,7 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
 
         data.setCreateDatetime(now);
         data.setStatus(EStorePurchaseStatus.TO_PAY.getCode());
-        data.setPayType(EPayType.ZH_YE.getCode());
+        data.setPayType(EO2OPayType.ZH_YE.getCode());
 
         data.setPayAmount2(frResultAmount);
         data.setPayAmount3(gxjlResultAmount);

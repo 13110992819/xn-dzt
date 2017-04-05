@@ -17,9 +17,11 @@ public interface IStorePurchaseBO extends IPaginableBO<StorePurchase> {
 
     public String storePurchaseCGWX(User user, Store store, Long amount, Long jf);
 
-    public String storePurchaseZHWX(User user, Store store, Long amount);
+    public String storePurchaseZHWX(User user, Store store, Long amount,
+            String ticketCode);
 
-    public String storePurchaseZHZFB(User user, Store store, Long amount);
+    public String storePurchaseZHZFB(User user, Store store, Long amount,
+            String ticketCode);
 
     public String storePurchaseZHYE(User user, Store store, String ticketCode,
             Long amount, Long frResultAmount, Long gxjlResultAmount);
