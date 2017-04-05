@@ -1,5 +1,7 @@
 package com.xnjr.mall.bo.impl;
 
+import java.math.BigDecimal;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,7 +110,7 @@ public class DistributeBOImpl implements IDistributeBO {
         String storeUserId = store.getOwner();
         // 21、买单用户的推荐人B可得到分润X1
         User bUser = userBO.getRemoteUser(user.getUserReferee());
-        Long X1 = Double.valueOf(storeFrAmount * 0.008).longValue();
+        Long X1 = mul(storeFrAmount, 0.008);
         if (X1 > 0 && bUser != null) {
             accountBO.doTransferAmountRemote(storeUserId, bUser.getUserId(),
                 ECurrency.ZH_FRB, X1, EBizType.ZH_O2O, "正汇O2O一级推荐人分成",
@@ -116,14 +118,14 @@ public class DistributeBOImpl implements IDistributeBO {
         }
         // 22、B的推荐人A可得到分润X2
         User aUser = userBO.getRemoteUser(bUser.getUserReferee());
-        Long X2 = Double.valueOf(storeFrAmount * 0.008).longValue();
+        Long X2 = mul(storeFrAmount, 0.008);
         if (X2 > 0 && aUser != null) {
             accountBO.doTransferAmountRemote(storeUserId, aUser.getUserId(),
                 ECurrency.ZH_FRB, X2, EBizType.ZH_O2O, "正汇O2O二级推荐人分成",
                 "正汇O2O二级推荐人分成");
         }
         // 23、店铺推荐人可得到分润X3 —— 消费额里面扣除
-        Long X3 = Double.valueOf(storeFrAmount * 0.009).longValue();
+        Long X3 = mul(storeFrAmount, 0.009);
         User storeReferee = userBO.getRemoteUser(store.getUserReferee());
         if (X3 > 0 && storeReferee != null) {
             accountBO.doTransferAmountRemote(storeUserId,
@@ -131,7 +133,7 @@ public class DistributeBOImpl implements IDistributeBO {
                 EBizType.ZH_O2O, "正汇O2O业务员分成", "正汇O2O业务员分成");
         }
         // 24、店铺所在县得到分瑞X4—— 消费额里面扣除
-        Long X4 = Double.valueOf(storeFrAmount * 0.015).longValue();
+        Long X4 = mul(storeFrAmount, 0.015);
         User areaUser = userBO.getPartner(store.getProvince(), store.getCity(),
             store.getArea(), EUserKind.Partner);
         if (X4 > 0 && areaUser != null) {
@@ -141,7 +143,7 @@ public class DistributeBOImpl implements IDistributeBO {
 
         }
         // 25、公司X5—— 消费额里面扣除
-        Long X5 = Double.valueOf(storeFrAmount * 0.01).longValue();
+        Long X5 = mul(storeFrAmount, 0.01);
         if (X5 > 0) {
             accountBO
                 .doTransferAmountRemote(storeUserId, systemUser,
@@ -149,7 +151,7 @@ public class DistributeBOImpl implements IDistributeBO {
                     "正汇O2O公司分成");
         }
         // 31、进基金池Y1
-        Long Y1 = Double.valueOf(storeFrAmount * 0.01).longValue();
+        Long Y1 = mul(storeFrAmount, 0.01);
         String poolUser = EZhPool.ZHPAY_JJ.getCode();
         if (Y1 > 0 && StringUtils.isNotBlank(poolUser)) {
             accountBO
@@ -159,7 +161,7 @@ public class DistributeBOImpl implements IDistributeBO {
         }
 
         // 32、进商家池Y2
-        Long Y2 = Double.valueOf(storeFrAmount * 0.04).longValue();
+        Long Y2 = mul(storeFrAmount, 0.04);
         poolUser = EZhPool.ZHPAY_STORE.getCode();
         if (Y2 > 0 && StringUtils.isNotBlank(poolUser)) {
             accountBO
@@ -169,7 +171,7 @@ public class DistributeBOImpl implements IDistributeBO {
         }
 
         // 31、进基金池Y3
-        Long Y3 = Double.valueOf(storeFrAmount * 0.15).longValue();
+        Long Y3 = mul(storeFrAmount, 0.15);
         poolUser = EZhPool.ZHPAY_CUSTOMER.getCode();
         if (Y3 > 0 && StringUtils.isNotBlank(poolUser)) {
             accountBO.doTransferAmountRemote(storeUserId, poolUser,
@@ -180,6 +182,13 @@ public class DistributeBOImpl implements IDistributeBO {
         stockBO.generateBStock(storeFrAmount, storeUserId);
         // 形成C端分红权处理
         stockBO.generateCStock(userFrAmount, buyUserId);
+
+    }
+
+    public static Long mul(Long a, double b) {
+        BigDecimal b1 = new BigDecimal(Double.toString(a));
+        BigDecimal b2 = new BigDecimal(Double.toString(b));
+        return b1.multiply(b2).longValue();
 
     }
 

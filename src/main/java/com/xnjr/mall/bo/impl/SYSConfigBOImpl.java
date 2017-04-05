@@ -94,9 +94,7 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
     }
 
     @Override
-    public Long getSYSConfig(String key, String systemCode) {
-        return Long.valueOf(getSYSConfig(key, systemCode, systemCode)
-            .getCvalue());
+    public SYSConfig getSYSConfig(String key, String systemCode) {
+        return getSYSConfig(key, systemCode, systemCode);
     }
-
 }
