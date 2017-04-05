@@ -8,6 +8,8 @@ INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`r
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','MAX_PERSON_STOCK','5','',now(),NULL,'CD-CZH000001','CD-CZH000001');
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','STORE_STOCK_DAYBACK','200000','',now(),NULL,'CD-CZH000001','CD-CZH000001');
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','USER_STOCK_DAYBACK','7','',now(),NULL,'CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','SP_YUNFEI','10','',now(),'订单运费，全系统统一','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','SP_BYJE','100','',now(),'包邮金额，订单人民币金额大于该值，运费为0','CD-CZH000001','CD-CZH000001');
 
 /*
 -- Query: SELECT `code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code` FROM std_mall_200.tmall_category where system_code = 'CD-CZH000001'
