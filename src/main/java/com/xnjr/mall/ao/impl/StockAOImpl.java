@@ -18,6 +18,7 @@ import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.SysConstants;
+import com.xnjr.mall.domain.Account;
 import com.xnjr.mall.domain.SYSConfig;
 import com.xnjr.mall.domain.Stock;
 import com.xnjr.mall.dto.res.XN808419Res;
@@ -75,6 +76,8 @@ public class StockAOImpl implements IStockAO {
         List<Stock> list = stockBO.queryStockList(condition);
         if (CollectionUtils.isNotEmpty(list)) {
             for (Stock ele : list) {
+                Account fund = accountBO.getRemoteAccount(ele.getFundCode(),
+                    ECurrency.ZH_FRB);
                 // 更新返还金额
                 String status = null;
                 Date nextBackDate = null;
@@ -85,12 +88,17 @@ public class StockAOImpl implements IStockAO {
                     nextBackDate = null;
                     todayAmount = ele.getProfitAmount() - ele.getBackAmount();
                     backAmount = ele.getProfitAmount();
-                    stockBO.awakenStock(ele.getUserId());
                 } else {
                     status = ele.getStatus();
                     nextBackDate = DateUtil.getRelativeDate(
                         DateUtil.getTodayStart(),
                         ele.getBackInterval() * 24 * 60 * 60);
+                }
+                if (fund.getAmount() < todayAmount) {// 池不够钱时
+                    continue;
+                }
+                if (EStockStatus.DONE.getCode().equals(status)) {
+                    stockBO.awakenStock(ele.getUserId());
                 }
                 // 更新股权
                 ele.setBackCount(ele.getBackCount() + 1);
