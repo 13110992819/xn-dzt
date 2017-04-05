@@ -1,6 +1,3 @@
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('R','cny2cgb','1.02','admin',now(),'人民币兑菜狗币,100个人民币兑换102菜狗币','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('R','cny2jf','1.6','admin',now(),'人民币兑积分币,100个人民币兑换160菜狗币','CD-CCG000007','CD-CCG000007');
-
 /*
 -- Query: SELECT `type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code` FROM tsys_dict where system_code = 'CD-CCG000007'
 LIMIT 0, 10000
@@ -77,3 +74,11 @@ INSERT INTO `tsys_dict` (`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_d
 INSERT INTO `tsys_dict` (`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','store_purchase_status','0','待支付','admin',now(),'','CD-CCG000007','CD-CCG000007');
 INSERT INTO `tsys_dict` (`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','store_purchase_status','1','已支付','admin',now(),'','CD-CCG000007','CD-CCG000007');
 INSERT INTO `tsys_dict` (`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','store_purchase_status','2','已取消','admin',now(),'','CD-CCG000007','CD-CCG000007');
+
+/*
+-- Query: SELECT * FROM std_mall_200.tduijie_caigopool
+LIMIT 0, 10000
+
+-- Date: 2017-04-05 23:37
+*/
+INSERT INTO `tduijie_caigopool` (`code`,`name`,`type`,`rate`,`amount`,`used_amount`,`add_user`,`add_datetime`,`remark`,`company_code`,`system_code`) VALUES ('678909876','123','1',2.10000000,9343,2000,'caigo','2017-04-01 17:36:02','','CD-CCG000007','CD-CCG000007');

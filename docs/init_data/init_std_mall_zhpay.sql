@@ -34,7 +34,7 @@ LIMIT 0, 10000
 INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('1','2','0','美食','1_ms.png',1,'1','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('2','2','0','便利店','2_bld.png',2,'1','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('3','2','0','美发','3_mf.png',3,'1','CD-CZH000001','CD-CZH000001');
-INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('4','2','0','KTV','4_ktv.png',4,'2','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('4','2','0','KTV','4_ktv.png',4,'1','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('5','2','0','足浴','5_zy.png',5,'1','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('6','2','0','酒店','6_jd.png',6,'1','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tmall_category` (`code`,`type`,`parent_code`,`name`,`pic`,`order_no`,`status`,`company_code`,`system_code`) VALUES ('7','2','0','亲子','7_qz.png',7,'1','CD-CZH000001','CD-CZH000001');
