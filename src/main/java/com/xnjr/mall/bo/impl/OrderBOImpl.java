@@ -217,7 +217,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         // 计算订单运费（菜狗暂时不考虑运费）
         Long yunfei = 0L;
         if (ESystemCode.ZHPAY.getCode().equals(pojo.getSystemCode())) {
-            yunfei = totalYunfei(pojo.getSystemCode(), pojo.getCompanyCode(),
+            yunfei = totalYunfei(pojo.getSystemCode(), pojo.getSystemCode(),
                 amount1);
         }
         // 计算订单金额

@@ -408,6 +408,11 @@ public class OrderAOImpl implements IOrderAO {
         if (page != null && CollectionUtils.isNotEmpty(page.getList())) {
             for (Order order : page.getList()) {
                 order.setUser(userBO.getRemoteUser(order.getApplyUser()));
+                ProductOrder imCondition = new ProductOrder();
+                imCondition.setOrderCode(order.getCode());
+                List<ProductOrder> productOrderList = productOrderBO
+                    .queryProductOrderList(imCondition);
+                order.setProductOrderList(productOrderList);
             }
         }
         return page;
