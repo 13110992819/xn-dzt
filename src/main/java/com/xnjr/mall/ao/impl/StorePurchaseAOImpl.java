@@ -69,23 +69,29 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
 
     @Override
     public String storePurchaseCGB(String userId, String storeCode,
-            Long amount, String payType) {
+            Long cgbTotalAmount, String payType) {
+        User user = userBO.getRemoteUser(userId);
         Store store = storeBO.getStore(storeCode);
         if (!EStoreStatus.ON_OPEN.getCode().equals(store.getStatus())) {
             throw new BizException("xn0000", "店铺不处于可消费状态");
         }
-        User user = userBO.getRemoteUser(userId);
+        Account cgbAccount = accountBO.getRemoteAccount(user.getUserId(),
+            ECurrency.CG_CGB);
+        if (cgbAccount.getAmount() < cgbTotalAmount) {
+            throw new BizException("xn0000", "菜狗币账户余额不足");
+        }
         // 计算返点人民币
-        Long fdAmount = Double.valueOf(amount * store.getRate3()).longValue();
+        Long fdAmount = Double.valueOf(cgbTotalAmount * store.getRate3())
+            .longValue();
         // 落地本地系统消费记录
-        String code = storePurchaseBO.storePurchaseCGcgb(user, store, amount,
-            fdAmount);
+        String code = storePurchaseBO.storePurchaseCGcgb(user, store,
+            cgbTotalAmount, fdAmount);
         // 资金划转开始--------------
         // 菜狗币从消费者回收至平台，
         String systemUser = ESysUser.SYS_USER_CAIGO.getCode();
         accountBO.doTransferAmountRemote(user.getUserId(), systemUser,
-            ECurrency.CG_CGB, amount, EBizType.CG_O2O_CGB, "O2O消费使用菜狗币",
-            "O2O消费回收菜狗币");
+            ECurrency.CG_CGB, cgbTotalAmount, EBizType.CG_O2O_CGB,
+            "O2O消费使用菜狗币", "O2O消费回收菜狗币");
         // 商家从平台处拿到返点（人民币）
         accountBO.doTransferAmountRemote(systemUser, store.getOwner(),
             ECurrency.CNY, fdAmount, EBizType.CG_O2O_CGGFD, "O2O消费支付返点人民币",
@@ -96,26 +102,26 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
 
     @Override
     public Object storePurchaseRMBJF(String userId, String storeCode,
-            Long amount, String payType) {
+            Long rmbTotalAmount, String payType) {
+        User user = userBO.getRemoteUser(userId);
         Store store = storeBO.getStore(storeCode);
         if (!EStoreStatus.ON_OPEN.getCode().equals(store.getStatus())) {
             throw new BizException("xn0000", "店铺不处于可消费状态");
         }
-        User user = userBO.getRemoteUser(userId);
         if (EPayType.CG_YE.getCode().equals(payType)) {
-            return storePurchaseCGYE(user, store, amount);
+            return storePurchaseCGYE(user, store, rmbTotalAmount);
         } else if (EPayType.WEIXIN.getCode().equals(payType)) {
-            return storePurchaseCGWX(user, store, amount);
+            return storePurchaseCGWX(user, store, rmbTotalAmount);
         } else {
             throw new BizException("xn0000", "支付方式不存在");
         }
     }
 
-    private Object storePurchaseCGYE(User user, Store store, Long amount) {
+    private Object storePurchaseCGYE(User user, Store store, Long rmbTotalAmount) {
         Long payRMB = null;// 需要支付的RMB金额
         Long payJF = null;// 需要支付的积分金额
         // 计算可抵消的积分数
-        Long dxRMB = AmountUtil.mul(amount, store.getRate2());// 可被抵消的人民币部分
+        Long dxRMB = AmountUtil.mul(rmbTotalAmount, store.getRate2());// 可被抵消的人民币部分
         Double rate = accountBO.getExchangeRateRemote(ECurrency.CGJF);
         Long dxJF = AmountUtil.mul(dxRMB, rate);// 可抵消的积分
         Account jfAccount = accountBO.getRemoteAccount(user.getUserId(),
@@ -123,10 +129,10 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         if (jfAccount.getAmount() < dxJF) {// 积分余额不足时,自己积分全部用掉，不够部分用人民币抵消
             payJF = jfAccount.getAmount();
             Long addRMB = Double.valueOf((dxJF - payJF) / rate).longValue();
-            payRMB = amount - dxRMB + addRMB;
+            payRMB = rmbTotalAmount - dxRMB + addRMB;
         } else {
             payJF = dxJF;
-            payRMB = amount - dxRMB;
+            payRMB = rmbTotalAmount - dxRMB;
         }
         Account cnyAccount = accountBO.getRemoteAccount(user.getUserId(),
             ECurrency.CNY);
@@ -134,8 +140,8 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
             throw new BizException("xn0000", "人民币账户余额不足");
         }
         // 落地本地系统消费记录
-        String code = storePurchaseBO.storePurchaseCGrmbjf(user, store, amount,
-            payRMB, payJF);
+        String code = storePurchaseBO.storePurchaseCGrmbjf(user, store,
+            rmbTotalAmount, payRMB, payJF);
         // 资金划转开始--------------
         // 积分从消费者回收至平台，
         String systemUser = ESysUser.SYS_USER_CAIGO.getCode();

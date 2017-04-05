@@ -11,10 +11,10 @@ public interface IStorePurchaseAO {
             String payType, String ticketCode);
 
     public Object storePurchaseCGB(String userId, String storeCode,
-            Long amount, String payType);
+            Long cgbTotalAmount, String payType);
 
     public Object storePurchaseRMBJF(String userId, String storeCode,
-            Long long1, String payType);
+            Long rmbTotalAmount, String payType);
 
     public void paySuccess(String payGroup, String payCode, Long payAmount);
 
