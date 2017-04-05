@@ -19,7 +19,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /** 
- * 店铺资料重提:一旦修改，进入待审核状态.(front&oss)
+ * 店铺资料重提:一旦修改，进入待审核状态.(front)
  * @author: myb858 
  * @since: 2017年3月26日 下午3:02:31 
  * @history:

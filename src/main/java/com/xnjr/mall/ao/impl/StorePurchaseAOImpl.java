@@ -30,6 +30,7 @@ import com.xnjr.mall.domain.UserTicket;
 import com.xnjr.mall.dto.res.XN808248Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECurrency;
+import com.xnjr.mall.enums.EO2OPayType;
 import com.xnjr.mall.enums.EPayType;
 import com.xnjr.mall.enums.EStoreLevel;
 import com.xnjr.mall.enums.EStorePurchaseStatus;
@@ -120,7 +121,6 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
     private Object storePurchaseCGYE(User user, Store store, Long rmbTotalAmount) {
         Long payRMB = null;// 需要支付的RMB金额
         Long payJF = null;// 需要支付的积分金额
-        // 计算可抵消的积分数
         Long dxRMB = AmountUtil.mul(rmbTotalAmount, store.getRate2());// 可被抵消的人民币部分
         Double rate = accountBO.getExchangeRateRemote(ECurrency.CGJF);
         Long dxJF = AmountUtil.mul(dxRMB, rate);// 可抵消的积分
@@ -178,28 +178,28 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         // 资金划转结束--------------
     }
 
-    private Object storePurchaseZHWX(User user, Store store, Long amount) {
+    private Object storePurchaseZHWX(User user, Store store, Long amount,
+            String ticketCode) {
         // 落地本地系统消费记录
-        String payGroup = storePurchaseBO
-            .storePurchaseZHWX(user, store, amount);
+        String payGroup = storePurchaseBO.storePurchaseZHWX(user, store,
+            amount, ticketCode);
         // 资金划转开始--------------
         // RMB调用微信渠道至商家
         return accountBO.doWeiXinPayRemote(user.getUserId(), store.getOwner(),
             amount, EBizType.CG_O2O_RMB, "O2O消费微信支付", "O2O消费微信支付", payGroup);
         // 资金划转结束--------------
-
     }
 
-    private Object storePurchaseZHZFB(User user, Store store, Long amount) {
+    private Object storePurchaseZHZFB(User user, Store store, Long amount,
+            String ticketCode) {
         // 落地本地系统消费记录
         String payGroup = storePurchaseBO.storePurchaseZHZFB(user, store,
-            amount);
+            amount, ticketCode);
         // 资金划转开始--------------
         // RMB调用支付宝渠道至商家
         return accountBO.doAlipayRemote(user.getUserId(), store.getOwner(),
             amount, EBizType.ZH_O2O, "O2O消费支付宝支付", "O2O消费支付宝支付", payGroup);
         // 资金划转结束--------------
-
     }
 
     @Override
@@ -216,15 +216,16 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         if (ticketAmount > 0) {
             amount = amount - ticketAmount;
         }
-        if (EPayType.ZH_YE.getCode().equals(payType)) {
+        if (EO2OPayType.ZH_YE.getCode().equals(payType)) {
             return storePurchaseZHYE(user, store, amount, ticketCode);
-        } else if (EPayType.WEIXIN.getCode().equals(payType)) {
-            return storePurchaseZHWX(user, store, amount);
-        } else if (EPayType.ALIPAY.getCode().equals(payType)) {
-            return storePurchaseZHZFB(user, store, amount);
+        } else if (EO2OPayType.ALIPAY.getCode().equals(payType)) {
+            return storePurchaseZHZFB(user, store, amount, ticketCode);
+        } else if (EO2OPayType.WEIXIN.getCode().equals(payType)) {
+            return storePurchaseZHWX(user, store, amount, ticketCode);
         } else {
-            throw new BizException("xn0000", "支付方式不存在");
+            throw new BizException("xn0000", payType + "支付方式暂不支持");
         }
+
     }
 
     private Long getTicketAmount(String ticketCode, Long amount) {
@@ -325,6 +326,42 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
     }
 
     @Override
+    @Transactional
+    public void paySuccess(String payGroup, String payCode, Long payAmount) {
+        StorePurchase storePurchase = storePurchaseBO
+            .getStorePurchaseByPayGroup(payGroup);
+        if (EStorePurchaseStatus.TO_PAY.getCode().equals(
+            storePurchase.getStatus())) {
+            // 更新支付记录
+            storePurchaseBO.paySuccess(storePurchase, payCode, payAmount);
+            // 优惠券状态修改
+            String ticketCode = storePurchase.getTicketCode();
+            if (StringUtils.isNotBlank(ticketCode)) {
+                userTicketBO.refreshUserTicketStatus(ticketCode,
+                    EUserTicketStatus.USED.getCode());
+            }
+            // 用商家的钱开始分销
+            Long storeFrAmount = storePurchase.getPrice();// 商家收到的分润
+            Long userFrAmount = storeFrAmount;// 用户支付的分润
+            Store store = storeBO.getStore(storePurchase.getStoreCode());
+            User user = userBO.getRemoteUser(storePurchase.getUserId());
+            if (StringUtils.isNotBlank(ticketCode)) {
+                distributeBO.distribute1Amount(storeFrAmount, store, user);
+            } else {
+                if (EStoreLevel.NOMAL.getCode().equals(store.getLevel())) {
+                    distributeBO.distribute10Amount(storeFrAmount, store, user);
+                }
+                if (EStoreLevel.FINANCIAL.getCode().equals(store.getLevel())) {
+                    distributeBO.distribute25Amount(storeFrAmount,
+                        userFrAmount, store, user);
+                }
+            }
+        } else {
+            logger.info("订单号：" + storePurchase.getCode() + "已支付，重复回调");
+        }
+    }
+
+    @Override
     public Paginable<StorePurchase> queryStorePurchasePage(int start,
             int limit, StorePurchase condition) {
         Paginable<StorePurchase> page = storePurchaseBO.getPaginable(start,
@@ -342,26 +379,6 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
             }
         }
         return page;
-    }
-
-    @Override
-    @Transactional
-    public void paySuccess(String payGroup, String payCode, Long payAmount) {
-        StorePurchase storePurchase = storePurchaseBO
-            .getStorePurchaseByPayGroup(payGroup);
-        if (EStorePurchaseStatus.TO_PAY.getCode().equals(
-            storePurchase.getStatus())) {
-            // 更新支付记录
-            storePurchaseBO.paySuccess(storePurchase, payCode, payAmount);
-            // 优惠券状态修改
-            String ticketCode = storePurchase.getTicketCode();
-            if (StringUtils.isNotBlank(ticketCode)) {
-                userTicketBO.refreshUserTicketStatus(ticketCode,
-                    EUserTicketStatus.USED.getCode());
-            }
-        } else {
-            logger.info("订单号：" + storePurchase.getCode() + "已支付，重复回调");
-        }
     }
 
     /** 

@@ -99,10 +99,11 @@ public class OrderAOImpl implements IOrderAO {
         List<String> result = new ArrayList<String>();
         // 按公司编号进行拆单, 遍历获取公司编号列表
         List<String> cartCodeList = req.getCartCodeList();
-        Map<String, List<Cart>> companyList = cartBO.getCartMap(cartCodeList);
+        Map<String, List<Cart>> cartList = cartBO.getCartMap(cartCodeList);
         // 遍历产品编号
-        for (String companyCode : companyList.keySet()) {
-            String orderCode = orderBO.saveOrder(companyList.get(companyCode),
+        for (String companyCode : cartList.keySet()) {
+            req.getPojo().setCompanyCode(companyCode);
+            String orderCode = orderBO.saveOrder(cartList.get(companyCode),
                 req.getPojo(), null);
             result.add(orderCode);
         }
@@ -408,6 +409,11 @@ public class OrderAOImpl implements IOrderAO {
         if (page != null && CollectionUtils.isNotEmpty(page.getList())) {
             for (Order order : page.getList()) {
                 order.setUser(userBO.getRemoteUser(order.getApplyUser()));
+                ProductOrder imCondition = new ProductOrder();
+                imCondition.setOrderCode(order.getCode());
+                List<ProductOrder> productOrderList = productOrderBO
+                    .queryProductOrderList(imCondition);
+                order.setProductOrderList(productOrderList);
             }
         }
         return page;

@@ -133,7 +133,7 @@ public class CartBOImpl extends PaginableBOImpl<Cart> implements ICartBO {
                 }
             }
             resultList.put(companyCode, companyCartList);
-            companyCartList.clear();
+            // companyCartList.clear();
         }
         return resultList;
     }
