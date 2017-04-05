@@ -19,7 +19,7 @@ public class XN808012Req {
     private String code;
 
     // 产品小类(必填)
-    private String category;
+    private String type;
 
     // 产品名称(必填)
     private String name;
@@ -50,12 +50,12 @@ public class XN808012Req {
         this.code = code;
     }
 
-    public String getCategory() {
-        return category;
+    public String getType() {
+        return type;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {

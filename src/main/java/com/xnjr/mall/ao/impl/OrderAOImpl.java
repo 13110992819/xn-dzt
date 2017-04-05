@@ -194,7 +194,7 @@ public class OrderAOImpl implements IOrderAO {
 
     @Transactional
     private Object toPayOrderZH(Order order, String payType) {
-        Long cnyAmount = order.getAmount1();// 人民币
+        Long cnyAmount = order.getAmount1() + order.getYunfei();// 人民币+运费
         Long gwbAmount = order.getAmount2();// 购物币
         Long qbbAmount = order.getAmount3();// 钱包币
         String systemCode = order.getSystemCode();
@@ -229,7 +229,7 @@ public class OrderAOImpl implements IOrderAO {
 
     private Order calculateToPayFrbAndGxz(Order order) {
         String fromUserId = order.getApplyUser();
-        Long cnyAmount = order.getAmount1();// 人民币（可用分润币和贡献值抵用）
+        Long cnyAmount = order.getAmount1() + order.getYunfei();// 人民币+运费（可用分润币和贡献值抵用）
         Long gwbAmount = order.getAmount2();// 购物币
         Long qbbAmount = order.getAmount3();// 钱包币
         Account frbAccount = accountBO.getRemoteAccount(fromUserId,
@@ -408,6 +408,11 @@ public class OrderAOImpl implements IOrderAO {
         if (page != null && CollectionUtils.isNotEmpty(page.getList())) {
             for (Order order : page.getList()) {
                 order.setUser(userBO.getRemoteUser(order.getApplyUser()));
+                ProductOrder imCondition = new ProductOrder();
+                imCondition.setOrderCode(order.getCode());
+                List<ProductOrder> productOrderList = productOrderBO
+                    .queryProductOrderList(imCondition);
+                order.setProductOrderList(productOrderList);
             }
         }
         return page;

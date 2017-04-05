@@ -16,7 +16,7 @@ package com.xnjr.mall.dto.req;
 public class XN808010Req {
 
     // 产品小类(必填)
-    private String category;
+    private String type;
 
     // 产品名称(必填)
     private String name;
@@ -45,12 +45,12 @@ public class XN808010Req {
     // 所属系统编号(必填)
     private String systemCode;
 
-    public String getCategory() {
-        return category;
+    public String getType() {
+        return type;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {
