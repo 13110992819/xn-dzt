@@ -196,15 +196,23 @@ public class StoreBOImpl extends PaginableBOImpl<Store> implements IStoreBO {
         }
     }
 
-    /** 
-     * @see com.xnjr.mall.bo.IStoreBO#queryFrontPage(int, int, com.xnjr.mall.domain.Store)
-     */
     @Override
     public Paginable<Store> queryFrontPage(int start, int pageSize,
             Store condition) {
         long totalCount = storeDAO.selectFrontTotalCount(condition);
         Paginable<Store> page = new Page<Store>(start, pageSize, totalCount);
         List<Store> dataList = storeDAO.selectFrontList(condition,
+            page.getStart(), page.getPageSize());
+        page.setList(dataList);
+        return page;
+    }
+
+    @Override
+    public Paginable<Store> queryOssPage(int start, int pageSize,
+            Store condition) {
+        long totalCount = storeDAO.selectOssTotalCount(condition);
+        Paginable<Store> page = new Page<Store>(start, pageSize, totalCount);
+        List<Store> dataList = storeDAO.selectOssList(condition,
             page.getStart(), page.getPageSize());
         page.setList(dataList);
         return page;

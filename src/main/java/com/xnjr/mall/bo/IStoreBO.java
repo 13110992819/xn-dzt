@@ -2,7 +2,6 @@ package com.xnjr.mall.bo;
 
 import java.util.List;
 
-import com.xnjr.mall.bo.base.IPaginableBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Store;
 
@@ -12,7 +11,7 @@ import com.xnjr.mall.domain.Store;
  * @since: 2016年9月20日 下午1:03:46 
  * @history:
  */
-public interface IStoreBO extends IPaginableBO<Store> {
+public interface IStoreBO {
 
     public void saveStoreOss(Store data);
 
@@ -44,9 +43,12 @@ public interface IStoreBO extends IPaginableBO<Store> {
     public Paginable<Store> queryFrontPage(int start, int pageSize,
             Store condition);
 
-    public List<Store> queryStoreList(Store data);
+    public Paginable<Store> queryOssPage(int start, int pageSize,
+            Store condition);
 
     public Store getStore(String storeCode);
+
+    public List<Store> queryStoreList(Store data);
 
     public Store getStoreByUser(String userId);
 

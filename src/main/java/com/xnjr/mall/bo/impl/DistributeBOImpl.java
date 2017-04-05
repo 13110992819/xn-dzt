@@ -150,7 +150,7 @@ public class DistributeBOImpl implements IDistributeBO {
                     "正汇O2O公司分成");
         }
         // 31、进基金池Y1
-        Long Y1 = AmountUtil.mul(storeFrAmount, 0.01);
+        Long Y1 = AmountUtil.mul(userFrAmount, 0.01);
         String poolUser = EZhPool.ZHPAY_JJ.getCode();
         if (Y1 > 0 && StringUtils.isNotBlank(poolUser)) {
             accountBO
@@ -169,8 +169,8 @@ public class DistributeBOImpl implements IDistributeBO {
                     "正汇O2O入商家池");
         }
 
-        // 31、进基金池Y3
-        Long Y3 = AmountUtil.mul(storeFrAmount, 0.15);
+        // 31、进消费者池Y3
+        Long Y3 = AmountUtil.mul(userFrAmount, 0.15);
         poolUser = EZhPool.ZHPAY_CUSTOMER.getCode();
         if (Y3 > 0 && StringUtils.isNotBlank(poolUser)) {
             accountBO.doTransferAmountRemote(storeUserId, poolUser,
