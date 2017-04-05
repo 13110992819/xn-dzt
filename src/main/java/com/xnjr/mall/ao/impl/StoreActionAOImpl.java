@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xnjr.mall.ao.IStoreActionAO;
+import com.xnjr.mall.bo.IProductBO;
 import com.xnjr.mall.bo.IStoreActionBO;
 import com.xnjr.mall.bo.IStoreBO;
 import com.xnjr.mall.bo.base.Paginable;
+import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StoreAction;
 import com.xnjr.mall.enums.EStoreActionType;
@@ -23,9 +25,21 @@ public class StoreActionAOImpl implements IStoreActionAO {
     @Autowired
     private IStoreBO storeBO;
 
+    @Autowired
+    private IProductBO productBO;
+
     @Override
     @Transactional
     public void doAction(String storeCode, String userId, String type) {
+        if (EStoreActionType.PJ.getCode().equals(type)) {
+            doPjProduct(storeCode, userId, type);
+        } else {
+            doActionStore(storeCode, userId, type);
+        }
+
+    }
+
+    private void doActionStore(String storeCode, String userId, String type) {
         Store store = storeBO.getStore(storeCode);
         StoreAction dbAction = storeActionBO.getStoreAction(storeCode, userId,
             type);
@@ -34,10 +48,17 @@ public class StoreActionAOImpl implements IStoreActionAO {
             storeActionBO.removeStoreAction(dbAction.getCode());
             changeNum = -1;
         } else {
-            storeActionBO.saveStoreAction(store, userId, type);
+            storeActionBO.saveStoreAction(store.getCode(),
+                store.getSystemCode(), store.getCompanyCode(), userId, type);
             changeNum = 1;
         }
         changeDzScNum(store, type, changeNum);
+    }
+
+    private void doPjProduct(String productCode, String userId, String type) {
+        Product product = productBO.getProduct(productCode);
+        storeActionBO.saveStoreAction(product.getCode(),
+            product.getSystemCode(), product.getCompanyCode(), userId, type);
     }
 
     private void changeDzScNum(Store data, String type, Integer changeNum) {
