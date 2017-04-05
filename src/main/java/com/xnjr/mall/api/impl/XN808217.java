@@ -40,7 +40,6 @@ public class XN808217 extends AProcessor {
         condition.setLongitude(req.getLongitude());
 
         condition.setUiLocation(req.getUiLocation());
-        condition.setIsDefault(req.getIsDefault());
 
         condition.setSystemCode(req.getSystemCode());
         condition.setCompanyCode(req.getCompanyCode());
