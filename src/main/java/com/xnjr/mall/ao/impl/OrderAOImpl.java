@@ -414,6 +414,10 @@ public class OrderAOImpl implements IOrderAO {
                 List<ProductOrder> productOrderList = productOrderBO
                     .queryProductOrderList(imCondition);
                 order.setProductOrderList(productOrderList);
+                if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
+                    order.setStore(storeBO.getStoreByUser(order
+                        .getCompanyCode()));
+                }
             }
         }
         return page;
@@ -465,6 +469,9 @@ public class OrderAOImpl implements IOrderAO {
         List<ProductOrder> productOrderList = productOrderBO
             .queryProductOrderList(imCondition);
         order.setProductOrderList(productOrderList);
+        if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
+            order.setStore(storeBO.getStoreByUser(order.getCompanyCode()));
+        }
         return order;
     }
 

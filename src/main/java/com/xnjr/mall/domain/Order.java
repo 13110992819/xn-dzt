@@ -141,6 +141,9 @@ public class Order extends ABaseDO {
     // 商户用户信息
     private User companyUser;
 
+    // 订单所属商户
+    private Store store;
+
     // 状态list
     private List<String> statusList;
 
@@ -462,6 +465,14 @@ public class Order extends ABaseDO {
 
     public void setStatusList(List<String> statusList) {
         this.statusList = statusList;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 
 }
