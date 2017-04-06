@@ -3,12 +3,12 @@ package com.xnjr.mall.bo;
 import java.util.List;
 
 import com.xnjr.mall.bo.base.IPaginableBO;
-import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StoreAction;
 
 public interface IStoreActionBO extends IPaginableBO<StoreAction> {
 
-    public String saveStoreAction(Store store, String userId, String type);
+    public String saveStoreAction(String storeCode, String systemCode,
+            String companyCode, String userId, String type);
 
     public int removeStoreAction(String code);
 

@@ -12,7 +12,6 @@ import com.xnjr.mall.bo.IStoreActionBO;
 import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.dao.IStoreActionDAO;
-import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StoreAction;
 import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.exception.BizException;
@@ -25,22 +24,21 @@ public class StoreActionBOImpl extends PaginableBOImpl<StoreAction> implements
     private IStoreActionDAO storeActionDAO;
 
     @Override
-    public String saveStoreAction(Store store, String userId, String type) {
+    public String saveStoreAction(String storeCode, String systemCode,
+            String companyCode, String userId, String type) {
         String code = null;
-        if (store != null) {
-            StoreAction data = new StoreAction();
-            code = OrderNoGenerater.generateM(EGeneratePrefix.STORE_ACTION
-                .getCode());
-            data.setCode(code);
-            data.setType(type);
-            data.setActionUser(userId);
-            data.setActionDatetime(new Date());
-            data.setStoreCode(store.getCode());
+        StoreAction data = new StoreAction();
+        code = OrderNoGenerater.generateM(EGeneratePrefix.STORE_ACTION
+            .getCode());
+        data.setCode(code);
+        data.setType(type);
+        data.setActionUser(userId);
+        data.setActionDatetime(new Date());
+        data.setStoreCode(storeCode);
 
-            data.setSystemCode(store.getSystemCode());
-            data.setCompanyCode(store.getCompanyCode());
-            storeActionDAO.insert(data);
-        }
+        data.setSystemCode(systemCode);
+        data.setCompanyCode(companyCode);
+        storeActionDAO.insert(data);
         return code;
 
     }
