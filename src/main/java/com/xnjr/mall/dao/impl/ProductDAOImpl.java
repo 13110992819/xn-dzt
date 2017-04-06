@@ -112,4 +112,9 @@ public class ProductDAOImpl extends AMybatisTemplate implements IProductDAO {
             data);
     }
 
+    @Override
+    public int updateBoughtCount(Product data) {
+        return super.update(NAMESPACE.concat("update_boughtCount"), data);
+    }
+
 }

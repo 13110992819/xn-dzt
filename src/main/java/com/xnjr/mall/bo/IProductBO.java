@@ -36,4 +36,6 @@ public interface IProductBO extends IPaginableBO<Product> {
     public int putOff(String code, String updater, String remark);
 
     public int putOn(Product product);
+
+    public int updateBoughtCount(String productCode, Integer boughtCount);
 }

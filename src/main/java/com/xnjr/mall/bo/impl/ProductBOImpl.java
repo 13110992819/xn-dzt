@@ -136,4 +136,12 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
         }
         return count;
     }
+
+    @Override
+    public int updateBoughtCount(String productCode, Integer boughtCount) {
+        Product data = new Product();
+        data.setCode(productCode);
+        data.setBoughtCount(boughtCount);
+        return productDAO.updateBoughtCount(data);
+    }
 }

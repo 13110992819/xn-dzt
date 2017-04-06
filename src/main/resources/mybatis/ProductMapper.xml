@@ -210,6 +210,13 @@
 		quantity = quantity - ${quantity}
 		WHERE code = #{code}
 	</update>
+	
+	<update id="update_boughtCount" parameterType="product">
+		UPDATE tmall_product
+		SET
+		boughtCount = boughtCount + ${boughtCount}
+		WHERE code = #{code}
+	</update>
 
 	<delete id="delete_product" parameterType="product">
 		DELETE FROM
