@@ -5,6 +5,7 @@ import java.util.List;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.domain.Stock;
 import com.xnjr.mall.dto.res.XN808419Res;
+import com.xnjr.mall.dto.res.XN808420Res;
 
 public interface IStockAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
@@ -18,6 +19,8 @@ public interface IStockAO {
     public XN808419Res getMyTodayStocks(String userId);
 
     public Stock getStock(String code);
+
+    public XN808420Res getStaticStockNum();
 
     /**
      * 每日结算

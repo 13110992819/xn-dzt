@@ -22,6 +22,7 @@ import com.xnjr.mall.domain.Account;
 import com.xnjr.mall.domain.SYSConfig;
 import com.xnjr.mall.domain.Stock;
 import com.xnjr.mall.dto.res.XN808419Res;
+import com.xnjr.mall.dto.res.XN808420Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECurrency;
 import com.xnjr.mall.enums.EStockStatus;
@@ -154,5 +155,19 @@ public class StockAOImpl implements IStockAO {
             res.setTodayProfitAmount(0L);
         }
         return res;
+    }
+
+    /** 
+     * @see com.xnjr.mall.ao.IStockAO#getStaticStockNum()
+     */
+    @Override
+    public XN808420Res getStaticStockNum() {
+        Stock condition = new Stock();
+        condition.setStatus(EStockStatus.ING_effect.getCode());
+        condition.setFundCode(EZhPool.ZHPAY_CUSTOMER.getCode());
+        long userStockNum = stockBO.getTotalCount(condition);
+        condition.setFundCode(EZhPool.ZHPAY_STORE.getCode());
+        long storeStockNum = stockBO.getTotalCount(condition);
+        return new XN808420Res(userStockNum, storeStockNum);
     }
 }
