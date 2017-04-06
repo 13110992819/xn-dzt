@@ -35,6 +35,20 @@ public class StoreAction extends ABaseDO {
     // 所属系统编号
     private String systemCode;
 
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
     public void setCode(String code) {
         this.code = code;
     }

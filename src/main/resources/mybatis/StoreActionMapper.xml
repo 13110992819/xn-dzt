@@ -49,6 +49,7 @@
 		,action_user
 		,action_datetime
 		,store_code
+		,company_code
 		,system_code
 		)
 		VALUES(
@@ -57,6 +58,7 @@
 		,#{actionUser}
 		,#{actionDatetime}
 		,#{storeCode}
+		,#{companyCode}
 		,#{systemCode}
 		)
 	</insert>
