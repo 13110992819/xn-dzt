@@ -155,7 +155,18 @@ public class ProductAOImpl implements IProductAO {
     @Override
     public Paginable<Product> queryProductPage(int start, int limit,
             Product condition) {
-        return productBO.getPaginable(start, limit, condition);
+        Paginable<Product> results = productBO.getPaginable(start, limit,
+            condition);
+        if (org.apache.commons.collections.CollectionUtils.isNotEmpty(results
+            .getList())) {
+            for (Product product : results.getList()) {
+                if (ESystemCode.ZHPAY.getCode().equals(product.getSystemCode())) {
+                    product.setStore(storeBO.getStoreByUser(product
+                        .getCompanyCode()));
+                }
+            }
+        }
+        return results;
     }
 
     /** 
@@ -176,6 +187,10 @@ public class ProductAOImpl implements IProductAO {
             List<ProductSpecs> productSpecs = productSpecsBO
                 .queryProductSpecsList(code);
             product.setProductSpecs(productSpecs);
+            if (ESystemCode.ZHPAY.getCode().equals(product.getSystemCode())) {
+                product.setStore(storeBO.getStoreByUser(product
+                    .getCompanyCode()));
+            }
         }
         return product;
     }

@@ -93,8 +93,19 @@ public class Product extends ABaseDO {
     // 商户手机号
     private String mobile;
 
+    // 商品所属商家（正汇使用）
+    private Store store;
+
     // 产品参数
     private List<ProductSpecs> productSpecs;
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 
     public List<ProductSpecs> getProductSpecs() {
         return productSpecs;
