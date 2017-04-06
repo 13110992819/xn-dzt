@@ -163,7 +163,6 @@ public class StockAOImpl implements IStockAO {
     @Override
     public XN808420Res getStaticStockNum() {
         Stock condition = new Stock();
-        condition.setStatus(EStockStatus.ING_effect.getCode());
         condition.setFundCode(EZhPool.ZHPAY_CUSTOMER.getCode());
         long userStockNum = stockBO.getTotalCount(condition);
         condition.setFundCode(EZhPool.ZHPAY_STORE.getCode());
