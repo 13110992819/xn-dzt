@@ -95,7 +95,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
             "O2O消费使用菜狗币", "O2O消费回收菜狗币");
         // 商家从平台处拿到返点（人民币）
         accountBO.doTransferAmountRemote(systemUser, store.getOwner(),
-            ECurrency.CNY, fdAmount, EBizType.CG_O2O_CGGFD, "O2O消费支付返点人民币",
+            ECurrency.CNY, fdAmount, EBizType.CG_O2O_CGBFD, "O2O消费支付返点人民币",
             "O2O消费收到返点人民币");
         // 资金划转结束--------------
         return code;
