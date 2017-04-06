@@ -414,6 +414,10 @@ public class OrderAOImpl implements IOrderAO {
                 List<ProductOrder> productOrderList = productOrderBO
                     .queryProductOrderList(imCondition);
                 order.setProductOrderList(productOrderList);
+                if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
+                    order.setStore(storeBO.getStoreByUser(order
+                        .getCompanyCode()));
+                }
             }
         }
         return page;
@@ -465,6 +469,9 @@ public class OrderAOImpl implements IOrderAO {
         List<ProductOrder> productOrderList = productOrderBO
             .queryProductOrderList(imCondition);
         order.setProductOrderList(productOrderList);
+        if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
+            order.setStore(storeBO.getStoreByUser(order.getCompanyCode()));
+        }
         return order;
     }
 
@@ -534,6 +541,12 @@ public class OrderAOImpl implements IOrderAO {
     @Transactional
     private void doConfirmZH(Order order, String updater, String remark) {
         orderBO.confirm(order, updater, remark);
+        // 更新产品的已购买人数
+        List<ProductOrder> productOrders = order.getProductOrderList();
+        for (ProductOrder productOrder : productOrders) {
+            productBO.updateBoughtCount(productOrder.getProductCode(),
+                productOrder.getQuantity());
+        }
         // 将分润给商家分润账户（购物币和钱包币由平台回收）
         Double frbRate = accountBO.getExchangeRateRemote(ECurrency.ZH_FRB);
         Long frbAmount = Double.valueOf(order.getAmount1() * frbRate)

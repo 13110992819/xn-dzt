@@ -20,17 +20,20 @@ import com.xnjr.mall.ao.IProductAO;
 import com.xnjr.mall.bo.ICategoryBO;
 import com.xnjr.mall.bo.IProductBO;
 import com.xnjr.mall.bo.IProductSpecsBO;
+import com.xnjr.mall.bo.IStoreBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Category;
 import com.xnjr.mall.domain.Product;
 import com.xnjr.mall.domain.ProductSpecs;
+import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.dto.req.XN808010Req;
 import com.xnjr.mall.dto.req.XN808012Req;
 import com.xnjr.mall.dto.req.XN808013Req;
 import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EProductStatus;
+import com.xnjr.mall.enums.EStoreLevel;
 import com.xnjr.mall.enums.ESystemCode;
 import com.xnjr.mall.exception.BizException;
 
@@ -50,8 +53,18 @@ public class ProductAOImpl implements IProductAO {
     @Autowired
     private IProductSpecsBO productSpecsBO;
 
+    @Autowired
+    private IStoreBO storeBO;
+
     @Override
     public String addProduct(XN808010Req req) {
+        // 正汇系统只有理财型商家才可以发布产品
+        if (ESystemCode.ZHPAY.getCode().equals(req.getSystemCode())) {
+            Store store = storeBO.getStore(req.getCompanyCode());
+            if (!EStoreLevel.FINANCIAL.getCode().equals(store.getLevel())) {
+                throw new BizException("xn000000", "亲，您还不是理财型商家，不可以发布产品噢！");
+            }
+        }
         // 根据小类获取大类
         Category category = categoryBO.getCategory(req.getType());
 
