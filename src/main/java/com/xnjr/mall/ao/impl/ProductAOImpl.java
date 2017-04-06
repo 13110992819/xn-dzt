@@ -60,7 +60,7 @@ public class ProductAOImpl implements IProductAO {
     public String addProduct(XN808010Req req) {
         // 正汇系统只有理财型商家才可以发布产品
         if (ESystemCode.ZHPAY.getCode().equals(req.getSystemCode())) {
-            Store store = storeBO.getStore(req.getCompanyCode());
+            Store store = storeBO.getStoreByUser(req.getCompanyCode());
             if (!EStoreLevel.FINANCIAL.getCode().equals(store.getLevel())) {
                 throw new BizException("xn000000", "亲，您还不是理财型商家，不可以发布产品噢！");
             }
