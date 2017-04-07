@@ -123,6 +123,8 @@ public class ProductAOImpl implements IProductAO {
             if (!EProductStatus.TO_APPROVE.getCode().equals(
                 dbProduct.getStatus())
                     && !EProductStatus.APPROVE_NO.getCode().equals(
+                        dbProduct.getStatus())
+                    && !EProductStatus.PUBLISH_NO.getCode().equals(
                         dbProduct.getStatus())) {
                 throw new BizException("xn000000", "该产品不是已提交,审核不通过和已下架状态，无法修改");
             }
