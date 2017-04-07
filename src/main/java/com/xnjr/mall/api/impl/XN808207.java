@@ -11,7 +11,7 @@ import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
 
 /**
- * 升级为理财型店铺(front)
+ * 升级为公益型店铺(front)
  * @author: myb858 
  * @since: 2017年3月25日 下午6:27:22 
  * @history:
