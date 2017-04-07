@@ -328,6 +328,11 @@ public class StoreAOImpl implements IStoreAO {
     @Override
     public void upLevel(String code) {
         Store dbStore = storeBO.getStore(code);
+        if (EStoreStatus.TOCHECK.getCode().equals(dbStore.getStatus())
+                || EStoreStatus.UNPASS.getCode().equals(dbStore.getStatus())
+                || EStoreStatus.OFF.getCode().equals(dbStore.getStatus())) {
+            throw new BizException("xn000000", "商家店铺不是审核通过或者上架状态，不能升级");
+        }
         if (EStoreLevel.NOMAL.getCode().equals(dbStore.getLevel())) {
             dbStore.setLevel(EStoreLevel.FINANCIAL.getCode());
             dbStore.setRemark("商家自行升级成公益型店铺");
