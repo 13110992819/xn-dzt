@@ -34,7 +34,6 @@ import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.core.CalculationUtil;
-import com.xnjr.mall.core.OrderNoGenerater;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Account;
 import com.xnjr.mall.domain.Cart;
@@ -49,7 +48,6 @@ import com.xnjr.mall.dto.req.XN808054Req;
 import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECurrency;
-import com.xnjr.mall.enums.EGeneratePrefix;
 import com.xnjr.mall.enums.EOrderStatus;
 import com.xnjr.mall.enums.EPayType;
 import com.xnjr.mall.enums.ESysUser;
@@ -266,22 +264,17 @@ public class OrderAOImpl implements IOrderAO {
 
     @Transactional
     private Object toPayOrderCSW(Order order, String payType) {
-        Long jeAmount = order.getAmount1(); // 现金
         Long jfAmount = order.getAmount3(); // 积分
         String systemCode = order.getSystemCode();
         String fromUserId = order.getApplyUser();
         // 现金支付(现金+积分)
-        if (EPayType.WEIXIN.getCode().equals(payType)) {
+        if (EPayType.INTEGRAL.getCode().equals(payType)) {
             // 更新订单支付金额
-            orderBO.refreshPaySuccess(order, jeAmount, 0L, 0L, jfAmount, null);
+            orderBO.refreshPaySuccess(order, 0L, 0L, 0L, jfAmount, null);
             // 扣除金额
             String systemUserId = userBO.getSystemUser(systemCode);
-            String payGroup = OrderNoGenerater
-                .generateM(EGeneratePrefix.PRODUCT_ORDER.getCode());
             accountBO.doCSWJfPay(fromUserId, systemUserId, jfAmount,
                 EBizType.CSW_PAY);
-            accountBO.doWeiXinPayRemote(fromUserId, systemUserId, jeAmount,
-                EBizType.CSW_PAY, "城市网商品购买", "城市网商品购买", payGroup);
         } else {
             throw new BizException("xn0000", "支付类型不支持");
         }
