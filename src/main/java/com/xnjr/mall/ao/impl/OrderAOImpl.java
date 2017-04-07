@@ -167,7 +167,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Transactional
-    private Object toPayOrderCG(Order order, String payType) {
+    public Object toPayOrderCG(Order order, String payType) {
         Long cgbAmount = order.getAmount2(); // 菜狗币
         Long jfAmount = order.getAmount3(); // 积分
         String systemCode = order.getSystemCode();
@@ -192,7 +192,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Transactional
-    private Object toPayOrderZH(Order order, String payType) {
+    public Object toPayOrderZH(Order order, String payType) {
         Long cnyAmount = order.getAmount1() + order.getYunfei();// 人民币+运费
         Long gwbAmount = order.getAmount2();// 购物币
         Long qbbAmount = order.getAmount3();// 钱包币
@@ -533,7 +533,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Transactional
-    private void doConfirmZH(Order order, String updater, String remark) {
+    public void doConfirmZH(Order order, String updater, String remark) {
         orderBO.confirm(order, updater, remark);
         // 更新产品的已购买人数
         List<ProductOrder> productOrders = order.getProductOrderList();
