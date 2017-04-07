@@ -196,7 +196,7 @@ public class ProductAOImpl implements IProductAO {
     }
 
     @Transactional
-    private void approveProduct(String code, String approveResult,
+    public void approveProduct(String code, String approveResult,
             String approver, String approveNote) {
         Product product = productBO.getProduct(code);
         if (!EProductStatus.TO_APPROVE.getCode().equals(product.getStatus())) {
