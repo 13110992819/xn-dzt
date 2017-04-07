@@ -214,7 +214,7 @@
 	<update id="update_boughtCount" parameterType="product">
 		UPDATE tmall_product
 		SET
-		boughtCount = boughtCount + ${boughtCount}
+		bought_count = bought_count + ${boughtCount}
 		WHERE code = #{code}
 	</update>
 
