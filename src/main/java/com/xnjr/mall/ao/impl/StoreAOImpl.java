@@ -330,7 +330,7 @@ public class StoreAOImpl implements IStoreAO {
         Store dbStore = storeBO.getStore(code);
         if (EStoreLevel.NOMAL.getCode().equals(dbStore.getLevel())) {
             dbStore.setLevel(EStoreLevel.FINANCIAL.getCode());
-            dbStore.setRemark("商家自行升级成理财型店铺");
+            dbStore.setRemark("商家自行升级成公益型店铺");
         } else {
             throw new BizException("xn000000", "店铺不能进行升级操作");
         }

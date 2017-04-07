@@ -58,11 +58,11 @@ public class ProductAOImpl implements IProductAO {
 
     @Override
     public String addProduct(XN808010Req req) {
-        // 正汇系统只有理财型商家才可以发布产品
+        // 正汇系统只有公益型商家才可以发布产品
         if (ESystemCode.ZHPAY.getCode().equals(req.getSystemCode())) {
             Store store = storeBO.getStoreByUser(req.getCompanyCode());
             if (!EStoreLevel.FINANCIAL.getCode().equals(store.getLevel())) {
-                throw new BizException("xn000000", "亲，您还不是理财型商家，不可以发布产品噢！");
+                throw new BizException("xn000000", "亲，您还不是公益型商家，不可以发布产品噢！");
             }
         }
         // 根据小类获取大类
