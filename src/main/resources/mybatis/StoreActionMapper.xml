@@ -8,12 +8,28 @@
 		<result column="action_user" property="actionUser" />
 		<result column="action_datetime" property="actionDatetime" />
 		<result column="store_code" property="storeCode" />
+		<result column="company_code" property="companyCode" />
 		<result column="system_code" property="systemCode" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
+			</if>
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
+			<if test="storeCode != null and storeCode != '' ">
+				AND t.store_code = #{storeCode}
+			</if>
+			<if test="actionUser != null and actionUser != '' ">
+				AND t.action_user = #{actionUser}
+			</if>
+			<if test="companyCode != null and companyCode != '' ">
+				AND t.company_code = #{companyCode}
+			</if>
+			<if test="systemCode != null and systemCode != '' ">
+				AND t.system_code = #{systemCode}
 			</if>
 		</trim>
 	</sql>

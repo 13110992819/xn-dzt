@@ -14,6 +14,7 @@ import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.StoreAction;
 import com.xnjr.mall.dto.req.XN808029Req;
+import com.xnjr.mall.enums.EStoreActionType;
 import com.xnjr.mall.exception.BizException;
 import com.xnjr.mall.exception.ParaException;
 import com.xnjr.mall.spring.SpringContextHolder;
@@ -37,6 +38,7 @@ public class XN808029 extends AProcessor {
     public Object doBusiness() throws BizException {
         StoreAction condition = new StoreAction();
         condition.setStoreCode(req.getProductCode());
+        condition.setType(EStoreActionType.PJ.getCode());
         condition.setOrder("action_datetime", "asc");
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
