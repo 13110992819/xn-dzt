@@ -38,8 +38,8 @@ public class DistributeBOImpl implements IDistributeBO {
         Long X1 = Double.valueOf(storeFrAmount * 0.01).longValue();
         if (X1 > 0) {
             accountBO.doTransferAmountRemote(storeUserId, systemUser,
-                ECurrency.ZH_FRB, X1, EBizType.ZH_O2O, "正汇O2O抵扣卷消费佣金",
-                "正汇O2O抵扣卷消费佣金");
+                ECurrency.ZH_FRB, X1, EBizType.ZH_O2O, "正汇O2O抵扣券消费佣金",
+                "正汇O2O抵扣券消费佣金");
         }
 
     }
