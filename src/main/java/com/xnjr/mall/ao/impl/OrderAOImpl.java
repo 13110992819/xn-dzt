@@ -518,6 +518,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
+    @Transactional
     public void confirm(String code, String updater, String remark) {
         Order order = orderBO.getOrder(code);
         if (!EOrderStatus.SEND.getCode().equalsIgnoreCase(order.getStatus())) {
