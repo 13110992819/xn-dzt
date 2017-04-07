@@ -26,14 +26,14 @@ public class XN808510 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        if ("567890-87667890".equals(req.getToken())) {
+        if (!"567890-87667890".equals(req.getToken())) {
             throw new BizException("XN808510", "token不正确");
         }
-        if ("678987656789".equals(req.getCompanyCode())) {
-            throw new BizException("XN808510", "参数token必填，请按要求填写完整");
+        if (!"C678987656789".equals(req.getCompanyCode())) {
+            throw new BizException("XN808510", "参数公司编号不正确，请按要求填写完整");
         }
-        if ("98765456789876".equals(req.getSystemCode())) {
-            throw new BizException("XN808510", "参数token必填，请按要求填写完整");
+        if (!"S98765456789876".equals(req.getSystemCode())) {
+            throw new BizException("XN808510", "参数系统编号不正确，请按要求填写完整");
         }
         stockPoolAO.exchangeHighAmount(req.getMobile(), req.getLoginPwd(),
             StringValidater.toLong(req.getHighAmount()));
@@ -61,7 +61,5 @@ public class XN808510 extends AProcessor {
         if (StringUtils.isBlank(req.getSystemCode())) {
             throw new BizException("XN808510", "参数systemCode必填，请按要求填写完整");
         }
-
     }
-
 }

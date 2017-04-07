@@ -11,6 +11,7 @@ import com.xnjr.mall.bo.ICaigopoolBackBO;
 import com.xnjr.mall.bo.ISYSConfigBO;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
+import com.xnjr.mall.common.AmountUtil;
 import com.xnjr.mall.domain.Caigopool;
 import com.xnjr.mall.domain.User;
 import com.xnjr.mall.enums.EBizType;
@@ -82,8 +83,7 @@ public class CaigopoolAOImpl implements ICaigopoolAO {
         caigopoolBO.outAmount(pool, highAmount);
         // 并记录出金记录
         User user = userBO.getRemoteUser(userId);
-        Long caigoAmount = Double.valueOf(highAmount * pool.getRate())
-            .longValue();
+        Long caigoAmount = AmountUtil.mul(highAmount, pool.getRate());
         caigopoolBackBO.saveCaigopoolBack(pool, user, caigoAmount, mobile,
             highAmount);
         // 划转菜狗币给用户

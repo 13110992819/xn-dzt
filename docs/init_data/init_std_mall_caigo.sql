@@ -81,4 +81,5 @@ LIMIT 0, 10000
 
 -- Date: 2017-04-05 23:37
 */
-INSERT INTO `tduijie_caigopool` (`code`,`name`,`type`,`rate`,`amount`,`used_amount`,`add_user`,`add_datetime`,`remark`,`company_code`,`system_code`) VALUES ('678909876','123','1',2.10000000,9343,2000,'caigo','2017-04-01 17:36:02','','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tduijie_caigopool` (`code`,`name`,`type`,`rate`,`amount`,`used_amount`,`add_user`,`add_datetime`,`remark`,`company_code`,`system_code`) VALUES ('P201704011700000001','嗨币对接池','1',2.10000000,1000000,0,'admin',now(),'','CD-CCG000007','CD-CCG000007');
+

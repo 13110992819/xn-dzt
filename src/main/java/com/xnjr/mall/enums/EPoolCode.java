@@ -1,7 +1,7 @@
 package com.xnjr.mall.enums;
 
 public enum EPoolCode {
-    highPool("1", "嗨币对接池");
+    highPool("P201704011700000001", "嗨币对接池");
 
     EPoolCode(String code, String value) {
         this.code = code;
