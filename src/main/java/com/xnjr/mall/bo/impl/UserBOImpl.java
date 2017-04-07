@@ -151,6 +151,9 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
         if (ESystemCode.Caigo.getCode().equals(systemCode)) {
             return ESysUser.SYS_USER_CAIGO.getCode();
         }
+        if (ESystemCode.CSW.getCode().equals(systemCode)) {
+            return ESysUser.SYS_USER_CSW.getCode();
+        }
         return null;
     }
 }

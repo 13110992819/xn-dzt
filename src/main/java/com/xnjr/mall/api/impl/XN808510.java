@@ -25,7 +25,7 @@ public class XN808510 extends AProcessor {
     private XN808510Req req = null;
 
     @Override
-    public Object doBusiness() throws BizException {
+    public synchronized Object doBusiness() throws BizException {
         if (!"567890-87667890".equals(req.getToken())) {
             throw new BizException("XN808510", "token不正确");
         }

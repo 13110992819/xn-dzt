@@ -3,6 +3,7 @@ package com.xnjr.mall.ao.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xnjr.mall.ao.ICaigopoolAO;
 import com.xnjr.mall.bo.IAccountBO;
@@ -62,6 +63,7 @@ public class CaigopoolAOImpl implements ICaigopoolAO {
     }
 
     @Override
+    @Transactional
     public String exchangeHighAmount(String mobile, String loginPwd,
             Long highAmount) {
         Caigopool pool = caigopoolBO.getCaigopool();

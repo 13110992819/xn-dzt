@@ -164,16 +164,8 @@ public class AccountBOImpl implements IAccountBO {
     @Override
     public void doCSWJfPay(String fromUserId, String toUserId, Long jfAmount,
             EBizType bizType) {
-        checkCSWJf(fromUserId, jfAmount);
         doTransferAmountRemote(fromUserId, toUserId, ECurrency.JF, jfAmount,
             bizType, bizType.getValue(), bizType.getValue());
-    }
-
-    private void checkCSWJf(String userId, Long jfAmount) {
-        Account xnbAccount = getRemoteAccount(userId, ECurrency.JF);
-        if (jfAmount > xnbAccount.getAmount()) {
-            throw new BizException("xn0000", "积分不足");
-        }
     }
 
     @Override
