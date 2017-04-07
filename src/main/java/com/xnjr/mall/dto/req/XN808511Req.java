@@ -1,17 +1,17 @@
 package com.xnjr.mall.dto.req;
 
-public class XN808510Req {
+public class XN808511Req extends APageReq {
+
+    /** 
+     * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+     */
+    private static final long serialVersionUID = -2680541965744119768L;
+
     // token（必填）
     private String token;
 
-    // 手机号（必填）
+    // 手机号（选填）
     private String mobile;
-
-    // 登录密码（选填）
-    private String loginPwd;
-
-    // 本次兑换的嗨币金额（必填）
-    private String highAmount;
 
     // 所属公司编号(必填)
     private String companyCode;
@@ -33,22 +33,6 @@ public class XN808510Req {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    public String getLoginPwd() {
-        return loginPwd;
-    }
-
-    public void setLoginPwd(String loginPwd) {
-        this.loginPwd = loginPwd;
-    }
-
-    public String getHighAmount() {
-        return highAmount;
-    }
-
-    public void setHighAmount(String highAmount) {
-        this.highAmount = highAmount;
     }
 
     public String getCompanyCode() {
