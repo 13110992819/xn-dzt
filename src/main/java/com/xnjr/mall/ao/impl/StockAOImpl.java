@@ -127,8 +127,8 @@ public class StockAOImpl implements IStockAO {
                         half, EBizType.ZH_STOCK, "正汇分红权分红", "正汇分红权分红");
                     accountBO.doTransferAmountRemote(
                         ESysUser.SYS_USER_ZHPAY.getCode(), ele.getUserId(),
-                        ECurrency.ZH_GXZ, todayAmount, EBizType.ZH_STOCK,
-                        "正汇分红权分红", "正汇分红权分红");
+                        ECurrency.ZH_GXZ, half, EBizType.ZH_STOCK, "正汇分红权分红",
+                        "正汇分红权分红");
                 }
 
             }
