@@ -184,7 +184,7 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
         data.setPrice(amount);
 
         data.setCreateDatetime(now);
-        data.setStatus(EStorePurchaseStatus.TO_PAY.getCode());
+        data.setStatus(EStorePurchaseStatus.PAYED.getCode());
         data.setPayType(EO2OPayType.ZH_YE.getCode());
 
         data.setPayAmount2(frResultAmount);
