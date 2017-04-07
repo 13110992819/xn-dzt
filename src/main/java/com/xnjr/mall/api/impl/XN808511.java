@@ -1,9 +1,14 @@
 package com.xnjr.mall.api.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.xnjr.mall.ao.ICaigopoolBackAO;
 import com.xnjr.mall.api.AProcessor;
+import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.JsonUtil;
 import com.xnjr.mall.core.StringValidater;
@@ -32,22 +37,22 @@ public class XN808511 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        if ("567890-87667890".equals(req.getToken())) {
-            throw new BizException("XN808511", "token不正确");
+        if (!"567890-87667890".equals(req.getToken())) {
+            throw new BizException("XN808510", "token不正确");
         }
-        if ("678987656789".equals(req.getCompanyCode())) {
-            throw new BizException("XN808511", "参数token必填，请按要求填写完整");
+        if (!"C678987656789".equals(req.getCompanyCode())) {
+            throw new BizException("XN808510", "参数公司编号不正确，请按要求填写完整");
         }
-        if ("98765456789876".equals(req.getSystemCode())) {
-            throw new BizException("XN808511", "参数token必填，请按要求填写完整");
+        if (!"S98765456789876".equals(req.getSystemCode())) {
+            throw new BizException("XN808510", "参数系统编号不正确，请按要求填写完整");
         }
         CaigopoolBack condition = new CaigopoolBack();
         condition.setPoolCode(EPoolCode.highPool.getCode());
         condition.setFromUser(req.getMobile());
-        condition.setCreateDatetimeStart(DateUtil.strToDate(req.getDateStart(),
-            DateUtil.DATA_TIME_PATTERN_1));
-        condition.setCreateDatetimeEnd(DateUtil.strToDate(req.getDateEnd(),
-            DateUtil.DATA_TIME_PATTERN_1));
+        condition.setCreateDatetimeStart(DateUtil.getFrontDate(
+            req.getDateStart(), false));
+        condition.setCreateDatetimeEnd(DateUtil.getFrontDate(req.getDateEnd(),
+            true));
         condition.setSystemCode(ESystemCode.Caigo.getCode());
         condition.setCompanyCode(ESystemCode.Caigo.getCode());
 
@@ -58,7 +63,23 @@ public class XN808511 extends AProcessor {
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
-        return caigopoolBackAO.queryCaigopoolBackPage(start, limit, condition);
+        Paginable<CaigopoolBack> page = caigopoolBackAO.queryCaigopoolBackPage(
+            start, limit, condition);
+        if (null != page && CollectionUtils.isNotEmpty(page.getList())) {
+            List<CaigopoolBack> cbList = page.getList();
+            List<CaigopoolBack> resultList = new ArrayList<CaigopoolBack>();
+            for (CaigopoolBack caigopoolBack : cbList) {
+                CaigopoolBack result = new CaigopoolBack();
+                result.setId(caigopoolBack.getId());
+                result.setMobile(caigopoolBack.getFromUser());
+                result.setHighAmount(caigopoolBack.getFromAmount());
+                result.setCgbAmount(caigopoolBack.getToAmount());
+                result.setCreateDatetime(caigopoolBack.getCreateDatetime());
+                resultList.add(result);
+            }
+            page.setList(resultList);
+        }
+        return page;
     }
 
     /** 

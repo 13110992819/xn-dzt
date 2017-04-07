@@ -60,6 +60,42 @@ public class CaigopoolBack extends ABaseDO {
     // 返还时间止
     private Date createDatetimeEnd;
 
+    // ***************分页返回,字段无法处理，只能放在pojo里面分装***************
+    // 手机号
+    private String mobile;
+
+    // 嗨币金额
+    private Long highAmount;
+
+    // 菜狗币金额
+    private Long cgbAmount;
+
+    // ***************分页返回,字段无法处理，只能放在pojo里面分装***************
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public Long getHighAmount() {
+        return highAmount;
+    }
+
+    public void setHighAmount(Long highAmount) {
+        this.highAmount = highAmount;
+    }
+
+    public Long getCgbAmount() {
+        return cgbAmount;
+    }
+
+    public void setCgbAmount(Long cgbAmount) {
+        this.cgbAmount = cgbAmount;
+    }
+
     public Long getId() {
         return id;
     }

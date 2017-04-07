@@ -267,7 +267,7 @@ public class OrderAOImpl implements IOrderAO {
         Long jfAmount = order.getAmount3(); // 积分
         String systemCode = order.getSystemCode();
         String fromUserId = order.getApplyUser();
-        // 现金支付(现金+积分)
+        // 积分支付
         if (EPayType.INTEGRAL.getCode().equals(payType)) {
             // 更新订单支付金额
             orderBO.refreshPaySuccess(order, 0L, 0L, 0L, jfAmount, null);
