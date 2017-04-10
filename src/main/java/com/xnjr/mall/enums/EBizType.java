@@ -18,7 +18,9 @@ public enum EBizType {
 
     , ZH_O2O("-ZH1", "正汇O2O支付"), ZH_STOCK("-ZH2", "正汇分红权分红")
 
-    , CSW_PAY("100", "城市网商品积分购买支付");
+    , CSW_PAY("100", "城市网商品积分购买支付")
+
+    , GD_O2O("GD_O2O", "全能水电工O2O积分支付");
     public static Map<String, EBizType> getBizTypeMap() {
         Map<String, EBizType> map = new HashMap<String, EBizType>();
         for (EBizType bizType : EBizType.values()) {

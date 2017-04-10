@@ -30,6 +30,7 @@ import com.xnjr.mall.domain.StorePurchase;
 import com.xnjr.mall.domain.StoreTicket;
 import com.xnjr.mall.domain.User;
 import com.xnjr.mall.domain.UserTicket;
+import com.xnjr.mall.dto.res.BooleanRes;
 import com.xnjr.mall.dto.res.XN808248Res;
 import com.xnjr.mall.enums.EBizType;
 import com.xnjr.mall.enums.ECurrency;
@@ -115,9 +116,7 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         if (EPayType.CG_YE.getCode().equals(payType)) {
             return storePurchaseCGYE(user, store, rmbTotalAmount);
         }
-        if (EPayType.GD_YE.getCode().equals(payType)) {
-            return storePurchaseGDYE(user, store, rmbTotalAmount);
-        } else if (EPayType.WEIXIN.getCode().equals(payType)) {
+        if (EPayType.WEIXIN.getCode().equals(payType)) {
             return storePurchaseCGWX(user, store, rmbTotalAmount);
         } else {
             throw new BizException("xn0000", "支付方式不存在");
@@ -129,6 +128,9 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
             String payType) {
         User user = userBO.getRemoteUser(userId);
         Store store = storeBO.getStore(storeCode);
+        if (amount <= 0) {
+            throw new BizException("xn0000", "消费金额必须大于0");
+        }
         if (!EStoreStatus.ON_OPEN.getCode().equals(store.getStatus())) {
             throw new BizException("xn0000", "店铺不处于可消费状态");
         }
@@ -155,16 +157,14 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
             throw new BizException("xn0000", "积分账户余额不足");
         }
         // 落地本地系统消费记录
-        String code = storePurchaseBO.storePurchaseGDYE(user, store, amount,
-            payJF);
+        storePurchaseBO.storePurchaseGDYE(user, store, amount, payJF);
         // 资金划转开始--------------
         // 积分从消费者回收至平台，
         String systemUser = ESysUser.SYS_USER_PIPE.getCode();
-        accountBO
-            .doTransferAmountRemote(user.getUserId(), systemUser, ECurrency.JF,
-                payJF, EBizType.CG_O2O_CGJF, "O2O消费积分回收", "O2O消费积分回收");
+        accountBO.doTransferAmountRemote(user.getUserId(), systemUser,
+            ECurrency.JF, payJF, EBizType.GD_O2O, "O2O消费积分回收", "O2O消费积分回收");
         // 资金划转结束--------------
-        return code;
+        return new BooleanRes(true);
     }
 
     private Object storePurchaseCGYE(User user, Store store, Long rmbTotalAmount) {
