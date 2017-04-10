@@ -137,18 +137,18 @@ public class StockAOImpl implements IStockAO {
     }
 
     private Long getTodayAmount(Stock ele) {
-        Long todayAmount = null;
+        Double todayAmount = null;
         if (EZhPool.ZHPAY_STORE.getCode().equals(ele.getFundCode())) {
             SYSConfig config = sysConfigBO.getSYSConfig(
                 SysConstants.STORE_STOCK_DAYBACK, ESystemCode.ZHPAY.getCode());
-            todayAmount = Long.valueOf(config.getCvalue());
+            todayAmount = Double.valueOf(config.getCvalue());
         }
         if (EZhPool.ZHPAY_CUSTOMER.getCode().equals(ele.getFundCode())) {
             SYSConfig config = sysConfigBO.getSYSConfig(
                 SysConstants.USER_STOCK_DAYBACK, ESystemCode.ZHPAY.getCode());
-            todayAmount = Long.valueOf(config.getCvalue());
+            todayAmount = Double.valueOf(config.getCvalue());
         }
-        return todayAmount * 1000;
+        return Double.valueOf(1000 * todayAmount).longValue();
     }
 
     @Override
