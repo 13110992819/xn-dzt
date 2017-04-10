@@ -1,5 +1,4 @@
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('R','cny2cgb','1.02','admin',now(),'人民币兑菜狗币,100个人民币兑换102菜狗币','CD-CGD000006','CD-CGD000006');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('R','cny2jf','1.6','admin',now(),'人民币兑积分币,100个人民币兑换160菜狗币','CD-CGD000006','CD-CGD000006');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('R','STORE_RMB2JF','1.6','admin',now(),'人民币兑积分币,100个人民币兑换160菜狗币','CD-CGD000006','CD-CGD000006');
 
 /*
 -- Query: SELECT `type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code` FROM tsys_dict where system_code = 'CD-CGD000006'

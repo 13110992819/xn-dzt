@@ -147,7 +147,9 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
             store.getCompanyCode(), store.getSystemCode());
         Long payJF = 0L;// 需要支付的积分金额
         try {
-            payJF = amount * StringValidater.toLong(config.getCvalue());
+            payJF = Double.valueOf(
+                amount * StringValidater.toDouble(config.getCvalue()))
+                .longValue();
         } catch (Exception e) {
             logger.error("人民币换算积分");
         }
