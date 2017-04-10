@@ -152,7 +152,7 @@ CREATE TABLE `tmall_product` (
   `name` varchar(255) DEFAULT NULL COMMENT '商品名称',
   `slogan` varchar(255) DEFAULT NULL COMMENT '广告语',
   `adv_pic` varchar(255) DEFAULT NULL COMMENT '广告图',
-  `pic` varchar(255) DEFAULT NULL COMMENT 'pic',
+  `pic` text DEFAULT NULL COMMENT 'pic',
   `description` text COMMENT '图文描述',
   `original_price` bigint(20) DEFAULT NULL COMMENT '原价',
   `price1` bigint(20) DEFAULT NULL COMMENT '价格1（人民币）',
