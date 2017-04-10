@@ -16,6 +16,7 @@ import com.xnjr.mall.bo.IStockBO;
 import com.xnjr.mall.bo.IStockBackBO;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
+import com.xnjr.mall.common.AmountUtil;
 import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.SysConstants;
 import com.xnjr.mall.domain.Account;
@@ -137,18 +138,18 @@ public class StockAOImpl implements IStockAO {
     }
 
     private Long getTodayAmount(Stock ele) {
-        Long todayAmount = null;
+        Double todayAmount = null;
         if (EZhPool.ZHPAY_STORE.getCode().equals(ele.getFundCode())) {
             SYSConfig config = sysConfigBO.getSYSConfig(
                 SysConstants.STORE_STOCK_DAYBACK, ESystemCode.ZHPAY.getCode());
-            todayAmount = Long.valueOf(config.getCvalue());
+            todayAmount = Double.valueOf(config.getCvalue());
         }
         if (EZhPool.ZHPAY_CUSTOMER.getCode().equals(ele.getFundCode())) {
             SYSConfig config = sysConfigBO.getSYSConfig(
                 SysConstants.USER_STOCK_DAYBACK, ESystemCode.ZHPAY.getCode());
-            todayAmount = Long.valueOf(config.getCvalue());
+            todayAmount = Double.valueOf(config.getCvalue());
         }
-        return todayAmount * 1000;
+        return AmountUtil.mul(1000L, todayAmount);
     }
 
     @Override
