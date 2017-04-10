@@ -198,6 +198,32 @@ public class StorePurchaseBOImpl extends PaginableBOImpl<StorePurchase>
         return null;
     }
 
+    @Override
+    public String storePurchaseGDYE(User user, Store store, Long amount,
+            Long jfAmount) {
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.STORE_PURCHASW
+            .getCode());
+        Date now = new Date();
+        StorePurchase data = new StorePurchase();
+        data.setCode(code);
+        data.setUserId(user.getUserId());
+        data.setStoreCode(store.getCode());
+        data.setPrice(amount);
+
+        data.setCreateDatetime(now);
+        data.setStatus(EStorePurchaseStatus.PAYED.getCode());
+        data.setPayType(EO2OPayType.GD_YE.getCode());
+
+        data.setPayAmount2(jfAmount);
+
+        data.setPayDatetime(now);
+        data.setRemark("余额支付O2O消费");
+        data.setSystemCode(store.getSystemCode());
+        data.setCompanyCode(store.getCompanyCode());
+        storePurchaseDAO.insert(data);
+        return null;
+    }
+
     /** 
      * @see com.xnjr.mall.bo.IStorePurchaseBO#getTotalIncome(java.lang.String)
      */

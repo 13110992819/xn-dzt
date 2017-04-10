@@ -14,4 +14,7 @@ public class SysConstants {
 
     public static final String STORE_STOCK_DAYBACK = "STORE_STOCK_DAYBACK"; // 商家每个分红权可以领钱金额
 
+    public static final String STORE_RMB2JF = "STORE_RMB2JF"; // 积分消费比例
+                                                              // 1人民币等于多少积分
+
 }

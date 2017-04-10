@@ -21,7 +21,10 @@ import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.IUserTicketBO;
 import com.xnjr.mall.bo.base.Paginable;
 import com.xnjr.mall.common.AmountUtil;
+import com.xnjr.mall.common.SysConstants;
+import com.xnjr.mall.core.StringValidater;
 import com.xnjr.mall.domain.Account;
+import com.xnjr.mall.domain.SYSConfig;
 import com.xnjr.mall.domain.Store;
 import com.xnjr.mall.domain.StorePurchase;
 import com.xnjr.mall.domain.StoreTicket;
@@ -111,11 +114,57 @@ public class StorePurchaseAOImpl implements IStorePurchaseAO {
         }
         if (EPayType.CG_YE.getCode().equals(payType)) {
             return storePurchaseCGYE(user, store, rmbTotalAmount);
+        }
+        if (EPayType.GD_YE.getCode().equals(payType)) {
+            return storePurchaseGDYE(user, store, rmbTotalAmount);
         } else if (EPayType.WEIXIN.getCode().equals(payType)) {
             return storePurchaseCGWX(user, store, rmbTotalAmount);
         } else {
             throw new BizException("xn0000", "支付方式不存在");
         }
+    }
+
+    @Override
+    public Object storePurchaseGD(String userId, String storeCode, Long amount,
+            String payType) {
+        User user = userBO.getRemoteUser(userId);
+        Store store = storeBO.getStore(storeCode);
+        if (!EStoreStatus.ON_OPEN.getCode().equals(store.getStatus())) {
+            throw new BizException("xn0000", "店铺不处于可消费状态");
+        }
+        if (EPayType.GD_YE.getCode().equals(payType)) {
+            return storePurchaseGDYE(user, store, amount);
+        } else {
+            throw new BizException("xn0000", "支付方式不存在");
+        }
+    }
+
+    @Transactional
+    public Object storePurchaseGDYE(User user, Store store, Long amount) {
+        SYSConfig config = sysConfigBO.getSYSConfig(SysConstants.STORE_RMB2JF,
+            store.getCompanyCode(), store.getSystemCode());
+        Long payJF = 0L;// 需要支付的积分金额
+        try {
+            payJF = amount * StringValidater.toLong(config.getCvalue());
+        } catch (Exception e) {
+            logger.error("人民币换算积分");
+        }
+        Account jfAccount = accountBO.getRemoteAccount(user.getUserId(),
+            ECurrency.JF);// 积分账户
+        if (jfAccount.getAmount() < payJF) {
+            throw new BizException("xn0000", "积分账户余额不足");
+        }
+        // 落地本地系统消费记录
+        String code = storePurchaseBO.storePurchaseGDYE(user, store, amount,
+            payJF);
+        // 资金划转开始--------------
+        // 积分从消费者回收至平台，
+        String systemUser = ESysUser.SYS_USER_PIPE.getCode();
+        accountBO
+            .doTransferAmountRemote(user.getUserId(), systemUser, ECurrency.JF,
+                payJF, EBizType.CG_O2O_CGJF, "O2O消费积分回收", "O2O消费积分回收");
+        // 资金划转结束--------------
+        return code;
     }
 
     private Object storePurchaseCGYE(User user, Store store, Long rmbTotalAmount) {
