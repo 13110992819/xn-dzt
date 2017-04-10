@@ -16,6 +16,7 @@ import com.xnjr.mall.bo.IStockBO;
 import com.xnjr.mall.bo.IStockBackBO;
 import com.xnjr.mall.bo.IUserBO;
 import com.xnjr.mall.bo.base.Paginable;
+import com.xnjr.mall.common.AmountUtil;
 import com.xnjr.mall.common.DateUtil;
 import com.xnjr.mall.common.SysConstants;
 import com.xnjr.mall.domain.Account;
@@ -148,7 +149,7 @@ public class StockAOImpl implements IStockAO {
                 SysConstants.USER_STOCK_DAYBACK, ESystemCode.ZHPAY.getCode());
             todayAmount = Double.valueOf(config.getCvalue());
         }
-        return Double.valueOf(1000 * todayAmount).longValue();
+        return AmountUtil.mul(1000L, todayAmount);
     }
 
     @Override
