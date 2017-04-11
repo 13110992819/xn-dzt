@@ -539,18 +539,23 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不是已发货状态，无法操作");
         }
 
-        if (ESystemCode.Caigo.getCode().equals(order.getSystemCode())) {
-            doConfirmCG(order, updater, remark);
-        } else if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
+        if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
             doConfirmZH(order, updater, remark);
         } else {
-            throw new BizException("xn000000", "系统编号不能识别");
+            doConfirm(order, updater, remark);
         }
 
     }
 
-    private void doConfirmCG(Order order, String updater, String remark) {
+    @Transactional
+    public void doConfirm(Order order, String updater, String remark) {
         orderBO.confirm(order, updater, remark);
+        // 更新产品的已购买人数
+        List<ProductOrder> productOrders = order.getProductOrderList();
+        for (ProductOrder productOrder : productOrders) {
+            productBO.updateBoughtCount(productOrder.getProductCode(),
+                productOrder.getQuantity());
+        }
     }
 
     @Transactional
