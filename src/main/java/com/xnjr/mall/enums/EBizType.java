@@ -20,7 +20,7 @@ public enum EBizType {
 
     , CSW_PAY("100", "城市网商品积分购买支付")
 
-    , GD_O2O("GD_O2O", "全能水电工O2O积分支付");
+    , GD_MALL("GD_MALL", "积分商城消费"), GD_O2O("GD_O2O", "O2O店铺积分消费");
     public static Map<String, EBizType> getBizTypeMap() {
         Map<String, EBizType> map = new HashMap<String, EBizType>();
         for (EBizType bizType : EBizType.values()) {

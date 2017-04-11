@@ -159,9 +159,10 @@ public class OrderAOImpl implements IOrderAO {
             return toPayOrderCG(order, payType);
         } else if (ESystemCode.ZHPAY.getCode().equals(order.getSystemCode())) {
             return toPayOrderZH(order, payType);
-        } else if (ESystemCode.CSW.getCode().equals(order.getSystemCode())
-                || ESystemCode.PIPE.getCode().equals(order.getSystemCode())) {
+        } else if (ESystemCode.CSW.getCode().equals(order.getSystemCode())) {
             return toPayOrderCSW(order, payType);
+        } else if (ESystemCode.PIPE.getCode().equals(order.getSystemCode())) {
+            return toPayOrderGD(order, payType);
         } else {
             throw new BizException("xn000000", "系统编号不能识别");
         }
@@ -264,7 +265,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Transactional
-    private Object toPayOrderCSW(Order order, String payType) {
+    public Object toPayOrderCSW(Order order, String payType) {
         Long jfAmount = order.getAmount3(); // 积分
         String systemCode = order.getSystemCode();
         String fromUserId = order.getApplyUser();
@@ -276,6 +277,25 @@ public class OrderAOImpl implements IOrderAO {
             String systemUserId = userBO.getSystemUser(systemCode);
             accountBO.doCSWJfPay(fromUserId, systemUserId, jfAmount,
                 EBizType.CSW_PAY);
+        } else {
+            throw new BizException("xn0000", "支付类型不支持");
+        }
+        return new BooleanRes(true);
+    }
+
+    @Transactional
+    public Object toPayOrderGD(Order order, String payType) {
+        Long jfAmount = order.getAmount3(); // 积分
+        String systemCode = order.getSystemCode();
+        String fromUserId = order.getApplyUser();
+        // 积分支付
+        if (EPayType.INTEGRAL.getCode().equals(payType)) {
+            // 更新订单支付金额
+            orderBO.refreshPaySuccess(order, 0L, 0L, 0L, jfAmount, null);
+            // 扣除金额
+            String systemUserId = userBO.getSystemUser(systemCode);
+            accountBO.doCSWJfPay(fromUserId, systemUserId, jfAmount,
+                EBizType.GD_MALL);
         } else {
             throw new BizException("xn0000", "支付类型不支持");
         }
