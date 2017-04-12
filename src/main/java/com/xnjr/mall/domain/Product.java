@@ -52,13 +52,13 @@ public class Product extends ABaseDO {
     // 原价
     private Long originalPrice;
 
-    // 价格1
+    // 价格1(人民币)
     private Long price1;
 
-    // 价格2
+    // 价格2(购物币)
     private Long price2;
 
-    // 价格3
+    // 价格3(钱包币)
     private Long price3;
 
     // 位置

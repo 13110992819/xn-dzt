@@ -134,6 +134,10 @@
 		,adv_pic
 		,pic
 		,description
+		,price1
+		,price2
+		,price3
+		
 		,status
 		,updater
 		,update_datetime
@@ -151,6 +155,10 @@
 		,#{advPic}
 		,#{pic}
 		,#{description}
+		,#{price1}
+		,#{price2}
+		,#{price3}
+		
 		,#{status}
 		,#{updater}
 		,#{updateDatetime}
@@ -169,8 +177,13 @@
 		,name = #{name}
 		,slogan = #{slogan}
 		,adv_pic = #{advPic}
+		
 		,pic = #{pic}
 		,description = #{description}
+		,price1 = #{price1}
+		,price2 = #{price2}
+		,price3 = #{price3}
+		
 		,status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}

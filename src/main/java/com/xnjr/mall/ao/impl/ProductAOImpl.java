@@ -80,6 +80,10 @@ public class ProductAOImpl implements IProductAO {
         data.setAdvPic(req.getAdvPic());
         data.setPic(req.getPic());
         data.setDescription(req.getDescription());
+        data.setPrice1(StringValidater.toLong(req.getPrice1()));
+        data.setPrice2(StringValidater.toLong(req.getPrice2()));
+
+        data.setPrice3(StringValidater.toLong(req.getPrice3()));
         if (ESystemCode.ZHPAY.getCode().equals(req.getSystemCode())) {
             data.setStatus(EProductStatus.TO_APPROVE.getCode());
         } else {
@@ -143,6 +147,9 @@ public class ProductAOImpl implements IProductAO {
 
         data.setPic(req.getPic());
         data.setDescription(req.getDescription());
+        data.setPrice1(StringValidater.toLong(req.getPrice1()));
+        data.setPrice2(StringValidater.toLong(req.getPrice2()));
+        data.setPrice3(StringValidater.toLong(req.getPrice3()));
 
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());

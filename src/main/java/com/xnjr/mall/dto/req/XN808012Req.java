@@ -36,11 +36,44 @@ public class XN808012Req {
     // 产品详情(必填)
     private String description;
 
+    // 价格1(选填)
+    private String price1;
+
+    // 价格2(选填)
+    private String price2;
+
+    // 价格3(选填)
+    private String price3;
+
     // 更新人(必填)
     private String updater;
 
     // 备注(选填)
     private String remark;
+
+    public String getPrice1() {
+        return price1;
+    }
+
+    public void setPrice1(String price1) {
+        this.price1 = price1;
+    }
+
+    public String getPrice2() {
+        return price2;
+    }
+
+    public void setPrice2(String price2) {
+        this.price2 = price2;
+    }
+
+    public String getPrice3() {
+        return price3;
+    }
+
+    public void setPrice3(String price3) {
+        this.price3 = price3;
+    }
 
     public String getCode() {
         return code;
