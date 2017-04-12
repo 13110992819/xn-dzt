@@ -265,14 +265,14 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Transactional
-    public Object toPayOrderCSW(Order order, String payType) {
-        Long jfAmount = order.getAmount3(); // 积分
+    private Object toPayOrderCSW(Order order, String payType) {
+        Long jfAmount = order.getAmount1(); // 积分
         String systemCode = order.getSystemCode();
         String fromUserId = order.getApplyUser();
         // 积分支付
         if (EPayType.INTEGRAL.getCode().equals(payType)) {
             // 更新订单支付金额
-            orderBO.refreshPaySuccess(order, 0L, 0L, 0L, jfAmount, null);
+            orderBO.refreshPaySuccess(order, jfAmount, 0L, 0L, 0L, null);
             // 扣除金额
             String systemUserId = userBO.getSystemUser(systemCode);
             accountBO.doCSWJfPay(fromUserId, systemUserId, jfAmount,
