@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xnjr.mall.bo.IUserBO;
-import com.xnjr.mall.bo.base.PaginableBOImpl;
 import com.xnjr.mall.domain.User;
 import com.xnjr.mall.dto.req.XN001102Req;
 import com.xnjr.mall.dto.req.XN001301Req;
@@ -34,7 +33,7 @@ import com.xnjr.mall.http.JsonUtils;
  * @history:
  */
 @Component
-public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
+public class UserBOImpl implements IUserBO {
 
     @Override
     public User getRemoteUser(String userId) {
