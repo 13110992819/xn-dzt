@@ -2,14 +2,7 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>	
-		<typeAlias alias="product" type="com.xnjr.mall.domain.Product" />
-		<typeAlias alias="order" type="com.xnjr.mall.domain.Order" />
-		<typeAlias alias="productOrder" type="com.xnjr.mall.domain.ProductOrder" />
-		<typeAlias alias="productSpecs" type="com.xnjr.mall.domain.ProductSpecs" />
-	    
-	    <typeAlias alias="sysDict" type="com.xnjr.mall.domain.SYSDict" />
-	    <typeAlias alias="sysConfig" type="com.xnjr.mall.domain.SYSConfig" />
-	    
+		<typeAlias alias="order" type="com.cdkj.dzt.domain.Order" />
 	</typeAliases>	
 </configuration>
 
