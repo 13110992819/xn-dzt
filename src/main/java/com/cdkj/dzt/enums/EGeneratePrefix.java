@@ -10,7 +10,8 @@ import java.util.Map;
  */
 public enum EGeneratePrefix {
 
-    MODEL("MO", "产品"), MODELSPECS("MOS", "产品规格");
+    MODEL("MO", "产品"), MODELSPECS("MOS", "产品规格"), PRODUCT("PD", "成衣"), PRODUCTSPECS(
+            "PDS", "成衣规格");
     public static Map<String, EGeneratePrefix> getMap() {
         Map<String, EGeneratePrefix> map = new HashMap<String, EGeneratePrefix>();
         for (EGeneratePrefix orderType : EGeneratePrefix.values()) {

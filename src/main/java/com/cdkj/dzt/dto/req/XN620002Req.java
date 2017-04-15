@@ -9,6 +9,7 @@
 package com.cdkj.dzt.dto.req;
 
 /** 
+ * 修改型号
  * @author: haiqingzheng 
  * @since: 2017年4月14日 下午2:48:36 
  * @history:
@@ -24,7 +25,7 @@ public class XN620002Req {
     private String pic;
 
     // 价格（必填）
-    private Long price;
+    private String price;
 
     // 更新人（必填）
     private String updater;
@@ -56,11 +57,11 @@ public class XN620002Req {
         this.pic = pic;
     }
 
-    public Long getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

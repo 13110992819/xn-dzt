@@ -1,43 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xnjr.mall.dao.IProductSpecsDAO">
+<mapper namespace="com.cdkj.dzt.dao.IProductSpecsDAO">
 	<resultMap id="productSpecs_DB_Result" type="productSpecs">
 		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="parent_code" property="parentCode" />
+		<result column="type" property="type" />
+		<result column="pic" property="pic" />
 		<result column="product_code" property="productCode" />
-		<result column="dkey" property="dkey" />
-		<result column="dvalue" property="dvalue" />
-		<result column="order_no" property="orderNo" />
-		<result column="company_code" property="companyCode" />
-		<result column="system_code" property="systemCode" />
+		<result column="order_code" property="orderCode" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
-			<if test="productCode != null and productCode != '' ">
-				AND t.product_code = #{productCode}
-			</if>
-			<if test="companyCode != null and companyCode != '' ">
-				AND t.company_code = #{companyCode}
-			</if>
-			<if test="systemCode != null and systemCode != '' ">
-				AND t.system_code = #{systemCode}
-			</if>
 		</trim>
 	</sql>
 	<select id="select_productSpecs" parameterType="productSpecs" resultMap="productSpecs_DB_Result">
 		SELECT
 		t.code
+		,t.name
+		,t.parent_code
+		,t.type
+		,t.pic
 		,t.product_code
-		,t.dkey
-		,t.dvalue
-		,t.order_no
-		,t.company_code
-		,t.system_code
+		,t.order_code
 		FROM
-		tmall_product_specs t
+		tdzt_product_specs t
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -48,46 +39,43 @@
 
 	<select id="select_productSpecs_count" parameterType="productSpecs"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tmall_product_specs t
+		SELECT count(1) FROM tdzt_product_specs t
 		<include refid="where_condition" />
 	</select>
 
 	<insert id="insert_productSpecs" parameterType="productSpecs">
 		INSERT INTO
-		tmall_product_specs(
+		tdzt_product_specs(
 		code
+		,name
+		,parent_code
+		,type
+		,pic
 		,product_code
-		,dkey
-		,dvalue
-		,order_no
-		,company_code
-		,system_code
+		,order_code
 		)
 		VALUES(
 		#{code}
+		,#{name}
+		,#{parentCode}
+		,#{type}
+		,#{pic}
 		,#{productCode}
-		,#{dkey}
-		,#{dvalue}
-		,#{orderNo}
-		,#{companyCode}
-		,#{systemCode}
+		,#{orderCode}
 		)
 	</insert>
 
 	<update id="update_productSpecs" parameterType="productSpecs">
-		UPDATE tmall_product_specs
+		UPDATE tdzt_product_specs
 		SET
-		dkey = #{dkey}
-		,dvalue = #{dvalue}
-		,order_no = #{orderNo}
+		name = #{name}
+		,parent_code = #{parentCode}
+		,type = #{type}
+		,pic = #{pic}
+		,product_code = #{productCode}
+		,order_code = #{orderCode}
 		WHERE code = #{code}
 	</update>
 
-    <delete id="delete_productSpecs" parameterType="productSpecs">
-		DELETE FROM
-		tmall_product_specs
-		WHERE
-		code = #{code}
-	</delete>
 
 </mapper>

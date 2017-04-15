@@ -11,15 +11,12 @@ import com.cdkj.dzt.domain.Model;
 public interface IModelAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public String addModel(Model data);
-
-    public int dropModel(String code);
-
-    public int editModel(Model data);
+    public void editModel(String code, String name, String pic, Long price,
+            String updater, String remark);
 
     public Paginable<Model> queryModelPage(int start, int limit, Model condition);
 
-    public List<Model> queryModelList(Model condition);
+    public List<Model> queryModelList(String name);
 
     public Model getModel(String code);
 
