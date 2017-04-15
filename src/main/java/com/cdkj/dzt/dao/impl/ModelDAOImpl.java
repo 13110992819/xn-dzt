@@ -47,7 +47,7 @@ public class ModelDAOImpl extends AMybatisTemplate implements IModelDAO {
 
     @Override
     public int update(Model data) {
-        return super.update(NAMESPACE.concat("select_model"), data);
+        return super.update(NAMESPACE.concat("update_model"), data);
     }
 
 }

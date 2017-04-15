@@ -3,6 +3,10 @@
 <configuration>
 	<typeAliases>	
 		<typeAlias alias="order" type="com.cdkj.dzt.domain.Order" />
+		<typeAlias alias="model" type="com.cdkj.dzt.domain.Model" />
+		<typeAlias alias="modelSpecs" type="com.cdkj.dzt.domain.ModelSpecs" />
+		<typeAlias alias="product" type="com.cdkj.dzt.domain.Product" />
+		<typeAlias alias="productSpecs" type="com.cdkj.dzt.domain.ProductSpecs" />
 	</typeAliases>	
 </configuration>
 

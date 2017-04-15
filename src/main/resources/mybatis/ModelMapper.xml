@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdkj.dzt.dao.IModelDAO">
+	<resultMap id="model_DB_Result" type="model">
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="pic" property="pic" />
+		<result column="price" property="price" />
+		<result column="create_datetime" property="createDatetime" />
+		<result column="updater" property="updater" />
+		<result column="update_datetime" property="updateDatetime" />
+		<result column="remark" property="remark" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="code != null and code != '' ">
+				AND t.code = #{code}
+			</if>
+		</trim>
+	</sql>
+	<select id="select_model" parameterType="model" resultMap="model_DB_Result">
+		SELECT
+		t.code
+		,t.name
+		,t.pic
+		,t.price
+		,t.create_datetime
+		,t.updater
+		,t.update_datetime
+		,t.remark
+		FROM
+		tdzt_model t
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_model_count" parameterType="model"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tdzt_model t
+		<include refid="where_condition" />
+	</select>
+
+	<insert id="insert_model" parameterType="model">
+		INSERT INTO
+		tdzt_model(
+		code
+		,name
+		,pic
+		,price
+		,create_datetime
+		,updater
+		,update_datetime
+		,remark
+		)
+		VALUES(
+		#{code}
+		,#{name}
+		,#{pic}
+		,#{price}
+		,#{createDatetime}
+		,#{updater}
+		,#{updateDatetime}
+		,#{remark}
+		)
+	</insert>
+
+	<update id="update_model" parameterType="model">
+		UPDATE tdzt_model
+		SET
+		name = #{name}
+		,pic = #{pic}
+		,price = #{price}
+		,create_datetime = #{createDatetime}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
+
+
+</mapper>
