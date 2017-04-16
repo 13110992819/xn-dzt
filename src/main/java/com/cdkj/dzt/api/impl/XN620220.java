@@ -5,7 +5,7 @@ import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 
 /**
- * 合伙人复核
+ * 订单分页查询
  * @author: asus 
  * @since: 2017年4月14日 下午5:06:16 
  * @history:

@@ -7,5 +7,14 @@ package com.cdkj.dzt.dto.req;
  * @history:
  */
 public class XN620206Req {
+    // 订单编号（必填）
+    private String orderCode;
 
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
 }

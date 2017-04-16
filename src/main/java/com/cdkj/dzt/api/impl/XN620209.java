@@ -1,6 +1,7 @@
 package com.cdkj.dzt.api.impl;
 
 import com.cdkj.dzt.api.AProcessor;
+import com.cdkj.dzt.dto.req.XN620209Req;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 
@@ -11,6 +12,8 @@ import com.cdkj.dzt.exception.ParaException;
  * @history:
  */
 public class XN620209 extends AProcessor {
+
+    private XN620209Req req = null;
 
     /** 
      * @see com.cdkj.dzt.api.IProcessor#doBusiness()
