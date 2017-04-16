@@ -5,28 +5,16 @@ import java.util.List;
 import com.cdkj.dzt.bo.base.IPaginableBO;
 import com.cdkj.dzt.domain.ModelSpecs;
 
-
-
-//CHECK ��鲢��ע�� 
 public interface IModelSpecsBO extends IPaginableBO<ModelSpecs> {
 
+    public boolean isModelSpecsExist(String code);
 
-	public boolean isModelSpecsExist(String code);
+    public int refreshModelSpecs(String code, String name, String parentCode,
+            String type, String pic, String orderNo, String remark,
+            String modelCode);
 
+    public List<ModelSpecs> queryModelSpecsList(ModelSpecs condition);
 
-	public String saveModelSpecs(ModelSpecs data);
-
-
-	public int removeModelSpecs(String code);
-
-
-	public int refreshModelSpecs(ModelSpecs data);
-
-
-	public List<ModelSpecs> queryModelSpecsList(ModelSpecs condition);
-
-
-	public ModelSpecs getModelSpecs(String code);
-
+    public ModelSpecs getModelSpecs(String code);
 
 }

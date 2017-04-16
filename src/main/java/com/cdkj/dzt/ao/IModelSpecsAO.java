@@ -11,11 +11,9 @@ import com.cdkj.dzt.domain.ModelSpecs;
 public interface IModelSpecsAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public String addModelSpecs(ModelSpecs data);
-
-    public int dropModelSpecs(String code);
-
-    public int editModelSpecs(ModelSpecs data);
+    public int editModelSpecs(String code, String name, String parentCode,
+            String type, String pic, String orderNo, String remark,
+            String modelCode);
 
     public Paginable<ModelSpecs> queryModelSpecsPage(int start, int limit,
             ModelSpecs condition);

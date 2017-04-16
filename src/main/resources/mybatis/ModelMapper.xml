@@ -17,6 +17,12 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="name != null and name != '' ">
+				AND t.name like "%"#{name}"%"
+			</if>
+			<if test="updater != null and updater != '' ">
+				AND t.updater like "%"#{updater}"%"
+			</if>
 		</trim>
 	</sql>
 	<select id="select_model" parameterType="model" resultMap="model_DB_Result">
@@ -45,37 +51,12 @@
 		<include refid="where_condition" />
 	</select>
 
-	<insert id="insert_model" parameterType="model">
-		INSERT INTO
-		tdzt_model(
-		code
-		,name
-		,pic
-		,price
-		,create_datetime
-		,updater
-		,update_datetime
-		,remark
-		)
-		VALUES(
-		#{code}
-		,#{name}
-		,#{pic}
-		,#{price}
-		,#{createDatetime}
-		,#{updater}
-		,#{updateDatetime}
-		,#{remark}
-		)
-	</insert>
-
 	<update id="update_model" parameterType="model">
 		UPDATE tdzt_model
 		SET
 		name = #{name}
 		,pic = #{pic}
 		,price = #{price}
-		,create_datetime = #{createDatetime}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}

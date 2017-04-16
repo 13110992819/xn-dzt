@@ -6,7 +6,12 @@ package com.cdkj.dzt.dto.req;
  * @since: 2017年4月14日 下午3:24:11 
  * @history:
  */
-public class XN620057Req {
+public class XN620057Req extends APageReq {
+
+    /** 
+     * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+     */
+    private static final long serialVersionUID = 3806947294258057836L;
 
     // 名称(选填)
     private String name;
