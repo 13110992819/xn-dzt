@@ -62,6 +62,7 @@ public class OrderAOImpl implements IOrderAO {
         Date now = new Date();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
+
         order.setCode(code);
         // 城市合伙人用户ID
         order.setToUser(user.getUserId());
@@ -79,15 +80,15 @@ public class OrderAOImpl implements IOrderAO {
         order.setApplyNote(req.getApplyNote());
         order.setCreateDatetime(now);
         order.setStatus(EOrderStatus.TO_MEASURE.getCode());
-        order.setReceiver(req.getApplyUser());
-
+        order.setReceiver(req.getApplyName());
         order.setReAddress(req.getLtProvince() + req.getLtCity()
                 + req.getLtArea() + req.getLtAddress());
+
         order.setReMobile(req.getApplyMobile());
         order.setUpdater(req.getUpdater());
         order.setUpdateDatetime(now);
-
         order.setRemark(req.getRemark());
+
         orderBO.saveOrder(order);
         return code;
     }
