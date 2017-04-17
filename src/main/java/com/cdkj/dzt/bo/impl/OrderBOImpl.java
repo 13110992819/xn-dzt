@@ -117,6 +117,24 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
+    public void confirmReceipt(Order order, String updater, String remark) {
+        order.setStatus(EOrderStatus.RECEIVE.getCode());
+        order.setUpdater(updater);
+        order.setUpdateDatetime(new Date());
+        order.setRemark(remark);
+        orderDAO.confirmReceipt(order);
+    }
+
+    @Override
+    public void cancelOrder(Order order, String userId, String remark) {
+        order.setStatus(EOrderStatus.CANCEL.getCode());
+        order.setUpdater(userId);
+        order.setUpdateDatetime(new Date());
+        order.setRemark(remark);
+        orderDAO.cancelOrder(order);
+    }
+
+    @Override
     public List<Order> queryOrderList(Order condition) {
         return orderDAO.selectList(condition);
     }

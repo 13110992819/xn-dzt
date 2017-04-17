@@ -89,13 +89,8 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
     }
 
     @Override
-    public int updateUserCancel(Order data) {
-        return super.update(NAMESPACE.concat("update_userCancel"), data);
-    }
-
-    @Override
-    public int updatePlatCancel(Order data) {
-        return super.update(NAMESPACE.concat("update_platCancel"), data);
+    public int cancelOrder(Order data) {
+        return super.update(NAMESPACE.concat("update_cancelOrder"), data);
     }
 
     /** 
@@ -104,16 +99,6 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
     @Override
     public int updatePaySuccess(Order data) {
         return super.update(NAMESPACE.concat("update_paySuccess"), data);
-    }
-
-    @Override
-    public int updateDeliverLogistics(Order data) {
-        return super.update(NAMESPACE.concat("update_deliverLogistics"), data);
-    }
-
-    @Override
-    public int updateDeliverXianchang(Order data) {
-        return super.update(NAMESPACE.concat("update_deliverXianchang"), data);
     }
 
     @Override
@@ -134,6 +119,11 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
     @Override
     public int sendGoods(Order data) {
         return super.update(NAMESPACE.concat("update_sendGoods"), data);
+    }
+
+    @Override
+    public int confirmReceipt(Order data) {
+        return super.update(NAMESPACE.concat("update_confirmReceipt"), data);
     }
 
 }

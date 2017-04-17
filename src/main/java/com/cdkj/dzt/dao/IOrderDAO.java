@@ -13,15 +13,9 @@ public interface IOrderDAO extends IBaseDAO<Order> {
 
     public int assignedOrder(Order data);
 
-    public int updateUserCancel(Order data);
+    public int cancelOrder(Order data);
 
     public int updatePaySuccess(Order data);
-
-    public int updateDeliverLogistics(Order data);
-
-    public int updateDeliverXianchang(Order data);
-
-    public int updatePlatCancel(Order data);
 
     public int updateConfirm(Order data);
 
@@ -34,5 +28,7 @@ public interface IOrderDAO extends IBaseDAO<Order> {
     public int submitProudect(Order data);
 
     public int sendGoods(Order data);
+
+    public int confirmReceipt(Order data);
 
 }

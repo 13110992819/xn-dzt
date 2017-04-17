@@ -20,6 +20,7 @@ import com.cdkj.dzt.bo.IAccountBO;
 import com.cdkj.dzt.bo.IModelBO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IUserBO;
+import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.common.DateUtil;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Model;
@@ -225,5 +226,48 @@ public class OrderAOImpl implements IOrderAO {
             DateUtil.FRONT_DATE_FORMAT_STRING);
         orderBO.sendGoods(order, logisticsCompany, logisticsCode, deliverer,
             sendTime, pdf, updater, remark);
+    }
+
+    @Override
+    public void confirmReceipt(String orderCode, String updater, String remark) {
+        Order order = orderBO.getOrder(orderCode);
+        if (!EOrderStatus.SEND.getCode().equals(order.getStatus())) {
+            throw new BizException("xn000000", "订单还未发货,不能确认收货");
+        }
+        orderBO.confirmReceipt(order, updater, remark);
+    }
+
+    @Override
+    public void cancelOrder(String orderCode, String userId, String remark) {
+        Order order = orderBO.getOrder(orderCode);
+        if (EOrderStatus.PAY_YES.getCode().equals(order.getStatus())
+                || EOrderStatus.TO_PRODU.getCode().equals(order.getStatus())
+                || EOrderStatus.PRODU_DOING.getCode().equals(order.getStatus())
+                || EOrderStatus.SEND.getCode().equals(order.getStatus())
+                || EOrderStatus.RECEIVE.getCode().equals(order.getStatus())) {
+            throw new BizException("xn000000", "订单不处于可取消订单状态,不能取消订单");
+        }
+        if (order.getApplyUser().equals(userId)
+                || order.getLtUser().equals(userId)
+                || order.getToUser().equals(userId)) {
+            orderBO.cancelOrder(order, userId, remark);
+        } else {
+            throw new BizException("xn000000", "尊敬的用户,该订单不属于您，或你管辖的范围,不可取消订单");
+        }
+    }
+
+    @Override
+    public Paginable<Order> queryOrderPage(int start, int limit, Order condition) {
+        return orderBO.getPaginable(start, limit, condition);
+    }
+
+    @Override
+    public Order getOrder(String code) {
+        return orderBO.getOrder(code);
+    }
+
+    @Override
+    public List<Order> queryOrderlList(Order condition) {
+        return orderBO.queryOrderList(condition);
     }
 }
