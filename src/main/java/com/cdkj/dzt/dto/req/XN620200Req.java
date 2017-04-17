@@ -27,7 +27,16 @@ public class XN620200Req {
     // 量体时间（必填）
     private String ltDatetime;
 
-    // 量体地址（必填）
+    // 量体地址省（必填）
+    private String ltProvince;
+
+    // 量体地址市（必填）
+    private String ltCity;
+
+    // 量体地址区（必填）
+    private String ltArea;
+
+    // 量体地址详细（必填）
     private String ltAddress;
 
     // 量体叮嘱（选填）
@@ -69,6 +78,30 @@ public class XN620200Req {
 
     public void setLtDatetime(String ltDatetime) {
         this.ltDatetime = ltDatetime;
+    }
+
+    public String getLtProvince() {
+        return ltProvince;
+    }
+
+    public void setLtProvince(String ltProvince) {
+        this.ltProvince = ltProvince;
+    }
+
+    public String getLtCity() {
+        return ltCity;
+    }
+
+    public void setLtCity(String ltCity) {
+        this.ltCity = ltCity;
+    }
+
+    public String getLtArea() {
+        return ltArea;
+    }
+
+    public void setLtArea(String ltArea) {
+        this.ltArea = ltArea;
     }
 
     public String getLtAddress() {

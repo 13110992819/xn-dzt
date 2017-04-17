@@ -17,6 +17,9 @@ public class Order extends ABaseDO {
     // 编号
     private String code;
 
+    // 所属合伙人
+    private String toUser;
+
     // 下单人UserId
     private String applyUser;
 
@@ -29,7 +32,16 @@ public class Order extends ABaseDO {
     // 量体时间
     private Date ltDatetime;
 
-    // 量体地址
+    // 量体地址省（必填）
+    private String ltProvince;
+
+    // 量体地址市（必填）
+    private String ltCity;
+
+    // 量体地址区（必填）
+    private String ltArea;
+
+    // 量体地址详细（必填）
     private String ltAddress;
 
     // 量体叮嘱
@@ -115,6 +127,14 @@ public class Order extends ABaseDO {
         this.code = code;
     }
 
+    public String getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(String toUser) {
+        this.toUser = toUser;
+    }
+
     public String getApplyUser() {
         return applyUser;
     }
@@ -145,6 +165,30 @@ public class Order extends ABaseDO {
 
     public void setLtDatetime(Date ltDatetime) {
         this.ltDatetime = ltDatetime;
+    }
+
+    public String getLtProvince() {
+        return ltProvince;
+    }
+
+    public void setLtProvince(String ltProvince) {
+        this.ltProvince = ltProvince;
+    }
+
+    public String getLtCity() {
+        return ltCity;
+    }
+
+    public void setLtCity(String ltCity) {
+        this.ltCity = ltCity;
+    }
+
+    public String getLtArea() {
+        return ltArea;
+    }
+
+    public void setLtArea(String ltArea) {
+        this.ltArea = ltArea;
     }
 
     public String getLtAddress() {

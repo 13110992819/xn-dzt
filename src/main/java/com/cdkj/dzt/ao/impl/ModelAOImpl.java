@@ -11,7 +11,6 @@ import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.exception.BizException;
 
-//CHECK ��鲢��ע�� 
 @Service
 public class ModelAOImpl implements IModelAO {
 

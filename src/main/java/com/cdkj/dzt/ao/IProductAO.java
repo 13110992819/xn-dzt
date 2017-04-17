@@ -2,12 +2,9 @@ package com.cdkj.dzt.ao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Product;
 
-@Component
 public interface IProductAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
