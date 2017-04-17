@@ -34,6 +34,10 @@ public interface IOrderBO extends IPaginableBO<Order> {
             String logisticsCode, String deliverer, Date deliveryDatetime,
             String pdf, String updater, String remark);
 
+    public void confirmReceipt(Order order, String updater, String remark);
+
+    public void cancelOrder(Order order, String userId, String remark);
+
     public List<Order> queryOrderList(Order condition);
 
     public Order getOrder(String code);

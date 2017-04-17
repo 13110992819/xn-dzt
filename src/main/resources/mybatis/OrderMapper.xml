@@ -44,6 +44,60 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="toUser != null and toUser != '' ">
+				AND t.to_user = #{toUser}
+			</if>
+			<if test="applyUser != null and applyUser != '' ">
+				AND t.apply_user = #{applyUser}
+			</if>
+			<if test="applyName != null and applyName != '' ">
+				AND t.apply_name = #{applyName}
+			</if>
+			<if test="applyMobile != null and applyMobile != '' ">
+				AND t.apply_mobile = #{applyMobile}
+			</if>
+			<if test="ltProvince != null and ltProvince != '' ">
+				AND t.lt_province = #{ltProvince}
+			</if>
+			<if test="ltCity != null and ltCity != '' ">
+				AND t.lt_city = #{ltCity}
+			</if>
+			<if test="ltArea != null and ltArea != '' ">
+				AND t.lt_area = #{ltArea}
+			</if>
+			<if test="ltAddress != null and ltAddress != '' ">
+				AND t.lt_address = #{ltAddress}
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
+			</if>
+			<if test="ltUser != null and ltUser != '' ">
+				AND t.lt_user = #{ltUser}
+			</if>
+			<if test="ltName != null and ltName != '' ">
+				AND t.lt_name = #{ltName}
+			</if>
+			<if test="deliverer != null and deliverer != '' ">
+				AND t.deliverer = #{deliverer}
+			</if>
+			<if test="logisticsCompany != null and logisticsCompany != '' ">
+				AND t.logistics_company = #{logisticsCompany}
+			</if>
+			<if test="LogisticsCode != null and LogisticsCode != '' ">
+				AND t.logistics_code = #{LogisticsCode}
+			</if>
+			<if test="Receiver != null and Receiver != '' ">
+				AND t.receiver = #{Receiver}
+			</if>
+			<if test="reMobile != null and reMobile != '' ">
+				AND t.re_mobile = #{reMobile}
+			</if>
+			<if test="reAddress != null and reAddress != '' ">
+				AND t.re_address = #{reAddress}
+			</if>
+			<if test="updater != null and updater != '' ">
+				AND t.updater = #{updater}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_order" parameterType="order" resultMap="order_DB_Result">
@@ -220,46 +274,24 @@
 		WHERE code = #{code}
 	</update>
 
-
-
-
-
-
-	<update id="update_order" parameterType="order">
+	<update id="update_confirmReceipt" parameterType="order">
 		UPDATE tdzt_order
 		SET
-		apply_user = #{applyUser}
-		,apply_name = #{applyName}
-		,apply_mobile = #{applyMobile}
-		,lt_datetime = #{ltDatetime}
-		,lt_address = #{ltAddress}
-		,apply_note = #{applyNote}
-		,create_datetime = #{createDatetime}
-		,status = #{status}
-		,lt_user = #{ltUser}
-		,lt_name = #{ltName}
-		,amount = #{amount}
-		,pay_type = #{payType}
-		,pay_group = #{payGroup}
-		,pay_code = #{payCode}
-		,pay_datetime = #{payDatetime}
-		,pay_amount = #{payAmount}
-		,deliverer = #{deliverer}
-		,delivery_datetime = #{deliveryDatetime}
-		,logistics_company = #{logisticsCompany}
-		,logistics_code = #{logisticsCode}
-		,pdf = #{pdf}
-		,receiver = #{receiver}
-		,re_mobile = #{reMobile}
-		,re_address = #{reAddress}
-		,receipt_type = #{receiptType}
-		,receipt_title = #{receiptTitle}
-		,yunfei = #{yunfei}
+		status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}
 		WHERE code = #{code}
 	</update>
 
+	<update id="update_cancelOrder" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
 
 </mapper>

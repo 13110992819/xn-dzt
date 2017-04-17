@@ -5,6 +5,7 @@ import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.dto.req.XN620210Req;
+import com.cdkj.dzt.dto.res.BooleanRes;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
@@ -25,8 +26,9 @@ public class XN620210 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        orderAO.confirmReceipt(req.getOrderCode(), req.getUpdater(),
+            req.getRemark());
+        return new BooleanRes(true);
     }
 
     /** 

@@ -8,6 +8,10 @@
  */
 package com.cdkj.dzt.ao;
 
+import java.util.List;
+
+import com.cdkj.dzt.bo.base.Paginable;
+import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.dto.req.XN620200Req;
 
 /** 
@@ -16,6 +20,8 @@ import com.cdkj.dzt.dto.req.XN620200Req;
  * @history:
  */
 public interface IOrderAO {
+    static final String DEFAULT_ORDER_COLUMN = "code";
+
     public String commitOrder(XN620200Req req);
 
     public String againApply(String applyUser);
@@ -38,4 +44,15 @@ public interface IOrderAO {
     public void sendGoods(String orderCode, String logisticsCompany,
             String logisticsCode, String deliverer, String deliveryDatetime,
             String pdf, String updater, String remark);
+
+    public void confirmReceipt(String orderCode, String updater, String remark);
+
+    public void cancelOrder(String orderCode, String userId, String remark);
+
+    public Paginable<Order> queryOrderPage(int start, int limit, Order condition);
+
+    public Order getOrder(String code);
+
+    public List<Order> queryOrderlList(Order condition);
+
 }
