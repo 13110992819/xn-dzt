@@ -51,30 +51,6 @@
 		<include refid="where_condition" />
 	</select>
 
-	<insert id="insert_modelSpecs" parameterType="modelSpecs">
-		INSERT INTO
-		tdzt_model_specs(
-		code
-		,name
-		,key
-		,type
-		,pic
-		,order_no
-		,remark
-		,model_code
-		)
-		VALUES(
-		#{code}
-		,#{name}
-		,#{key}
-		,#{type}
-		,#{pic}
-		,#{orderNo}
-		,#{remark}
-		,#{modelCode}
-		)
-	</insert>
-
 	<update id="update_modelSpecs" parameterType="modelSpecs">
 		UPDATE tdzt_model_specs
 		SET

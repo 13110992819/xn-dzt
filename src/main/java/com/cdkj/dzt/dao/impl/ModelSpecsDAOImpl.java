@@ -14,12 +14,12 @@ public class ModelSpecsDAOImpl extends AMybatisTemplate implements
 
     @Override
     public int insert(ModelSpecs data) {
-        return super.insert(NAMESPACE.concat("insert_modelSpecs"), data);
+        return 0;// super.insert(NAMESPACE.concat("insert_modelSpecs"), data);
     }
 
     @Override
     public int delete(ModelSpecs data) {
-        return super.delete(NAMESPACE.concat("delete_modelSpecs"), data);
+        return 0;// super.delete(NAMESPACE.concat("delete_modelSpecs"), data);
     }
 
     @Override

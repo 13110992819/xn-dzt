@@ -13,6 +13,7 @@ import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.dto.req.XN620002Req;
+import com.cdkj.dzt.dto.res.BooleanRes;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
@@ -33,7 +34,7 @@ public class XN620002 extends AProcessor {
         modelAO.editModel(req.getCode(), req.getName(), req.getPic(),
             StringValidater.toLong(req.getPrice()), req.getUpdater(),
             req.getRemark());
-        return null;
+        return new BooleanRes(true);
     }
 
     @Override

@@ -14,8 +14,23 @@
 	<!-- 分页BO层注入paginableDao -->
 	
 	
-	<bean id="orderBO" class="com.xnjr.mall.bo.impl.OrderBOImpl">
+	<bean id="orderBO" class="com.cdkj.dzt.bo.impl.OrderBOImpl">
 		<property name="paginableDAO" ref="orderDAOImpl"/>
 	</bean>	
 	
+	<bean id="modelBO" class="com.cdkj.dzt.bo.impl.ModelBOImpl">
+		<property name="paginableDAO" ref="modelDAOImpl"/>
+	</bean>	
+	
+	<bean id="modelSpecsBO" class="com.cdkj.dzt.bo.impl.ModelSpecsBOImpl">
+		<property name="paginableDAO" ref="modelSpecsDAOImpl"/>
+	</bean>	
+	
+	<bean id="productBO" class="com.cdkj.dzt.bo.impl.ProductBOImpl">
+		<property name="paginableDAO" ref="productDAOImpl"/>
+	</bean>	
+	
+	<bean id="productSpecsBO" class="com.cdkj.dzt.bo.impl.ProductSpecsBOImpl">
+		<property name="paginableDAO" ref="productSpecsDAOImpl"/>
+	</bean>	
 </beans>
