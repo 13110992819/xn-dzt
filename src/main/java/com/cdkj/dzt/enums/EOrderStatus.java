@@ -6,8 +6,10 @@ package com.cdkj.dzt.enums;
  * @history:
  */
 public enum EOrderStatus {
-    TO_PAY("1", "待支付"), PAY_YES("2", "已支付"), SEND("3", "已发货"), RECEIVE("4",
-            "已收货"), YHYC("91", "用户异常"), SHYC("92", "商户异常"), KDYC("93", "快递异常");
+    TO_MEASURE("0", "待量体"), ASSGIN_MEASURE("1", "已分配待量体"), ASSIGN_PRICE("2",
+            "已定价"), PAY_YES("3", "已支付"), TO_APPROVE("4", "待复核"), TO_PRODU("5",
+            "待生产"), PRODU_DOING("6", "生产中"), SEND("7", "已发货"), RECEIVE("8",
+            "已收货");
 
     EOrderStatus(String code, String value) {
         this.code = code;

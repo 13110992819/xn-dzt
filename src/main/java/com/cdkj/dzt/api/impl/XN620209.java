@@ -1,9 +1,14 @@
 package com.cdkj.dzt.api.impl;
 
+import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.api.AProcessor;
+import com.cdkj.dzt.common.JsonUtil;
+import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.dto.req.XN620209Req;
+import com.cdkj.dzt.dto.res.BooleanRes;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
+import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
  * 物流发货
@@ -12,6 +17,7 @@ import com.cdkj.dzt.exception.ParaException;
  * @history:
  */
 public class XN620209 extends AProcessor {
+    private IOrderAO orderAO = SpringContextHolder.getBean(IOrderAO.class);
 
     private XN620209Req req = null;
 
@@ -20,8 +26,11 @@ public class XN620209 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        orderAO.sendGoods(req.getOrderCode(), req.getLogisticsCompany(),
+            req.getLogisticsCode(), req.getDeliverer(),
+            req.getDeliveryDatetime(), req.getPdf(), req.getUpdater(),
+            req.getRemark());
+        return new BooleanRes(true);
     }
 
     /** 
@@ -29,8 +38,10 @@ public class XN620209 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        // TODO Auto-generated method stub
-
+        req = JsonUtil.json2Bean(inputparams, XN620209Req.class);
+        StringValidater.validateBlank(req.getOrderCode(),
+            req.getLogisticsCompany(), req.getLogisticsCode(),
+            req.getDeliverer(), req.getDeliveryDatetime(), req.getUpdater());
     }
 
 }

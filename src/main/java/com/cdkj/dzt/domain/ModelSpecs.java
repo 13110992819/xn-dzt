@@ -28,7 +28,7 @@ public class ModelSpecs extends ABaseDO {
     private String pic;
 
     // 次序
-    private String orderNo;
+    private Integer orderNo;
 
     // 备注
     private String remark;
@@ -68,11 +68,11 @@ public class ModelSpecs extends ABaseDO {
         return pic;
     }
 
-    public void setOrderNo(String orderNo) {
+    public void setOrderNo(Integer orderNo) {
         this.orderNo = orderNo;
     }
 
-    public String getOrderNo() {
+    public Integer getOrderNo() {
         return orderNo;
     }
 

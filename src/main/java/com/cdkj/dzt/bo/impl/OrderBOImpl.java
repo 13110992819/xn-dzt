@@ -1,5 +1,6 @@
 package com.cdkj.dzt.bo.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +11,7 @@ import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.IOrderDAO;
 import com.cdkj.dzt.domain.Order;
+import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
@@ -29,14 +31,8 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
-    public String saveOrder(Order data) {
-        String code = null;
-        if (data != null) {
-
-            data.setCode(code);
-            orderDAO.insert(data);
-        }
-        return code;
+    public void saveOrder(Order data) {
+        orderDAO.insert(data);
     }
 
     @Override
@@ -51,12 +47,73 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
-    public int refreshOrder(Order data) {
-        int count = 0;
-        if (StringUtils.isNotBlank(data.getCode())) {
-            count = orderDAO.update(data);
-        }
-        return count;
+    public void assignedOrder(Order order, String ltUser, String ltName,
+            String updater, String remark) {
+        order.setLtUser(ltUser);
+        order.setLtName(ltName);
+        order.setUpdater(updater);
+        order.setUpdateDatetime(new Date());
+        order.setRemark(remark);
+        orderDAO.assignedOrder(order);
+    }
+
+    @Override
+    public void confirmPrice(Order order, Long amount, String updater,
+            String remark) {
+        order.setAmount(amount);
+        order.setUpdater(updater);
+        order.setUpdateDatetime(new Date());
+        order.setRemark(remark);
+        orderDAO.updateConfirm(order);
+    }
+
+    @Override
+    public void addPayGroup(Order order, String payGroup, String payType) {
+        order.setPayGroup(payGroup);
+        order.setPayType(payType);
+        orderDAO.updatePayGroup(order);
+    }
+
+    @Override
+    public void ltSubmit(Order order, String updater) {
+        order.setStatus(EOrderStatus.TO_APPROVE.getCode());
+        order.setUpdater(updater);
+        order.setUpdateDatetime(new Date());
+        orderDAO.ltSubmit(order);
+    }
+
+    @Override
+    public void approveOrder(Order order, EOrderStatus status, String updater,
+            String remark) {
+        order.setStatus(status.getCode());
+        order.setUpdater(updater);
+        order.setUpdateDatetime(new Date());
+        order.setRemark(remark);
+        orderDAO.approveOrder(order);
+    }
+
+    @Override
+    public void submitProudect(Order order, String updater, String remark) {
+        order.setUpdater(updater);
+        order.setUpdateDatetime(new Date());
+        order.setRemark(remark);
+        orderDAO.submitProudect(order);
+    }
+
+    @Override
+    public void sendGoods(Order order, String logisticsCompany,
+            String logisticsCode, String deliverer, Date deliveryDatetime,
+            String pdf, String updater, String remark) {
+        order.setStatus(EOrderStatus.SEND.getCode());
+        order.setLogisticsCompany(logisticsCompany);
+        order.setLogisticsCode(logisticsCode);
+        order.setDeliverer(deliverer);
+        order.setDeliveryDatetime(deliveryDatetime);
+        order.setPdf(pdf);
+        order.setUpdater(updater);
+        order.setUpdateDatetime(new Date());
+        order.setRemark(remark);
+        orderDAO.sendGoods(order);
     }
 
     @Override
@@ -77,4 +134,12 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         }
         return data;
     }
+
+    @Override
+    public List<Order> queryOrderList(String applyUser) {
+        Order condition = new Order();
+        condition.setApplyUser(applyUser);
+        return orderDAO.selectList(condition);
+    }
+
 }

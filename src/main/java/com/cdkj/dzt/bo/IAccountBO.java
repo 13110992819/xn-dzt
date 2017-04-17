@@ -63,22 +63,4 @@ public interface IAccountBO {
     public XN002510Res doAlipayRemote(String fromUserId, String toUserId,
             Long amount, EBizType bizType, String fromBizNote,
             String toBizNote, String payGroup);
-
-    public void doCgbJfPay(String fromUserId, String toUserId, Long cgbPrice,
-            Long jfPrice, EBizType bizType);
-
-    public void checkCgbJf(String userId, Long cgbAmount, Long jfAmount);
-
-    public void doCSWJfPay(String fromUserId, String toUserId, Long jfAmount,
-            EBizType bizType);
-
-    public void doZHYEPay(String fromUserId, String systemUserId,
-            Long frbAmount, Long gxzAmount, Long gwbAmount, Long qbbAmount,
-            EBizType ajGw);
-
-    public void checkZHYE(String userId, Long frbAmount, Long gxzAmount,
-            Long cnyAmount, Long gwbAmount, Long qbbAmount);
-
-    public void checkZHGwbQbb(String userId, Long gwbAmount, Long qbbAmount);
-
 }

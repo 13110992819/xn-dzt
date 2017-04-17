@@ -5,7 +5,7 @@
 	<resultMap id="modelSpecs_DB_Result" type="modelSpecs">
 		<result column="code" property="code" />
 		<result column="name" property="name" />
-		<result column="key" property="key" />
+		<result column="parent_code" property="parentCode" />
 		<result column="type" property="type" />
 		<result column="pic" property="pic" />
 		<result column="order_no" property="orderNo" />
@@ -29,7 +29,7 @@
 		SELECT
 		t.code
 		,t.name
-		,t.key
+		,t.parent_code
 		,t.type
 		,t.pic
 		,t.order_no
@@ -55,7 +55,7 @@
 		UPDATE tdzt_model_specs
 		SET
 		name = #{name}
-		,key = #{key}
+		,parent_code = #{parentCode}
 		,type = #{type}
 		,pic = #{pic}
 		,order_no = #{orderNo}

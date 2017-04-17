@@ -11,6 +11,8 @@ import com.cdkj.dzt.domain.Order;
 public interface IOrderDAO extends IBaseDAO<Order> {
     String NAMESPACE = IOrderDAO.class.getName().concat(".");
 
+    public int assignedOrder(Order data);
+
     public int updateUserCancel(Order data);
 
     public int updatePaySuccess(Order data);
@@ -24,4 +26,13 @@ public interface IOrderDAO extends IBaseDAO<Order> {
     public int updateConfirm(Order data);
 
     public int updatePayGroup(Order data);
+
+    public int ltSubmit(Order data);
+
+    public int approveOrder(Order data);
+
+    public int submitProudect(Order data);
+
+    public int sendGoods(Order data);
+
 }

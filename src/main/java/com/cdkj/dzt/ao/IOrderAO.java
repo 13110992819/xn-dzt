@@ -17,4 +17,25 @@ import com.cdkj.dzt.dto.req.XN620200Req;
  */
 public interface IOrderAO {
     public String commitOrder(XN620200Req req);
+
+    public String againApply(String applyUser);
+
+    public void assignedOrder(String orderCode, String ltUser, String ltName,
+            String updater, String remark);
+
+    public void confirmPrice(String orderCode, String modelCode,
+            Integer quantity, String updater, String remark);
+
+    public Object payment(String orderCode, String payType);
+
+    public void ltSubmit(String orderCode, String updater);
+
+    public void approveOrder(String orderCode, String result, String updater,
+            String remark);
+
+    public void submitProudect(String orderCode, String updater, String remark);
+
+    public void sendGoods(String orderCode, String logisticsCompany,
+            String logisticsCode, String deliverer, String deliveryDatetime,
+            String pdf, String updater, String remark);
 }

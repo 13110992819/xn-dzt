@@ -31,7 +31,7 @@ public class ModelSpecsBOImpl extends PaginableBOImpl<ModelSpecs> implements
 
     @Override
     public int refreshModelSpecs(String code, String name, String parentCode,
-            String type, String pic, String orderNo, String remark,
+            String type, String pic, Integer orderNo, String remark,
             String modelCode) {
         int count = 0;
         if (StringUtils.isNotBlank(code)) {

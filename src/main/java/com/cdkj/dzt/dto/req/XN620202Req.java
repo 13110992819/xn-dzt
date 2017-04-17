@@ -24,6 +24,12 @@ public class XN620202Req {
     // 量体师姓名（必填）
     private String ltName;
 
+    // 更新人（必填）
+    private String updater;
+
+    // 备注（选填）
+    private String remark;
+
     public String getOrderCode() {
         return orderCode;
     }
@@ -46,5 +52,21 @@ public class XN620202Req {
 
     public void setLtName(String ltName) {
         this.ltName = ltName;
+    }
+
+    public String getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(String updater) {
+        this.updater = updater;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

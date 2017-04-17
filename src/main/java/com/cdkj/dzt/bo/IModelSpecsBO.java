@@ -10,7 +10,7 @@ public interface IModelSpecsBO extends IPaginableBO<ModelSpecs> {
     public boolean isModelSpecsExist(String code);
 
     public int refreshModelSpecs(String code, String name, String parentCode,
-            String type, String pic, String orderNo, String remark,
+            String type, String pic, Integer orderNo, String remark,
             String modelCode);
 
     public List<ModelSpecs> queryModelSpecsList(ModelSpecs condition);

@@ -8,9 +8,15 @@
  */
 package com.cdkj.dzt.api.impl;
 
+import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.api.AProcessor;
+import com.cdkj.dzt.common.JsonUtil;
+import com.cdkj.dzt.core.StringValidater;
+import com.cdkj.dzt.dto.req.XN620201Req;
+import com.cdkj.dzt.dto.res.PKCodeRes;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
+import com.cdkj.dzt.spring.SpringContextHolder;
 
 /** 
  * 一键复购
@@ -19,14 +25,16 @@ import com.cdkj.dzt.exception.ParaException;
  * @history:
  */
 public class XN620201 extends AProcessor {
+    private IOrderAO orderAO = SpringContextHolder.getBean(IOrderAO.class);
+
+    private XN620201Req req = null;
 
     /** 
      * @see com.cdkj.dzt.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        return new PKCodeRes(orderAO.againApply(req.getApplyUser()));
     }
 
     /** 
@@ -34,8 +42,7 @@ public class XN620201 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        // TODO Auto-generated method stub
-
+        req = JsonUtil.json2Bean(inputparams, XN620201Req.class);
+        StringValidater.validateBlank(req.getApplyUser());
     }
-
 }

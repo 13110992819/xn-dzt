@@ -10,11 +10,22 @@ public class XN620206Req {
     // 订单编号（必填）
     private String orderCode;
 
+    // 提交人（必填）
+    private String updater;
+
     public String getOrderCode() {
         return orderCode;
     }
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
+    }
+
+    public String getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(String updater) {
+        this.updater = updater;
     }
 }

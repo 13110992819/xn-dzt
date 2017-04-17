@@ -4,10 +4,14 @@
 <mapper namespace="com.cdkj.dzt.dao.IOrderDAO">
 	<resultMap id="order_DB_Result" type="order">
 		<result column="code" property="code" />
+		<result column="to_user" property="toUser" />
 		<result column="apply_user" property="applyUser" />
 		<result column="apply_name" property="applyName" />
 		<result column="apply_mobile" property="applyMobile" />
 		<result column="lt_datetime" property="ltDatetime" />
+		<result column="lt_province" property="ltProvince" />
+		<result column="lt_city" property="ltCity" />
+		<result column="lt_area" property="ltArea" />
 		<result column="lt_address" property="ltAddress" />
 		<result column="apply_note" property="applyNote" />
 		<result column="create_datetime" property="createDatetime" />
@@ -45,10 +49,14 @@
 	<select id="select_order" parameterType="order" resultMap="order_DB_Result">
 		SELECT
 		t.code
+		,t.to_user
 		,t.apply_user
 		,t.apply_name
 		,t.apply_mobile
 		,t.lt_datetime
+		,t.lt_province
+		,t.lt_city
+		,t.lt_area
 		,t.lt_address
 		,t.apply_note
 		,t.create_datetime
@@ -95,71 +103,127 @@
 		INSERT INTO
 		tdzt_order(
 		code
+		,to_user
 		,apply_user
 		,apply_name
 		,apply_mobile
 		,lt_datetime
+		,lt_province
+		,lt_city
+		,lt_area
 		,lt_address
 		,apply_note
 		,create_datetime
 		,status
-		,lt_user
-		,lt_name
-		,amount
-		,pay_type
-		,pay_group
-		,pay_code
-		,pay_datetime
-		,pay_amount
-		,deliverer
-		,delivery_datetime
-		,logistics_company
-		,logistics_code
-		,pdf
 		,receiver
 		,re_mobile
 		,re_address
-		,receipt_type
-		,receipt_title
-		,yunfei
 		,updater
 		,update_datetime
 		,remark
 		)
 		VALUES(
 		#{code}
+		,#{toUser}
 		,#{applyUser}
 		,#{applyName}
 		,#{applyMobile}
 		,#{ltDatetime}
+		,#{ltProvince}
+		,#{ltCity}
+		,#{ltArea}
 		,#{ltAddress}
 		,#{applyNote}
 		,#{createDatetime}
 		,#{status}
-		,#{ltUser}
-		,#{ltName}
-		,#{amount}
-		,#{payType}
-		,#{payGroup}
-		,#{payCode}
-		,#{payDatetime}
-		,#{payAmount}
-		,#{deliverer}
-		,#{deliveryDatetime}
-		,#{logisticsCompany}
-		,#{logisticsCode}
-		,#{pdf}
 		,#{receiver}
 		,#{reMobile}
 		,#{reAddress}
-		,#{receiptType}
-		,#{receiptTitle}
-		,#{yunfei}
 		,#{updater}
 		,#{updateDatetime}
 		,#{remark}
 		)
 	</insert>
+
+	<update id="update_assignedOrder" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		lt_user = #{ltUser}
+		,lt_name = #{ltName}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
+
+	<update id="update_confirm" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		amount = #{amount}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
+
+	<update id="update_payGroup" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		pay_type = #{payType}
+		,pay_group = #{payGroup}
+		WHERE code = #{code}
+	</update>
+
+
+	<update id="update_ltSubmit" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		WHERE code = #{code}
+	</update>
+
+	<update id="update_approveOrder" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
+
+	<update id="update_submitProudect" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
+
+
+	<update id="update_sendGoods" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		status = #{status}
+		,deliverer = #{deliverer}
+		,delivery_datetime = #{deliveryDatetime}
+		,logistics_company = #{logisticsCompany}
+		,logistics_code = #{logisticsCode}
+		,pdf = #{pdf}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
+
+
+
+
+
 
 	<update id="update_order" parameterType="order">
 		UPDATE tdzt_order

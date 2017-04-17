@@ -19,7 +19,7 @@ public class ModelSpecsAOImpl implements IModelSpecsAO {
 
     @Override
     public int editModelSpecs(String code, String name, String parentCode,
-            String type, String pic, String orderNo, String remark,
+            String type, String pic, Integer orderNo, String remark,
             String modelCode) {
         if (!modelSpecsBO.isModelSpecsExist(code)) {
             throw new BizException("xn0000", "记录编号不存在");
