@@ -1,8 +1,16 @@
 package com.cdkj.dzt.api.impl;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.cdkj.dzt.ao.IModelSpecsAO;
 import com.cdkj.dzt.api.AProcessor;
+import com.cdkj.dzt.common.JsonUtil;
+import com.cdkj.dzt.core.StringValidater;
+import com.cdkj.dzt.domain.ModelSpecs;
+import com.cdkj.dzt.dto.req.XN620055Req;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
+import com.cdkj.dzt.spring.SpringContextHolder;
 
 /** 
  * 分页获取型号规格
@@ -11,14 +19,28 @@ import com.cdkj.dzt.exception.ParaException;
  * @history:
  */
 public class XN620055 extends AProcessor {
+    private IModelSpecsAO modelSpecsAO = SpringContextHolder
+        .getBean(IModelSpecsAO.class);
+
+    private XN620055Req req = null;
 
     /** 
      * @see com.cdkj.dzt.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        ModelSpecs condition = new ModelSpecs();
+        condition.setType(req.getType());
+        condition.setName(req.getName());
+        condition.setModelCode(req.getModelCode());
+        String orderColumn = req.getOrderColumn();
+        if (StringUtils.isBlank(orderColumn)) {
+            orderColumn = IModelSpecsAO.DEFAULT_ORDER_COLUMN;
+        }
+        condition.setOrder(orderColumn, req.getOrderDir());
+        int start = StringValidater.toInteger(req.getStart());
+        int limit = StringValidater.toInteger(req.getLimit());
+        return modelSpecsAO.queryModelSpecsPage(start, limit, condition);
     }
 
     /** 
@@ -26,8 +48,8 @@ public class XN620055 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        // TODO Auto-generated method stub
-
+        req = JsonUtil.json2Bean(inputparams, XN620055Req.class);
+        StringValidater.validateNumber(req.getStart(), req.getLimit());
     }
 
 }

@@ -1,8 +1,12 @@
 package com.cdkj.dzt.api.impl;
 
+import com.cdkj.dzt.ao.IModelAO;
 import com.cdkj.dzt.api.AProcessor;
+import com.cdkj.dzt.common.JsonUtil;
+import com.cdkj.dzt.dto.req.XN620007Req;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
+import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
  * 列表获取型号
@@ -11,14 +15,16 @@ import com.cdkj.dzt.exception.ParaException;
  * @history:
  */
 public class XN620007 extends AProcessor {
+    private IModelAO modelAO = SpringContextHolder.getBean(IModelAO.class);
+
+    private XN620007Req req = null;
 
     /** 
      * @see com.cdkj.dzt.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        return modelAO.queryModelList(req.getName());
     }
 
     /** 
@@ -26,8 +32,7 @@ public class XN620007 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        // TODO Auto-generated method stub
-
+        req = JsonUtil.json2Bean(inputparams, XN620007Req.class);
     }
 
 }

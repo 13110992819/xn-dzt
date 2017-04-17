@@ -8,10 +8,8 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IModelSpecsBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
-import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.dao.IModelSpecsDAO;
 import com.cdkj.dzt.domain.ModelSpecs;
-import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
@@ -32,32 +30,20 @@ public class ModelSpecsBOImpl extends PaginableBOImpl<ModelSpecs> implements
     }
 
     @Override
-    public String saveModelSpecs(ModelSpecs data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater.generateM(EGeneratePrefix.MODELSPECS
-                .getCode());
-            data.setCode(code);
-            modelSpecsDAO.insert(data);
-        }
-        return code;
-    }
-
-    @Override
-    public int removeModelSpecs(String code) {
+    public int refreshModelSpecs(String code, String name, String parentCode,
+            String type, String pic, String orderNo, String remark,
+            String modelCode) {
         int count = 0;
         if (StringUtils.isNotBlank(code)) {
             ModelSpecs data = new ModelSpecs();
             data.setCode(code);
-            count = modelSpecsDAO.delete(data);
-        }
-        return count;
-    }
-
-    @Override
-    public int refreshModelSpecs(ModelSpecs data) {
-        int count = 0;
-        if (StringUtils.isNotBlank(data.getCode())) {
+            data.setName(name);
+            data.setParentCode(parentCode);
+            data.setType(type);
+            data.setPic(pic);
+            data.setOrderNo(orderNo);
+            data.setRemark(remark);
+            data.setModelCode(modelCode);
             count = modelSpecsDAO.update(data);
         }
         return count;
@@ -76,7 +62,7 @@ public class ModelSpecsBOImpl extends PaginableBOImpl<ModelSpecs> implements
             condition.setCode(code);
             data = modelSpecsDAO.select(condition);
             if (data == null) {
-                throw new BizException("xn0000", "�� ��Ų�����");
+                throw new BizException("xn0000", "不存在该产品规格");
             }
         }
         return data;

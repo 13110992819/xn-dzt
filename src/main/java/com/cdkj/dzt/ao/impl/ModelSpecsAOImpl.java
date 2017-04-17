@@ -18,24 +18,14 @@ public class ModelSpecsAOImpl implements IModelSpecsAO {
     private IModelSpecsBO modelSpecsBO;
 
     @Override
-    public String addModelSpecs(ModelSpecs data) {
-        return modelSpecsBO.saveModelSpecs(data);
-    }
-
-    @Override
-    public int editModelSpecs(ModelSpecs data) {
-        if (!modelSpecsBO.isModelSpecsExist(data.getCode())) {
-            throw new BizException("xn0000", "记录编号不存在");
-        }
-        return modelSpecsBO.refreshModelSpecs(data);
-    }
-
-    @Override
-    public int dropModelSpecs(String code) {
+    public int editModelSpecs(String code, String name, String parentCode,
+            String type, String pic, String orderNo, String remark,
+            String modelCode) {
         if (!modelSpecsBO.isModelSpecsExist(code)) {
             throw new BizException("xn0000", "记录编号不存在");
         }
-        return modelSpecsBO.removeModelSpecs(code);
+        return modelSpecsBO.refreshModelSpecs(code, name, parentCode, type,
+            pic, orderNo, remark, modelCode);
     }
 
     @Override
