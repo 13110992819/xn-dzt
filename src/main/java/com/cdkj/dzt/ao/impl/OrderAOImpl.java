@@ -10,15 +10,16 @@ package com.cdkj.dzt.ao.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.bo.IAccountBO;
 import com.cdkj.dzt.bo.IModelBO;
+import com.cdkj.dzt.bo.IModelSpecsBO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.IProductSpecsBO;
@@ -27,15 +28,15 @@ import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.common.DateUtil;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Model;
+import com.cdkj.dzt.domain.ModelSpecs;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
-import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.domain.User;
 import com.cdkj.dzt.dto.req.XN620200Req;
 import com.cdkj.dzt.enums.EBizType;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.EGeneratePrefix;
-import com.cdkj.dzt.enums.EMeasure;
+import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EPayType;
 import com.cdkj.dzt.enums.EUserKind;
@@ -57,6 +58,9 @@ public class OrderAOImpl implements IOrderAO {
 
     @Autowired
     private IModelBO modelBO;
+
+    @Autowired
+    private IModelSpecsBO modelSpecsBO;
 
     @Autowired
     private IAccountBO accountBO;
@@ -180,10 +184,12 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     public Object payment(String orderCode, String payType) {
-        Order order = orderBO.getOrder(orderCode);
+        // Order order = orderBO.getOrder(orderCode);
         Object result = null;
         if (EPayType.WEIXIN.getCode().equals(payType)) {
             result = toPayOrderWechat(orderCode, payType);
+        } else {
+            throw new BizException("xn000000", "暂不支持该种支付方式");
         }
         return result;
     }
@@ -205,31 +211,21 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public void inputInfor(String orderCode,
-            List<ProductSpecs> productSpecsList, String reAddress,
+    public void inputInfor(String orderCode, Map<String, String> map,
             String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
-        List<Product> productList = productBO.queryProductList(orderCode);
-        Product product = productList.get(0);
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单尚未支付,不能录入数据");
         }
-        for (ProductSpecs pro : productSpecsList) {
-            String parentCode = pro.getParentCode();
-            if (StringUtils.isNotBlank(pro.getType())) {
+        Product product = productBO.getProductByOrderCode(orderCode);
+        productSpecsBO.removeProductSpecs(product.getCode());
+        // 存地址
+        orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
+            remark);
 
-            }
-            if (StringUtils.isNotBlank(pro.getType())
-                    && EMeasure.REALLY.getCode().equals(pro.getType())) {
-                List<ProductSpecs> proList = productSpecsBO
-                    .queryProductSpecsList(parentCode);
-                ProductSpecs productSpecs = proList.get(0);
-                parentCode = productSpecs.getCode();
-            }
-            productSpecsBO.inputInfor(pro.getName(), parentCode, pro.getType(),
-                pro.getPic(), order.getCode(), product.getCode());
-        }
-        orderBO.inputInfor(order, reAddress, updater, remark);
+        productSpecsBO.inputInforValue(order, product, map);
+        Map<String, ModelSpecs> modelSmap = modelSpecsBO.getMap();
+        productSpecsBO.inputInforCode(order, product, map, modelSmap);
     }
 
     @Override

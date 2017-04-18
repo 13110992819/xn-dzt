@@ -1,7 +1,10 @@
 package com.cdkj.dzt.bo.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -66,5 +69,19 @@ public class ModelSpecsBOImpl extends PaginableBOImpl<ModelSpecs> implements
             }
         }
         return data;
+    }
+
+    @Override
+    public Map<String, ModelSpecs> getMap() {
+        Map<String, ModelSpecs> map = null;
+        ModelSpecs condtion = new ModelSpecs();
+        List<ModelSpecs> list = this.queryModelSpecsList(condtion);
+        if (CollectionUtils.isNotEmpty(list)) {
+            map = new HashMap<String, ModelSpecs>();
+            for (ModelSpecs ele : list) {
+                map.put(ele.getCode(), ele);
+            }
+        }
+        return map;
     }
 }

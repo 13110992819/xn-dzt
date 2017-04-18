@@ -104,6 +104,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
 
     @Override
     public void submitProudect(Order order, String updater, String remark) {
+        order.setStatus(EOrderStatus.PRODU_DOING.getCode());
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
         order.setRemark(remark);

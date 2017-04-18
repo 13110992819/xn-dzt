@@ -9,10 +9,10 @@
 package com.cdkj.dzt.ao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Order;
-import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.dto.req.XN620200Req;
 
 /** 
@@ -35,8 +35,7 @@ public interface IOrderAO {
 
     public Object payment(String orderCode, String payType);
 
-    public void inputInfor(String orderCode,
-            List<ProductSpecs> productSpecsList, String reAddress,
+    public void inputInfor(String orderCode, Map<String, String> map,
             String updater, String remark);
 
     public void ltSubmit(String orderCode, String updater);
