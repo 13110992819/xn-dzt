@@ -8,9 +8,8 @@ import com.cdkj.dzt.domain.ModelSpecs;
 public interface IModelSpecsAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public int editModelSpecs(String code, String name, String parentCode,
-            String type, String pic, Integer orderNo, String remark,
-            String modelCode);
+    public void editModelSpecs(String code, String name, String pic,
+            Integer orderNo, String remark);
 
     public Paginable<ModelSpecs> queryModelSpecsPage(int start, int limit,
             ModelSpecs condition);

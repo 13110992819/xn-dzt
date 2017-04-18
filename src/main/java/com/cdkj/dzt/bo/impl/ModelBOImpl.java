@@ -20,27 +20,20 @@ public class ModelBOImpl extends PaginableBOImpl<Model> implements IModelBO {
     private IModelDAO modelDAO;
 
     @Override
-    public boolean isModelExist(String code) {
-        Model condition = new Model();
-        condition.setCode(code);
-        if (modelDAO.selectTotalCount(condition) > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public void refreshModel(String code, String name, String pic, Long price,
             String updater, String remark) {
-        Model data = new Model();
-        data.setCode(code);
-        data.setName(name);
-        data.setPic(pic);
-        data.setPrice(price);
-        data.setUpdater(updater);
-        data.setUpdateDatetime(new Date());
-        data.setRemark(remark);
-        modelDAO.update(data);
+        if (StringUtils.isNotBlank(code)) {
+            Model data = new Model();
+            data.setCode(code);
+            data.setName(name);
+            data.setPic(pic);
+            data.setPrice(price);
+
+            data.setUpdater(updater);
+            data.setUpdateDatetime(new Date());
+            data.setRemark(remark);
+            modelDAO.update(data);
+        }
     }
 
     @Override

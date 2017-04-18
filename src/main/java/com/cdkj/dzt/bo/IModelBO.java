@@ -7,8 +7,6 @@ import com.cdkj.dzt.domain.Model;
 
 public interface IModelBO extends IPaginableBO<Model> {
 
-    public boolean isModelExist(String code);
-
     public void refreshModel(String code, String name, String pic, Long price,
             String updater, String remark);
 

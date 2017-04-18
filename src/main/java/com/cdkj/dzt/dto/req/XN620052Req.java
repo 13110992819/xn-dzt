@@ -14,23 +14,14 @@ public class XN620052Req {
     // 名称(必填)
     private String name;
 
-    // 父类编号(必填)
-    private String parentCode;
-
-    // 类型(中文)(必填)
-    private String type;
-
-    // 图片(必填)
+    // 图片(选填)
     private String pic;
 
     // 次序(必填)
     private String orderNo;
 
-    // 备注(必填)
+    // 备注(选填)
     private String remark;
-
-    // 产品编号(必填)
-    private String modelCode;
 
     public String getCode() {
         return code;
@@ -46,22 +37,6 @@ public class XN620052Req {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getParentCode() {
-        return parentCode;
-    }
-
-    public void setParentCode(String parentCode) {
-        this.parentCode = parentCode;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getPic() {
@@ -88,11 +63,4 @@ public class XN620052Req {
         this.remark = remark;
     }
 
-    public String getModelCode() {
-        return modelCode;
-    }
-
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
-    }
 }

@@ -30,8 +30,9 @@ public class XN620055 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         ModelSpecs condition = new ModelSpecs();
-        condition.setType(req.getType());
+        condition.setParentCode(req.getParentCode());
         condition.setName(req.getName());
+        condition.setType(req.getType());
         condition.setModelCode(req.getModelCode());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {

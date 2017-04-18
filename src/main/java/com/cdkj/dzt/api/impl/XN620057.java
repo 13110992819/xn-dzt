@@ -1,7 +1,5 @@
 package com.cdkj.dzt.api.impl;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.cdkj.dzt.ao.IModelSpecsAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
@@ -29,14 +27,10 @@ public class XN620057 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         ModelSpecs condition = new ModelSpecs();
-        condition.setType(req.getType());
+        condition.setParentCode(req.getParentCode());
         condition.setName(req.getName());
+        condition.setType(req.getType());
         condition.setModelCode(req.getModelCode());
-        String orderColumn = req.getOrderColumn();
-        if (StringUtils.isBlank(orderColumn)) {
-            orderColumn = IModelSpecsAO.DEFAULT_ORDER_COLUMN;
-        }
-        condition.setOrder(orderColumn, req.getOrderDir());
         return modelSpecsAO.queryModelSpecsList(condition);
     }
 

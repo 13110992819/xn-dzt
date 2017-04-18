@@ -9,7 +9,6 @@ import com.cdkj.dzt.ao.IModelAO;
 import com.cdkj.dzt.bo.IModelBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Model;
-import com.cdkj.dzt.exception.BizException;
 
 @Service
 public class ModelAOImpl implements IModelAO {
@@ -20,9 +19,6 @@ public class ModelAOImpl implements IModelAO {
     @Override
     public void editModel(String code, String name, String pic, Long price,
             String updater, String remark) {
-        if (!modelBO.isModelExist(code)) {
-            throw new BizException("xn0000", "产品不存在");
-        }
         modelBO.refreshModel(code, name, pic, price, updater, remark);
     }
 
@@ -32,9 +28,7 @@ public class ModelAOImpl implements IModelAO {
     }
 
     @Override
-    public List<Model> queryModelList(String name) {
-        Model condition = new Model();
-        condition.setName(name);
+    public List<Model> queryModelList(Model condition) {
         return modelBO.queryModelList(condition);
     }
 

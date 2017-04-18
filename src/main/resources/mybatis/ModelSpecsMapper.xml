@@ -8,6 +8,7 @@
 		<result column="parent_code" property="parentCode" />
 		<result column="type" property="type" />
 		<result column="pic" property="pic" />
+		
 		<result column="order_no" property="orderNo" />
 		<result column="remark" property="remark" />
 		<result column="model_code" property="modelCode" />
@@ -20,9 +21,16 @@
 			<if test="name != null and name != '' ">
 				AND t.name like "%"#{name}"%"
 			</if>
+			<if test="parentCode != null and parentCode != '' ">
+				AND t.parent_code = #{parentCode}
+			</if>
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
 			<if test="modelCode != null and modelCode != '' ">
 				AND t.model_code = #{modelCode}
 			</if>
+			
 		</trim>
 	</sql>
 	<select id="select_modelSpecs" parameterType="modelSpecs" resultMap="modelSpecs_DB_Result">
@@ -38,11 +46,7 @@
 		FROM
 		tdzt_model_specs t
 		<include refid="where_condition" />
-		<trim prefix="ORDER BY ">
-			<if test="order != null and order != '' ">
-				t.${order}
-			</if>
-		</trim>
+		ORDER BY order_no
 	</select>
 
 	<select id="select_modelSpecs_count" parameterType="modelSpecs"
@@ -55,12 +59,9 @@
 		UPDATE tdzt_model_specs
 		SET
 		name = #{name}
-		,parent_code = #{parentCode}
-		,type = #{type}
 		,pic = #{pic}
 		,order_no = #{orderNo}
 		,remark = #{remark}
-		,model_code = #{modelCode}
 		WHERE code = #{code}
 	</update>
 

@@ -9,7 +9,6 @@ import com.cdkj.dzt.ao.IModelSpecsAO;
 import com.cdkj.dzt.bo.IModelSpecsBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.ModelSpecs;
-import com.cdkj.dzt.exception.BizException;
 
 @Service
 public class ModelSpecsAOImpl implements IModelSpecsAO {
@@ -18,14 +17,9 @@ public class ModelSpecsAOImpl implements IModelSpecsAO {
     private IModelSpecsBO modelSpecsBO;
 
     @Override
-    public int editModelSpecs(String code, String name, String parentCode,
-            String type, String pic, Integer orderNo, String remark,
-            String modelCode) {
-        if (!modelSpecsBO.isModelSpecsExist(code)) {
-            throw new BizException("xn0000", "记录编号不存在");
-        }
-        return modelSpecsBO.refreshModelSpecs(code, name, parentCode, type,
-            pic, orderNo, remark, modelCode);
+    public void editModelSpecs(String code, String name, String pic,
+            Integer orderNo, String remark) {
+        modelSpecsBO.refreshModelSpecs(code, name, pic, orderNo, remark);
     }
 
     @Override
