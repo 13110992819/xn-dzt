@@ -11,7 +11,7 @@ import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
- * 平台提交生产
+ * 提交生产
  * @author: asus 
  * @since: 2017年4月14日 下午5:06:16 
  * @history:

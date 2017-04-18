@@ -284,6 +284,7 @@
 		status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
 		WHERE code = #{code}
 	</update>
 
@@ -312,11 +313,13 @@
 		UPDATE tdzt_order
 		SET
 		status = #{status}
+		
 		,deliverer = #{deliverer}
 		,delivery_datetime = #{deliveryDatetime}
 		,logistics_company = #{logisticsCompany}
 		,logistics_code = #{logisticsCode}
 		,pdf = #{pdf}
+		
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}

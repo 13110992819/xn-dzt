@@ -1,5 +1,8 @@
 package com.cdkj.dzt.enums;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum EMeasureKey {
     CSGG("11", "衬衫规格"), CSML("12", "衬衫面料"), LXXZ("13", "领型选择"), XXXZ("14",
             "袖型选择"), MZXZ("15", "门襟选择"), XBXZ("16", "下摆选择"), SXXZ("17", "收省选择"), LKYZ(
@@ -14,6 +17,13 @@ public enum EMeasureKey {
             "47", "背部"), GXCX("51", "个性刺绣"), CXWZ("52", "刺绣位置"), CDZT("53",
             "刺绣字体"), CSYS("54", "刺绣颜色"), NL("61", "年龄"), SG("62", "身高"), TZ(
             "63", "体重"), YJDZ("64", "邮寄地址");
+    public static Map<String, EMeasureKey> getMap() {
+        Map<String, EMeasureKey> map = new HashMap<String, EMeasureKey>();
+        for (EMeasureKey direction : EMeasureKey.values()) {
+            map.put(direction.getCode(), direction);
+        }
+        return map;
+    }
 
     EMeasureKey(String code, String value) {
         this.code = code;

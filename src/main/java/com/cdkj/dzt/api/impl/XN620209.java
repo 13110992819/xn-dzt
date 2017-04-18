@@ -26,9 +26,9 @@ public class XN620209 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.sendGoods(req.getOrderCode(), req.getLogisticsCompany(),
-            req.getLogisticsCode(), req.getDeliverer(),
-            req.getDeliveryDatetime(), req.getPdf(), req.getUpdater(),
+        orderAO.sendGoods(req.getOrderCode(), req.getDeliverer(),
+            req.getDeliveryDatetime(), req.getLogisticsCompany(),
+            req.getLogisticsCode(), req.getPdf(), req.getUpdater(),
             req.getRemark());
         return new BooleanRes(true);
     }
@@ -39,9 +39,9 @@ public class XN620209 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620209Req.class);
-        StringValidater.validateBlank(req.getOrderCode(),
-            req.getLogisticsCompany(), req.getLogisticsCode(),
-            req.getDeliverer(), req.getDeliveryDatetime(), req.getUpdater());
+        StringValidater.validateBlank(req.getOrderCode(), req.getDeliverer(),
+            req.getDeliveryDatetime(), req.getLogisticsCompany(),
+            req.getLogisticsCode(), req.getUpdater());
     }
 
 }

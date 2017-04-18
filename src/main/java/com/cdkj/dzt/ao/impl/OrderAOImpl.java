@@ -175,10 +175,13 @@ public class OrderAOImpl implements IOrderAO {
     public void confirmPrice(String orderCode, String modelCode,
             Integer quantity, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
-        Model model = modelBO.getModel(modelCode);
         if (!EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
-            throw new BizException("xn0000", "订单不处于待量体状态，不可以分配订单");
+            throw new BizException("xn0000", "订单不处于待量体状态，不可以定价");
         }
+        // 落地成衣
+        Model model = modelBO.getModel(modelCode);
+        productBO.saveProduct(order, model, quantity);
+        // 更新订单
         Long amount = model.getPrice() * quantity;
         orderBO.confirmPrice(order, amount, updater, remark);
     }
@@ -209,7 +212,7 @@ public class OrderAOImpl implements IOrderAO {
 
     private Object toPayOrderWechat(String orderCode, String payType) {
         // 生成payGroup,并把订单进行支付。
-        String payGroup = OrderNoGenerater.generateM(EGeneratePrefix.ORDER_PAY
+        String payGroup = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         // 计算该组订单总金额
         Order order = orderBO.getOrder(orderCode);
@@ -247,12 +250,11 @@ public class OrderAOImpl implements IOrderAO {
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单尚未支付,不能录入数据");
         }
-
-        productSpecsBO.removeProductSpecs(product.getCode());
-        // 存地址
+        // 更新订单
         orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
             remark);
-
+        // 落地量体数据
+        productSpecsBO.removeProductSpecs(product.getCode());
         productSpecsBO.inputInforValue(order, product, map);
         Map<String, ModelSpecs> modelSmap = modelSpecsBO.getMap();
         productSpecsBO.inputInforCode(order, product, map, modelSmap);
@@ -260,13 +262,12 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     public void ltSubmit(String orderCode, String updater) {
-        Order order = orderBO.getOrder(orderCode);
+        Order order = orderBO.getRichOrder(orderCode);
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
-            throw new BizException("xn000000", "订单尚未支付,不能提交审核");
+            throw new BizException("xn000000", "订单不是已支付状态,不能提交审核");
         }
-        if (!order.getLtUser().equals(updater)) {
-            throw new BizException("xn000000", "您不是该笔订单的量体师,不能提交订单");
-        }
+        // 确保所有规格已经填充完毕
+        orderBO.checkInfoFull(order);
         orderBO.ltSubmit(order, updater);
     }
 
@@ -277,9 +278,11 @@ public class OrderAOImpl implements IOrderAO {
         if (!EOrderStatus.TO_APPROVE.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于待审核状态,不能审核");
         }
-        EOrderStatus status = EOrderStatus.PAY_YES;
+        EOrderStatus status = null;
         if (EBoolean.YES.getCode().equals(result)) {
             status = EOrderStatus.TO_PRODU;
+        } else {
+            status = EOrderStatus.PAY_YES;// 审核不通过，回退到已支付待提交
         }
         orderBO.approveOrder(order, status, updater, remark);
     }
@@ -294,17 +297,17 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public void sendGoods(String orderCode, String logisticsCompany,
-            String logisticsCode, String deliverer, String deliveryDatetime,
-            String pdf, String updater, String remark) {
+    public void sendGoods(String orderCode, String deliverer,
+            String deliveryDatetime, String logisticsCompany,
+            String logisticsCode, String pdf, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.PRODU_DOING.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于生产中,不能发货");
         }
         Date sendTime = DateUtil.strToDate(deliveryDatetime,
             DateUtil.FRONT_DATE_FORMAT_STRING);
-        orderBO.sendGoods(order, logisticsCompany, logisticsCode, deliverer,
-            sendTime, pdf, updater, remark);
+        orderBO.sendGoods(order, deliverer, sendTime, logisticsCompany,
+            logisticsCode, pdf, updater, remark);
     }
 
     @Override
@@ -317,7 +320,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public void cancelOrder(String orderCode, String userId, String remark) {
+    public void cancelOrder(String orderCode, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (EOrderStatus.PAY_YES.getCode().equals(order.getStatus())
                 || EOrderStatus.TO_PRODU.getCode().equals(order.getStatus())
@@ -326,10 +329,10 @@ public class OrderAOImpl implements IOrderAO {
                 || EOrderStatus.RECEIVE.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于可取消订单状态,不能取消订单");
         }
-        if (order.getApplyUser().equals(userId)
-                || order.getLtUser().equals(userId)
-                || order.getToUser().equals(userId)) {
-            orderBO.cancelOrder(order, userId, remark);
+        if (order.getApplyUser().equals(updater)
+                || order.getLtUser().equals(updater)
+                || order.getToUser().equals(updater)) {
+            orderBO.cancelOrder(order, updater, remark);
         } else {
             throw new BizException("xn000000", "尊敬的用户,该订单不属于您，或你管辖的范围,不可取消订单");
         }
@@ -342,9 +345,7 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     public Order getRichOrder(String code) {
-        Order order = orderBO.getOrder(code);
-        List<Product> list = productBO.queryRichProductList(order.getCode());
-        order.setProductList(list);
+        Order order = orderBO.getRichOrder(code);
         return order;
     }
 

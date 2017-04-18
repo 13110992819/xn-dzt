@@ -2,20 +2,28 @@ package com.cdkj.dzt.bo.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IOrderBO;
+import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.IOrderDAO;
 import com.cdkj.dzt.domain.Order;
+import com.cdkj.dzt.domain.Product;
+import com.cdkj.dzt.domain.ProductSpecs;
+import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
 public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
+    @Autowired
+    private IProductBO productBO;
 
     @Autowired
     private IOrderDAO orderDAO;
@@ -77,6 +85,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         order.setStatus(EOrderStatus.TO_APPROVE.getCode());
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
+        order.setRemark(EOrderStatus.TO_APPROVE.getValue());
         orderDAO.ltSubmit(order);
     }
 
@@ -100,15 +109,17 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
-    public void sendGoods(Order order, String logisticsCompany,
-            String logisticsCode, String deliverer, Date deliveryDatetime,
-            String pdf, String updater, String remark) {
+    public void sendGoods(Order order, String deliverer, Date deliveryDatetime,
+            String logisticsCompany, String logisticsCode, String pdf,
+            String updater, String remark) {
         order.setStatus(EOrderStatus.SEND.getCode());
-        order.setLogisticsCompany(logisticsCompany);
-        order.setLogisticsCode(logisticsCode);
+
         order.setDeliverer(deliverer);
         order.setDeliveryDatetime(deliveryDatetime);
+        order.setLogisticsCompany(logisticsCompany);
+        order.setLogisticsCode(logisticsCode);
         order.setPdf(pdf);
+
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
         order.setRemark(remark);
@@ -125,9 +136,9 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
-    public void cancelOrder(Order order, String userId, String remark) {
+    public void cancelOrder(Order order, String updater, String remark) {
         order.setStatus(EOrderStatus.CANCEL.getCode());
-        order.setUpdater(userId);
+        order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
         order.setRemark(remark);
         orderDAO.cancelOrder(order);
@@ -168,4 +179,40 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         return order;
     }
 
+    @Override
+    public Order getRichOrder(String code) {
+        Order order = this.getOrder(code);
+        List<Product> list = productBO.queryRichProductList(order.getCode());
+        order.setProductList(list);
+        return order;
+    }
+
+    @Override
+    public void checkInfoFull(Order order) {
+        if (order == null) {
+            throw new BizException("xn0000", "订单为空");
+        }
+        if (CollectionUtils.isEmpty(order.getProductList())) {
+            throw new BizException("xn0000", order.getCode() + "订单的成衣为空");
+        }
+        for (Product product : order.getProductList()) {
+            if (CollectionUtils.isEmpty(product.getProductSpecsList())) {
+                throw new BizException("xn0000", product.getCode() + "成衣的规格为空");
+            }
+            Map<String, EMeasureKey> map = EMeasureKey.getMap();
+            for (String key : map.keySet()) {
+                boolean isIn = false;
+                for (ProductSpecs productSpecs : product.getProductSpecsList()) {
+                    if (key.equalsIgnoreCase(productSpecs.getParentCode())) {
+                        isIn = true;
+                    }
+                }
+                if (!isIn) {
+                    throw new BizException("xn0000", map.get(key).getValue()
+                            + "还未填充");
+                }
+            }
+
+        }
+    }
 }

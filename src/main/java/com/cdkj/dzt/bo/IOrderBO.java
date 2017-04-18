@@ -31,20 +31,25 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public void submitProudect(Order order, String updater, String remark);
 
-    public void sendGoods(Order order, String logisticsCompany,
-            String logisticsCode, String deliverer, Date deliveryDatetime,
-            String pdf, String updater, String remark);
+    public void sendGoods(Order order, String deliverer, Date deliveryDatetime,
+            String logisticsCompany, String logisticsCode, String pdf,
+            String updater, String remark);
 
     public void confirmReceipt(Order order, String updater, String remark);
 
-    public void cancelOrder(Order order, String userId, String remark);
+    public void cancelOrder(Order order, String updater, String remark);
 
     public List<Order> queryOrderList(Order condition);
 
     public Order getOrder(String code);
 
+    public Order getRichOrder(String code);
+
     public Order getLastOrder(String applyUser);
 
     public List<Order> queryOrderListByPayGroup(String payGroup);
+
+    // 订单数据是否完整
+    public void checkInfoFull(Order order);
 
 }
