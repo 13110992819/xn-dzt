@@ -1,5 +1,7 @@
 package com.cdkj.dzt.domain;
 
+import java.util.List;
+
 import com.cdkj.dzt.dao.base.ABaseDO;
 
 /**
@@ -29,6 +31,9 @@ public class Product extends ABaseDO {
 
     // 数量
     private String quantity;
+
+    // -------db propties--------------
+    private List<ProductSpecs> productSpecsList;
 
     public void setCode(String code) {
         this.code = code;
@@ -76,6 +81,14 @@ public class Product extends ABaseDO {
 
     public String getQuantity() {
         return quantity;
+    }
+
+    public List<ProductSpecs> getProductSpecsList() {
+        return productSpecsList;
+    }
+
+    public void setProductSpecsList(List<ProductSpecs> productSpecsList) {
+        this.productSpecsList = productSpecsList;
     }
 
 }

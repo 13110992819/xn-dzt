@@ -7,18 +7,8 @@ import com.cdkj.dzt.domain.Product;
 
 public interface IProductBO extends IPaginableBO<Product> {
 
-    public boolean isProductExist(String code);
-
-    public String saveProduct(Product data);
-
-    public int removeProduct(String code);
-
-    public int refreshProduct(Product data);
-
-    public List<Product> queryProductList(Product condition);
-
     public Product getProductByOrderCode(String orderCode);
 
-    public Product getProduct(String code);
+    public List<Product> queryRichProductList(String orderCode);
 
 }

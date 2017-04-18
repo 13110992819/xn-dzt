@@ -3,7 +3,6 @@ package com.cdkj.dzt.bo.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +14,6 @@ import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.enums.EMeasureKey;
-import com.cdkj.dzt.exception.BizException;
 
 @Component
 public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
@@ -23,25 +21,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
 
     @Autowired
     private IProductSpecsDAO productSpecsDAO;
-
-    @Override
-    public List<ProductSpecs> queryProductSpecsList(ProductSpecs condition) {
-        return productSpecsDAO.selectList(condition);
-    }
-
-    @Override
-    public ProductSpecs getProductSpecs(String code) {
-        ProductSpecs data = null;
-        if (StringUtils.isNotBlank(code)) {
-            ProductSpecs condition = new ProductSpecs();
-            condition.setCode(code);
-            data = productSpecsDAO.select(condition);
-            if (data == null) {
-                throw new BizException("xn0000", "�� ��Ų�����");
-            }
-        }
-        return data;
-    }
 
     @Override
     public void removeProductSpecs(String productCode) {
