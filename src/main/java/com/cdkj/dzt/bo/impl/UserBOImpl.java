@@ -73,8 +73,8 @@ public class UserBOImpl implements IUserBO {
         req.setCity(city);
         req.setArea(area);
         req.setKind(kind.getCode());
-        req.setSystemCode(ESystemCode.ZHPAY.getCode());
-        req.setCompanyCode(ESystemCode.ZHPAY.getCode());
+        req.setSystemCode(ESystemCode.DZT.getCode());
+        req.setCompanyCode(ESystemCode.DZT.getCode());
         XN001403Res result = null;
         String jsonStr = BizConnecter.getBizData("001403",
             JsonUtils.object2Json(req));
@@ -116,7 +116,7 @@ public class UserBOImpl implements IUserBO {
         req.setMobile(mobile);
         req.setUpdater(updater);
         req.setRemark("代注册商家");
-        if (ESystemCode.ZHPAY.getCode().equals(systemCode)) {
+        if (ESystemCode.DZT.getCode().equals(systemCode)) {
             req.setIsRegHx(EBoolean.YES.getCode());
         }
         req.setSystemCode(systemCode);
@@ -133,7 +133,7 @@ public class UserBOImpl implements IUserBO {
         req.setMobile(mobile);
         req.setLoginPwd(loginPwd);
         req.setUpdater(updater);
-        req.setUserReferee(ESysUser.SYS_USER_CAIGO.getCode());
+        req.setUserReferee(ESysUser.SYS_USER_DZT.getCode());
         req.setRemark(remark);
         req.setCompanyCode(systemCode);
         req.setSystemCode(systemCode);
@@ -142,20 +142,4 @@ public class UserBOImpl implements IUserBO {
         return res.getUserId();
     }
 
-    @Override
-    public String getSystemUser(String systemCode) {
-        if (ESystemCode.ZHPAY.getCode().equals(systemCode)) {
-            return ESysUser.SYS_USER_ZHPAY.getCode();
-        }
-        if (ESystemCode.Caigo.getCode().equals(systemCode)) {
-            return ESysUser.SYS_USER_CAIGO.getCode();
-        }
-        if (ESystemCode.CSW.getCode().equals(systemCode)) {
-            return ESysUser.SYS_USER_CSW.getCode();
-        }
-        if (ESystemCode.PIPE.getCode().equals(systemCode)) {
-            return ESysUser.SYS_USER_PIPE.getCode();
-        }
-        return null;
-    }
 }
