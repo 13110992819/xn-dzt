@@ -140,11 +140,7 @@
 		FROM
 		tdzt_order t
 		<include refid="where_condition" />
-		<trim prefix="ORDER BY ">
-			<if test="order != null and order != '' ">
-				t.${order}
-			</if>
-		</trim>
+		ORDER BY create_datetime
 	</select>
 
 	<select id="select_order_count" parameterType="order"

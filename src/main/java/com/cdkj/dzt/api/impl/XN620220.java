@@ -1,7 +1,5 @@
 package com.cdkj.dzt.api.impl;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
@@ -47,11 +45,7 @@ public class XN620220 extends AProcessor {
         condition.setReMobile(req.getReMobile());
         condition.setReAddress(req.getReAddress());
         condition.setUpdater(req.getUpdater());
-        String orderColumn = req.getOrderColumn();
-        if (StringUtils.isBlank(orderColumn)) {
-            orderColumn = IOrderAO.DEFAULT_ORDER_COLUMN;
-        }
-        condition.setOrder(orderColumn, req.getOrderDir());
+
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
         return orderAO.queryOrderPage(start, limit, condition);

@@ -21,7 +21,6 @@ import com.cdkj.dzt.dto.req.XN620200Req;
  * @history:
  */
 public interface IOrderAO {
-    static final String DEFAULT_ORDER_COLUMN = "code";
 
     public String commitOrder(XN620200Req req);
 
