@@ -19,8 +19,6 @@ public interface IProductSpecsBO extends IPaginableBO<ProductSpecs> {
     public void inputInforCode(Order order, Product product,
             Map<String, String> valueMap, Map<String, ModelSpecs> modelSmap);
 
-    public List<ProductSpecs> queryProductSpecsList(ProductSpecs condition);
-
-    public ProductSpecs getProductSpecs(String code);
+    public List<ProductSpecs> queryProductSpecsList(String productCode);
 
 }

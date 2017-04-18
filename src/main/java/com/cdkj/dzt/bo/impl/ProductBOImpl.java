@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IProductBO;
+import com.cdkj.dzt.bo.IProductSpecsBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
-import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.dao.IProductDAO;
 import com.cdkj.dzt.domain.Product;
-import com.cdkj.dzt.enums.EGeneratePrefix;
+import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
@@ -22,52 +22,8 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
     @Autowired
     private IProductDAO productDAO;
 
-    @Override
-    public boolean isProductExist(String code) {
-        Product condition = new Product();
-        condition.setCode(code);
-        if (productDAO.selectTotalCount(condition) > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public String saveProduct(Product data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater
-                .generateM(EGeneratePrefix.PRODUCT.getCode());
-            data.setCode(code);
-            productDAO.insert(data);
-        }
-        return code;
-    }
-
-    @Override
-    public int removeProduct(String code) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            Product data = new Product();
-            data.setCode(code);
-            count = productDAO.delete(data);
-        }
-        return count;
-    }
-
-    @Override
-    public int refreshProduct(Product data) {
-        int count = 0;
-        if (StringUtils.isNotBlank(data.getCode())) {
-            count = productDAO.update(data);
-        }
-        return count;
-    }
-
-    @Override
-    public List<Product> queryProductList(Product condition) {
-        return productDAO.selectList(condition);
-    }
+    @Autowired
+    private IProductSpecsBO productSpecsBO;
 
     @Override
     public Product getProductByOrderCode(String orderCode) {
@@ -82,6 +38,21 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
     }
 
     @Override
+    public List<Product> queryRichProductList(String orderCode) {
+        Product condition = new Product();
+        condition.setOrderCode(orderCode);
+        List<Product> list = productDAO.selectList(condition);
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (Product ele : list) {
+                List<ProductSpecs> productSpecsList = productSpecsBO
+                    .queryProductSpecsList(ele.getCode());
+                ele.setProductSpecsList(productSpecsList);
+            }
+        }
+        return list;
+    }
+
+    @Override
     public Product getProduct(String code) {
         Product data = null;
         if (StringUtils.isNotBlank(code)) {
@@ -89,10 +60,9 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
             condition.setCode(code);
             data = productDAO.select(condition);
             if (data == null) {
-                throw new BizException("xn0000", "�� ��Ų�����");
+                throw new BizException("xn0000", code + "编号的产品不存在");
             }
         }
         return data;
     }
-
 }

@@ -21,7 +21,6 @@ import com.cdkj.dzt.dto.req.XN620200Req;
  * @history:
  */
 public interface IOrderAO {
-    static final String DEFAULT_ORDER_COLUMN = "code";
 
     public String commitOrder(XN620200Req req);
 
@@ -57,7 +56,7 @@ public interface IOrderAO {
 
     public Paginable<Order> queryOrderPage(int start, int limit, Order condition);
 
-    public Order getOrder(String code);
+    public Order getRichOrder(String code);
 
     public List<Order> queryOrderlList(Order condition);
 

@@ -1,7 +1,5 @@
 package com.cdkj.dzt.api.impl;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
@@ -13,7 +11,7 @@ import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
- * 订单分页查询
+ * 订单分页查询（不含成衣数据）
  * @author: asus 
  * @since: 2017年4月14日 下午5:06:16 
  * @history:
@@ -47,11 +45,7 @@ public class XN620220 extends AProcessor {
         condition.setReMobile(req.getReMobile());
         condition.setReAddress(req.getReAddress());
         condition.setUpdater(req.getUpdater());
-        String orderColumn = req.getOrderColumn();
-        if (StringUtils.isBlank(orderColumn)) {
-            orderColumn = IOrderAO.DEFAULT_ORDER_COLUMN;
-        }
-        condition.setOrder(orderColumn, req.getOrderDir());
+
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
         return orderAO.queryOrderPage(start, limit, condition);

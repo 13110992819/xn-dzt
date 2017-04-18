@@ -1,6 +1,7 @@
 package com.cdkj.dzt.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import com.cdkj.dzt.dao.base.ABaseDO;
 
@@ -118,6 +119,9 @@ public class Order extends ABaseDO {
 
     // 备注
     private String remark;
+
+    // -------db propties--------------
+    private List<Product> productList;
 
     public String getCode() {
         return code;
@@ -397,6 +401,14 @@ public class Order extends ABaseDO {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 
 }
