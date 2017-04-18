@@ -16,6 +16,12 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="productCode != null and productCode != '' ">
+				AND t.product_code = #{productCode}
+			</if>
+			<if test="orderCode != null and orderCode != '' ">
+				AND t.order_code = #{orderCode}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_productSpecs" parameterType="productSpecs" resultMap="productSpecs_DB_Result">
@@ -76,6 +82,12 @@
 		,order_code = #{orderCode}
 		WHERE code = #{code}
 	</update>
-
+	
+	<delete id="delete_productSpecs" parameterType="post">
+		DELETE FROM
+		tdzt_product_specs
+		WHERE
+		product_code = #{productCode}
+	</delete>
 
 </mapper>
