@@ -3,6 +3,7 @@ package com.cdkj.dzt.api.impl;
 import com.cdkj.dzt.ao.IModelAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
+import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.dto.req.XN620007Req;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
@@ -24,7 +25,10 @@ public class XN620007 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return modelAO.queryModelList(req.getName());
+        Model condition = new Model();
+        condition.setName(req.getName());
+        condition.setUpdater(req.getUpdater());
+        return modelAO.queryModelList(condition);
     }
 
     /** 

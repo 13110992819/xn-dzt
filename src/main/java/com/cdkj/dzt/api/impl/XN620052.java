@@ -27,10 +27,8 @@ public class XN620052 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        modelSpecsAO.editModelSpecs(req.getCode(), req.getName(),
-            req.getParentCode(), req.getType(), req.getPic(),
-            StringValidater.toInteger(req.getOrderNo()), req.getRemark(),
-            req.getModelCode());
+        modelSpecsAO.editModelSpecs(req.getCode(), req.getName(), req.getPic(),
+            StringValidater.toInteger(req.getOrderNo()), req.getRemark());
         return new BooleanRes(true);
     }
 
@@ -40,9 +38,7 @@ public class XN620052 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620052Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getName(),
-            req.getParentCode(), req.getType(), req.getPic(),
-            req.getModelCode());
+        StringValidater.validateBlank(req.getCode(), req.getName());
         StringValidater.validateNumber(req.getOrderNo());
     }
 

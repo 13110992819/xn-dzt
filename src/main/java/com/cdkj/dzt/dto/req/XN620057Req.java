@@ -6,12 +6,10 @@ package com.cdkj.dzt.dto.req;
  * @since: 2017年4月14日 下午3:24:11 
  * @history:
  */
-public class XN620057Req extends APageReq {
+public class XN620057Req {
 
-    /** 
-     * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
-     */
-    private static final long serialVersionUID = 3806947294258057836L;
+    // 父类编号(选填)
+    private String parentCode;
 
     // 名称(选填)
     private String name;
@@ -45,4 +43,13 @@ public class XN620057Req extends APageReq {
     public void setModelCode(String modelCode) {
         this.modelCode = modelCode;
     }
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
+    }
+
 }

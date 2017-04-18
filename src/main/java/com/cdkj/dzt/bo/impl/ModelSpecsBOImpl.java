@@ -20,33 +20,18 @@ public class ModelSpecsBOImpl extends PaginableBOImpl<ModelSpecs> implements
     private IModelSpecsDAO modelSpecsDAO;
 
     @Override
-    public boolean isModelSpecsExist(String code) {
-        ModelSpecs condition = new ModelSpecs();
-        condition.setCode(code);
-        if (modelSpecsDAO.selectTotalCount(condition) > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public int refreshModelSpecs(String code, String name, String parentCode,
-            String type, String pic, Integer orderNo, String remark,
-            String modelCode) {
-        int count = 0;
+    public void refreshModelSpecs(String code, String name, String pic,
+            Integer orderNo, String remark) {
         if (StringUtils.isNotBlank(code)) {
             ModelSpecs data = new ModelSpecs();
             data.setCode(code);
             data.setName(name);
-            data.setParentCode(parentCode);
-            data.setType(type);
             data.setPic(pic);
             data.setOrderNo(orderNo);
             data.setRemark(remark);
-            data.setModelCode(modelCode);
-            count = modelSpecsDAO.update(data);
+            modelSpecsDAO.update(data);
         }
-        return count;
+
     }
 
     @Override

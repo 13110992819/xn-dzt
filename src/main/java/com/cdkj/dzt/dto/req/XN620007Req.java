@@ -8,8 +8,11 @@ package com.cdkj.dzt.dto.req;
  */
 public class XN620007Req {
 
-    // 名称（必填）
+    // 名称（选填）
     private String name;
+
+    // 更新人（选填）
+    private String updater;
 
     public String getName() {
         return name;
@@ -17,6 +20,14 @@ public class XN620007Req {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(String updater) {
+        this.updater = updater;
     }
 
 }

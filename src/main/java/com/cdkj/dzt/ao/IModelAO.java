@@ -13,7 +13,7 @@ public interface IModelAO {
 
     public Paginable<Model> queryModelPage(int start, int limit, Model condition);
 
-    public List<Model> queryModelList(String name);
+    public List<Model> queryModelList(Model condition);
 
     public Model getModel(String code);
 

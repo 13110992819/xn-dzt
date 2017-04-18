@@ -7,11 +7,8 @@ import com.cdkj.dzt.domain.ModelSpecs;
 
 public interface IModelSpecsBO extends IPaginableBO<ModelSpecs> {
 
-    public boolean isModelSpecsExist(String code);
-
-    public int refreshModelSpecs(String code, String name, String parentCode,
-            String type, String pic, Integer orderNo, String remark,
-            String modelCode);
+    public void refreshModelSpecs(String code, String name, String pic,
+            Integer orderNo, String remark);
 
     public List<ModelSpecs> queryModelSpecsList(ModelSpecs condition);
 

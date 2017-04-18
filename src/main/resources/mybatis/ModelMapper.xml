@@ -8,6 +8,7 @@
 		<result column="pic" property="pic" />
 		<result column="price" property="price" />
 		<result column="create_datetime" property="createDatetime" />
+		
 		<result column="updater" property="updater" />
 		<result column="update_datetime" property="updateDatetime" />
 		<result column="remark" property="remark" />
