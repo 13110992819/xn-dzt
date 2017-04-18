@@ -3,6 +3,7 @@ package com.cdkj.dzt.bo.impl;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.IProductDAO;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.ProductSpecs;
+import com.cdkj.dzt.exception.BizException;
 
 @Component
 public class ProductBOImpl extends PaginableBOImpl<Product> implements
@@ -48,5 +50,19 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
             }
         }
         return list;
+    }
+
+    @Override
+    public Product getProduct(String code) {
+        Product data = null;
+        if (StringUtils.isNotBlank(code)) {
+            Product condition = new Product();
+            condition.setCode(code);
+            data = productDAO.select(condition);
+            if (data == null) {
+                throw new BizException("xn0000", code + "编号的产品不存在");
+            }
+        }
+        return data;
     }
 }

@@ -25,7 +25,7 @@ public class XN620221 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return orderAO.getOrder(req.getCode());
+        return orderAO.getRichOrder(req.getCode());
     }
 
     /** 

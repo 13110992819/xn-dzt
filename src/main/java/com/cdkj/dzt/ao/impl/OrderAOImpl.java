@@ -347,7 +347,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public Order getOrder(String code) {
+    public Order getRichOrder(String code) {
         Order order = orderBO.getOrder(code);
         List<Product> list = productBO.queryRichProductList(order.getCode());
         order.setProductList(list);

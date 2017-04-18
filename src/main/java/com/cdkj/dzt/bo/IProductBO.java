@@ -6,6 +6,7 @@ import com.cdkj.dzt.bo.base.IPaginableBO;
 import com.cdkj.dzt.domain.Product;
 
 public interface IProductBO extends IPaginableBO<Product> {
+    public Product getProduct(String code);
 
     public Product getProductByOrderCode(String orderCode);
 

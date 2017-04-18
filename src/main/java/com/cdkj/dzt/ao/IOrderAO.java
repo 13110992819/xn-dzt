@@ -57,7 +57,7 @@ public interface IOrderAO {
 
     public Paginable<Order> queryOrderPage(int start, int limit, Order condition);
 
-    public Order getOrder(String code);
+    public Order getRichOrder(String code);
 
     public List<Order> queryOrderlList(Order condition);
 
