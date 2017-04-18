@@ -35,8 +35,10 @@ import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.User;
 import com.cdkj.dzt.dto.req.XN620200Req;
+import com.cdkj.dzt.dto.res.BooleanRes;
 import com.cdkj.dzt.enums.EBizType;
 import com.cdkj.dzt.enums.EBoolean;
+import com.cdkj.dzt.enums.ECurrency;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.enums.EOrderStatus;
@@ -192,10 +194,23 @@ public class OrderAOImpl implements IOrderAO {
         Object result = null;
         if (EPayType.WEIXIN.getCode().equals(payType)) {
             result = toPayOrderWechat(orderCode, payType);
+        } else if (EPayType.YEZF.getCode().equals(payType)) {
+            result = toPayOrderYY(orderCode, payType);
         } else {
             throw new BizException("xn000000", "暂不支持该种支付方式");
         }
         return result;
+    }
+
+    private Object toPayOrderYY(String orderCode, String payType) {
+        Order order = orderBO.getOrder(orderCode);
+        Long totalAmount = order.getAmount();
+        String userId = order.getApplyUser();
+        accountBO.doTransferAmountRemote(userId,
+            ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY, totalAmount,
+            EBizType.AJ_GW, "量体衬衫购买订单支付", "量体衬衫购买订单支付");
+        orderBO.PaySuccess(order, null, totalAmount);
+        return new BooleanRes(true);
     }
 
     private Object toPayOrderWechat(String orderCode, String payType) {
@@ -231,13 +246,14 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public void inputInfor(String orderCode, Map<String, String> map,
+    public void inputInfor(String productCode, Map<String, String> map,
             String updater, String remark) {
-        Order order = orderBO.getOrder(orderCode);
+        Product product = productBO.getProduct(productCode);
+        Order order = orderBO.getOrder(product.getOrderCode());
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单尚未支付,不能录入数据");
         }
-        Product product = productBO.getProductByOrderCode(orderCode);
+
         productSpecsBO.removeProductSpecs(product.getCode());
         // 存地址
         orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
