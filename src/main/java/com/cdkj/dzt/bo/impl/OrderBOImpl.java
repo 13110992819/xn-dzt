@@ -76,6 +76,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
 
     @Override
     public void PaySuccess(Order order, String payCode, Long amount) {
+        order.setStatus(EOrderStatus.PAY_YES.getCode());
         order.setPayCode(payCode);
         order.setPayAmount(amount);
         order.setPayDatetime(new Date());

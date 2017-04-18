@@ -6,7 +6,7 @@ package com.cdkj.dzt.enums;
  * @history:
  */
 public enum EPayType {
-    WEIXIN("2", "微信");
+    YEZF("1", "余额支付"), WEIXIN("2", "微信");
 
     EPayType(String code, String value) {
         this.code = code;
