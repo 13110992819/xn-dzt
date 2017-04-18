@@ -304,4 +304,14 @@
 		WHERE code = #{code}
 	</update>
 
+	<update id="update_paySuccess" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		status = #{status}
+		,pay_code = #{payCode}
+		,pay_datetime = #{payDatetime}
+		,pay_amount= #{payAmount}
+		WHERE code = #{code}
+	</update>
+
 </mapper>

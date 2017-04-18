@@ -35,6 +35,8 @@ public interface IOrderAO {
 
     public Object payment(String orderCode, String payType);
 
+    public void paySuccess(String payGroup, String payCode, Long amount);
+
     public void inputInfor(String orderCode, Map<String, String> map,
             String updater, String remark);
 

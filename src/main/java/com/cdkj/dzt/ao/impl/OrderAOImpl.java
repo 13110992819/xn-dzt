@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,7 @@ import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EPayType;
+import com.cdkj.dzt.enums.ESysUser;
 import com.cdkj.dzt.enums.EUserKind;
 import com.cdkj.dzt.exception.BizException;
 
@@ -49,6 +52,8 @@ import com.cdkj.dzt.exception.BizException;
  */
 @Service
 public class OrderAOImpl implements IOrderAO {
+    protected static final Logger logger = LoggerFactory
+        .getLogger(OrderAOImpl.class);
 
     @Autowired
     private IOrderBO orderBO;
@@ -184,7 +189,6 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     public Object payment(String orderCode, String payType) {
-        // Order order = orderBO.getOrder(orderCode);
         Object result = null;
         if (EPayType.WEIXIN.getCode().equals(payType)) {
             result = toPayOrderWechat(orderCode, payType);
@@ -199,15 +203,31 @@ public class OrderAOImpl implements IOrderAO {
         String payGroup = OrderNoGenerater.generateM(EGeneratePrefix.ORDER_PAY
             .getCode());
         // 计算该组订单总金额
-        Long totalAmount = 0L;
         Order order = orderBO.getOrder(orderCode);
+        Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
         if (!EOrderStatus.ASSIGN_PRICE.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于已定价状态");
         }
         orderBO.addPayGroup(order, payGroup, payType);
-        return accountBO.doWeiXinPayRemote(userId, userId, totalAmount,
-            EBizType.AJ_GW, "商品支付", "商品支付", payGroup);
+        return accountBO.doWeiXinPayRemote(userId,
+            ESysUser.SYS_USER_DZT.getCode(), totalAmount, EBizType.AJ_GW,
+            "量体衬衫购买订单支付", "量体衬衫购买订单支付", payGroup);
+    }
+
+    @Override
+    public void paySuccess(String payGroup, String payCode, Long amount) {
+        List<Order> orderList = orderBO.queryOrderListByPayGroup(payGroup);
+        if (CollectionUtils.isEmpty(orderList)) {
+            throw new BizException("XN000000", "找不到对应的订单记录");
+        }
+        Order order = orderList.get(0);
+        if (EOrderStatus.ASSIGN_PRICE.getCode().equals(order.getStatus())) {
+            // 更新支付金额
+            orderBO.PaySuccess(order, payCode, amount);
+        } else {
+            logger.info("订单号：" + order.getCode() + "已支付，重复回调");
+        }
     }
 
     @Override
@@ -319,4 +339,5 @@ public class OrderAOImpl implements IOrderAO {
     public List<Order> queryOrderlList(Order condition) {
         return orderBO.queryOrderList(condition);
     }
+
 }

@@ -6,9 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.enums.EBizType;
 
 /** 
@@ -20,6 +22,9 @@ import com.cdkj.dzt.enums.EBizType;
 public class CallbackConroller {
 
     private static Logger logger = Logger.getLogger(CallbackConroller.class);
+
+    @Autowired
+    IOrderAO orderAO;
 
     @RequestMapping("/thirdPay/callback")
     public synchronized void doCallbackZhpay(HttpServletRequest request,
@@ -40,7 +45,7 @@ public class CallbackConroller {
             try {
                 if (EBizType.AJ_GW.getCode().equals(bizType)) {
                     System.out.println("**** 进入商品购物，微信APP支付服务器回调 start****");
-                    // orderAO.paySuccess(payGroup, payCode, amount);
+                    orderAO.paySuccess(payGroup, payCode, amount);
                     System.out.println("**** 进入商品购物，微信APP支付服务器回调 end****");
                 }
             } catch (Exception e) {

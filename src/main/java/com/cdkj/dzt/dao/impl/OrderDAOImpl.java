@@ -94,10 +94,10 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
     }
 
     /** 
-     * @see com.cdkj.dzt.dao.IOrderDAO#updatePaySuccess(com.cdkj.dzt.domain.Order)
+     * @see com.cdkj.dzt.dao.IOrderDAO#PaySuccess(com.cdkj.dzt.domain.Order)
      */
     @Override
-    public int updatePaySuccess(Order data) {
+    public int PaySuccess(Order data) {
         return super.update(NAMESPACE.concat("update_paySuccess"), data);
     }
 
