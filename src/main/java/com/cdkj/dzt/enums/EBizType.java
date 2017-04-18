@@ -9,8 +9,7 @@ import java.util.Map;
  * @history:
  */
 public enum EBizType {
-    AJ_GW("-30", "购物"), AJ_GWTK("30", "购物退款"), AJ_QRSH("32", "确认收货，商户收钱"), AJ_GMZKQ(
-            "-40", "购买折扣券");
+    AJ_GW("-30", "购物");
     public static Map<String, EBizType> getBizTypeMap() {
         Map<String, EBizType> map = new HashMap<String, EBizType>();
         for (EBizType bizType : EBizType.values()) {

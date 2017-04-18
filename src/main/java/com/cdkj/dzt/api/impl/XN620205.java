@@ -8,8 +8,6 @@
  */
 package com.cdkj.dzt.api.impl;
 
-import org.apache.commons.collections.CollectionUtils;
-
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
@@ -36,8 +34,8 @@ public class XN620205 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.inputInfor(req.getOrderCode(), req.getProductSpecsList(),
-            req.getReAddress(), req.getUpdater(), req.getRemark());
+        orderAO.inputInfor(req.getOrderCode(), req.getMap(), req.getUpdater(),
+            req.getRemark());
         return new BooleanRes(true);
     }
 
@@ -47,10 +45,6 @@ public class XN620205 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620205Req.class);
-        StringValidater.validateBlank(req.getOrderCode(), req.getReAddress(),
-            req.getUpdater());
-        if (CollectionUtils.isEmpty(req.getProductSpecsList())) {
-            throw new BizException("xn0000", "成衣规格不能为空");
-        }
+        StringValidater.validateBlank(req.getOrderCode(), req.getUpdater());
     }
 }

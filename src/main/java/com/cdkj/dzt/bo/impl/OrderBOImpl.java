@@ -75,6 +75,14 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
+    public void PaySuccess(Order order, String payCode, Long amount) {
+        order.setPayCode(payCode);
+        order.setPayAmount(amount);
+        order.setPayDatetime(new Date());
+        orderDAO.PaySuccess(order);
+    }
+
+    @Override
     public void inputInfor(Order order, String reAddress, String updater,
             String remark) {
         order.setReAddress(reAddress);
@@ -104,6 +112,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
 
     @Override
     public void submitProudect(Order order, String updater, String remark) {
+        order.setStatus(EOrderStatus.PRODU_DOING.getCode());
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
         order.setRemark(remark);
@@ -167,6 +176,13 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     public List<Order> queryOrderList(String applyUser) {
         Order condition = new Order();
         condition.setApplyUser(applyUser);
+        return orderDAO.selectList(condition);
+    }
+
+    @Override
+    public List<Order> queryOrderListByPayGroup(String payGroup) {
+        Order condition = new Order();
+        condition.setPayGroup(payGroup);
         return orderDAO.selectList(condition);
     }
 

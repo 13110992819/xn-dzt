@@ -15,7 +15,7 @@ public interface IOrderDAO extends IBaseDAO<Order> {
 
     public int cancelOrder(Order data);
 
-    public int updatePaySuccess(Order data);
+    public int PaySuccess(Order data);
 
     public int updateConfirm(Order data);
 

@@ -23,6 +23,8 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public void addPayGroup(Order order, String payGroup, String payType);
 
+    public void PaySuccess(Order order, String payCode, Long amount);
+
     public void inputInfor(Order order, String reAddress, String updater,
             String remark);
 
@@ -46,5 +48,7 @@ public interface IOrderBO extends IPaginableBO<Order> {
     public Order getOrder(String code);
 
     public List<Order> queryOrderList(String applyUser);
+
+    public List<Order> queryOrderListByPayGroup(String payGroup);
 
 }

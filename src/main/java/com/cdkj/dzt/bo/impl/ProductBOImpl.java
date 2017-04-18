@@ -2,6 +2,7 @@ package com.cdkj.dzt.bo.impl;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -69,10 +70,15 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
     }
 
     @Override
-    public List<Product> queryProductList(String orderCode) {
+    public Product getProductByOrderCode(String orderCode) {
+        Product product = null;
         Product condition = new Product();
         condition.setOrderCode(orderCode);
-        return productDAO.selectList(condition);
+        List<Product> productList = productDAO.selectList(condition);
+        if (CollectionUtils.isNotEmpty(productList)) {
+            product = productList.get(0);
+        }
+        return product;
     }
 
     @Override

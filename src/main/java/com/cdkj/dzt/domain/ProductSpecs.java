@@ -12,29 +12,26 @@ public class ProductSpecs extends ABaseDO {
 
     private static final long serialVersionUID = 1L;
 
-    // 编号
+    // 编号/具体值----不是主键，是用户选择的选项
     private String code;
 
-    // 名称
+    // 名称(冗余)
     private String name;
+
+    // 类型(冗余)
+    private String type;
+
+    // 图片(冗余)
+    private String pic;
 
     // key
     private String parentCode;
-
-    // 类型
-    private String type;
-
-    // 图片
-    private String pic;
 
     // 成衣编号
     private String productCode;
 
     // 订单编号
     private String orderCode;
-
-    // 规格编号
-    private String modelSpecsCode;
 
     public void setCode(String code) {
         this.code = code;
@@ -90,14 +87,6 @@ public class ProductSpecs extends ABaseDO {
 
     public String getOrderCode() {
         return orderCode;
-    }
-
-    public String getModelSpecsCode() {
-        return modelSpecsCode;
-    }
-
-    public void setModelSpecsCode(String modelSpecsCode) {
-        this.modelSpecsCode = modelSpecsCode;
     }
 
 }
