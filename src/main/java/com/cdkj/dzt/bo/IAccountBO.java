@@ -10,6 +10,7 @@ package com.cdkj.dzt.bo;
 
 import com.cdkj.dzt.domain.Account;
 import com.cdkj.dzt.dto.res.XN002500Res;
+import com.cdkj.dzt.dto.res.XN002501Res;
 import com.cdkj.dzt.dto.res.XN002510Res;
 import com.cdkj.dzt.enums.EBizType;
 import com.cdkj.dzt.enums.ECurrency;
@@ -56,7 +57,11 @@ public interface IAccountBO {
      */
     public Double getExchangeRateRemote(ECurrency currency);
 
-    public XN002500Res doWeiXinPayRemote(String fromUserId, String toUserId,
+    public XN002501Res doWeiXinH5PayRemote(String fromUserId,
+            String fromOpenId, String toUserId, Long amount, EBizType bizType,
+            String fromBizNote, String toBizNote, String payGroup);
+
+    public XN002500Res doWeiXinAppPayRemote(String fromUserId, String toUserId,
             Long amount, EBizType bizType, String fromBizNote,
             String toBizNote, String payGroup);
 

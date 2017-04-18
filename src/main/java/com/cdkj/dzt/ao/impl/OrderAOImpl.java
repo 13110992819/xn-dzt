@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.bo.IAccountBO;
@@ -190,19 +191,21 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
+    @Transactional
     public Object payment(String orderCode, String payType) {
         Object result = null;
         if (EPayType.WEIXIN.getCode().equals(payType)) {
-            result = toPayOrderWechat(orderCode, payType);
+            result = toPayOrderWechat(orderCode);
         } else if (EPayType.YEZF.getCode().equals(payType)) {
-            result = toPayOrderYY(orderCode, payType);
+            result = toPayOrderYE(orderCode);
         } else {
             throw new BizException("xn000000", "暂不支持该种支付方式");
         }
         return result;
     }
 
-    private Object toPayOrderYY(String orderCode, String payType) {
+    @Transactional
+    public Object toPayOrderYE(String orderCode) {
         Order order = orderBO.getOrder(orderCode);
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
@@ -213,21 +216,23 @@ public class OrderAOImpl implements IOrderAO {
         return new BooleanRes(true);
     }
 
-    private Object toPayOrderWechat(String orderCode, String payType) {
+    @Transactional
+    public Object toPayOrderWechat(String orderCode) {
         // 生成payGroup,并把订单进行支付。
-        String payGroup = OrderNoGenerater.generateM(EGeneratePrefix.ORDER_PAY
+        String payGroup = OrderNoGenerater.generateM(EGeneratePrefix.PAY_GROUP
             .getCode());
         // 计算该组订单总金额
         Order order = orderBO.getOrder(orderCode);
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
+        User user = userBO.getRemoteUser(userId);
         if (!EOrderStatus.ASSIGN_PRICE.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于已定价状态");
         }
-        orderBO.addPayGroup(order, payGroup, payType);
-        return accountBO.doWeiXinPayRemote(userId,
+        orderBO.addPayGroup(order, payGroup, EPayType.WEIXIN.getCode());
+        return accountBO.doWeiXinH5PayRemote(userId, user.getOpenId(),
             ESysUser.SYS_USER_DZT.getCode(), totalAmount, EBizType.AJ_GW,
-            "量体衬衫购买订单支付", "量体衬衫购买订单支付", payGroup);
+            "量体衬衫购买订单支付", "量体衬衫购买订单支付", EPayType.WEIXIN.getCode());
     }
 
     @Override

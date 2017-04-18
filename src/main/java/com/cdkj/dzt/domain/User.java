@@ -24,6 +24,9 @@ public class User extends ABaseDO {
     // userId
     private String userId;
 
+    // openId
+    private String openId;
+
     // kind
     private String kind;
 
@@ -68,6 +71,14 @@ public class User extends ABaseDO {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public String getLoginName() {

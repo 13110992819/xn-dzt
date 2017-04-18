@@ -14,10 +14,12 @@ import com.cdkj.dzt.dto.req.XN002050Req;
 import com.cdkj.dzt.dto.req.XN002051Req;
 import com.cdkj.dzt.dto.req.XN002100Req;
 import com.cdkj.dzt.dto.req.XN002500Req;
+import com.cdkj.dzt.dto.req.XN002501Req;
 import com.cdkj.dzt.dto.req.XN002510Req;
 import com.cdkj.dzt.dto.res.XN002050Res;
 import com.cdkj.dzt.dto.res.XN002051Res;
 import com.cdkj.dzt.dto.res.XN002500Res;
+import com.cdkj.dzt.dto.res.XN002501Res;
 import com.cdkj.dzt.dto.res.XN002510Res;
 import com.cdkj.dzt.enums.EBizType;
 import com.cdkj.dzt.enums.ECurrency;
@@ -95,7 +97,27 @@ public class AccountBOImpl implements IAccountBO {
     }
 
     @Override
-    public XN002500Res doWeiXinPayRemote(String fromUserId, String toUserId,
+    public XN002501Res doWeiXinH5PayRemote(String fromUserId,
+            String fromOpenId, String toUserId, Long amount, EBizType bizType,
+            String fromBizNote, String toBizNote, String payGroup) {
+        // 获取微信H5支付信息
+        XN002501Req req = new XN002501Req();
+        req.setFromUserId(fromUserId);
+        req.setFromOpenId(fromOpenId);
+        req.setToUserId(toUserId);
+        req.setTransAmount(String.valueOf(amount));
+        req.setBizType(bizType.getCode());
+        req.setFromBizNote(fromBizNote);
+        req.setToBizNote(toBizNote);
+        req.setPayGroup(payGroup);
+        req.setBackUrl(PropertiesUtil.Config.PAY_BACK_URL);
+        XN002501Res res = BizConnecter.getBizData("002501",
+            JsonUtil.Object2Json(req), XN002501Res.class);
+        return res;
+    }
+
+    @Override
+    public XN002500Res doWeiXinAppPayRemote(String fromUserId, String toUserId,
             Long amount, EBizType bizType, String fromBizNote,
             String toBizNote, String payGroup) {
         // 获取微信APP支付信息
@@ -107,6 +129,7 @@ public class AccountBOImpl implements IAccountBO {
         req.setToBizNote(toBizNote);
         req.setTransAmount(String.valueOf(amount));
         req.setPayGroup(payGroup);
+        req.setBackUrl(PropertiesUtil.Config.PAY_BACK_URL);
         XN002500Res res = BizConnecter.getBizData("002500",
             JsonUtil.Object2Json(req), XN002500Res.class);
         return res;

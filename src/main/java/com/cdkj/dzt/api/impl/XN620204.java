@@ -13,7 +13,6 @@ import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.dto.req.XN620204Req;
-import com.cdkj.dzt.dto.res.BooleanRes;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
@@ -34,8 +33,7 @@ public class XN620204 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.payment(req.getOrderCode(), req.getPayType());
-        return new BooleanRes(true);
+        return orderAO.payment(req.getOrderCode(), req.getPayType());
     }
 
     /** 
