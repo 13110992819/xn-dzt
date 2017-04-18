@@ -22,9 +22,9 @@ import com.cdkj.dzt.dto.req.XN620200Req;
  */
 public interface IOrderAO {
 
-    public String commitOrder(XN620200Req req);
+    public String applyOrder(XN620200Req req);
 
-    public String againApply(String applyUser);
+    public String applyOrder(String applyUser);
 
     public void assignedOrder(String orderCode, String ltUser, String ltName,
             String updater, String remark);

@@ -140,7 +140,52 @@
 		FROM
 		tdzt_order t
 		<include refid="where_condition" />
-		ORDER BY create_datetime
+		ORDER BY create_datetime desc
+	</select>
+	
+	
+	<select id="select_getLastOrder" parameterType="order" resultMap="order_DB_Result">
+		SELECT
+		t.code
+		,t.to_user
+		,t.apply_user
+		,t.apply_name
+		,t.apply_mobile
+		,t.lt_datetime
+		,t.lt_province
+		,t.lt_city
+		,t.lt_area
+		,t.lt_address
+		,t.apply_note
+		,t.create_datetime
+		,t.status
+		,t.lt_user
+		,t.lt_name
+		,t.amount
+		,t.pay_type
+		,t.pay_group
+		,t.pay_code
+		,t.pay_datetime
+		,t.pay_amount
+		,t.deliverer
+		,t.delivery_datetime
+		,t.logistics_company
+		,t.logistics_code
+		,t.pdf
+		,t.receiver
+		,t.re_mobile
+		,t.re_address
+		,t.receipt_type
+		,t.receipt_title
+		,t.yunfei
+		,t.updater
+		,t.update_datetime
+		,t.remark
+		FROM
+		tdzt_order t
+		WHERE t.apply_user = #{applyUser}
+		ORDER BY create_datetime desc
+		Limit 1
 	</select>
 
 	<select id="select_order_count" parameterType="order"
@@ -157,17 +202,21 @@
 		,apply_user
 		,apply_name
 		,apply_mobile
+		
 		,lt_datetime
 		,lt_province
 		,lt_city
 		,lt_area
 		,lt_address
+		
 		,apply_note
 		,create_datetime
 		,status
+		
 		,receiver
 		,re_mobile
 		,re_address
+		
 		,updater
 		,update_datetime
 		,remark
@@ -178,17 +227,21 @@
 		,#{applyUser}
 		,#{applyName}
 		,#{applyMobile}
+		
 		,#{ltDatetime}
 		,#{ltProvince}
 		,#{ltCity}
 		,#{ltArea}
 		,#{ltAddress}
+		
 		,#{applyNote}
 		,#{createDatetime}
 		,#{status}
+		
 		,#{receiver}
 		,#{reMobile}
 		,#{reAddress}
+		
 		,#{updater}
 		,#{updateDatetime}
 		,#{remark}

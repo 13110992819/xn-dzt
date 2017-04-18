@@ -19,7 +19,7 @@ import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /** 
- * 合伙人分配订单给量体师
+ * 分配订单给量体师
  * @author: haiqingzheng 
  * @since: 2017年4月14日 下午1:45:44 
  * @history:

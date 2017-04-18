@@ -21,29 +21,8 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     private IOrderDAO orderDAO;
 
     @Override
-    public boolean isOrderExist(String code) {
-        Order condition = new Order();
-        condition.setCode(code);
-        if (orderDAO.selectTotalCount(condition) > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void saveOrder(Order data) {
+    public void applyOrder(Order data) {
         orderDAO.insert(data);
-    }
-
-    @Override
-    public int removeOrder(String code) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            Order data = new Order();
-            data.setCode(code);
-            count = orderDAO.delete(data);
-        }
-        return count;
     }
 
     @Override
@@ -174,17 +153,18 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
-    public List<Order> queryOrderList(String applyUser) {
-        Order condition = new Order();
-        condition.setApplyUser(applyUser);
-        return orderDAO.selectList(condition);
-    }
-
-    @Override
     public List<Order> queryOrderListByPayGroup(String payGroup) {
         Order condition = new Order();
         condition.setPayGroup(payGroup);
         return orderDAO.selectList(condition);
+    }
+
+    @Override
+    public Order getLastOrder(String applyUser) {
+        Order order = orderDAO.getLastOrder(applyUser);
+        if (order == null) {
+            throw new BizException("xn0000", "您还未下过订单,不能进行一键复购操作");
+        }
     }
 
 }
