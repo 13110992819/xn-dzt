@@ -160,13 +160,15 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public void assignedOrder(String orderCode, String ltUser, String ltName,
+    public void distributeOrder(String orderCode, String ltUser,
             String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
             throw new BizException("xn0000", "订单不处于待量体状态，不可以分配订单");
         }
-        orderBO.assignedOrder(order, ltUser, ltName, updater, remark);
+        User user = userBO.getRemoteUser(ltUser);
+        orderBO.distributeOrder(order, ltUser, user.getRealName(), updater,
+            remark);
     }
 
     @Override

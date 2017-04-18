@@ -14,15 +14,11 @@ package com.cdkj.dzt.dto.req;
  * @history:
  */
 public class XN620202Req {
-
     // 订单编号（必填）
     private String orderCode;
 
     // 量体师UserId（必填）
     private String ltUser;
-
-    // 量体师姓名（必填）
-    private String ltName;
 
     // 更新人（必填）
     private String updater;
@@ -44,14 +40,6 @@ public class XN620202Req {
 
     public void setLtUser(String ltUser) {
         this.ltUser = ltUser;
-    }
-
-    public String getLtName() {
-        return ltName;
-    }
-
-    public void setLtName(String ltName) {
-        this.ltName = ltName;
     }
 
     public String getUpdater() {

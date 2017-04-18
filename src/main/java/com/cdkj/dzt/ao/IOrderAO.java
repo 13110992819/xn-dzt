@@ -26,8 +26,8 @@ public interface IOrderAO {
 
     public String applyOrder(String applyUser);
 
-    public void assignedOrder(String orderCode, String ltUser, String ltName,
-            String updater, String remark);
+    public void distributeOrder(String orderCode, String ltUser, String updater,
+            String remark);
 
     public void confirmPrice(String orderCode, String modelCode,
             Integer quantity, String updater, String remark);

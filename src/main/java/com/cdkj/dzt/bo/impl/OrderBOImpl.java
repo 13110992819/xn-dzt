@@ -26,14 +26,14 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
-    public void assignedOrder(Order order, String ltUser, String ltName,
+    public void distributeOrder(Order order, String ltUser, String ltName,
             String updater, String remark) {
         order.setLtUser(ltUser);
         order.setLtName(ltName);
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
         order.setRemark(remark);
-        orderDAO.assignedOrder(order);
+        orderDAO.distributeOrder(order);
     }
 
     @Override
@@ -165,6 +165,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         if (order == null) {
             throw new BizException("xn0000", "您还未下过订单,不能进行一键复购操作");
         }
+        return order;
     }
 
 }

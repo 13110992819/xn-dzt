@@ -74,8 +74,8 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
     }
 
     @Override
-    public int assignedOrder(Order data) {
-        return super.update(NAMESPACE.concat("update_assignedOrder"), data);
+    public int distributeOrder(Order data) {
+        return super.update(NAMESPACE.concat("update_distributeOrder"), data);
     }
 
     @Override

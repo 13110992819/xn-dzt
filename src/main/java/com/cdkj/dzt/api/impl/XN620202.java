@@ -34,8 +34,8 @@ public class XN620202 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.assignedOrder(req.getOrderCode(), req.getLtUser(),
-            req.getLtName(), req.getUpdater(), req.getRemark());
+        orderAO.distributeOrder(req.getOrderCode(), req.getLtUser(),
+            req.getUpdater(), req.getRemark());
         return new BooleanRes(true);
     }
 
@@ -46,7 +46,7 @@ public class XN620202 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620202Req.class);
         StringValidater.validateBlank(req.getOrderCode(), req.getLtUser(),
-            req.getLtName(), req.getUpdater());
+            req.getUpdater());
     }
 
 }

@@ -248,7 +248,7 @@
 		)
 	</insert>
 
-	<update id="update_assignedOrder" parameterType="order">
+	<update id="update_distributeOrder" parameterType="order">
 		UPDATE tdzt_order
 		SET
 		lt_user = #{ltUser}

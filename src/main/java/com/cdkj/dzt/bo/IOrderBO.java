@@ -11,7 +11,7 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public void applyOrder(Order data);
 
-    public void assignedOrder(Order order, String ltUser, String ltName,
+    public void distributeOrder(Order order, String ltUser, String ltName,
             String updater, String remark);
 
     public void confirmPrice(Order order, Long amount, String updater,
