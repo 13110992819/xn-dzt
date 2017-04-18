@@ -45,13 +45,9 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
 
     @Override
     public void removeProductSpecs(String productCode) {
-        ProductSpecs condition = new ProductSpecs();
-        condition.setProductCode(productCode);
-        List<ProductSpecs> productSpecsList = productSpecsDAO
-            .selectList(condition);
-        for (ProductSpecs productSpecs : productSpecsList) {
-            productSpecsDAO.delete(productSpecs);
-        }
+        ProductSpecs data = new ProductSpecs();
+        data.setProductCode(productCode);
+        productSpecsDAO.delete(data);
     }
 
     @Override
@@ -345,6 +341,31 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             modelSmap.get(EMeasureKey.BZ.getCode()));
         this.saveBB(orderCode, productCode,
             modelSmap.get(EMeasureKey.BB.getCode()));
+
+        this.saveCXWZ(orderCode, productCode,
+            modelSmap.get(EMeasureKey.CXWZ.getCode()));
+        this.saveCDZT(orderCode, productCode,
+            modelSmap.get(EMeasureKey.CDZT.getCode()));
+        this.saveCSYS(orderCode, productCode,
+            modelSmap.get(EMeasureKey.CSYS.getCode()));
+    }
+
+    private void saveCSYS(String orderCode, String productCode,
+            ModelSpecs modelSpecs) {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void saveCDZT(String orderCode, String productCode,
+            ModelSpecs modelSpecs) {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void saveCXWZ(String orderCode, String productCode,
+            ModelSpecs modelSpecs) {
+        // TODO Auto-generated method stub
+
     }
 
     private void saveCSML(String orderCode, String productCode,
