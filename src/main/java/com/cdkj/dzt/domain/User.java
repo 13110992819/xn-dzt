@@ -39,31 +39,14 @@ public class User extends ABaseDO {
     // 头像
     private String photo;
 
+    // 真实姓名
+    private String realName;
+
     // 手机号
     private String mobile;
 
-    // 是否实名认证
-    private String identityFlag;
-
     // 推荐人
     private String userReferee;
-
-    // 省
-    private String province;
-
-    // 市区
-    private String city;
-
-    // 区(县)
-    private String area;
-
-    public String getUserReferee() {
-        return userReferee;
-    }
-
-    public void setUserReferee(String userReferee) {
-        this.userReferee = userReferee;
-    }
 
     public String getUserId() {
         return userId;
@@ -81,6 +64,14 @@ public class User extends ABaseDO {
         this.openId = openId;
     }
 
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
     public String getLoginName() {
         return loginName;
     }
@@ -91,14 +82,6 @@ public class User extends ABaseDO {
 
     public String getNickname() {
         return nickname;
-    }
-
-    public String getKind() {
-        return kind;
-    }
-
-    public void setKind(String kind) {
-        this.kind = kind;
     }
 
     public void setNickname(String nickname) {
@@ -113,6 +96,14 @@ public class User extends ABaseDO {
         this.photo = photo;
     }
 
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
     public String getMobile() {
         return mobile;
     }
@@ -121,36 +112,12 @@ public class User extends ABaseDO {
         this.mobile = mobile;
     }
 
-    public String getIdentityFlag() {
-        return identityFlag;
+    public String getUserReferee() {
+        return userReferee;
     }
 
-    public void setIdentityFlag(String identityFlag) {
-        this.identityFlag = identityFlag;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
+    public void setUserReferee(String userReferee) {
+        this.userReferee = userReferee;
     }
 
 }

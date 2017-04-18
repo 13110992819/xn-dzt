@@ -11,7 +11,7 @@ import com.cdkj.dzt.domain.Order;
 public interface IOrderDAO extends IBaseDAO<Order> {
     String NAMESPACE = IOrderDAO.class.getName().concat(".");
 
-    public int assignedOrder(Order data);
+    public int distributeOrder(Order data);
 
     public int cancelOrder(Order data);
 
@@ -32,5 +32,7 @@ public interface IOrderDAO extends IBaseDAO<Order> {
     public int confirmReceipt(Order data);
 
     public int inputInfor(Order data);
+
+    public Order getLastOrder(String applyUser);
 
 }

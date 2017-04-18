@@ -74,8 +74,8 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
     }
 
     @Override
-    public int assignedOrder(Order data) {
-        return super.update(NAMESPACE.concat("update_assignedOrder"), data);
+    public int distributeOrder(Order data) {
+        return super.update(NAMESPACE.concat("update_distributeOrder"), data);
     }
 
     @Override
@@ -129,6 +129,14 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
     @Override
     public int inputInfor(Order data) {
         return super.update(NAMESPACE.concat("update_inputInfor"), data);
+    }
+
+    @Override
+    public Order getLastOrder(String applyUser) {
+        Order condition = new Order();
+        return super.select(NAMESPACE.concat("select_getLastOrder"), condition,
+            Order.class);
+
     }
 
 }

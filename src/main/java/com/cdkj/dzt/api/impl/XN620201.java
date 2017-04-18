@@ -34,7 +34,8 @@ public class XN620201 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return new PKCodeRes(orderAO.againApply(req.getApplyUser()));
+        String code = orderAO.applyOrder(req.getApplyUser());
+        return new PKCodeRes(code);
     }
 
     /** 

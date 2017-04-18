@@ -9,13 +9,9 @@ import com.cdkj.dzt.enums.EOrderStatus;
 
 public interface IOrderBO extends IPaginableBO<Order> {
 
-    public boolean isOrderExist(String code);
+    public void applyOrder(Order data);
 
-    public void saveOrder(Order data);
-
-    public int removeOrder(String code);
-
-    public void assignedOrder(Order order, String ltUser, String ltName,
+    public void distributeOrder(Order order, String ltUser, String ltName,
             String updater, String remark);
 
     public void confirmPrice(Order order, Long amount, String updater,
@@ -47,7 +43,7 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public Order getOrder(String code);
 
-    public List<Order> queryOrderList(String applyUser);
+    public Order getLastOrder(String applyUser);
 
     public List<Order> queryOrderListByPayGroup(String payGroup);
 

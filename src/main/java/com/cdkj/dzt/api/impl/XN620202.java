@@ -19,7 +19,7 @@ import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /** 
- * 合伙人分配订单给量体师
+ * 分配订单给量体师
  * @author: haiqingzheng 
  * @since: 2017年4月14日 下午1:45:44 
  * @history:
@@ -34,8 +34,8 @@ public class XN620202 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.assignedOrder(req.getOrderCode(), req.getLtUser(),
-            req.getLtName(), req.getUpdater(), req.getRemark());
+        orderAO.distributeOrder(req.getOrderCode(), req.getLtUser(),
+            req.getUpdater(), req.getRemark());
         return new BooleanRes(true);
     }
 
@@ -46,7 +46,7 @@ public class XN620202 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620202Req.class);
         StringValidater.validateBlank(req.getOrderCode(), req.getLtUser(),
-            req.getLtName(), req.getUpdater());
+            req.getUpdater());
     }
 
 }

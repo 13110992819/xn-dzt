@@ -80,28 +80,27 @@ public class OrderAOImpl implements IOrderAO {
     private IProductSpecsBO productSpecsBO;
 
     @Override
-    public String commitOrder(XN620200Req req) {
-        Order order = new Order();
-        // 判断是否有城市合伙人
+    public String applyOrder(XN620200Req req) {
+        // 获取城市合伙人
         User user = userBO.getPartner(req.getLtProvince(), req.getLtCity(),
             req.getLtArea(), EUserKind.Partner);
         String userId = "0";
         if (null != user) {
             userId = user.getUserId();
         }
+        // 开始组装order
+        Order order = new Order();
         Date now = new Date();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
-
         order.setCode(code);
-        // 城市合伙人用户ID
         order.setToUser(userId);
         order.setApplyUser(req.getApplyUser());
         order.setApplyName(req.getApplyName());
         order.setApplyMobile(req.getApplyMobile());
 
         order.setLtDatetime(DateUtil.strToDate(req.getLtDatetime(),
-            DateUtil.DATA_TIME_PATTERN_1));
+            DateUtil.FRONT_DATE_FORMAT_STRING));
         order.setLtProvince(req.getLtProvince());
         order.setLtCity(req.getLtCity());
         order.setLtArea(req.getLtArea());
@@ -110,72 +109,67 @@ public class OrderAOImpl implements IOrderAO {
         order.setApplyNote(req.getApplyNote());
         order.setCreateDatetime(now);
         order.setStatus(EOrderStatus.TO_MEASURE.getCode());
+
         order.setReceiver(req.getApplyName());
+        order.setReMobile(req.getApplyMobile());
         order.setReAddress(req.getLtProvince() + req.getLtCity()
                 + req.getLtArea() + req.getLtAddress());
 
-        order.setReMobile(req.getApplyMobile());
         order.setUpdater(req.getUpdater());
         order.setUpdateDatetime(now);
         order.setRemark(req.getRemark());
 
-        orderBO.saveOrder(order);
+        orderBO.applyOrder(order);
         return code;
     }
 
     @Override
-    public String againApply(String applyUser) {
-        List<Order> orderList = orderBO.queryOrderList(applyUser);
-        if (CollectionUtils.isEmpty(orderList)) {
-            throw new BizException("xn0000", "您还未下过订单,不能进行一键复购操作");
-        }
-        Order orderOld = orderList.get(orderList.size() - 1);
-        // 判断是否有城市合伙人
-        User user = userBO.getPartner(orderOld.getLtProvince(),
-            orderOld.getLtCity(), orderOld.getLtArea(), EUserKind.Partner);
-        String userId = orderOld.getToUser();
-        if (null != user) {
-            userId = user.getUserId();
-        }
+    public String applyOrder(String applyUser) {
+        // 获取最近订单
+        Order lastOrder = orderBO.getLastOrder(applyUser);
+        // 开始组装order
         Order order = new Order();
         Date now = new Date();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         order.setCode(code);
-        // 城市合伙人用户ID
-        order.setToUser(userId);
-        order.setApplyUser(orderOld.getApplyUser());
-        order.setApplyName(orderOld.getApplyName());
-        order.setApplyMobile(orderOld.getApplyMobile());
+        order.setToUser(lastOrder.getToUser());
+        order.setApplyUser(lastOrder.getApplyUser());
+        order.setApplyName(lastOrder.getApplyName());
+        order.setApplyMobile(lastOrder.getApplyMobile());
 
         order.setLtDatetime(now);
-        order.setLtProvince(orderOld.getLtProvince());
-        order.setLtCity(orderOld.getLtCity());
-        order.setLtArea(orderOld.getLtArea());
-        order.setLtAddress(orderOld.getLtAddress());
+        order.setLtProvince(lastOrder.getLtProvince());
+        order.setLtCity(lastOrder.getLtCity());
+        order.setLtArea(lastOrder.getLtArea());
+        order.setLtAddress(lastOrder.getLtAddress());
 
-        order.setApplyNote("用户一键复购");
+        order.setApplyNote("根据<" + lastOrder.getCode() + ">订单一键复购形成");
         order.setCreateDatetime(now);
         order.setStatus(EOrderStatus.TO_MEASURE.getCode());
-        order.setReceiver(applyUser);
 
-        order.setReAddress(orderOld.getReAddress());
-        order.setReMobile(orderOld.getApplyMobile());
+        order.setReceiver(lastOrder.getReceiver());
+        order.setReMobile(lastOrder.getApplyMobile());
+        order.setReAddress(lastOrder.getReAddress());
+
         order.setUpdater(applyUser);
         order.setUpdateDatetime(now);
+        order.setRemark("根据<" + lastOrder.getCode() + ">订单一键复购形成");
 
-        orderBO.saveOrder(order);
+        orderBO.applyOrder(order);
         return code;
     }
 
     @Override
-    public void assignedOrder(String orderCode, String ltUser, String ltName,
+    public void distributeOrder(String orderCode, String ltUser,
             String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
             throw new BizException("xn0000", "订单不处于待量体状态，不可以分配订单");
         }
-        orderBO.assignedOrder(order, ltUser, ltName, updater, remark);
+        User user = userBO.getRemoteUser(ltUser);
+        orderBO.distributeOrder(order, ltUser, user.getRealName(), updater,
+            remark);
     }
 
     @Override

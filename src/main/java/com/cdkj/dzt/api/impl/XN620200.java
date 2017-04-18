@@ -34,7 +34,8 @@ public class XN620200 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return new PKCodeRes(orderAO.commitOrder(req));
+        String code = orderAO.applyOrder(req);
+        return new PKCodeRes(code);
     }
 
     /** 
@@ -44,7 +45,8 @@ public class XN620200 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620200Req.class);
         StringValidater.validateBlank(req.getApplyUser(), req.getApplyName(),
-            req.getApplyMobile(), req.getLtDatetime(), req.getLtAddress(),
+            req.getApplyMobile(), req.getLtDatetime(), req.getLtProvince(),
+            req.getLtCity(), req.getLtArea(), req.getLtAddress(),
             req.getUpdater());
     }
 }
