@@ -1,5 +1,6 @@
 package com.cdkj.dzt.bo;
 
+import java.util.List;
 import java.util.Map;
 
 import com.cdkj.dzt.bo.base.IPaginableBO;
@@ -17,5 +18,7 @@ public interface IProductSpecsBO extends IPaginableBO<ProductSpecs> {
 
     public void inputInforCode(Order order, Product product,
             Map<String, String> valueMap, Map<String, ModelSpecs> modelSmap);
+
+    public List<ProductSpecs> queryProductSpecsList(String productCode);
 
 }
