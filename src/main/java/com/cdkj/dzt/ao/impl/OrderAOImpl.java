@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,22 @@ import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.bo.IAccountBO;
 import com.cdkj.dzt.bo.IModelBO;
 import com.cdkj.dzt.bo.IOrderBO;
+import com.cdkj.dzt.bo.IProductBO;
+import com.cdkj.dzt.bo.IProductSpecsBO;
 import com.cdkj.dzt.bo.IUserBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.common.DateUtil;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
+import com.cdkj.dzt.domain.Product;
+import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.domain.User;
 import com.cdkj.dzt.dto.req.XN620200Req;
 import com.cdkj.dzt.enums.EBizType;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.EGeneratePrefix;
+import com.cdkj.dzt.enums.EMeasure;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EPayType;
 import com.cdkj.dzt.enums.EUserKind;
@@ -55,17 +61,28 @@ public class OrderAOImpl implements IOrderAO {
     @Autowired
     private IAccountBO accountBO;
 
+    @Autowired
+    private IProductBO productBO;
+
+    @Autowired
+    private IProductSpecsBO productSpecsBO;
+
     @Override
     public String commitOrder(XN620200Req req) {
         Order order = new Order();
+        // 判断是否有城市合伙人
         User user = userBO.getPartner(req.getLtProvince(), req.getLtCity(),
             req.getLtArea(), EUserKind.Partner);
+        String userId = "0";
+        if (null != user) {
+            userId = user.getUserId();
+        }
         Date now = new Date();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         order.setCode(code);
         // 城市合伙人用户ID
-        order.setToUser(user.getUserId());
+        order.setToUser(userId);
         order.setApplyUser(req.getApplyUser());
         order.setApplyName(req.getApplyName());
         order.setApplyMobile(req.getApplyMobile());
@@ -100,13 +117,20 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn0000", "您还未下过订单,不能进行一键复购操作");
         }
         Order orderOld = orderList.get(orderList.size() - 1);
+        // 判断是否有城市合伙人
+        User user = userBO.getPartner(orderOld.getLtProvince(),
+            orderOld.getLtCity(), orderOld.getLtArea(), EUserKind.Partner);
+        String userId = orderOld.getToUser();
+        if (null != user) {
+            userId = user.getUserId();
+        }
         Order order = new Order();
         Date now = new Date();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         order.setCode(code);
         // 城市合伙人用户ID
-        order.setToUser(orderOld.getToUser());
+        order.setToUser(userId);
         order.setApplyUser(orderOld.getApplyUser());
         order.setApplyName(orderOld.getApplyName());
         order.setApplyMobile(orderOld.getApplyMobile());
@@ -177,6 +201,34 @@ public class OrderAOImpl implements IOrderAO {
         orderBO.addPayGroup(order, payGroup, payType);
         return accountBO.doWeiXinPayRemote(userId, userId, totalAmount,
             EBizType.AJ_GW, "商品支付", "商品支付", payGroup);
+    }
+
+    @Override
+    public void inputInfor(String orderCode,
+            List<ProductSpecs> productSpecsList, String reAddress,
+            String updater, String remark) {
+        Order order = orderBO.getOrder(orderCode);
+        List<Product> productList = productBO.queryProductList(orderCode);
+        Product product = productList.get(0);
+        if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
+            throw new BizException("xn000000", "订单尚未支付,不能录入数据");
+        }
+        for (ProductSpecs pro : productSpecsList) {
+            String parentCode = pro.getParentCode();
+            if (StringUtils.isNotBlank(pro.getType())) {
+
+            }
+            if (StringUtils.isNotBlank(pro.getType())
+                    && EMeasure.REALLY.getCode().equals(pro.getType())) {
+                List<ProductSpecs> proList = productSpecsBO
+                    .queryProductSpecsList(parentCode);
+                ProductSpecs productSpecs = proList.get(0);
+                parentCode = productSpecs.getCode();
+            }
+            productSpecsBO.inputInfor(pro.getName(), parentCode, pro.getType(),
+                pro.getPic(), order.getCode(), product.getCode());
+        }
+        orderBO.inputInfor(order, reAddress, updater, remark);
     }
 
     @Override

@@ -10,83 +10,94 @@ import com.cdkj.dzt.dao.base.ABaseDO;
 */
 public class ProductSpecs extends ABaseDO {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// 编号
-	private String code;
+    // 编号
+    private String code;
 
-	// 名称
-	private String name;
+    // 名称
+    private String name;
 
-	// key
-	private String parentCode;
+    // key
+    private String parentCode;
 
-	// 类型
-	private String type;
+    // 类型
+    private String type;
 
-	// 图片
-	private String pic;
+    // 图片
+    private String pic;
 
-	// 成衣编号
-	private String productCode;
+    // 成衣编号
+    private String productCode;
 
-	// 订单编号
-	private String orderCode;
+    // 订单编号
+    private String orderCode;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    // 规格编号
+    private String modelSpecsCode;
 
-	public String getCode() {
-		return code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setParentCode(String parentCode) {
-		this.parentCode = parentCode;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getParentCode() {
-		return parentCode;
-	}
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getParentCode() {
+        return parentCode;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setPic(String pic) {
-		this.pic = pic;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getPic() {
-		return pic;
-	}
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
 
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
+    public String getPic() {
+        return pic;
+    }
 
-	public String getProductCode() {
-		return productCode;
-	}
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
 
-	public void setOrderCode(String orderCode) {
-		this.orderCode = orderCode;
-	}
+    public String getProductCode() {
+        return productCode;
+    }
 
-	public String getOrderCode() {
-		return orderCode;
-	}
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
+    }
+
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
+    }
 
 }

@@ -12,6 +12,7 @@ import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.dao.IProductSpecsDAO;
 import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.enums.EGeneratePrefix;
+import com.cdkj.dzt.enums.EMeasure;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
@@ -32,39 +33,31 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     @Override
-    public String saveProductSpecs(ProductSpecs data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater.generateM(EGeneratePrefix.PRODUCTSPECS
-                .getCode());
-            data.setCode(code);
-            productSpecsDAO.insert(data);
-        }
-        return code;
-    }
-
-    @Override
-    public int removeProductSpecs(String code) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            ProductSpecs data = new ProductSpecs();
-            data.setCode(code);
-            count = productSpecsDAO.delete(data);
-        }
-        return count;
-    }
-
-    @Override
-    public int refreshProductSpecs(ProductSpecs data) {
-        int count = 0;
-        if (StringUtils.isNotBlank(data.getCode())) {
-            count = productSpecsDAO.update(data);
-        }
-        return count;
+    public void inputInfor(String name, String parentCode, String type,
+            String pic, String orderCode, String productCode) {
+        ProductSpecs data = new ProductSpecs();
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.PRODUCTSPECS
+            .getCode());
+        data.setCode(code);
+        data.setName(name);
+        data.setParentCode(parentCode);
+        data.setType(type);
+        data.setPic(pic);
+        data.setOrderCode(orderCode);
+        data.setProductCode(productCode);
+        productSpecsDAO.insert(data);
     }
 
     @Override
     public List<ProductSpecs> queryProductSpecsList(ProductSpecs condition) {
+        return productSpecsDAO.selectList(condition);
+    }
+
+    @Override
+    public List<ProductSpecs> queryProductSpecsList(String parentCode) {
+        ProductSpecs condition = new ProductSpecs();
+        condition.setType(EMeasure.MEASURE_INFOR.getCode());
+        condition.setParentCode(parentCode);
         return productSpecsDAO.selectList(condition);
     }
 
@@ -81,4 +74,5 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         }
         return data;
     }
+
 }

@@ -5,28 +5,17 @@ import java.util.List;
 import com.cdkj.dzt.bo.base.IPaginableBO;
 import com.cdkj.dzt.domain.ProductSpecs;
 
-
-
-//CHECK ��鲢��ע�� 
 public interface IProductSpecsBO extends IPaginableBO<ProductSpecs> {
 
+    public boolean isProductSpecsExist(String code);
 
-	public boolean isProductSpecsExist(String code);
+    public void inputInfor(String name, String parentCode, String type,
+            String pic, String orderCode, String productCode);
 
+    public List<ProductSpecs> queryProductSpecsList(ProductSpecs condition);
 
-	public String saveProductSpecs(ProductSpecs data);
+    public List<ProductSpecs> queryProductSpecsList(String parentCode);
 
-
-	public int removeProductSpecs(String code);
-
-
-	public int refreshProductSpecs(ProductSpecs data);
-
-
-	public List<ProductSpecs> queryProductSpecsList(ProductSpecs condition);
-
-
-	public ProductSpecs getProductSpecs(String code);
-
+    public ProductSpecs getProductSpecs(String code);
 
 }

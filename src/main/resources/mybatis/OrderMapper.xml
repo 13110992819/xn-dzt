@@ -83,11 +83,11 @@
 			<if test="logisticsCompany != null and logisticsCompany != '' ">
 				AND t.logistics_company = #{logisticsCompany}
 			</if>
-			<if test="LogisticsCode != null and LogisticsCode != '' ">
-				AND t.logistics_code = #{LogisticsCode}
+			<if test="logisticsCode != null and logisticsCode != '' ">
+				AND t.logistics_code = #{logisticsCode}
 			</if>
-			<if test="Receiver != null and Receiver != '' ">
-				AND t.receiver = #{Receiver}
+			<if test="receiver != null and receiver != '' ">
+				AND t.receiver = #{receiver}
 			</if>
 			<if test="reMobile != null and reMobile != '' ">
 				AND t.re_mobile = #{reMobile}
@@ -288,6 +288,16 @@
 		UPDATE tdzt_order
 		SET
 		status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
+
+	<update id="update_inputInfor" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		re_address = #{reAddress}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}

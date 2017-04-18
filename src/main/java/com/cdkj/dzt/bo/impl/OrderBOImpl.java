@@ -75,6 +75,16 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
+    public void inputInfor(Order order, String reAddress, String updater,
+            String remark) {
+        order.setReAddress(reAddress);
+        order.setUpdater(updater);
+        order.setUpdateDatetime(new Date());
+        order.setRemark(remark);
+        orderDAO.inputInfor(order);
+    }
+
+    @Override
     public void ltSubmit(Order order, String updater) {
         order.setStatus(EOrderStatus.TO_APPROVE.getCode());
         order.setUpdater(updater);

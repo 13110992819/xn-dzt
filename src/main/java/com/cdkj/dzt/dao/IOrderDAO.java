@@ -31,4 +31,6 @@ public interface IOrderDAO extends IBaseDAO<Order> {
 
     public int confirmReceipt(Order data);
 
+    public int inputInfor(Order data);
+
 }

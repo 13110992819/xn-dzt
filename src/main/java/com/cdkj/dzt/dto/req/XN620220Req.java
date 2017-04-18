@@ -1,6 +1,5 @@
 package com.cdkj.dzt.dto.req;
 
-import com.cdkj.dzt.dto.req.APageReq;
 
 /**
  * 订单分页查询
@@ -27,7 +26,7 @@ public class XN620220Req extends APageReq {
     // 下单人手机号（选填）
     private String applyMobile;
 
-    // 量体地址省（必填）
+    // 量体地址省（选填）
     private String ltProvince;
 
     // 量体地址市（选填）

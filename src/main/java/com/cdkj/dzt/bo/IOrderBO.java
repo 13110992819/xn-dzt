@@ -23,6 +23,9 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public void addPayGroup(Order order, String payGroup, String payType);
 
+    public void inputInfor(Order order, String reAddress, String updater,
+            String remark);
+
     public void ltSubmit(Order order, String updater);
 
     public void approveOrder(Order order, EOrderStatus status, String updater,

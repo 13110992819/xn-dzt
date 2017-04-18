@@ -69,6 +69,13 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
     }
 
     @Override
+    public List<Product> queryProductList(String orderCode) {
+        Product condition = new Product();
+        condition.setOrderCode(orderCode);
+        return productDAO.selectList(condition);
+    }
+
+    @Override
     public Product getProduct(String code) {
         Product data = null;
         if (StringUtils.isNotBlank(code)) {
@@ -81,4 +88,5 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
         }
         return data;
     }
+
 }

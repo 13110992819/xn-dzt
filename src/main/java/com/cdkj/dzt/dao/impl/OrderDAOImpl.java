@@ -126,4 +126,9 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
         return super.update(NAMESPACE.concat("update_confirmReceipt"), data);
     }
 
+    @Override
+    public int inputInfor(Order data) {
+        return super.update(NAMESPACE.concat("update_inputInfor"), data);
+    }
+
 }
