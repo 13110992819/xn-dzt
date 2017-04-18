@@ -22,11 +22,11 @@ import com.cdkj.dzt.dto.req.XN620200Req;
  */
 public interface IOrderAO {
 
-    public String commitOrder(XN620200Req req);
+    public String applyOrder(XN620200Req req);
 
-    public String againApply(String applyUser);
+    public String applyOrder(String applyUser);
 
-    public void assignedOrder(String orderCode, String ltUser, String ltName,
+    public void distributeOrder(String orderCode, String ltUser,
             String updater, String remark);
 
     public void confirmPrice(String orderCode, String modelCode,
@@ -46,13 +46,13 @@ public interface IOrderAO {
 
     public void submitProudect(String orderCode, String updater, String remark);
 
-    public void sendGoods(String orderCode, String logisticsCompany,
-            String logisticsCode, String deliverer, String deliveryDatetime,
-            String pdf, String updater, String remark);
+    public void sendGoods(String orderCode, String deliverer,
+            String deliveryDatetime, String logisticsCompany,
+            String logisticsCode, String pdf, String updater, String remark);
 
     public void confirmReceipt(String orderCode, String updater, String remark);
 
-    public void cancelOrder(String orderCode, String userId, String remark);
+    public void cancelOrder(String orderCode, String updater, String remark);
 
     public Paginable<Order> queryOrderPage(int start, int limit, Order condition);
 

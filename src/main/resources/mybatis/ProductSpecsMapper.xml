@@ -83,7 +83,7 @@
 		WHERE code = #{code}
 	</update>
 	
-	<delete id="delete_productSpecs" parameterType="post">
+	<delete id="delete_productSpecs" parameterType="productSpecs">
 		DELETE FROM
 		tdzt_product_specs
 		WHERE

@@ -27,7 +27,7 @@ public class CallbackConroller {
     IOrderAO orderAO;
 
     @RequestMapping("/thirdPay/callback")
-    public synchronized void doCallbackZhpay(HttpServletRequest request,
+    public synchronized void doCallback(HttpServletRequest request,
             HttpServletResponse response) throws IOException {
         boolean isSuccess = Boolean.valueOf(request.getParameter("isSuccess"));
         String payGroup = request.getParameter("payGroup");

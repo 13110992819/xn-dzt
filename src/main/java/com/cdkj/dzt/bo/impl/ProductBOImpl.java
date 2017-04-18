@@ -10,9 +10,13 @@ import org.springframework.stereotype.Component;
 import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.IProductSpecsBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
+import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.dao.IProductDAO;
+import com.cdkj.dzt.domain.Model;
+import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.ProductSpecs;
+import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
@@ -24,6 +28,21 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
 
     @Autowired
     private IProductSpecsBO productSpecsBO;
+
+    @Override
+    public String saveProduct(Order order, Model model, Integer quantity) {
+        Product data = new Product();
+        String code = OrderNoGenerater.generateM(EGeneratePrefix.PRODUCT
+            .getCode());
+        data.setCode(code);
+        data.setOrderCode(order.getCode());
+        data.setModelName(model.getName());
+        data.setModelPic(model.getPic());
+        data.setPrice(model.getPrice());
+        data.setQuantity(quantity);
+        productDAO.insert(data);
+        return code;
+    }
 
     @Override
     public Product getProductByOrderCode(String orderCode) {
@@ -65,4 +84,5 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
         }
         return data;
     }
+
 }

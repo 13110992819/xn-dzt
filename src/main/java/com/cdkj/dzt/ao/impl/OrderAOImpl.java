@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.bo.IAccountBO;
@@ -79,28 +80,27 @@ public class OrderAOImpl implements IOrderAO {
     private IProductSpecsBO productSpecsBO;
 
     @Override
-    public String commitOrder(XN620200Req req) {
-        Order order = new Order();
-        // 判断是否有城市合伙人
+    public String applyOrder(XN620200Req req) {
+        // 获取城市合伙人
         User user = userBO.getPartner(req.getLtProvince(), req.getLtCity(),
             req.getLtArea(), EUserKind.Partner);
         String userId = "0";
         if (null != user) {
             userId = user.getUserId();
         }
+        // 开始组装order
+        Order order = new Order();
         Date now = new Date();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
-
         order.setCode(code);
-        // 城市合伙人用户ID
         order.setToUser(userId);
         order.setApplyUser(req.getApplyUser());
         order.setApplyName(req.getApplyName());
         order.setApplyMobile(req.getApplyMobile());
 
         order.setLtDatetime(DateUtil.strToDate(req.getLtDatetime(),
-            DateUtil.DATA_TIME_PATTERN_1));
+            DateUtil.FRONT_DATE_FORMAT_STRING));
         order.setLtProvince(req.getLtProvince());
         order.setLtCity(req.getLtCity());
         order.setLtArea(req.getLtArea());
@@ -109,100 +109,100 @@ public class OrderAOImpl implements IOrderAO {
         order.setApplyNote(req.getApplyNote());
         order.setCreateDatetime(now);
         order.setStatus(EOrderStatus.TO_MEASURE.getCode());
+
         order.setReceiver(req.getApplyName());
+        order.setReMobile(req.getApplyMobile());
         order.setReAddress(req.getLtProvince() + req.getLtCity()
                 + req.getLtArea() + req.getLtAddress());
 
-        order.setReMobile(req.getApplyMobile());
         order.setUpdater(req.getUpdater());
         order.setUpdateDatetime(now);
         order.setRemark(req.getRemark());
 
-        orderBO.saveOrder(order);
+        orderBO.applyOrder(order);
         return code;
     }
 
     @Override
-    public String againApply(String applyUser) {
-        List<Order> orderList = orderBO.queryOrderList(applyUser);
-        if (CollectionUtils.isEmpty(orderList)) {
-            throw new BizException("xn0000", "您还未下过订单,不能进行一键复购操作");
-        }
-        Order orderOld = orderList.get(orderList.size() - 1);
-        // 判断是否有城市合伙人
-        User user = userBO.getPartner(orderOld.getLtProvince(),
-            orderOld.getLtCity(), orderOld.getLtArea(), EUserKind.Partner);
-        String userId = orderOld.getToUser();
-        if (null != user) {
-            userId = user.getUserId();
-        }
+    public String applyOrder(String applyUser) {
+        // 获取最近订单
+        Order lastOrder = orderBO.getLastOrder(applyUser);
+        // 开始组装order
         Order order = new Order();
         Date now = new Date();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         order.setCode(code);
-        // 城市合伙人用户ID
-        order.setToUser(userId);
-        order.setApplyUser(orderOld.getApplyUser());
-        order.setApplyName(orderOld.getApplyName());
-        order.setApplyMobile(orderOld.getApplyMobile());
+        order.setToUser(lastOrder.getToUser());
+        order.setApplyUser(lastOrder.getApplyUser());
+        order.setApplyName(lastOrder.getApplyName());
+        order.setApplyMobile(lastOrder.getApplyMobile());
 
         order.setLtDatetime(now);
-        order.setLtProvince(orderOld.getLtProvince());
-        order.setLtCity(orderOld.getLtCity());
-        order.setLtArea(orderOld.getLtArea());
-        order.setLtAddress(orderOld.getLtAddress());
+        order.setLtProvince(lastOrder.getLtProvince());
+        order.setLtCity(lastOrder.getLtCity());
+        order.setLtArea(lastOrder.getLtArea());
+        order.setLtAddress(lastOrder.getLtAddress());
 
-        order.setApplyNote("用户一键复购");
+        order.setApplyNote("根据<" + lastOrder.getCode() + ">订单一键复购形成");
         order.setCreateDatetime(now);
         order.setStatus(EOrderStatus.TO_MEASURE.getCode());
-        order.setReceiver(applyUser);
 
-        order.setReAddress(orderOld.getReAddress());
-        order.setReMobile(orderOld.getApplyMobile());
+        order.setReceiver(lastOrder.getReceiver());
+        order.setReMobile(lastOrder.getApplyMobile());
+        order.setReAddress(lastOrder.getReAddress());
+
         order.setUpdater(applyUser);
         order.setUpdateDatetime(now);
+        order.setRemark("根据<" + lastOrder.getCode() + ">订单一键复购形成");
 
-        orderBO.saveOrder(order);
+        orderBO.applyOrder(order);
         return code;
     }
 
     @Override
-    public void assignedOrder(String orderCode, String ltUser, String ltName,
+    public void distributeOrder(String orderCode, String ltUser,
             String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
             throw new BizException("xn0000", "订单不处于待量体状态，不可以分配订单");
         }
-        orderBO.assignedOrder(order, ltUser, ltName, updater, remark);
+        User user = userBO.getRemoteUser(ltUser);
+        orderBO.distributeOrder(order, ltUser, user.getRealName(), updater,
+            remark);
     }
 
     @Override
     public void confirmPrice(String orderCode, String modelCode,
             Integer quantity, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
-        Model model = modelBO.getModel(modelCode);
         if (!EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
-            throw new BizException("xn0000", "订单不处于待量体状态，不可以分配订单");
+            throw new BizException("xn0000", "订单不处于待量体状态，不可以定价");
         }
+        // 落地成衣
+        Model model = modelBO.getModel(modelCode);
+        productBO.saveProduct(order, model, quantity);
+        // 更新订单
         Long amount = model.getPrice() * quantity;
         orderBO.confirmPrice(order, amount, updater, remark);
     }
 
     @Override
+    @Transactional
     public Object payment(String orderCode, String payType) {
         Object result = null;
         if (EPayType.WEIXIN.getCode().equals(payType)) {
-            result = toPayOrderWechat(orderCode, payType);
+            result = toPayOrderWechat(orderCode);
         } else if (EPayType.YEZF.getCode().equals(payType)) {
-            result = toPayOrderYY(orderCode, payType);
+            result = toPayOrderYE(orderCode);
         } else {
             throw new BizException("xn000000", "暂不支持该种支付方式");
         }
         return result;
     }
 
-    private Object toPayOrderYY(String orderCode, String payType) {
+    @Transactional
+    public Object toPayOrderYE(String orderCode) {
         Order order = orderBO.getOrder(orderCode);
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
@@ -213,21 +213,23 @@ public class OrderAOImpl implements IOrderAO {
         return new BooleanRes(true);
     }
 
-    private Object toPayOrderWechat(String orderCode, String payType) {
+    @Transactional
+    public Object toPayOrderWechat(String orderCode) {
         // 生成payGroup,并把订单进行支付。
-        String payGroup = OrderNoGenerater.generateM(EGeneratePrefix.ORDER_PAY
+        String payGroup = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         // 计算该组订单总金额
         Order order = orderBO.getOrder(orderCode);
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
+        User user = userBO.getRemoteUser(userId);
         if (!EOrderStatus.ASSIGN_PRICE.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于已定价状态");
         }
-        orderBO.addPayGroup(order, payGroup, payType);
-        return accountBO.doWeiXinPayRemote(userId,
+        orderBO.addPayGroup(order, payGroup, EPayType.WEIXIN.getCode());
+        return accountBO.doWeiXinH5PayRemote(userId, user.getOpenId(),
             ESysUser.SYS_USER_DZT.getCode(), totalAmount, EBizType.AJ_GW,
-            "量体衬衫购买订单支付", "量体衬衫购买订单支付", payGroup);
+            "量体衬衫购买订单支付", "量体衬衫购买订单支付", EPayType.WEIXIN.getCode());
     }
 
     @Override
@@ -253,12 +255,11 @@ public class OrderAOImpl implements IOrderAO {
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单尚未支付,不能录入数据");
         }
-
-        productSpecsBO.removeProductSpecs(product.getCode());
-        // 存地址
+        // 更新订单
         orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
             remark);
-
+        // 落地量体数据
+        productSpecsBO.removeProductSpecs(product.getCode());
         productSpecsBO.inputInforValue(order, product, map);
         Map<String, ModelSpecs> modelSmap = modelSpecsBO.getMap();
         productSpecsBO.inputInforCode(order, product, map, modelSmap);
@@ -266,13 +267,12 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     public void ltSubmit(String orderCode, String updater) {
-        Order order = orderBO.getOrder(orderCode);
+        Order order = orderBO.getRichOrder(orderCode);
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
-            throw new BizException("xn000000", "订单尚未支付,不能提交审核");
+            throw new BizException("xn000000", "订单不是已支付状态,不能提交审核");
         }
-        if (!order.getLtUser().equals(updater)) {
-            throw new BizException("xn000000", "您不是该笔订单的量体师,不能提交订单");
-        }
+        // 确保所有规格已经填充完毕
+        orderBO.checkInfoFull(order);
         orderBO.ltSubmit(order, updater);
     }
 
@@ -283,9 +283,11 @@ public class OrderAOImpl implements IOrderAO {
         if (!EOrderStatus.TO_APPROVE.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于待审核状态,不能审核");
         }
-        EOrderStatus status = EOrderStatus.PAY_YES;
+        EOrderStatus status = null;
         if (EBoolean.YES.getCode().equals(result)) {
             status = EOrderStatus.TO_PRODU;
+        } else {
+            status = EOrderStatus.PAY_YES;// 审核不通过，回退到已支付待提交
         }
         orderBO.approveOrder(order, status, updater, remark);
     }
@@ -300,17 +302,17 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public void sendGoods(String orderCode, String logisticsCompany,
-            String logisticsCode, String deliverer, String deliveryDatetime,
-            String pdf, String updater, String remark) {
+    public void sendGoods(String orderCode, String deliverer,
+            String deliveryDatetime, String logisticsCompany,
+            String logisticsCode, String pdf, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.PRODU_DOING.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于生产中,不能发货");
         }
         Date sendTime = DateUtil.strToDate(deliveryDatetime,
             DateUtil.FRONT_DATE_FORMAT_STRING);
-        orderBO.sendGoods(order, logisticsCompany, logisticsCode, deliverer,
-            sendTime, pdf, updater, remark);
+        orderBO.sendGoods(order, deliverer, sendTime, logisticsCompany,
+            logisticsCode, pdf, updater, remark);
     }
 
     @Override
@@ -323,7 +325,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public void cancelOrder(String orderCode, String userId, String remark) {
+    public void cancelOrder(String orderCode, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (EOrderStatus.PAY_YES.getCode().equals(order.getStatus())
                 || EOrderStatus.TO_PRODU.getCode().equals(order.getStatus())
@@ -332,10 +334,10 @@ public class OrderAOImpl implements IOrderAO {
                 || EOrderStatus.RECEIVE.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于可取消订单状态,不能取消订单");
         }
-        if (order.getApplyUser().equals(userId)
-                || order.getLtUser().equals(userId)
-                || order.getToUser().equals(userId)) {
-            orderBO.cancelOrder(order, userId, remark);
+        if (order.getApplyUser().equals(updater)
+                || order.getLtUser().equals(updater)
+                || order.getToUser().equals(updater)) {
+            orderBO.cancelOrder(order, updater, remark);
         } else {
             throw new BizException("xn000000", "尊敬的用户,该订单不属于您，或你管辖的范围,不可取消订单");
         }
@@ -348,9 +350,7 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     public Order getRichOrder(String code) {
-        Order order = orderBO.getOrder(code);
-        List<Product> list = productBO.queryRichProductList(order.getCode());
-        order.setProductList(list);
+        Order order = orderBO.getRichOrder(code);
         return order;
     }
 

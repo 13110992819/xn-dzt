@@ -30,7 +30,7 @@ public class Product extends ABaseDO {
     private Long price;
 
     // 数量
-    private String quantity;
+    private Integer quantity;
 
     // -------db propties--------------
     private List<ProductSpecs> productSpecsList;
@@ -75,12 +75,12 @@ public class Product extends ABaseDO {
         return price;
     }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public List<ProductSpecs> getProductSpecsList() {

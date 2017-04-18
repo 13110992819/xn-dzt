@@ -17,17 +17,17 @@ public class XN620209Req {
     // 订单编号（必填）
     private String orderCode;
 
-    // 物流公司(必填)
-    private String logisticsCompany;
-
-    // 物流单号(必填)
-    private String logisticsCode;
-
     // 发货人(必填)
     private String deliverer;
 
     // 发货时间(必填)
     private String deliveryDatetime;
+
+    // 物流公司(必填)
+    private String logisticsCompany;
+
+    // 物流单号(必填)
+    private String logisticsCode;
 
     // 发货单留存(选填)
     private String pdf;

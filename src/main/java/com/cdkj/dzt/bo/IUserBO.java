@@ -12,15 +12,7 @@ public interface IUserBO {
 
     public User getRemoteUser(String userId);
 
-    public String isUserExist(String mobile, EUserKind kind, String systemCode);
-
     public User getPartner(String province, String city, String area,
             EUserKind kind);
-
-    public String doSaveCUser(String mobile, String loginPwd, String updater,
-            String remark, String systemCode);
-
-    public String doSaveBUser(String mobile, String updater, String systemCode,
-            String companyCode);
 
 }

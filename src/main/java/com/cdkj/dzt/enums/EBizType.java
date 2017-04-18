@@ -9,7 +9,7 @@ import java.util.Map;
  * @history:
  */
 public enum EBizType {
-    AJ_GW("-30", "购物");
+    AJ_GW("GW", "购物");
     public static Map<String, EBizType> getBizTypeMap() {
         Map<String, EBizType> map = new HashMap<String, EBizType>();
         for (EBizType bizType : EBizType.values()) {
