@@ -263,6 +263,7 @@
 		UPDATE tdzt_order
 		SET
 		amount = #{amount}
+		,status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}

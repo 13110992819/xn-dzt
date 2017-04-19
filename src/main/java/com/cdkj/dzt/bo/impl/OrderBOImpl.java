@@ -51,6 +51,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
         order.setRemark(remark);
+        order.setStatus(EOrderStatus.ASSIGN_PRICE.getCode());
         orderDAO.updateConfirm(order);
     }
 
