@@ -80,7 +80,17 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         this.saveNL(orderCode, productCode, map.get(EMeasureKey.NL.getCode()));
         this.saveSG(orderCode, productCode, map.get(EMeasureKey.SG.getCode()));
         this.saveTZ(orderCode, productCode, map.get(EMeasureKey.TZ.getCode()));
+        this.saveYJDZ(orderCode, productCode,
+            map.get(EMeasureKey.YJDZ.getCode()));
+    }
 
+    private void saveYJDZ(String orderCode, String productCode, String string) {
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(string);
+        data.setParentCode(EMeasureKey.YJDZ.getCode());
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
     }
 
     private void saveTZ(String orderCode, String productCode, String string) {
@@ -331,20 +341,41 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
 
     private void saveCSYS(String orderCode, String productCode,
             ModelSpecs modelSpecs) {
-        // TODO Auto-generated method stub
-
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(modelSpecs.getCode());
+        data.setName(modelSpecs.getName());
+        data.setType(modelSpecs.getType());
+        data.setPic(modelSpecs.getPic());
+        data.setParentCode(EMeasureKey.CSYS.getCode());
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
     }
 
     private void saveCDZT(String orderCode, String productCode,
             ModelSpecs modelSpecs) {
-        // TODO Auto-generated method stub
-
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(modelSpecs.getCode());
+        data.setName(modelSpecs.getName());
+        data.setType(modelSpecs.getType());
+        data.setPic(modelSpecs.getPic());
+        data.setParentCode(EMeasureKey.CDZT.getCode());
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
     }
 
     private void saveCXWZ(String orderCode, String productCode,
             ModelSpecs modelSpecs) {
-        // TODO Auto-generated method stub
-
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(modelSpecs.getCode());
+        data.setName(modelSpecs.getName());
+        data.setType(modelSpecs.getType());
+        data.setPic(modelSpecs.getPic());
+        data.setParentCode(EMeasureKey.CXWZ.getCode());
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
     }
 
     private void saveCSML(String orderCode, String productCode,
