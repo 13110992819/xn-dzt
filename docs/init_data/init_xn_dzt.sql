@@ -1,4 +1,12 @@
 /*
+-- Query: SELECT * FROM xn_dzt.tdzt_model
+-- Date: 2017-04-19 21:53
+*/
+INSERT INTO `tdzt_model` (`code`,`name`,`pic`,`price`,`create_datetime`,`updater`,`update_datetime`,`remark`) VALUES ('1','花花公子衬衫','499_1492525869053.jpg',499000,now(),'admin',now(),NULL);
+INSERT INTO `tdzt_model` (`code`,`name`,`pic`,`price`,`create_datetime`,`updater`,`update_datetime`,`remark`) VALUES ('2','长跑','399_1492525832937.jpg',399000,now(),'admin',now(),NULL);
+
+
+/*
 -- Query: SELECT * FROM xn_dzt.tdzt_model_specs
 -- Date: 2017-04-19 18:11
 */
