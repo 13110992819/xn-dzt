@@ -173,6 +173,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
+    @Transactional
     public void confirmPrice(String orderCode, String modelCode,
             Integer quantity, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
@@ -201,8 +202,7 @@ public class OrderAOImpl implements IOrderAO {
         return result;
     }
 
-    @Transactional
-    public Object toPayOrderYE(String orderCode) {
+    private Object toPayOrderYE(String orderCode) {
         Order order = orderBO.getOrder(orderCode);
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
@@ -213,8 +213,7 @@ public class OrderAOImpl implements IOrderAO {
         return new BooleanRes(true);
     }
 
-    @Transactional
-    public Object toPayOrderWechat(String orderCode) {
+    private Object toPayOrderWechat(String orderCode) {
         // 生成payGroup,并把订单进行支付。
         String payGroup = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
@@ -248,6 +247,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
+    @Transactional
     public void inputInfor(String productCode, Map<String, String> map,
             String updater, String remark) {
         Product product = productBO.getProduct(productCode);
