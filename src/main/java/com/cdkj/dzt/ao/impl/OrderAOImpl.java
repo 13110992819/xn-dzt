@@ -248,13 +248,13 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     @Transactional
-    public void inputInfor(String productCode, Map<String, String> map,
+    public void inputInfor(String orderCode, Map<String, String> map,
             String updater, String remark) {
-        Product product = productBO.getProduct(productCode);
-        Order order = orderBO.getOrder(product.getOrderCode());
+        Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单尚未支付,不能录入数据");
         }
+        Product product = productBO.getProductByOrderCode(orderCode);
         // 更新订单
         orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
             remark);

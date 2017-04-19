@@ -9,8 +9,8 @@ import java.util.Map;
  * @history:
  */
 public class XN620205Req {
-    // 成衣编号
-    private String productCode;
+    // 订单编号
+    private String orderCode;
 
     // 成衣数据
     private Map<String, String> map;
@@ -45,11 +45,12 @@ public class XN620205Req {
         this.map = map;
     }
 
-    public String getProductCode() {
-        return productCode;
+    public String getOrderCode() {
+        return orderCode;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
+
 }
