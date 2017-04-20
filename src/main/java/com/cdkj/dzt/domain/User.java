@@ -48,6 +48,9 @@ public class User extends ABaseDO {
     // 推荐人
     private String userReferee;
 
+    // 分成比例
+    private Double divRate;
+
     public String getUserId() {
         return userId;
     }
@@ -118,6 +121,14 @@ public class User extends ABaseDO {
 
     public void setUserReferee(String userReferee) {
         this.userReferee = userReferee;
+    }
+
+    public Double getDivRate() {
+        return divRate;
+    }
+
+    public void setDivRate(Double divRate) {
+        this.divRate = divRate;
     }
 
 }

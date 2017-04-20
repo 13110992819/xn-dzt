@@ -49,6 +49,7 @@ public class UserBOImpl implements IUserBO {
             user.setRealName(res.getRealName());
             user.setMobile(res.getMobile());
             user.setUserReferee(res.getUserReferee());
+            user.setDivRate(Double.valueOf(res.getDivRate()));
         }
         return user;
     }

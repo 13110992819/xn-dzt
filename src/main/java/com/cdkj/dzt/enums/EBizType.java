@@ -9,7 +9,8 @@ import java.util.Map;
  * @history:
  */
 public enum EBizType {
-    AJ_GW("GW", "购物");
+    AJ_GW("GW", "购物"), AJ_GWTK("GWTK", "购物退款"), AJ_HHRFC("HHRFC", "合伙人分成"), AJ_LTSFC(
+            "LTSFC", "量体师分成");
     public static Map<String, EBizType> getBizTypeMap() {
         Map<String, EBizType> map = new HashMap<String, EBizType>();
         for (EBizType bizType : EBizType.values()) {

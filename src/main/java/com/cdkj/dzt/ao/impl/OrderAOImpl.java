@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -316,12 +317,39 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
+    @Transactional
     public void confirmReceipt(String orderCode, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.SEND.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单还未发货,不能确认收货");
         }
+        // 更改订单状态
         orderBO.confirmReceipt(order, updater, remark);
+        // 合伙人和量体师进行分成
+        doFenCheng(order);
+    }
+
+    private void doFenCheng(Order order) {
+        // 合伙人分成
+        String parterUserId = order.getToUser();
+        if (StringUtils.isNotBlank(parterUserId) && !"0".equals(parterUserId)) {
+            User parter = userBO.getRemoteUser(parterUserId);
+            accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
+                parterUserId, ECurrency.CNY,
+                Double.valueOf(order.getAmount() * parter.getDivRate())
+                    .longValue(), EBizType.AJ_HHRFC, "订单：" + order.getCode()
+                        + " 合伙人分成", "订单：" + order.getCode() + " 分成收入");
+        }
+        // 量体师分成
+        String ltUserId = order.getLtUser();
+        if (StringUtils.isNotBlank(ltUserId)) {
+            User ltUser = userBO.getRemoteUser(ltUserId);
+            accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
+                ltUserId, ECurrency.CNY,
+                Double.valueOf(order.getAmount() * ltUser.getDivRate())
+                    .longValue(), EBizType.AJ_HHRFC, "订单：" + order.getCode()
+                        + " 量体师分成", "订单：" + order.getCode() + " 分成收入");
+        }
     }
 
     @Override

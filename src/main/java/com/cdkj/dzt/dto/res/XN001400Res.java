@@ -40,6 +40,9 @@ public class XN001400Res {
     // 证件号码
     private String idNo;
 
+    // 分成比例
+    private String divRate;
+
     // 是否设置支付密码
     private String tradepwdFlag;
 
@@ -219,5 +222,13 @@ public class XN001400Res {
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
+    }
+
+    public String getDivRate() {
+        return divRate;
+    }
+
+    public void setDivRate(String divRate) {
+        this.divRate = divRate;
     }
 }

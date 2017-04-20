@@ -264,6 +264,8 @@ INSERT INTO `tsys_dict` (`system_code`,`type`,`parent_key`,`dkey`,`dvalue`,`upda
 INSERT INTO `tsys_dict` (`system_code`,`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`) VALUES ('CD-CDZT000009','1','biz_type','-19','红冲','admin',now(),'');
 INSERT INTO `tsys_dict` (`system_code`,`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`) VALUES ('CD-CDZT000009','1','biz_type','GW','购物','admin',now(),'');
 INSERT INTO `tsys_dict` (`system_code`,`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`) VALUES ('CD-CDZT000009','1','biz_type','GWTK','购物退款','admin',now(),'');
+INSERT INTO `tsys_dict` (`system_code`,`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`) VALUES ('CD-CDZT000009','1','biz_type','HHRFC','合伙人分成','admin',now(),'');
+INSERT INTO `tsys_dict` (`system_code`,`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`) VALUES ('CD-CDZT000009','1','biz_type','LTSFC','量体师分成','admin',now(),'');
 INSERT INTO `tsys_dict` (`system_code`,`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`) VALUES ('CD-CDZT000009','0','','account_status','用户/账户状态','admin',now(),NULL);
 INSERT INTO `tsys_dict` (`system_code`,`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`) VALUES ('CD-CDZT000009','1','account_status','0','正常','admin',now(),NULL);
 INSERT INTO `tsys_dict` (`system_code`,`type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`) VALUES ('CD-CDZT000009','1','account_status','1','程序冻结','admin',now(),NULL);
