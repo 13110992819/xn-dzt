@@ -134,6 +134,7 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
     @Override
     public Order getLastOrder(String applyUser) {
         Order condition = new Order();
+        condition.setApplyUser(applyUser);
         return super.select(NAMESPACE.concat("select_getLastOrder"), condition,
             Order.class);
 
