@@ -209,7 +209,7 @@ public class OrderAOImpl implements IOrderAO {
         String userId = order.getApplyUser();
         accountBO.doTransferAmountRemote(userId,
             ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY, totalAmount,
-            EBizType.AJ_GW, "量体衬衫购买订单支付", "量体衬衫购买订单支付");
+            EBizType.AJ_GW, "V&O衬衫购买订单支付", "V&O衬衫购买订单支付");
         orderBO.PaySuccess(order, null, totalAmount);
         return new BooleanRes(true);
     }
@@ -229,7 +229,7 @@ public class OrderAOImpl implements IOrderAO {
         orderBO.addPayGroup(order, payGroup, EPayType.WEIXIN.getCode());
         return accountBO.doWeiXinH5PayRemote(userId, user.getOpenId(),
             ESysUser.SYS_USER_DZT.getCode(), totalAmount, EBizType.AJ_GW,
-            "量体衬衫购买订单支付", "量体衬衫购买订单支付", EPayType.WEIXIN.getCode());
+            "V&O衬衫购买订单支付", "V&O衬衫购买订单支付", EPayType.WEIXIN.getCode());
     }
 
     @Override
