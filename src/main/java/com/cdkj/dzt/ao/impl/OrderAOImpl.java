@@ -113,8 +113,8 @@ public class OrderAOImpl implements IOrderAO {
 
         order.setReceiver(req.getApplyName());
         order.setReMobile(req.getApplyMobile());
-        order.setReAddress(req.getLtProvince() + req.getLtCity()
-                + req.getLtArea() + req.getLtAddress());
+        // order.setReAddress(req.getLtProvince() + req.getLtCity()
+        // + req.getLtArea() + req.getLtAddress());
 
         order.setUpdater(req.getUpdater());
         order.setUpdateDatetime(now);
