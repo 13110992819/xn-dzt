@@ -86,12 +86,14 @@ DROP TABLE IF EXISTS `tdzt_product`;
 CREATE TABLE `tdzt_product` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `order_code` varchar(32) DEFAULT NULL COMMENT '订单编号',
+  `model_code` varchar(32) DEFAULT NULL COMMENT '型号编号',
   `model_name` varchar(32) DEFAULT NULL COMMENT '产品名字',
   `model_pic` text COMMENT '产品图片',
   `price` bigint(20) DEFAULT NULL COMMENT '单价',
   `quantity` int(11) DEFAULT NULL COMMENT '数量',
   PRIMARY KEY (`code`) COMMENT '成衣表'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 -- ----------------------------

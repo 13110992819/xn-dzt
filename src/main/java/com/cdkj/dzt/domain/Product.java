@@ -20,6 +20,9 @@ public class Product extends ABaseDO {
     // 订单编号
     private String orderCode;
 
+    // 型号编号
+    private String modelCode;
+
     // 产品名字
     private String modelName;
 
@@ -49,6 +52,14 @@ public class Product extends ABaseDO {
 
     public String getOrderCode() {
         return orderCode;
+    }
+
+    public String getModelCode() {
+        return modelCode;
+    }
+
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
     }
 
     public void setModelName(String modelName) {

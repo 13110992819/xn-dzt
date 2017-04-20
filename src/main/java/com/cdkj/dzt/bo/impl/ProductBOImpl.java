@@ -36,6 +36,7 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
             .getCode());
         data.setCode(code);
         data.setOrderCode(order.getCode());
+        data.setModelCode(model.getCode());
         data.setModelName(model.getName());
         data.setModelPic(model.getPic());
         data.setPrice(model.getPrice());

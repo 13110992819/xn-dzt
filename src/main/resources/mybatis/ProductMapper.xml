@@ -5,6 +5,7 @@
 	<resultMap id="product_DB_Result" type="product">
 		<result column="code" property="code" />
 		<result column="order_code" property="orderCode" />
+		<result column="model_code" property="modelCode" />
 		<result column="model_name" property="modelName" />
 		<result column="model_pic" property="modelPic" />
 		<result column="price" property="price" />
@@ -15,6 +16,9 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="modelCode != null and modelCode != '' ">
+				AND t.model_code = #{modelCode}
+			</if>
 			<if test="orderCode != null and orderCode != '' ">
 				AND t.order_code = #{orderCode}
 			</if>
@@ -24,6 +28,7 @@
 		SELECT
 		t.code
 		,t.order_code
+		,t.model_code
 		,t.model_name
 		,t.model_pic
 		,t.price
@@ -49,6 +54,7 @@
 		tdzt_product(
 		code
 		,order_code
+		,model_code
 		,model_name
 		,model_pic
 		,price
@@ -57,6 +63,7 @@
 		VALUES(
 		#{code}
 		,#{orderCode}
+		,#{modelCode}
 		,#{modelName}
 		,#{modelPic}
 		,#{price}
@@ -68,6 +75,7 @@
 		UPDATE tdzt_product
 		SET
 		order_code = #{orderCode}
+		,model_code = #{modelCode}
 		,model_name = #{modelName}
 		,model_pic = #{modelPic}
 		,price = #{price}
