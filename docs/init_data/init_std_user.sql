@@ -12,7 +12,9 @@ INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`compa
 INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt004','3','ACCESS_KEY','wx8bc03dd744895352',NULL,'CD-CDZT000009','CD-CDZT000009');
 INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt005','3','SECRET_KEY','44ebf0ef908dc54656573625a579ea82',NULL,'CD-CDZT000009','CD-CDZT000009');
 
-INSERT INTO `tsys_config` (`id`,`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES (65,'aboutUs','关于我们','<p><img src=\"http://oigx51fc5.bkt.clouddn.com/timg_1492064993724.jpg\" style=\"line-height: 1; font-size: 9pt; max-width: 100%;\">&nbsp; &nbsp; &nbsp; &nbsp;我们公司是一家</p><p><br></p>','admin','2017-04-13 14:26:51',NULL,'CD-CDZT000009');
+INSERT INTO `tsys_config` (`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('aboutUs','关于我们','商捷定制通——关于我们','admin',now(),NULL,'CD-CDZT000009');
+INSERT INTO `tsys_config` (`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('yuyuePic','预约界面展示图','','admin',now(),NULL,'CD-CDZT000009');
+INSERT INTO `tsys_config` (`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('fugouPic','复购界面展示图','','admin',now(),NULL,'CD-CDZT000009');
 
 /*
 -- Query: SELECT * FROM std_user.tsys_menu where system_code = 'CD-CDZT000009'
