@@ -373,12 +373,18 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     public Paginable<Order> queryOrderPage(int start, int limit, Order condition) {
-        return orderBO.getPaginable(start, limit, condition);
+        Paginable<Order> results = orderBO
+            .getPaginable(start, limit, condition);
+        for (Order order : results.getList()) {
+            order.setLtUserDO(userBO.getRemoteUser(order.getLtUser()));
+        }
+        return results;
     }
 
     @Override
     public Order getRichOrder(String code) {
         Order order = orderBO.getRichOrder(code);
+        order.setLtUserDO(userBO.getRemoteUser(order.getLtUser()));
         return order;
     }
 

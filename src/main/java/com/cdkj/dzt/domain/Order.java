@@ -123,6 +123,8 @@ public class Order extends ABaseDO {
     // -------db propties--------------
     private List<Product> productList;
 
+    private User ltUserDO;
+
     public String getCode() {
         return code;
     }
@@ -409,6 +411,14 @@ public class Order extends ABaseDO {
 
     public void setProductList(List<Product> productList) {
         this.productList = productList;
+    }
+
+    public User getLtUserDO() {
+        return ltUserDO;
+    }
+
+    public void setLtUserDO(User ltUserDO) {
+        this.ltUserDO = ltUserDO;
     }
 
 }
