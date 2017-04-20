@@ -101,7 +101,7 @@ public class OrderAOImpl implements IOrderAO {
         order.setApplyMobile(req.getApplyMobile());
 
         order.setLtDatetime(DateUtil.strToDate(req.getLtDatetime(),
-            DateUtil.DATA_TIME_PATTERN_1));
+            DateUtil.FRONT_DATE_FORMAT_STRING));
         order.setLtProvince(req.getLtProvince());
         order.setLtCity(req.getLtCity());
         order.setLtArea(req.getLtArea());
