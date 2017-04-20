@@ -64,7 +64,7 @@ public class ModelSpecsBOImpl extends PaginableBOImpl<ModelSpecs> implements
         if (CollectionUtils.isNotEmpty(list)) {
             map = new HashMap<String, ModelSpecs>();
             for (ModelSpecs ele : list) {
-                map.put(ele.getParentCode(), ele);
+                map.put(ele.getCode(), ele);
             }
         }
         return map;

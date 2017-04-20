@@ -3,6 +3,7 @@ package com.cdkj.dzt.bo.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +35,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             Map<String, String> map) {
         String productCode = product.getCode();
         String orderCode = order.getCode();
-        this.saveGXCX(orderCode, productCode,
-            map.get(EMeasureKey.GXCX.getCode()));
 
         this.saveLWCL(orderCode, productCode,
             map.get(EMeasureKey.LWCL.getCode()));
@@ -45,7 +44,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             map.get(EMeasureKey.YWCL.getCode()));
         this.saveTWCL(orderCode, productCode,
             map.get(EMeasureKey.TWCL.getCode()));
-
         this.saveJKCL(orderCode, productCode,
             map.get(EMeasureKey.JKCL.getCode()));
         this.saveYCCL(orderCode, productCode,
@@ -54,9 +52,9 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             map.get(EMeasureKey.XCCL.getCode()));
         this.saveBWCL(orderCode, productCode,
             map.get(EMeasureKey.BWCL.getCode()));
-
         this.saveWWCL(orderCode, productCode,
             map.get(EMeasureKey.WWCL.getCode()));
+
         this.saveLWCY(orderCode, productCode,
             map.get(EMeasureKey.LWCY.getCode()));
         this.saveSWCY(orderCode, productCode,
@@ -65,230 +63,328 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             map.get(EMeasureKey.YWCY.getCode()));
         this.saveTWCY(orderCode, productCode,
             map.get(EMeasureKey.TWCY.getCode()));
-
         this.saveJKCY(orderCode, productCode,
             map.get(EMeasureKey.JKCY.getCode()));
         this.saveYCCY(orderCode, productCode,
             map.get(EMeasureKey.YCCY.getCode()));
-
         this.saveXCCY(orderCode, productCode,
             map.get(EMeasureKey.XCCY.getCode()));
         this.saveBWCY(orderCode, productCode,
             map.get(EMeasureKey.BWCY.getCode()));
         this.saveWWCY(orderCode, productCode,
             map.get(EMeasureKey.WWCY.getCode()));
+
+        this.saveQXK(orderCode, productCode, map.get(EMeasureKey.QXK.getCode()));
+        this.saveHBK(orderCode, productCode, map.get(EMeasureKey.HBK.getCode()));
+        this.saveZTW(orderCode, productCode, map.get(EMeasureKey.ZTW.getCode()));
+
+        this.saveGXCX(orderCode, productCode,
+            map.get(EMeasureKey.GXCX.getCode()));
+
         this.saveNL(orderCode, productCode, map.get(EMeasureKey.NL.getCode()));
         this.saveSG(orderCode, productCode, map.get(EMeasureKey.SG.getCode()));
         this.saveTZ(orderCode, productCode, map.get(EMeasureKey.TZ.getCode()));
         this.saveYJDZ(orderCode, productCode,
             map.get(EMeasureKey.YJDZ.getCode()));
+        this.saveBEIZHU(orderCode, productCode,
+            map.get(EMeasureKey.BEIZHU.getCode()));
     }
 
-    private void saveYJDZ(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.YJDZ.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveBEIZHU(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.BEIZHU.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveTZ(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.TZ.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveQXK(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.QXK.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveSG(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.SG.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveHBK(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.HBK.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveNL(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.NL.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveZTW(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.ZTW.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveWWCY(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.WWCY.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveYJDZ(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.YJDZ.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveBWCY(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.BWCY.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveTZ(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.TZ.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveXCCY(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.XCCY.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveSG(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.SG.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveYCCY(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.YCCY.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveNL(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.NL.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveJKCY(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.JKCY.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveWWCY(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.WWCY.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveTWCY(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.TWCY.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveBWCY(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.BWCY.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveYWCY(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.YWCY.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveXCCY(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.XCCY.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveSWCY(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.SWCY.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveYCCY(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.YCCY.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveLWCY(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.LWCY.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveJKCY(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.JKCY.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveWWCL(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.WWCL.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveTWCY(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.TWCY.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveBWCL(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.BWCL.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveYWCY(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.YWCY.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveXCCL(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.XCCL.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveSWCY(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.SWCY.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveYCCL(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.YCCL.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveLWCY(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.LWCY.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveJKCL(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.JKCL.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveWWCL(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.WWCL.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveTWCL(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.TWCL.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveBWCL(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.BWCL.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveYWCL(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.YWCL.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveXCCL(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.XCCL.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveSWCL(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.SWCL.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveYCCL(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.YCCL.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
-    private void saveLWCL(String orderCode, String productCode, String string) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(string);
-        data.setParentCode(EMeasureKey.LWCL.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+    private void saveJKCL(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.JKCL.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
+    }
+
+    private void saveTWCL(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.TWCL.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
+    }
+
+    private void saveYWCL(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.YWCL.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
+    }
+
+    private void saveSWCL(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.SWCL.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
+    }
+
+    private void saveLWCL(String orderCode, String productCode, String value) {
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.LWCL.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
     private void saveGXCX(String orderCode, String productCode, String value) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(value);
-        data.setParentCode(EMeasureKey.GXCX.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
+        if (StringUtils.isNotBlank(value)) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(value);
+            data.setParentCode(EMeasureKey.GXCX.getCode());
+            data.setProductCode(productCode);
+            data.setOrderCode(orderCode);
+            productSpecsDAO.insert(data);
+        }
     }
 
     @Override
@@ -298,68 +394,106 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         String productCode = product.getCode();
         String orderCode = order.getCode();
 
-        this.saveCSGG(orderCode, productCode,
-            modelSmap.get(EMeasureKey.CSGG.getCode()));
-        this.saveCSML(orderCode, productCode,
-            modelSmap.get(EMeasureKey.CSML.getCode()));
-        this.saveLXXZ(orderCode, productCode,
-            modelSmap.get(EMeasureKey.LXXZ.getCode()));
-        this.saveXXXZ(orderCode, productCode,
-            modelSmap.get(EMeasureKey.XXXZ.getCode()));
-        this.saveMZXZ(orderCode, productCode,
-            modelSmap.get(EMeasureKey.MZXZ.getCode()));
-        this.saveXBXZ(orderCode, productCode,
-            modelSmap.get(EMeasureKey.XBXZ.getCode()));
-        this.saveSXXZ(orderCode, productCode,
-            modelSmap.get(EMeasureKey.SXXZ.getCode()));
-        this.saveLKYZ(orderCode, productCode,
-            modelSmap.get(EMeasureKey.LKYZ.getCode()));
-        this.saveKDXZ(orderCode, productCode,
-            modelSmap.get(EMeasureKey.KDXZ.getCode()));
-        this.saveNKXZ(orderCode, productCode,
-            modelSmap.get(EMeasureKey.NKXZ.getCode()));
-        this.saveNKYS(orderCode, productCode,
-            modelSmap.get(EMeasureKey.NKYS.getCode()));
-        this.saveTX(orderCode, productCode,
-            modelSmap.get(EMeasureKey.TX.getCode()));
-        this.saveJXL(orderCode, productCode,
-            modelSmap.get(EMeasureKey.JXL.getCode()));
-        this.saveFBL(orderCode, productCode,
-            modelSmap.get(EMeasureKey.FBL.getCode()));
-        this.saveBZ(orderCode, productCode,
-            modelSmap.get(EMeasureKey.BZ.getCode()));
-        this.saveBB(orderCode, productCode,
-            modelSmap.get(EMeasureKey.BB.getCode()));
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CSGG.getCode()))) {
+            this.saveCSGG(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.CSGG.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CSML.getCode()))) {
+            this.saveCSML(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.CSML.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.LXXZ.getCode()))) {
+            this.saveLXXZ(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.LXXZ.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.XXXZ.getCode()))) {
+            this.saveXXXZ(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.XXXZ.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.MJXZ.getCode()))) {
+            this.saveMZXZ(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.MJXZ.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.XBXZ.getCode()))) {
+            this.saveXBXZ(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.XBXZ.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.SXXZ.getCode()))) {
+            this.saveSXXZ(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.SXXZ.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.LKYZ.getCode()))) {
+            this.saveLKYZ(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.LKYZ.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.KDXZ.getCode()))) {
+            this.saveKDXZ(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.KDXZ.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.NKXZ.getCode()))) {
+            this.saveNKXZ(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.NKXZ.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.NKYS.getCode()))) {
+            this.saveNKYS(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.NKYS.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.TX.getCode()))) {
+            this.saveTX(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.TX.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.JXL.getCode()))) {
+            this.saveJXL(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.JXL.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.FBL.getCode()))) {
+            this.saveFBL(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.FBL.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.BZ.getCode()))) {
+            this.saveBZ(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.BZ.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.BB.getCode()))) {
+            this.saveBB(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.BB.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CXWZ.getCode()))) {
 
-        this.saveCXWZ(orderCode, productCode,
-            modelSmap.get(EMeasureKey.CXWZ.getCode()));
-        this.saveCDZT(orderCode, productCode,
-            modelSmap.get(EMeasureKey.CDZT.getCode()));
-        this.saveCSYS(orderCode, productCode,
-            modelSmap.get(EMeasureKey.CSYS.getCode()));
+            this.saveCXWZ(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.CXWZ.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CXZT.getCode()))) {
+            this.saveCXZT(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.CXZT.getCode())));
+        }
+        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CXYS.getCode()))) {
+            this.saveCXYS(orderCode, productCode,
+                modelSmap.get(valueMap.get(EMeasureKey.CXYS.getCode())));
+        }
     }
 
-    private void saveCSYS(String orderCode, String productCode,
+    private void saveCXYS(String orderCode, String productCode,
             ModelSpecs modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
         data.setType(modelSpecs.getType());
         data.setPic(modelSpecs.getPic());
-        data.setParentCode(EMeasureKey.CSYS.getCode());
+        data.setParentCode(EMeasureKey.CXYS.getCode());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
     }
 
-    private void saveCDZT(String orderCode, String productCode,
+    private void saveCXZT(String orderCode, String productCode,
             ModelSpecs modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
         data.setType(modelSpecs.getType());
         data.setPic(modelSpecs.getPic());
-        data.setParentCode(EMeasureKey.CDZT.getCode());
+        data.setParentCode(EMeasureKey.CXZT.getCode());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -424,7 +558,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         data.setName(modelSpecs.getName());
         data.setType(modelSpecs.getType());
         data.setPic(modelSpecs.getPic());
-        data.setParentCode(EMeasureKey.MZXZ.getCode());
+        data.setParentCode(EMeasureKey.MJXZ.getCode());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
