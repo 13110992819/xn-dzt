@@ -1,7 +1,7 @@
 INSERT INTO `tstd_user` (`user_id`,`login_name`,`nickname`,`login_pwd`,`login_pwd_strength`,`kind`,`level`,`user_referee`,`mobile`,`id_kind`,`id_no`,`real_name`,`trade_pwd`,`trade_pwd_strength`,`role_code`,`status`,`pdf`,`company_code`,`open_id`,`jpush_id`,`create_datetime`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('CDZT201700000000000001','admin',NULL,'21218cca77804d2ba1922c33e0151105','1','01','0',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'DZTSR2017041310190267791','0',NULL,NULL,NULL,NULL,now(),'admin',now(),'管理端系统方','CD-CDZT000009');
 
-INSERT INTO `tsys_role` (`code`,`name`,`level`,`updater`,`update_datetime`,`remark`) VALUES ('DZTSR20170000000000hhr','合伙人','1','admin',now(),NULL);
-INSERT INTO `tsys_role` (`code`,`name`,`level`,`updater`,`update_datetime`,`remark`) VALUES ('DZTSR2017041310190267791','超级管理员','1','admin',now(),NULL);
+INSERT INTO `tsys_role` (`code`,`name`,`level`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR20170000000000hhr','合伙人','1','admin',now(),NULL,'CD-CDZT000009');
+INSERT INTO `tsys_role` (`code`,`name`,`level`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR2017041310190267791','超级管理员','1','admin',now(),NULL,'CD-CDZT000009');
 
 INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('CD-CDZT000009-001','2','ACCESS_KEY','M0atdzBYOQ-oloFpRJFtX7HDDU1NTBBvRUu3MS1T','','CD-CDZT000009','CD-CDZT000009');
 INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('CD-CDZT000009-002','2','SECRET_KEY','F8eJ94o1WoFIB7VxTwtI5rB8RLi7IHC7cY47Bnwh','','CD-CDZT000009','CD-CDZT000009');
