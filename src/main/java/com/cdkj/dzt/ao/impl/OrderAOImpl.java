@@ -393,6 +393,11 @@ public class OrderAOImpl implements IOrderAO {
                 Double.valueOf(order.getAmount() * parter.getDivRate())
                     .longValue(), EBizType.AJ_HHRFC, "订单：" + order.getCode()
                         + " 合伙人分成", "订单：" + order.getCode() + " 分成收入");
+            // 短信通知
+            smsOutBO.sentContent(order.getApplyUser(), String.format(
+                SysConstants.FENCHENG_CONTENT, "合伙人", order.getCode(), Double
+                    .valueOf(order.getAmount() * parter.getDivRate())
+                    .longValue() / 1000.00));
         }
         // 量体师分成
         String ltUserId = order.getLtUser();
@@ -403,6 +408,11 @@ public class OrderAOImpl implements IOrderAO {
                 Double.valueOf(order.getAmount() * ltUser.getDivRate())
                     .longValue(), EBizType.AJ_HHRFC, "订单：" + order.getCode()
                         + " 量体师分成", "订单：" + order.getCode() + " 分成收入");
+            // 短信通知
+            smsOutBO.sentContent(order.getApplyUser(), String.format(
+                SysConstants.FENCHENG_CONTENT, "量体师", order.getCode(), Double
+                    .valueOf(order.getAmount() * ltUser.getDivRate())
+                    .longValue() / 1000.00));
         }
     }
 
