@@ -428,21 +428,26 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
+    @Transactional
     public void cancelOrder(String orderCode, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (EOrderStatus.PAY_YES.getCode().equals(order.getStatus())
                 || EOrderStatus.TO_PRODU.getCode().equals(order.getStatus())
+                || EOrderStatus.TO_APPROVE.getCode().equals(order.getStatus())
                 || EOrderStatus.PRODU_DOING.getCode().equals(order.getStatus())
-                || EOrderStatus.SEND.getCode().equals(order.getStatus())
-                || EOrderStatus.RECEIVE.getCode().equals(order.getStatus())) {
-            throw new BizException("xn000000", "订单不处于可取消订单状态,不能取消订单");
-        }
-        if (order.getApplyUser().equals(updater)
-                || order.getLtUser().equals(updater)
-                || order.getToUser().equals(updater)) {
+                || EOrderStatus.SEND.getCode().equals(order.getStatus())) {
+            orderBO.cancelOrder(order, updater, remark);
+            // 退款
+            accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
+                order.getApplyUser(), ECurrency.CNY, order.getAmount(),
+                EBizType.AJ_GWTK, "订单：" + orderCode + "取消后退款", "订单："
+                        + orderCode + "取消后退款");
+        } else if (EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())
+                || EOrderStatus.ASSIGN_PRICE.getCode()
+                    .equals(order.getStatus())) {
             orderBO.cancelOrder(order, updater, remark);
         } else {
-            throw new BizException("xn000000", "尊敬的用户,该订单不属于您，或你管辖的范围,不可取消订单");
+            throw new BizException("xn000000", "订单不处于可取消订单状态,不能取消订单");
         }
     }
 
