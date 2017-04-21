@@ -183,7 +183,7 @@
 		,t.remark
 		FROM
 		tdzt_order t
-		WHERE t.apply_user = #{applyUser}
+		WHERE t.apply_user = #{applyUser} AND t.status > '2'
 		ORDER BY create_datetime desc
 		Limit 1
 	</select>

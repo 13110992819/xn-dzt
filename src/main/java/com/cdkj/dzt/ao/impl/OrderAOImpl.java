@@ -139,6 +139,9 @@ public class OrderAOImpl implements IOrderAO {
         order.setApplyName(lastOrder.getApplyName());
         order.setApplyMobile(lastOrder.getApplyMobile());
 
+        order.setLtUser(lastOrder.getLtUser());
+        order.setLtName(lastOrder.getLtName());
+
         order.setLtDatetime(now);
         order.setLtProvince(lastOrder.getLtProvince());
         order.setLtCity(lastOrder.getLtCity());
