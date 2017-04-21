@@ -416,7 +416,7 @@ public class OrderAOImpl implements IOrderAO {
             if (amount > 10) {
                 accountBO.doTransferAmountRemote(
                     ESysUser.SYS_USER_DZT.getCode(), ltUserId, ECurrency.CNY,
-                    amount, EBizType.AJ_HHRFC, "订单：" + order.getCode()
+                    amount, EBizType.AJ_LTSFC, "订单：" + order.getCode()
                             + " 量体师分成", "订单：" + order.getCode() + " 分成收入");
                 // 短信通知
                 smsOutBO.sentContent(
