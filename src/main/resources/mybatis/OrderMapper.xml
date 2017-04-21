@@ -209,6 +209,8 @@
 		,lt_area
 		,lt_address
 		
+		,lt_user
+		,lt_name
 		,apply_note
 		,create_datetime
 		,status
@@ -234,6 +236,8 @@
 		,#{ltArea}
 		,#{ltAddress}
 		
+		,#{ltUser}
+		,#{ltName}
 		,#{applyNote}
 		,#{createDatetime}
 		,#{status}
