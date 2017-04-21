@@ -27,9 +27,11 @@ import com.cdkj.dzt.bo.IModelSpecsBO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.IProductSpecsBO;
+import com.cdkj.dzt.bo.ISmsOutBO;
 import com.cdkj.dzt.bo.IUserBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.common.DateUtil;
+import com.cdkj.dzt.common.SysConstants;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.ModelSpecs;
@@ -80,6 +82,9 @@ public class OrderAOImpl implements IOrderAO {
     @Autowired
     private IProductSpecsBO productSpecsBO;
 
+    @Autowired
+    private ISmsOutBO smsOutBO;
+
     @Override
     public String applyOrder(XN620200Req req) {
         // 获取城市合伙人
@@ -113,14 +118,21 @@ public class OrderAOImpl implements IOrderAO {
 
         order.setReceiver(req.getApplyName());
         order.setReMobile(req.getApplyMobile());
-        // order.setReAddress(req.getLtProvince() + req.getLtCity()
-        // + req.getLtArea() + req.getLtAddress());
 
         order.setUpdater(req.getUpdater());
         order.setUpdateDatetime(now);
         order.setRemark(req.getRemark());
 
         orderBO.applyOrder(order);
+
+        // 如果有地区合伙人，短信通知
+        if (!"0".equals(userId)) {
+            smsOutBO.sentContent(
+                userId,
+                String.format(SysConstants.APPLY_CONTENT, code,
+                    order.getApplyName()));
+        }
+
         return code;
     }
 
@@ -161,6 +173,12 @@ public class OrderAOImpl implements IOrderAO {
         order.setRemark("根据<" + lastOrder.getCode() + ">订单一键复购形成");
 
         orderBO.applyOrder(order);
+
+        // 一键复购，直接短信通知量体师
+        smsOutBO.sentContent(
+            order.getLtUser(),
+            String.format(SysConstants.DISTRIBUTE_CONTENT, code,
+                order.getApplyName()));
         return code;
     }
 
@@ -174,6 +192,11 @@ public class OrderAOImpl implements IOrderAO {
         User user = userBO.getRemoteUser(ltUser);
         orderBO.distributeOrder(order, ltUser, user.getRealName(), updater,
             remark);
+        // 短信通知量体师
+        smsOutBO.sentContent(
+            ltUser,
+            String.format(SysConstants.DISTRIBUTE_CONTENT, orderCode,
+                order.getApplyName()));
     }
 
     @Override
@@ -190,6 +213,11 @@ public class OrderAOImpl implements IOrderAO {
         // 更新订单
         Long amount = model.getPrice() * quantity;
         orderBO.confirmPrice(order, amount, updater, remark);
+        // 短信通知用户付款
+        smsOutBO.sentContent(
+            order.getApplyUser(),
+            String.format(SysConstants.CONFIRM_PRICE_CONTENT,
+                order.getApplyName(), orderCode, order.getAmount() / 1000.00));
     }
 
     @Override
@@ -214,6 +242,11 @@ public class OrderAOImpl implements IOrderAO {
             ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY, totalAmount,
             EBizType.AJ_GW, "V&O衬衫购买订单支付", "V&O衬衫购买订单支付");
         orderBO.PaySuccess(order, null, totalAmount);
+        // 短信通知用户
+        smsOutBO.sentContent(
+            order.getApplyUser(),
+            String.format(SysConstants.PAY_SUCCESS_CONTENT,
+                order.getApplyName(), orderCode));
         return new BooleanRes(true);
     }
 
@@ -245,6 +278,11 @@ public class OrderAOImpl implements IOrderAO {
         if (EOrderStatus.ASSIGN_PRICE.getCode().equals(order.getStatus())) {
             // 更新支付金额
             orderBO.PaySuccess(order, payCode, amount);
+            // 短信通知用户
+            smsOutBO.sentContent(
+                order.getApplyUser(),
+                String.format(SysConstants.PAY_SUCCESS_CONTENT,
+                    order.getApplyName(), order.getCode()));
         } else {
             logger.info("订单号：" + order.getCode() + "已支付，重复回调");
         }
@@ -278,6 +316,13 @@ public class OrderAOImpl implements IOrderAO {
         // 确保所有规格已经填充完毕
         orderBO.checkInfoFull(order);
         orderBO.ltSubmit(order, updater);
+        // 如果有地区合伙人，短信通知
+        if (!"0".equals(order.getToUser())) {
+            smsOutBO.sentContent(
+                order.getToUser(),
+                String.format(SysConstants.LT_SUBMIT_CONTENT, orderCode,
+                    order.getApplyName()));
+        }
     }
 
     @Override
@@ -297,12 +342,15 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public void submitProudect(String orderCode, String updater, String remark) {
+    public void submitProuduct(String orderCode, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.TO_PRODU.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于待生产,不能提交生产");
         }
         orderBO.submitProudect(order, updater, remark);
+        // 短信通知用户
+        smsOutBO.sentContent(order.getApplyUser(), String.format(
+            SysConstants.SUBMIT_CONTENT, order.getApplyName(), orderCode));
     }
 
     @Override
@@ -317,6 +365,9 @@ public class OrderAOImpl implements IOrderAO {
             DateUtil.FRONT_DATE_FORMAT_STRING);
         orderBO.sendGoods(order, deliverer, sendTime, logisticsCompany,
             logisticsCode, pdf, updater, remark);
+        // 短信通知用户
+        smsOutBO.sentContent(order.getApplyUser(), String.format(
+            SysConstants.SENT_CONTENT, order.getApplyName(), orderCode));
     }
 
     @Override

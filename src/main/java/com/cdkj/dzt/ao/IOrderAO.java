@@ -44,7 +44,7 @@ public interface IOrderAO {
     public void approveOrder(String orderCode, String result, String updater,
             String remark);
 
-    public void submitProudect(String orderCode, String updater, String remark);
+    public void submitProuduct(String orderCode, String updater, String remark);
 
     public void sendGoods(String orderCode, String deliverer,
             String deliveryDatetime, String logisticsCompany,

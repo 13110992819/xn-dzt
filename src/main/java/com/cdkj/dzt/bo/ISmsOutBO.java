@@ -1,13 +1,8 @@
 package com.cdkj.dzt.bo;
 
 public interface ISmsOutBO {
-    /**
-     * 发送短信
-     * @param tokenId
-     * @param userId
-     * @param content 
-     * @create: 2015年11月17日 下午3:37:54 myb858
-     * @history:
-     */
-    void sentContent(String tokenId, String userId, String content);
+
+    public void sentContent(String userId, String content);
+
+    public void sendSmsOut(String mobile, String content, String systemCode);
 }
