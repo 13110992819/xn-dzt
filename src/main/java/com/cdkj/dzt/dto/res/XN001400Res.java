@@ -64,6 +64,39 @@ public class XN001400Res {
     // 实名认证
     private String identityFlag;
 
+    // 省
+    private String province;
+
+    // 市区
+    private String city;
+
+    // 区(县)
+    private String area;
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
     public String getIdentityFlag() {
         return identityFlag;
     }
