@@ -388,31 +388,39 @@ public class OrderAOImpl implements IOrderAO {
         String parterUserId = order.getToUser();
         if (StringUtils.isNotBlank(parterUserId) && !"0".equals(parterUserId)) {
             User parter = userBO.getRemoteUser(parterUserId);
-            accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
-                parterUserId, ECurrency.CNY,
-                Double.valueOf(order.getAmount() * parter.getDivRate())
-                    .longValue(), EBizType.AJ_HHRFC, "订单：" + order.getCode()
-                        + " 合伙人分成", "订单：" + order.getCode() + " 分成收入");
-            // 短信通知
-            smsOutBO.sentContent(order.getApplyUser(), String.format(
-                SysConstants.FENCHENG_CONTENT, "合伙人", order.getCode(), Double
-                    .valueOf(order.getAmount() * parter.getDivRate())
-                    .longValue() / 1000.00));
+            Long amount = Double.valueOf(
+                order.getAmount() * parter.getDivRate()).longValue();
+            // 分成金额至少是一分钱
+            if (amount > 10) {
+                accountBO.doTransferAmountRemote(
+                    ESysUser.SYS_USER_DZT.getCode(), parterUserId,
+                    ECurrency.CNY, amount, EBizType.AJ_HHRFC,
+                    "订单：" + order.getCode() + " 合伙人分成", "订单：" + order.getCode()
+                            + " 分成收入");
+                // 短信通知
+                smsOutBO.sentContent(
+                    order.getApplyUser(),
+                    String.format(SysConstants.FENCHENG_CONTENT, "合伙人",
+                        order.getCode(), amount / 1000.00));
+            }
         }
         // 量体师分成
         String ltUserId = order.getLtUser();
         if (StringUtils.isNotBlank(ltUserId)) {
             User ltUser = userBO.getRemoteUser(ltUserId);
-            accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
-                ltUserId, ECurrency.CNY,
-                Double.valueOf(order.getAmount() * ltUser.getDivRate())
-                    .longValue(), EBizType.AJ_HHRFC, "订单：" + order.getCode()
-                        + " 量体师分成", "订单：" + order.getCode() + " 分成收入");
-            // 短信通知
-            smsOutBO.sentContent(order.getApplyUser(), String.format(
-                SysConstants.FENCHENG_CONTENT, "量体师", order.getCode(), Double
-                    .valueOf(order.getAmount() * ltUser.getDivRate())
-                    .longValue() / 1000.00));
+            Long amount = Double.valueOf(
+                order.getAmount() * ltUser.getDivRate()).longValue();
+            if (amount > 10) {
+                accountBO.doTransferAmountRemote(
+                    ESysUser.SYS_USER_DZT.getCode(), ltUserId, ECurrency.CNY,
+                    amount, EBizType.AJ_HHRFC, "订单：" + order.getCode()
+                            + " 量体师分成", "订单：" + order.getCode() + " 分成收入");
+                // 短信通知
+                smsOutBO.sentContent(
+                    order.getApplyUser(),
+                    String.format(SysConstants.FENCHENG_CONTENT, "量体师",
+                        order.getCode(), amount / 1000.00));
+            }
         }
     }
 
