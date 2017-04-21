@@ -40,6 +40,7 @@ import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.User;
 import com.cdkj.dzt.dto.req.XN620200Req;
 import com.cdkj.dzt.dto.res.BooleanRes;
+import com.cdkj.dzt.dto.res.XN001400Res;
 import com.cdkj.dzt.enums.EBizType;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.ECurrency;
@@ -189,7 +190,7 @@ public class OrderAOImpl implements IOrderAO {
         if (!EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
             throw new BizException("xn0000", "订单不处于待量体状态，不可以分配订单");
         }
-        User user = userBO.getRemoteUser(ltUser);
+        XN001400Res user = userBO.getRemoteUser(ltUser);
         orderBO.distributeOrder(order, ltUser, user.getRealName(), updater,
             remark);
         // 短信通知量体师
@@ -258,7 +259,7 @@ public class OrderAOImpl implements IOrderAO {
         Order order = orderBO.getOrder(orderCode);
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
-        User user = userBO.getRemoteUser(userId);
+        XN001400Res user = userBO.getRemoteUser(userId);
         if (!EOrderStatus.ASSIGN_PRICE.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不处于已定价状态");
         }
@@ -387,9 +388,10 @@ public class OrderAOImpl implements IOrderAO {
         // 合伙人分成
         String parterUserId = order.getToUser();
         if (StringUtils.isNotBlank(parterUserId) && !"0".equals(parterUserId)) {
-            User parter = userBO.getRemoteUser(parterUserId);
+            XN001400Res parter = userBO.getRemoteUser(parterUserId);
             Long amount = Double.valueOf(
-                order.getAmount() * parter.getDivRate()).longValue();
+                order.getAmount() * Double.valueOf(parter.getDivRate()))
+                .longValue();
             // 分成金额至少是一分钱
             if (amount > 10) {
                 accountBO.doTransferAmountRemote(
@@ -407,9 +409,10 @@ public class OrderAOImpl implements IOrderAO {
         // 量体师分成
         String ltUserId = order.getLtUser();
         if (StringUtils.isNotBlank(ltUserId)) {
-            User ltUser = userBO.getRemoteUser(ltUserId);
+            XN001400Res ltUser = userBO.getRemoteUser(ltUserId);
             Long amount = Double.valueOf(
-                order.getAmount() * ltUser.getDivRate()).longValue();
+                order.getAmount() * Double.valueOf(ltUser.getDivRate()))
+                .longValue();
             if (amount > 10) {
                 accountBO.doTransferAmountRemote(
                     ESysUser.SYS_USER_DZT.getCode(), ltUserId, ECurrency.CNY,

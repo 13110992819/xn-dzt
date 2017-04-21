@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.cdkj.dzt.dao.base.ABaseDO;
+import com.cdkj.dzt.dto.res.XN001400Res;
 
 /**
 * 订单
@@ -123,7 +124,7 @@ public class Order extends ABaseDO {
     // -------db propties--------------
     private List<Product> productList;
 
-    private User ltUserDO;
+    private XN001400Res ltUserDO;
 
     public String getCode() {
         return code;
@@ -413,11 +414,11 @@ public class Order extends ABaseDO {
         this.productList = productList;
     }
 
-    public User getLtUserDO() {
+    public XN001400Res getLtUserDO() {
         return ltUserDO;
     }
 
-    public void setLtUserDO(User ltUserDO) {
+    public void setLtUserDO(XN001400Res ltUserDO) {
         this.ltUserDO = ltUserDO;
     }
 

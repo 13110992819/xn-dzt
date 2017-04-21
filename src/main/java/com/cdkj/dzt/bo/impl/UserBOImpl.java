@@ -29,28 +29,16 @@ import com.google.gson.reflect.TypeToken;
 public class UserBOImpl implements IUserBO {
 
     @Override
-    public User getRemoteUser(String userId) {
-        User user = null;
+    public XN001400Res getRemoteUser(String userId) {
+        XN001400Res user = null;
         if (StringUtils.isNotBlank(userId)) {
             XN001400Req req = new XN001400Req();
             req.setTokenId(userId);
             req.setUserId(userId);
-            XN001400Res res = BizConnecter.getBizData("001400",
+            user = BizConnecter.getBizData("001400",
                 JsonUtils.object2Json(req), XN001400Res.class);
-            if (res == null) {
+            if (user == null) {
                 throw new BizException("XN000000", "编号为" + userId + "的用户不存在");
-            }
-            user = new User();
-            user.setUserId(res.getUserId());
-            user.setOpenId(res.getOpenId());
-            user.setLoginName(res.getLoginName());
-            user.setNickname(res.getNickname());
-            user.setPhoto(res.getPhoto());
-            user.setRealName(res.getRealName());
-            user.setMobile(res.getMobile());
-            user.setUserReferee(res.getUserReferee());
-            if (StringUtils.isNotBlank(res.getDivRate())) {
-                user.setDivRate(Double.valueOf(res.getDivRate()));
             }
         }
         return user;

@@ -1,6 +1,7 @@
 package com.cdkj.dzt.bo;
 
 import com.cdkj.dzt.domain.User;
+import com.cdkj.dzt.dto.res.XN001400Res;
 import com.cdkj.dzt.enums.EUserKind;
 
 /**
@@ -10,7 +11,7 @@ import com.cdkj.dzt.enums.EUserKind;
  */
 public interface IUserBO {
 
-    public User getRemoteUser(String userId);
+    public XN001400Res getRemoteUser(String userId);
 
     public User getPartner(String province, String city, String area,
             EUserKind kind);
