@@ -363,7 +363,7 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不处于生产中,不能发货");
         }
         Date sendTime = DateUtil.strToDate(deliveryDatetime,
-            DateUtil.FRONT_DATE_FORMAT_STRING);
+            DateUtil.DATA_TIME_PATTERN_1);
         orderBO.sendGoods(order, deliverer, sendTime, logisticsCompany,
             logisticsCode, pdf, updater, remark);
         // 短信通知用户
