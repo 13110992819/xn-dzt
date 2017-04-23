@@ -1,6 +1,5 @@
 package com.cdkj.dzt.dto.req;
 
-
 /**
  * 订单分页查询
  * @author: asus 
@@ -13,6 +12,8 @@ public class XN620220Req extends APageReq {
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
      */
     private static final long serialVersionUID = 3598608816628978402L;
+
+    private String code;
 
     // 所属合伙人（选填）
     private String toUser;
@@ -210,6 +211,14 @@ public class XN620220Req extends APageReq {
 
     public void setUpdater(String updater) {
         this.updater = updater;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
 }

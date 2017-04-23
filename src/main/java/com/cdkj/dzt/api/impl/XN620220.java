@@ -27,6 +27,7 @@ public class XN620220 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Order condition = new Order();
+        condition.setCode(req.getCode());
         condition.setToUser(req.getToUser());
         condition.setApplyUser(req.getApplyUser());
         condition.setApplyName(req.getApplyName());
