@@ -104,7 +104,7 @@ CREATE TABLE `tdzt_product_specs` (
   `code` varchar(32) DEFAULT NULL COMMENT '编号',
   `name` varchar(255) DEFAULT NULL COMMENT '名称',
   `parent_code` varchar(255) DEFAULT NULL COMMENT 'key',
-  `type` varchar(4) DEFAULT NULL COMMENT '类型',
+  `type` varchar(255) DEFAULT NULL COMMENT '类型',
   `pic` text COMMENT '图片',
   `product_code` varchar(32) DEFAULT NULL COMMENT '成衣编号',
   `order_code` varchar(32) DEFAULT NULL COMMENT '订单编号'
