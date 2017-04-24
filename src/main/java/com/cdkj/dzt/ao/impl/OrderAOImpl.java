@@ -401,7 +401,7 @@ public class OrderAOImpl implements IOrderAO {
                             + " 分成收入");
                 // 短信通知
                 smsOutBO.sentContent(
-                    order.getApplyUser(),
+                    parterUserId,
                     String.format(SysConstants.FENCHENG_CONTENT, "合伙人",
                         order.getCode(), amount / 1000.00));
             }
@@ -420,7 +420,7 @@ public class OrderAOImpl implements IOrderAO {
                             + " 量体师分成", "订单：" + order.getCode() + " 分成收入");
                 // 短信通知
                 smsOutBO.sentContent(
-                    order.getApplyUser(),
+                    ltUserId,
                     String.format(SysConstants.FENCHENG_CONTENT, "量体师",
                         order.getCode(), amount / 1000.00));
             }
