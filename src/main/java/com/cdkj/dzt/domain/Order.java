@@ -126,6 +126,17 @@ public class Order extends ABaseDO {
 
     private XN001400Res ltUserDO;
 
+    // 搜索条件
+    private List<String> statusList;
+
+    public List<String> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<String> statusList) {
+        this.statusList = statusList;
+    }
+
     public String getCode() {
         return code;
     }
