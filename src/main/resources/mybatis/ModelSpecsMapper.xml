@@ -12,6 +12,8 @@
 		<result column="order_no" property="orderNo" />
 		<result column="remark" property="remark" />
 		<result column="model_code" property="modelCode" />
+		
+		<result column="model_name" property="model.name" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -43,8 +45,9 @@
 		,t.order_no
 		,t.remark
 		,t.model_code
+		,tm.name model_name
 		FROM
-		tdzt_model_specs t
+		tdzt_model_specs t INNER JOIN tdzt_model tm ON t.model_code = tm.code
 		<include refid="where_condition" />
 		ORDER BY order_no
 	</select>

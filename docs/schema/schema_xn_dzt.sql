@@ -101,7 +101,7 @@ CREATE TABLE `tdzt_product` (
 -- ----------------------------
 DROP TABLE IF EXISTS `tdzt_product_specs`;
 CREATE TABLE `tdzt_product_specs` (
-  `code` varchar(32) DEFAULT NULL COMMENT '编号',
+  `code` varchar(255) DEFAULT NULL COMMENT '编号',
   `name` varchar(255) DEFAULT NULL COMMENT '名称',
   `parent_code` varchar(255) DEFAULT NULL COMMENT 'key',
   `type` varchar(255) DEFAULT NULL COMMENT '类型',

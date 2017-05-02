@@ -46,6 +46,7 @@ public class XN620220 extends AProcessor {
         condition.setReMobile(req.getReMobile());
         condition.setReAddress(req.getReAddress());
         condition.setUpdater(req.getUpdater());
+        condition.setStatusList(req.getStatusList());
 
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());

@@ -1,5 +1,7 @@
 package com.cdkj.dzt.dto.req;
 
+import java.util.List;
+
 /**
  *我的订单分页查询
  * @author: asus 
@@ -19,6 +21,9 @@ public class XN620223Req extends APageReq {
     // 状态（选填）
     private String status;
 
+    // 搜索条件
+    private List<String> statusList;
+
     public String getApplyUser() {
         return applyUser;
     }
@@ -33,6 +38,14 @@ public class XN620223Req extends APageReq {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<String> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<String> statusList) {
+        this.statusList = statusList;
     }
 
 }

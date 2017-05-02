@@ -205,6 +205,9 @@ public class OrderAOImpl implements IOrderAO {
     public void confirmPrice(String orderCode, String modelCode,
             Integer quantity, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
+        if (null == order.getLtUser()) {
+            throw new BizException("xn0000", "订单还未分配量体师，不可以定价");
+        }
         if (!EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
             throw new BizException("xn0000", "订单不处于待量体状态，不可以定价");
         }
@@ -363,7 +366,7 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不处于生产中,不能发货");
         }
         Date sendTime = DateUtil.strToDate(deliveryDatetime,
-            DateUtil.DATA_TIME_PATTERN_1);
+            DateUtil.FRONT_DATE_FORMAT_STRING);
         orderBO.sendGoods(order, deliverer, sendTime, logisticsCompany,
             logisticsCode, pdf, updater, remark);
         // 短信通知用户

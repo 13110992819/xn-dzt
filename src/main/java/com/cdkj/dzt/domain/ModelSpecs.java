@@ -36,6 +36,10 @@ public class ModelSpecs extends ABaseDO {
     // 产品编号
     private String modelCode;
 
+    // ******* db end
+    // 所属产品
+    private Model model;
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -98,6 +102,14 @@ public class ModelSpecs extends ABaseDO {
 
     public void setParentCode(String parentCode) {
         this.parentCode = parentCode;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
     }
 
 }

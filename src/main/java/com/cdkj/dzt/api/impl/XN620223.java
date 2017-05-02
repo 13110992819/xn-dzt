@@ -29,6 +29,7 @@ public class XN620223 extends AProcessor {
         Order condition = new Order();
         condition.setApplyUser(req.getApplyUser());
         condition.setStatus(req.getStatus());
+        condition.setStatusList(req.getStatusList());
 
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
