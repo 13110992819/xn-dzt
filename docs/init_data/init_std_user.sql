@@ -11,8 +11,8 @@ INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`compa
 INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt005','3','SECRET_KEY','82b8baceea880b2195af64384665c220',NULL,'CD-CDZT000009','CD-CDZT000009');
 
 INSERT INTO `tsys_config` (`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('aboutUs','关于我们','商捷定制通——关于我们','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
-INSERT INTO `tsys_config` (`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('yuyuePic','预约界面展示图','预约量体_1492695293865.png','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
-INSERT INTO `tsys_config` (`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('fugouPic','复购界面展示图','一键复购_1492695281787.png','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
+INSERT INTO `tsys_config` (`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('yuyuePic','预约界面展示图','预约量体_1493964574720.png','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
+INSERT INTO `tsys_config` (`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('fugouPic','复购界面展示图','一键复购_1493965209136.png','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 
 /*
 -- Query: SELECT code,name,type,url,order_no,updater, now() as update_datetime,remark,parent_code,system_code FROM tsys_menu where system_code = 'CD-CDZT000009'
