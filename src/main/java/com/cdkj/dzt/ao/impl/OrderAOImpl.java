@@ -353,8 +353,8 @@ public class OrderAOImpl implements IOrderAO {
         }
         orderBO.submitProudect(order, updater, remark);
         // 短信通知用户
-        smsOutBO.sentContent(order.getApplyUser(), String.format(
-            SysConstants.SUBMIT_CONTENT, order.getApplyName(), orderCode));
+        // smsOutBO.sentContent(order.getApplyUser(), String.format(
+        // SysConstants.SUBMIT_CONTENT, order.getApplyName(), orderCode));
     }
 
     @Override
