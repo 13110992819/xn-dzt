@@ -4,14 +4,11 @@ INSERT INTO `tsys_role` (`code`,`name`,`level`,`updater`,`update_datetime`,`rema
 INSERT INTO `tsys_role` (`code`,`name`,`level`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR20170000000000lts','量体师','1','admin',now(),NULL,'CD-CDZT000009');
 INSERT INTO `tsys_role` (`code`,`name`,`level`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR2017041310190267791','超级管理员','1','admin',now(),NULL,'CD-CDZT000009');
 
-INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('CD-CDZT000009-001','2','ACCESS_KEY','M0atdzBYOQ-oloFpRJFtX7HDDU1NTBBvRUu3MS1T','','CD-CDZT000009','CD-CDZT000009');
-INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('CD-CDZT000009-002','2','SECRET_KEY','F8eJ94o1WoFIB7VxTwtI5rB8RLi7IHC7cY47Bnwh','','CD-CDZT000009','CD-CDZT000009');
-INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('CD-CDZT000009-003','2','bucket','cd-test','','CD-CDZT000009','CD-CDZT000009');
-INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt001','2','ACCESS_KEY','Dc0pMP8ImFm78-uk4iGsOPpB2-vHc64D07OsOQVi',NULL,'CD-CDZT000009','CD-CDZT000009');
-INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt002','2','SECRET_KEY','3NP-tpZP9-5fH-R-FhvKTfYpPPVFNvjFF3JXmrcq',NULL,'CD-CDZT000009','CD-CDZT000009');
-INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt003','2','bucket','b2coss',NULL,'CD-CDZT000009','CD-CDZT000009');
-INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt004','3','ACCESS_KEY','wx9b874d991d7e50d5',NULL,'CD-CDZT000009','CD-CDZT000009');
-INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt005','3','SECRET_KEY','aa1832cf32722e0fb977a6c9f6aafa20',NULL,'CD-CDZT000009','CD-CDZT000009');
+INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt001','2','ACCESS_KEY','MrjyX5guB2EbEG-GUvYp0cY8stuKPosgTZ0uObh5',NULL,'CD-CDZT000009','CD-CDZT000009');
+INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt002','2','SECRET_KEY','fo3KNUvolFpczicAK1my6BOqPZYyilTD4dww67Ap',NULL,'CD-CDZT000009','CD-CDZT000009');
+INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt003','2','bucket','heyi',NULL,'CD-CDZT000009','CD-CDZT000009');
+INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt004','3','ACCESS_KEY','wxcab5af1d8a2b2c22',NULL,'CD-CDZT000009','CD-CDZT000009');
+INSERT INTO `tstd_cpassword` (`code`,`type`,`account`,`password`,`remark`,`company_code`,`system_code`) VALUES ('dzt005','3','SECRET_KEY','82b8baceea880b2195af64384665c220',NULL,'CD-CDZT000009','CD-CDZT000009');
 
 INSERT INTO `tsys_config` (`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('aboutUs','关于我们','商捷定制通——关于我们','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 INSERT INTO `tsys_config` (`ckey`,`cvalue`,`note`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('yuyuePic','预约界面展示图','预约量体_1492695293865.png','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
