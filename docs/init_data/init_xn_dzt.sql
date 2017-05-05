@@ -7,7 +7,7 @@ INSERT INTO `tdzt_model` (`code`,`name`,`pic`,`price`,`create_datetime`,`updater
 
 /*
 -- Query: SELECT * FROM xn_dzt.tdzt_model_specs
--- Date: 2017-05-05 10:55
+-- Date: 2017-05-05 19:20
 */
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00001','长袖','1-1',NULL,'',1,NULL,'1');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00002','短袖','1-1',NULL,'',2,NULL,'1');
@@ -57,9 +57,9 @@ INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00051','黑色钮扣','1-11',NULL,NULL,NULL,NULL,'1');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00052','正常体型','4-1',NULL,NULL,NULL,NULL,'1');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00053','特殊体型','4-1',NULL,NULL,NULL,NULL,'1');
-INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00054','正常','4-5',NULL,'jian_normal_1492521917798.jpg',1,NULL,'1');
-INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00055','平肩','4-5',NULL,'jian_ping_1492522001254.jpg',2,NULL,'1');
-INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00056','溜肩','4-5',NULL,'jian_liu_1492522015934.jpg',3,NULL,'1');
+INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00054','正常','4-5',NULL,'jian_normal_1493983139994.jpg',1,NULL,'1');
+INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00055','平肩','4-5',NULL,'jian_ping_1493983160674.jpg',2,NULL,'1');
+INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00056','溜肩','4-5',NULL,'jian_liu_1493983181040.jpg',3,NULL,'1');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00057','正常','4-6',NULL,NULL,NULL,NULL,'1');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00058','有小肚','4-6',NULL,NULL,NULL,NULL,'1');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00059','大肚','4-6',NULL,NULL,NULL,NULL,'1');
@@ -130,9 +130,9 @@ INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00151','黑色钮扣','1-11',NULL,NULL,NULL,NULL,'2');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00152','正常体型','4-1',NULL,NULL,NULL,NULL,'2');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00153','特殊体型','4-1',NULL,NULL,NULL,NULL,'2');
-INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00154','正常','4-5',NULL,'jian_normal_1492521917798.jpg',1,NULL,'2');
-INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00155','平肩','4-5',NULL,'jian_ping_1492522001254.jpg',2,NULL,'2');
-INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00156','溜肩','4-5',NULL,'jian_liu_1492522015934.jpg',3,NULL,'2');
+INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00154','正常','4-5',NULL,'jian_normal_1493983149877.jpg',1,NULL,'2');
+INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00155','平肩','4-5',NULL,'jian_ping_1493983169478.jpg',2,NULL,'2');
+INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00156','溜肩','4-5',NULL,'jian_liu_1493983193018.jpg',3,NULL,'2');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00157','正常','4-6',NULL,NULL,NULL,NULL,'2');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00158','有小肚','4-6',NULL,NULL,NULL,NULL,'2');
 INSERT INTO `tdzt_model_specs` (`code`,`name`,`parent_code`,`type`,`pic`,`order_no`,`remark`,`model_code`) VALUES ('00159','大肚','4-6',NULL,NULL,NULL,NULL,'2');
