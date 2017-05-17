@@ -201,11 +201,25 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
                 throw new BizException("xn0000", product.getCode() + "成衣的规格为空");
             }
             Map<String, EMeasureKey> map = EMeasureKey.getMap();
+            String code = null;
             for (String key : map.keySet()) {
                 boolean isIn = false;
                 for (ProductSpecs productSpecs : product.getProductSpecsList()) {
                     if (key.equalsIgnoreCase(productSpecs.getParentCode())) {
                         isIn = true;
+                        break;
+                    }
+                    if (productSpecs.getParentCode().substring(0, 1) != null) {
+                        code = productSpecs.getParentCode().substring(0, 1);
+                    }
+                    if (key.equalsIgnoreCase(EMeasureKey.QXK.getCode())
+                            || key.equalsIgnoreCase(EMeasureKey.HBK.getCode())
+                            || key.equalsIgnoreCase(EMeasureKey.ZTW.getCode())
+                            || key.equalsIgnoreCase(EMeasureKey.ZTW.getCode())
+                            || code.startsWith(EMeasureKey.ZTW.getCode()
+                                .substring(0, 1))) {
+                        isIn = true;
+                        break;
                     }
                 }
                 if (!isIn) {
@@ -216,4 +230,5 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
 
         }
     }
+
 }
