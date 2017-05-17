@@ -244,7 +244,7 @@ public class OrderAOImpl implements IOrderAO {
         String userId = order.getApplyUser();
         accountBO.doTransferAmountRemote(userId,
             ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY, totalAmount,
-            EBizType.AJ_GW, "V&O衬衫购买订单支付", "V&O衬衫购买订单支付");
+            EBizType.AJ_GW, "HE-SHIRTS衬衫购买订单支付", "HE-SHIRTS衬衫购买订单支付");
         orderBO.PaySuccess(order, null, totalAmount);
         // 短信通知用户
         smsOutBO.sentContent(
@@ -267,9 +267,11 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不处于已定价状态");
         }
         orderBO.addPayGroup(order, payGroup, EPayType.WEIXIN.getCode());
-        return accountBO.doWeiXinH5PayRemote(userId, user.getOpenId(),
-            ESysUser.SYS_USER_DZT.getCode(), totalAmount, EBizType.AJ_GW,
-            "V&O衬衫购买订单支付", "V&O衬衫购买订单支付", EPayType.WEIXIN.getCode());
+        return accountBO
+            .doWeiXinH5PayRemote(userId, user.getOpenId(),
+                ESysUser.SYS_USER_DZT.getCode(), totalAmount, EBizType.AJ_GW,
+                "HE-SHIRTS衬衫购买订单支付", "HE-SHIRTS衬衫购买订单支付",
+                EPayType.WEIXIN.getCode());
     }
 
     @Override
