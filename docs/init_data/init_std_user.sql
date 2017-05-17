@@ -133,6 +133,7 @@ INSERT INTO `tsys_menu` (`code`,`name`,`type`,`url`,`order_no`,`updater`,`update
 INSERT INTO `tsys_menu` (`code`,`name`,`type`,`url`,`order_no`,`updater`,`update_datetime`,`remark`,`parent_code`,`system_code`) VALUES ('SM2017042620184423521','详情','2','/deta','90','admin',now(),'','SM2017041313303898011','CD-CDZT000009');
 INSERT INTO `tsys_menu` (`code`,`name`,`type`,`url`,`order_no`,`updater`,`update_datetime`,`remark`,`parent_code`,`system_code`) VALUES ('SM201704262047110503','详情','2','/deta','5','admin',now(),'','SM2017041921014000235','CD-CDZT000009');
 INSERT INTO `tsys_menu` (`code`,`name`,`type`,`url`,`order_no`,`updater`,`update_datetime`,`remark`,`parent_code`,`system_code`) VALUES ('SM2017042620494616660','详情','2','/deta','6','admin',now(),'','SM2017042514123545629','CD-CDZT000009');
+INSERT INTO `tsys_menu` (`code`,`name`,`type`,`url`,`order_no`,`updater`,`update_datetime`,`remark`,`parent_code`,`system_code`) VALUES ('SM2017051716032194524','审核','2','/che','21','admin','2017-05-17 16:03:21','','SM2017041313480003423','CD-CDZT000009');
 
 /*
 -- Query: SELECT role_code,menu_code,updater,now() as update_datetime,remark, system_code FROM tsys_menu_role where role_code in('DZTSR20170000000000hhr','DZTSR2017041310190267791','DZTSR20170000000000lts') AND system_code = 'CD-CDZT000009'
@@ -223,6 +224,7 @@ INSERT INTO `tsys_menu_role` (`role_code`,`menu_code`,`updater`,`update_datetime
 INSERT INTO `tsys_menu_role` (`role_code`,`menu_code`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR2017041310190267791','SM2017042314203214968','admin',now(),NULL,'CD-CDZT000009');
 INSERT INTO `tsys_menu_role` (`role_code`,`menu_code`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR2017041310190267791','SM2017041314154096537','admin',now(),NULL,'CD-CDZT000009');
 INSERT INTO `tsys_menu_role` (`role_code`,`menu_code`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR2017041310190267791','SM2017041314165042697','admin',now(),NULL,'CD-CDZT000009');
+INSERT INTO `tsys_menu_role` (`role_code`,`menu_code`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR2017041310190267791','SM2017051716032194524','admin',now(),NULL,'CD-CDZT000009');
 INSERT INTO `tsys_menu_role` (`role_code`,`menu_code`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR20170000000000hhr','DZTSM201600000000000000','admin',now(),NULL,'CD-CDZT000009');
 INSERT INTO `tsys_menu_role` (`role_code`,`menu_code`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR20170000000000hhr','SM201704192049030331','admin',now(),NULL,'CD-CDZT000009');
 INSERT INTO `tsys_menu_role` (`role_code`,`menu_code`,`updater`,`update_datetime`,`remark`,`system_code`) VALUES ('DZTSR20170000000000hhr','SM2017041920494266687','admin',now(),NULL,'CD-CDZT000009');
