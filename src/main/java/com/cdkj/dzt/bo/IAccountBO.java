@@ -32,21 +32,10 @@ public interface IAccountBO {
     */
     public Account getRemoteAccount(String userId, ECurrency currency);
 
-    /**
-     * 根据用户编号进行账户资金划转
-     * @param fromUserId
-     * @param toUserId
-     * @param currency
-     * @param amount
-     * @param bizType
-     * @param fromBizNote
-     * @param toBizNote 
-     * @create: 2017年3月26日 下午8:42:38 xieyj
-     * @history:
-     */
-    public void doTransferAmountRemote(String fromUserId, String toUserId,
-            ECurrency currency, Long amount, EBizType bizType,
-            String fromBizNote, String toBizNote);
+    public void doTransferAmountRemote(String fromUserId,
+            ECurrency fromCurrency, String toUserId, ECurrency toCurrency,
+            Long amount, EBizType bizType, String fromBizNote,
+            String toBizNote, String refNo);
 
     /**
      * 获取虚拟币的价值：1人民币等于多少虚拟币
@@ -57,9 +46,9 @@ public interface IAccountBO {
      */
     public Double getExchangeRateRemote(ECurrency currency);
 
-    public XN002501Res doWeiXinH5PayRemote(String fromUserId,
-            String fromOpenId, String toUserId, Long amount, EBizType bizType,
-            String fromBizNote, String toBizNote, String payGroup);
+    public XN002501Res doWeiXinH5PayRemote(String applyUser, String openId,
+            String toUser, String payGroup, String refNo, String bizType,
+            String bizNote, Long amount);
 
     public XN002500Res doWeiXinAppPayRemote(String fromUserId, String toUserId,
             Long amount, EBizType bizType, String fromBizNote,

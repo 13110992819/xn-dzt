@@ -242,9 +242,10 @@ public class OrderAOImpl implements IOrderAO {
         Order order = orderBO.getOrder(orderCode);
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
-        accountBO.doTransferAmountRemote(userId,
+        accountBO.doTransferAmountRemote(userId, ECurrency.CNY,
             ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY, totalAmount,
-            EBizType.AJ_GW, "HE-SHIRTS衬衫购买订单支付", "HE-SHIRTS衬衫购买订单支付");
+            EBizType.AJ_GWFK, "HE-SHIRTS衬衫购买订单支付", "HE-SHIRTS衬衫购买订单支付",
+            orderCode);
         orderBO.PaySuccess(order, null, totalAmount);
         // 短信通知用户
         smsOutBO.sentContent(
@@ -267,11 +268,9 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不处于已定价状态");
         }
         orderBO.addPayGroup(order, payGroup, EPayType.WEIXIN.getCode());
-        return accountBO
-            .doWeiXinH5PayRemote(userId, user.getOpenId(),
-                ESysUser.SYS_USER_DZT.getCode(), totalAmount, EBizType.AJ_GW,
-                "HE-SHIRTS衬衫购买订单支付", "HE-SHIRTS衬衫购买订单支付",
-                EPayType.WEIXIN.getCode());
+        return accountBO.doWeiXinH5PayRemote(userId, user.getOpenId(),
+            ESysUser.SYS_USER_DZT.getCode(), payGroup, orderCode,
+            EBizType.AJ_GWFK.getCode(), "HE-SHIRTS衬衫购买订单支付", totalAmount);
     }
 
     @Override
@@ -400,10 +399,10 @@ public class OrderAOImpl implements IOrderAO {
             // 分成金额至少是一分钱
             if (amount > 10) {
                 accountBO.doTransferAmountRemote(
-                    ESysUser.SYS_USER_DZT.getCode(), parterUserId,
-                    ECurrency.CNY, amount, EBizType.AJ_HHRFC,
+                    ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY,
+                    parterUserId, ECurrency.CNY, amount, EBizType.AJ_HHRFC,
                     "订单：" + order.getCode() + " 合伙人分成", "订单：" + order.getCode()
-                            + " 分成收入");
+                            + " 分成收入", order.getCode());
                 // 短信通知
                 smsOutBO.sentContent(
                     parterUserId,
@@ -420,9 +419,10 @@ public class OrderAOImpl implements IOrderAO {
                 .longValue();
             if (amount > 10) {
                 accountBO.doTransferAmountRemote(
-                    ESysUser.SYS_USER_DZT.getCode(), ltUserId, ECurrency.CNY,
-                    amount, EBizType.AJ_LTSFC, "订单：" + order.getCode()
-                            + " 量体师分成", "订单：" + order.getCode() + " 分成收入");
+                    ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY, ltUserId,
+                    ECurrency.CNY, amount, EBizType.AJ_LTSFC,
+                    "订单：" + order.getCode() + " 量体师分成", "订单：" + order.getCode()
+                            + " 分成收入", order.getCode());
                 // 短信通知
                 smsOutBO.sentContent(
                     ltUserId,
@@ -444,9 +444,9 @@ public class OrderAOImpl implements IOrderAO {
             orderBO.cancelOrder(order, updater, remark);
             // 退款
             accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
-                order.getApplyUser(), ECurrency.CNY, order.getAmount(),
-                EBizType.AJ_GWTK, "订单：" + orderCode + "取消后退款", "订单："
-                        + orderCode + "取消后退款");
+                ECurrency.CNY, order.getApplyUser(), ECurrency.CNY,
+                order.getAmount(), EBizType.AJ_TK, "订单：" + orderCode + "取消后退款",
+                "订单：" + orderCode + "取消后退款", orderCode);
         } else if (EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())
                 || EOrderStatus.ASSIGN_PRICE.getCode()
                     .equals(order.getStatus())) {

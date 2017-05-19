@@ -43,7 +43,7 @@ public class CallbackConroller {
             // 处理业务开始
             // ------------------------------
             try {
-                if (EBizType.AJ_GW.getCode().equals(bizType)) {
+                if (EBizType.AJ_GWFK.getCode().equals(bizType)) {
                     System.out.println("**** 进入商品购物，微信APP支付服务器回调 start****");
                     orderAO.paySuccess(payGroup, payCode, amount);
                     System.out.println("**** 进入商品购物，微信APP支付服务器回调 end****");

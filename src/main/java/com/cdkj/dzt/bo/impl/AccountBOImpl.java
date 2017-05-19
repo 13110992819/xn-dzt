@@ -69,18 +69,21 @@ public class AccountBOImpl implements IAccountBO {
      * @see com.cdkj.dzt.bo.IAccountBO#doTransferAmountRemote(java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
      */
     @Override
-    public void doTransferAmountRemote(String fromUserId, String toUserId,
-            ECurrency currency, Long amount, EBizType bizType,
-            String fromBizNote, String toBizNote) {
+    public void doTransferAmountRemote(String fromUserId,
+            ECurrency fromCurrency, String toUserId, ECurrency toCurrency,
+            Long amount, EBizType bizType, String fromBizNote,
+            String toBizNote, String refNo) {
         if (amount != null && amount != 0) {
             XN002100Req req = new XN002100Req();
             req.setFromUserId(fromUserId);
+            req.setFromCurrency(fromCurrency.getCode());
             req.setToUserId(toUserId);
-            req.setCurrency(currency.getCode());
+            req.setToCurrency(toCurrency.getCode());
             req.setTransAmount(String.valueOf(amount));
             req.setBizType(bizType.getCode());
             req.setFromBizNote(fromBizNote);
             req.setToBizNote(toBizNote);
+            req.setRefNo(refNo);
             BizConnecter.getBizData("002100", JsonUtils.object2Json(req),
                 Object.class);
         }
@@ -97,19 +100,19 @@ public class AccountBOImpl implements IAccountBO {
     }
 
     @Override
-    public XN002501Res doWeiXinH5PayRemote(String fromUserId,
-            String fromOpenId, String toUserId, Long amount, EBizType bizType,
-            String fromBizNote, String toBizNote, String payGroup) {
+    public XN002501Res doWeiXinH5PayRemote(String applyUser, String openId,
+            String toUser, String payGroup, String refNo, String bizType,
+            String bizNote, Long amount) {
         // 获取微信H5支付信息
         XN002501Req req = new XN002501Req();
-        req.setFromUserId(fromUserId);
-        req.setFromOpenId(fromOpenId);
-        req.setToUserId(toUserId);
-        req.setTransAmount(String.valueOf(amount));
-        req.setBizType(bizType.getCode());
-        req.setFromBizNote(fromBizNote);
-        req.setToBizNote(toBizNote);
+        req.setApplyUser(applyUser);
+        req.setOpenId(openId);
+        req.setToUser(toUser);
         req.setPayGroup(payGroup);
+        req.setRefNo(refNo);
+        req.setBizType(bizType);
+        req.setBizNote(bizNote);
+        req.setAmount(String.valueOf(amount));
         req.setBackUrl(PropertiesUtil.Config.PAY_BACK_URL);
         XN002501Res res = BizConnecter.getBizData("002501",
             JsonUtil.Object2Json(req), XN002501Res.class);
