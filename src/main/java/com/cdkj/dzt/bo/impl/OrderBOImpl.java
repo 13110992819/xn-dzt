@@ -40,7 +40,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         order.setLtName(ltName);
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
-        order.setRemark(remark);
+        if (StringUtils.isNotBlank(remark)) {
+            order.setRemark(remark);
+        } else {
+            order.setRemark(order.getRemark());
+        }
         orderDAO.distributeOrder(order);
     }
 
@@ -50,7 +54,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         order.setAmount(amount);
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
-        order.setRemark(remark);
+        if (StringUtils.isNotBlank(remark)) {
+            order.setRemark(remark);
+        } else {
+            order.setRemark(order.getRemark());
+        }
         order.setStatus(EOrderStatus.ASSIGN_PRICE.getCode());
         orderDAO.updateConfirm(order);
     }
@@ -77,7 +85,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         order.setReAddress(reAddress);
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
-        order.setRemark(remark);
+        if (StringUtils.isNotBlank(remark)) {
+            order.setRemark(remark);
+        } else {
+            order.setRemark(order.getRemark());
+        }
         orderDAO.inputInfor(order);
     }
 
@@ -96,7 +108,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         order.setStatus(status.getCode());
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
-        order.setRemark(remark);
+        if (StringUtils.isNotBlank(remark)) {
+            order.setRemark(remark);
+        } else {
+            order.setRemark(order.getRemark());
+        }
         orderDAO.approveOrder(order);
     }
 
@@ -105,7 +121,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         order.setStatus(EOrderStatus.PRODU_DOING.getCode());
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
-        order.setRemark(remark);
+        if (StringUtils.isNotBlank(remark)) {
+            order.setRemark(remark);
+        } else {
+            order.setRemark(order.getRemark());
+        }
         orderDAO.submitProudect(order);
     }
 
@@ -123,7 +143,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
 
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
-        order.setRemark(remark);
+        if (StringUtils.isNotBlank(remark)) {
+            order.setRemark(remark);
+        } else {
+            order.setRemark(order.getRemark());
+        }
         orderDAO.sendGoods(order);
     }
 
@@ -132,7 +156,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         order.setStatus(EOrderStatus.RECEIVE.getCode());
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
-        order.setRemark(remark);
+        if (StringUtils.isNotBlank(remark)) {
+            order.setRemark(remark);
+        } else {
+            order.setRemark(order.getRemark());
+        }
         orderDAO.confirmReceipt(order);
     }
 
@@ -141,7 +169,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         order.setStatus(EOrderStatus.CANCEL.getCode());
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
-        order.setRemark(remark);
+        if (StringUtils.isNotBlank(remark)) {
+            order.setRemark(remark);
+        } else {
+            order.setRemark(order.getRemark());
+        }
         orderDAO.cancelOrder(order);
     }
 
