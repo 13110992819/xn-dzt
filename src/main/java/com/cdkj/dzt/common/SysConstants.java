@@ -25,7 +25,7 @@ public class SysConstants {
     public static final String DISTRIBUTE_CONTENT = "尊敬的合衣定制量体师，您有一个新的预约单等待处理，订单编号：%S，申请人姓名：%S。";
 
     // 量体师定价完成，短信通知用户
-    public static final String CONFIRM_PRICE_CONTENT = "尊敬的%S，您的订单：%S已经定价完成，订单总价为：￥%.2f元，为了不影响您的购物体验，请及时付款。";
+    public static final String CONFIRM_PRICE_CONTENT = "尊敬的%S，您的订单：%S已经定价完成，订单总价为：￥%S元，为了不影响您的购物体验，请及时付款。";
 
     // 用户支付成功，短信通知用户
     public static final String PAY_SUCCESS_CONTENT = "尊敬的%S，您的订单：%S已经支付完成，合衣定制会尽快处理您的订单，登录网站系统可查看订单详情。";
