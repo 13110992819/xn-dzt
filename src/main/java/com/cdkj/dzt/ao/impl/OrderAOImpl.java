@@ -32,6 +32,7 @@ import com.cdkj.dzt.bo.IUserBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.common.DateUtil;
 import com.cdkj.dzt.common.SysConstants;
+import com.cdkj.dzt.core.CalculationUtil;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.ModelSpecs;
@@ -221,7 +222,8 @@ public class OrderAOImpl implements IOrderAO {
         smsOutBO.sentContent(
             order.getApplyUser(),
             String.format(SysConstants.CONFIRM_PRICE_CONTENT,
-                order.getApplyName(), orderCode, order.getAmount() / 1000.00));
+                order.getApplyName(), orderCode,
+                CalculationUtil.divi(order.getAmount())));
     }
 
     @Override
@@ -407,7 +409,7 @@ public class OrderAOImpl implements IOrderAO {
                 smsOutBO.sentContent(
                     parterUserId,
                     String.format(SysConstants.FENCHENG_CONTENT, "合伙人",
-                        order.getCode(), amount / 1000.00));
+                        order.getCode(), CalculationUtil.divi(amount)));
             }
         }
         // 量体师分成
@@ -427,7 +429,7 @@ public class OrderAOImpl implements IOrderAO {
                 smsOutBO.sentContent(
                     ltUserId,
                     String.format(SysConstants.FENCHENG_CONTENT, "量体师",
-                        order.getCode(), amount / 1000.00));
+                        order.getCode(), CalculationUtil.divi(amount)));
             }
         }
     }
