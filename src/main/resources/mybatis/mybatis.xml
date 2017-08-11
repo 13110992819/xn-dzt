@@ -7,6 +7,11 @@
 		<typeAlias alias="modelSpecs" type="com.cdkj.dzt.domain.ModelSpecs" />
 		<typeAlias alias="product" type="com.cdkj.dzt.domain.Product" />
 		<typeAlias alias="productSpecs" type="com.cdkj.dzt.domain.ProductSpecs" />
+		
+		<typeAlias alias="comment" type="com.cdkj.dzt.domain.Comment" />
+		<typeAlias alias="keyword" type="com.cdkj.dzt.domain.Keyword" />
+		<typeAlias alias="sysDict" type="com.cdkj.dzt.domain.SYSDict" />
+		<typeAlias alias="sysConfig" type="com.cdkj.dzt.domain.SYSConfig" />
 	</typeAliases>	
 </configuration>
 

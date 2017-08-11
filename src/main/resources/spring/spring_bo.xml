@@ -33,4 +33,18 @@
 	<bean id="productSpecsBO" class="com.cdkj.dzt.bo.impl.ProductSpecsBOImpl">
 		<property name="paginableDAO" ref="productSpecsDAOImpl"/>
 	</bean>	
+	
+	<bean id="commentBO" class="com.cdkj.dzt.bo.impl.CommentBOImpl">
+		<property name="paginableDAO" ref="commentDAOImpl" />
+	</bean>
+	<bean id="keywordBO" class="com.cdkj.dzt.bo.impl.KeywordBOImpl">
+		<property name="paginableDAO" ref="keywordDAOImpl" />
+	</bean>
+	
+	<bean id="sysDictBO" class="com.cdkj.dzt.bo.impl.SYSDictBOImpl">
+		<property name="paginableDAO" ref="sysDictDAOImpl" />
+	</bean>
+	<bean id="sysConfigBO" class="com.cdkj.dzt.bo.impl.SYSConfigBOImpl">
+		<property name="paginableDAO" ref="sysConfigDAOImpl" />
+	</bean>
 </beans>
