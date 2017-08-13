@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdkj.dzt.dao.ISizeDataDAO">
+	<resultMap id="sizeData_DB_Result" type="sizeData">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="key" property="key" />
+		<result column="value" property="value" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="code != null and code != '' ">
+				AND t.code = #{code}
+			</if>
+		</trim>
+	</sql>
+	<select id="select_sizeData" parameterType="sizeData" resultMap="sizeData_DB_Result">
+		SELECT
+		t.id
+		,t.user_id
+		,t.key
+		,t.value
+		FROM
+		tdzt_size_data t
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_sizeData_count" parameterType="sizeData"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tdzt_size_data t
+		<include refid="where_condition" />
+	</select>
+
+	<insert id="insert_sizeData" parameterType="sizeData">
+		INSERT INTO
+		tdzt_size_data(
+		id
+		,user_id
+		,key
+		,value
+		)
+		VALUES(
+		#{id}
+		,#{userId}
+		,#{key}
+		,#{value}
+		)
+	</insert>
+
+	<update id="update_sizeData" parameterType="sizeData">
+		UPDATE tdzt_size_data
+		SET
+		user_id = #{userId}
+		,key = #{key}
+		,value = #{value}
+		WHERE code = #{code}
+	</update>
+
+
+</mapper>

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.cdkj.dzt.bo.IProductSpecsBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.IProductSpecsDAO;
-import com.cdkj.dzt.domain.ModelSpecs;
+import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.ProductSpecs;
@@ -389,7 +389,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
 
     @Override
     public void inputInforCode(Order order, Product product,
-            Map<String, String> valueMap, Map<String, ModelSpecs> modelSmap) {
+            Map<String, String> valueMap, Map<String, Craft> modelSmap) {
 
         String productCode = product.getCode();
         String orderCode = order.getCode();
@@ -474,7 +474,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveCXYS(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -487,7 +487,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveCXZT(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -500,7 +500,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveCXWZ(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -513,7 +513,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveCSML(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -526,7 +526,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveLXXZ(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -539,7 +539,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveXXXZ(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -552,7 +552,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveMZXZ(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -565,7 +565,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveXBXZ(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -578,7 +578,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveSXXZ(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -591,7 +591,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveLKYZ(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -604,7 +604,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveKDXZ(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -617,7 +617,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveNKXZ(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -630,7 +630,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveNKYS(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -643,7 +643,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveTX(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -656,7 +656,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveJXL(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -669,7 +669,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveFBL(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -682,7 +682,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveBZ(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -695,7 +695,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveBB(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());
@@ -708,7 +708,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     }
 
     private void saveCSGG(String orderCode, String productCode,
-            ModelSpecs modelSpecs) {
+            Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(modelSpecs.getCode());
         data.setName(modelSpecs.getName());

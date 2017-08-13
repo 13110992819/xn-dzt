@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.bo.IAccountBO;
 import com.cdkj.dzt.bo.IModelBO;
-import com.cdkj.dzt.bo.IModelSpecsBO;
+import com.cdkj.dzt.bo.ICraftBO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.IProductSpecsBO;
@@ -35,7 +35,7 @@ import com.cdkj.dzt.common.SysConstants;
 import com.cdkj.dzt.core.CalculationUtil;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Model;
-import com.cdkj.dzt.domain.ModelSpecs;
+import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.User;
@@ -73,7 +73,7 @@ public class OrderAOImpl implements IOrderAO {
     private IModelBO modelBO;
 
     @Autowired
-    private IModelSpecsBO modelSpecsBO;
+    private ICraftBO modelSpecsBO;
 
     @Autowired
     private IAccountBO accountBO;
@@ -310,7 +310,7 @@ public class OrderAOImpl implements IOrderAO {
         // 落地量体数据
         productSpecsBO.removeProductSpecs(product.getCode());
         productSpecsBO.inputInforValue(order, product, map);
-        Map<String, ModelSpecs> modelSmap = modelSpecsBO.getMap();
+        Map<String, Craft> modelSmap = modelSpecsBO.getMap();
         productSpecsBO.inputInforCode(order, product, map, modelSmap);
     }
 

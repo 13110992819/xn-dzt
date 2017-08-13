@@ -9,24 +9,24 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.cdkj.dzt.bo.IModelSpecsBO;
+import com.cdkj.dzt.bo.ICraftBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
-import com.cdkj.dzt.dao.IModelSpecsDAO;
-import com.cdkj.dzt.domain.ModelSpecs;
+import com.cdkj.dzt.dao.ICraftDAO;
+import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
-public class ModelSpecsBOImpl extends PaginableBOImpl<ModelSpecs> implements
-        IModelSpecsBO {
+public class CraftBOImpl extends PaginableBOImpl<Craft> implements
+        ICraftBO {
 
     @Autowired
-    private IModelSpecsDAO modelSpecsDAO;
+    private ICraftDAO modelSpecsDAO;
 
     @Override
     public void refreshModelSpecs(String code, String name, String pic,
             Integer orderNo, String remark) {
         if (StringUtils.isNotBlank(code)) {
-            ModelSpecs data = new ModelSpecs();
+            Craft data = new Craft();
             data.setCode(code);
             data.setName(name);
             data.setPic(pic);
@@ -38,15 +38,15 @@ public class ModelSpecsBOImpl extends PaginableBOImpl<ModelSpecs> implements
     }
 
     @Override
-    public List<ModelSpecs> queryModelSpecsList(ModelSpecs condition) {
+    public List<Craft> queryModelSpecsList(Craft condition) {
         return modelSpecsDAO.selectList(condition);
     }
 
     @Override
-    public ModelSpecs getModelSpecs(String code) {
-        ModelSpecs data = null;
+    public Craft getModelSpecs(String code) {
+        Craft data = null;
         if (StringUtils.isNotBlank(code)) {
-            ModelSpecs condition = new ModelSpecs();
+            Craft condition = new Craft();
             condition.setCode(code);
             data = modelSpecsDAO.select(condition);
             if (data == null) {
@@ -57,13 +57,13 @@ public class ModelSpecsBOImpl extends PaginableBOImpl<ModelSpecs> implements
     }
 
     @Override
-    public Map<String, ModelSpecs> getMap() {
-        Map<String, ModelSpecs> map = null;
-        ModelSpecs condtion = new ModelSpecs();
-        List<ModelSpecs> list = this.queryModelSpecsList(condtion);
+    public Map<String, Craft> getMap() {
+        Map<String, Craft> map = null;
+        Craft condtion = new Craft();
+        List<Craft> list = this.queryModelSpecsList(condtion);
         if (CollectionUtils.isNotEmpty(list)) {
-            map = new HashMap<String, ModelSpecs>();
-            for (ModelSpecs ele : list) {
+            map = new HashMap<String, Craft>();
+            for (Craft ele : list) {
                 map.put(ele.getCode(), ele);
             }
         }

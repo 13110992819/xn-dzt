@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdkj.dzt.dao.IInteractDAO">
+	<resultMap id="interact_DB_Result" type="interact">
+		<result column="code" property="code" />
+		<result column="category" property="category" />
+		<result column="type" property="type" />
+		<result column="object_code" property="objectCode" />
+		<result column="operator" property="operator" />
+		<result column="operat_datetime" property="operatDatetime" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="code != null and code != '' ">
+				AND t.code = #{code}
+			</if>
+		</trim>
+	</sql>
+	<select id="select_interact" parameterType="interact" resultMap="interact_DB_Result">
+		SELECT
+		t.code
+		,t.category
+		,t.type
+		,t.object_code
+		,t.operator
+		,t.operat_datetime
+		FROM
+		tdzt_interact t
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_interact_count" parameterType="interact"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tdzt_interact t
+		<include refid="where_condition" />
+	</select>
+
+	<insert id="insert_interact" parameterType="interact">
+		INSERT INTO
+		tdzt_interact(
+		code
+		,category
+		,type
+		,object_code
+		,operator
+		,operat_datetime
+		)
+		VALUES(
+		#{code}
+		,#{category}
+		,#{type}
+		,#{objectCode}
+		,#{operator}
+		,#{operatDatetime}
+		)
+	</insert>
+
+	<update id="update_interact" parameterType="interact">
+		UPDATE tdzt_interact
+		SET
+		category = #{category}
+		,type = #{type}
+		,object_code = #{objectCode}
+		,operator = #{operator}
+		,operat_datetime = #{operatDatetime}
+		WHERE code = #{code}
+	</update>
+
+
+</mapper>

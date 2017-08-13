@@ -5,12 +5,12 @@ import java.util.Date;
 import com.cdkj.dzt.dao.base.ABaseDO;
 
 /**
-* 型号
-* @author: haiqingzheng
-* @since: 2017年04月14日 14:05:03
+* 工艺
+* @author: shan
+* @since: 2017年04月14日
 * @history:
 */
-public class Model extends ABaseDO {
+public class Craft extends ABaseDO {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,35 +23,17 @@ public class Model extends ABaseDO {
     // 名称
     private String name;
 
-    // 缩略图
+    // 缩率图
     private String pic;
 
     // 广告图
     private String advPic;
 
-    // 图文描述
-    private String description;
-
-    // 损耗
-    private Integer loss;
-
-    // 加工费
-    private Long processFee;
-
-    // 价格
-    private Long price;
-
-    // UI位置
-    private String location;
-
-    // UI顺序
+    // 次序
     private Integer orderNo;
 
     // 状态
     private String status;
-
-    // 创建时间
-    private Date createDatetime;
 
     // 更新人
     private String updater;
@@ -61,6 +43,13 @@ public class Model extends ABaseDO {
 
     // 备注
     private String remark;
+
+    // 产品编号
+    private String modelCode;
+
+    // ******* db end
+    // 所属产品
+    private Model model;
 
     public String getCode() {
         return code;
@@ -102,46 +91,6 @@ public class Model extends ABaseDO {
         this.advPic = advPic;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getLoss() {
-        return loss;
-    }
-
-    public void setLoss(Integer loss) {
-        this.loss = loss;
-    }
-
-    public Long getProcessFee() {
-        return processFee;
-    }
-
-    public void setProcessFee(Long processFee) {
-        this.processFee = processFee;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public Integer getOrderNo() {
         return orderNo;
     }
@@ -156,14 +105,6 @@ public class Model extends ABaseDO {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Date getCreateDatetime() {
-        return createDatetime;
-    }
-
-    public void setCreateDatetime(Date createDatetime) {
-        this.createDatetime = createDatetime;
     }
 
     public String getUpdater() {
@@ -188,6 +129,22 @@ public class Model extends ABaseDO {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getModelCode() {
+        return modelCode;
+    }
+
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
     }
 
 }

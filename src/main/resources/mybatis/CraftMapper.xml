@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cdkj.dzt.dao.IModelSpecsDAO">
-	<resultMap id="modelSpecs_DB_Result" type="modelSpecs">
+<mapper namespace="com.cdkj.dzt.dao.ICraftDAO">
+	<resultMap id="craft_DB_Result" type="craft">
 		<result column="code" property="code" />
-		<result column="name" property="name" />
-		<result column="parent_code" property="parentCode" />
 		<result column="type" property="type" />
+		<result column="name" property="name" />
 		<result column="pic" property="pic" />
+		<result column="adv_pic" property="advPic" />
 		
 		<result column="order_no" property="orderNo" />
+		<result column="status" property="status"/>
+		<result column="updater" property="updater"/>
+		<result column="update_datetime" property="updateDatetime"/>
 		<result column="remark" property="remark" />
 		<result column="model_code" property="modelCode" />
 		
@@ -23,11 +26,11 @@
 			<if test="name != null and name != '' ">
 				AND t.name like "%"#{name}"%"
 			</if>
-			<if test="parentCode != null and parentCode != '' ">
-				AND t.parent_code = #{parentCode}
-			</if>
 			<if test="type != null and type != '' ">
 				AND t.type = #{type}
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
 			</if>
 			<if test="modelCode != null and modelCode != '' ">
 				AND t.model_code = #{modelCode}
@@ -35,36 +38,47 @@
 			
 		</trim>
 	</sql>
-	<select id="select_modelSpecs" parameterType="modelSpecs" resultMap="modelSpecs_DB_Result">
+	<select id="select_craft" parameterType="craft" resultMap="modelSpecs_DB_Result">
 		SELECT
 		t.code
-		,t.name
-		,t.parent_code
 		,t.type
+		,t.name
 		,t.pic
+		,t.adv_pic
+		
 		,t.order_no
+		,t.status
+		,t.updater
+		,t.update_datetime
 		,t.remark
 		,t.model_code
 		,tm.name model_name
 		FROM
-		tdzt_model_specs t INNER JOIN tdzt_model tm ON t.model_code = tm.code
+		tdzt_craft t INNER JOIN tdzt_model tm ON t.model_code = tm.code
 		<include refid="where_condition" />
 		ORDER BY order_no
 	</select>
 
-	<select id="select_modelSpecs_count" parameterType="modelSpecs"
+	<select id="select_craft_count" parameterType="craft"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tdzt_model_specs t
+		SELECT count(1) FROM craft t
 		<include refid="where_condition" />
 	</select>
 
-	<update id="update_modelSpecs" parameterType="modelSpecs">
-		UPDATE tdzt_model_specs
+	<update id="update_craft" parameterType="craft">
+		UPDATE tdzt_craft
 		SET
-		name = #{name}
+		type = #{type}
+		,name = #{name}
 		,pic = #{pic}
+		,adv_pic = #{advPic}
 		,order_no = #{orderNo}
+		
+		,status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
 		,remark = #{remark}
+		,model_code=#{modelCode}
 		WHERE code = #{code}
 	</update>
 

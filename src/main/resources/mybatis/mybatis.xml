@@ -4,9 +4,14 @@
 	<typeAliases>	
 		<typeAlias alias="order" type="com.cdkj.dzt.domain.Order" />
 		<typeAlias alias="model" type="com.cdkj.dzt.domain.Model" />
-		<typeAlias alias="modelSpecs" type="com.cdkj.dzt.domain.ModelSpecs" />
+		<typeAlias alias="craft" type="com.cdkj.dzt.domain.Craft" />
 		<typeAlias alias="product" type="com.cdkj.dzt.domain.Product" />
 		<typeAlias alias="productSpecs" type="com.cdkj.dzt.domain.ProductSpecs" />
+		
+		<typeAlias alias="cloth" type="com.cdkj.dzt.domain.Cloth" />
+		<typeAlias alias="interact" type="com.cdkj.dzt.domain.Interact" />
+		<typeAlias alias="swap" type="com.cdkj.dzt.domain.Swap" />
+		<typeAlias alias="sizeData" type="com.cdkj.dzt.domain.SizeData" />
 		
 		<typeAlias alias="comment" type="com.cdkj.dzt.domain.Comment" />
 		<typeAlias alias="keyword" type="com.cdkj.dzt.domain.Keyword" />

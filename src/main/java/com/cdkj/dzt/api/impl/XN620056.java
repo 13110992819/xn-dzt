@@ -1,6 +1,6 @@
 package com.cdkj.dzt.api.impl;
 
-import com.cdkj.dzt.ao.IModelSpecsAO;
+import com.cdkj.dzt.ao.ICraftAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
 import com.cdkj.dzt.core.StringValidater;
@@ -16,8 +16,8 @@ import com.cdkj.dzt.spring.SpringContextHolder;
  * @history:
  */
 public class XN620056 extends AProcessor {
-    private IModelSpecsAO modelSpecsAO = SpringContextHolder
-        .getBean(IModelSpecsAO.class);
+    private ICraftAO modelSpecsAO = SpringContextHolder
+        .getBean(ICraftAO.class);
 
     private XN620056Req req = null;
 

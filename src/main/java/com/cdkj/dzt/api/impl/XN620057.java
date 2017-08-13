@@ -1,9 +1,9 @@
 package com.cdkj.dzt.api.impl;
 
-import com.cdkj.dzt.ao.IModelSpecsAO;
+import com.cdkj.dzt.ao.ICraftAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
-import com.cdkj.dzt.domain.ModelSpecs;
+import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.dto.req.XN620057Req;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
@@ -16,8 +16,8 @@ import com.cdkj.dzt.spring.SpringContextHolder;
  * @history:
  */
 public class XN620057 extends AProcessor {
-    private IModelSpecsAO modelSpecsAO = SpringContextHolder
-        .getBean(IModelSpecsAO.class);
+    private ICraftAO modelSpecsAO = SpringContextHolder
+        .getBean(ICraftAO.class);
 
     private XN620057Req req = null;
 
@@ -26,8 +26,7 @@ public class XN620057 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        ModelSpecs condition = new ModelSpecs();
-        condition.setParentCode(req.getParentCode());
+        Craft condition = new Craft();
         condition.setName(req.getName());
         condition.setType(req.getType());
         condition.setModelCode(req.getModelCode());

@@ -5,16 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cdkj.dzt.ao.IModelSpecsAO;
-import com.cdkj.dzt.bo.IModelSpecsBO;
+import com.cdkj.dzt.ao.ICraftAO;
+import com.cdkj.dzt.bo.ICraftBO;
 import com.cdkj.dzt.bo.base.Paginable;
-import com.cdkj.dzt.domain.ModelSpecs;
+import com.cdkj.dzt.domain.Craft;
 
 @Service
-public class ModelSpecsAOImpl implements IModelSpecsAO {
+public class CraftAOImpl implements ICraftAO {
 
     @Autowired
-    private IModelSpecsBO modelSpecsBO;
+    private ICraftBO modelSpecsBO;
 
     @Override
     public void editModelSpecs(String code, String name, String pic,
@@ -23,18 +23,18 @@ public class ModelSpecsAOImpl implements IModelSpecsAO {
     }
 
     @Override
-    public Paginable<ModelSpecs> queryModelSpecsPage(int start, int limit,
-            ModelSpecs condition) {
+    public Paginable<Craft> queryModelSpecsPage(int start, int limit,
+            Craft condition) {
         return modelSpecsBO.getPaginable(start, limit, condition);
     }
 
     @Override
-    public List<ModelSpecs> queryModelSpecsList(ModelSpecs condition) {
+    public List<Craft> queryModelSpecsList(Craft condition) {
         return modelSpecsBO.queryModelSpecsList(condition);
     }
 
     @Override
-    public ModelSpecs getModelSpecs(String code) {
+    public Craft getModelSpecs(String code) {
         return modelSpecsBO.getModelSpecs(code);
     }
 }

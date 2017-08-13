@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdkj.dzt.dao.IClothDAO">
+	<resultMap id="cloth_DB_Result" type="cloth">
+		<result column="code" property="code" />
+		<result column="type" property="type" />
+		<result column="brand" property="brand" />
+		<result column="category" property="category" />
+		<result column="model_num" property="modelNum" />
+		<result column="pic" property="pic" />
+		<result column="adv_pic" property="advPic" />
+		<result column="color" property="color" />
+		<result column="flowers" property="flowers" />
+		<result column="form" property="form" />
+		<result column="weight" property="weight" />
+		<result column="yarn" property="yarn" />
+		<result column="price" property="price" />
+		<result column="location" property="location" />
+		<result column="order_no" property="orderNo" />
+		<result column="status" property="status" />
+		<result column="updater" property="updater" />
+		<result column="update_datetime" property="updateDatetime" />
+		<result column="remark" property="remark" />
+		<result column="model_code" property="modelCode" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="code != null and code != '' ">
+				AND t.code = #{code}
+			</if>
+		</trim>
+	</sql>
+	<select id="select_cloth" parameterType="cloth" resultMap="cloth_DB_Result">
+		SELECT
+		t.code
+		,t.type
+		,t.brand
+		,t.category
+		,t.model_num
+		,t.pic
+		,t.adv_pic
+		,t.color
+		,t.flowers
+		,t.form
+		,t.weight
+		,t.yarn
+		,t.price
+		,t.location
+		,t.order_no
+		,t.status
+		,t.updater
+		,t.update_datetime
+		,t.remark
+		,t.model_code
+		FROM
+		tdzt_cloth t
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_cloth_count" parameterType="cloth"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tdzt_cloth t
+		<include refid="where_condition" />
+	</select>
+
+	<insert id="insert_cloth" parameterType="cloth">
+		INSERT INTO
+		tdzt_cloth(
+		code
+		,type
+		,brand
+		,category
+		,model_num
+		,pic
+		,adv_pic
+		,color
+		,flowers
+		,form
+		,weight
+		,yarn
+		,price
+		,location
+		,order_no
+		,status
+		,updater
+		,update_datetime
+		,remark
+		,model_code
+		)
+		VALUES(
+		#{code}
+		,#{type}
+		,#{brand}
+		,#{category}
+		,#{modelNum}
+		,#{pic}
+		,#{advPic}
+		,#{color}
+		,#{flowers}
+		,#{form}
+		,#{weight}
+		,#{yarn}
+		,#{price}
+		,#{location}
+		,#{orderNo}
+		,#{status}
+		,#{updater}
+		,#{updateDatetime}
+		,#{remark}
+		,#{modelCode}
+		)
+	</insert>
+
+	<update id="update_cloth" parameterType="cloth">
+		UPDATE tdzt_cloth
+		SET
+		type = #{type}
+		,brand = #{brand}
+		,category = #{category}
+		,model_num = #{modelNum}
+		,pic = #{pic}
+		,adv_pic = #{advPic}
+		,color = #{color}
+		,flowers = #{flowers}
+		,form = #{form}
+		,weight = #{weight}
+		,yarn = #{yarn}
+		,price = #{price}
+		,location = #{location}
+		,order_no = #{orderNo}
+		,status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		,model_code = #{modelCode}
+		WHERE code = #{code}
+	</update>
+
+
+</mapper>
