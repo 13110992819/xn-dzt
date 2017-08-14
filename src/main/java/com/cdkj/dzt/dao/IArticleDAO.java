@@ -8,4 +8,8 @@ public interface IArticleDAO extends IBaseDAO<Article> {
     String NAMESPACE = IArticleDAO.class.getName().concat(".");
 
     public int update(Article data);
+
+    public int putOn(Article data);
+
+    public int putOff(Article data);
 }

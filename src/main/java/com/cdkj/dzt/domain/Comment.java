@@ -18,6 +18,9 @@ public class Comment extends ABaseDO {
     // 编号
     private String code;
 
+    // 类型
+    private String type;
+
     // 得分
     private Integer score;
 
@@ -45,8 +48,8 @@ public class Comment extends ABaseDO {
     // 父类编号
     private String parentCode;
 
-    // 产品编号
-    private String productCode;
+    // 顶级编号
+    private String topCode;
 
     // **********db************
     // 评论人名称
@@ -88,14 +91,6 @@ public class Comment extends ABaseDO {
 
     public String getRemark() {
         return remark;
-    }
-
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
-    public String getProductCode() {
-        return productCode;
     }
 
     public String getContent() {
@@ -168,6 +163,22 @@ public class Comment extends ABaseDO {
 
     public void setParentCode(String parentCode) {
         this.parentCode = parentCode;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTopCode() {
+        return topCode;
+    }
+
+    public void setTopCode(String topCode) {
+        this.topCode = topCode;
     }
 
 }

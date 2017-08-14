@@ -9,44 +9,14 @@
 package com.cdkj.dzt.dto.req;
 
 /** 
- * 修改型号
+ * 删除型号
  * @author: haiqingzheng 
  * @since: 2017年4月14日 下午2:48:36 
  * @history:
  */
-public class XN620002Req {
-    // 编号(必填)
-    private String code;
-
+public class XN620001Req {
     // 类型(必填)
     private String type;
-
-    // 名称(必填)
-    private String name;
-
-    // 缩略图(必填)
-    private String pic;
-
-    // 广告图(必填)
-    private String advPic;
-
-    // 图文描述(必填)
-    private String description;
-
-    // 损耗(选填)
-    private String loss;
-
-    // 加工费(选填)
-    private String processFee;
-
-    // 价格(选填)
-    private String price;
-
-    // 更新人(必填)
-    private String updater;
-
-    // 备注(选填)
-    private String remark;
 
     public String getType() {
         return type;

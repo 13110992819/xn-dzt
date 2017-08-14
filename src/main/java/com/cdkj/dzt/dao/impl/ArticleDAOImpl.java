@@ -50,4 +50,14 @@ public class ArticleDAOImpl extends AMybatisTemplate implements IArticleDAO {
         return super.update(NAMESPACE.concat("update_article"), data);
     }
 
+    @Override
+    public int putOn(Article data) {
+        return super.update(NAMESPACE.concat("update_putOn"), data);
+    }
+
+    @Override
+    public int putOff(Article data) {
+        return super.update(NAMESPACE.concat("update_putOff"), data);
+    }
+
 }

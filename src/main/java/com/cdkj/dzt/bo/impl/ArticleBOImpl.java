@@ -1,5 +1,6 @@
 package com.cdkj.dzt.bo.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -8,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IArticleBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
-import com.cdkj.dzt.core.OrderNoGenerater;
+import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.dao.IArticleDAO;
 import com.cdkj.dzt.domain.Article;
-import com.cdkj.dzt.enums.EGeneratePrefix;
+import com.cdkj.dzt.enums.EStatus;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
@@ -32,35 +33,22 @@ public class ArticleBOImpl extends PaginableBOImpl<Article> implements
     }
 
     @Override
-    public String saveArticle(Article data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater
-                .generateM(EGeneratePrefix.ACTICLE.getCode());
-            data.setCode(code);
-            articleDAO.insert(data);
-        }
-        return code;
+    public void saveArticle(Article data) {
+        articleDAO.insert(data);
     }
 
     @Override
-    public int removeArticle(String code) {
-        int count = 0;
+    public void removeArticle(String code) {
         if (StringUtils.isNotBlank(code)) {
             Article data = new Article();
             data.setCode(code);
-            count = articleDAO.delete(data);
+            articleDAO.delete(data);
         }
-        return count;
     }
 
     @Override
-    public int refreshArticle(Article data) {
-        int count = 0;
-        if (StringUtils.isNotBlank(data.getCode())) {
-            count = articleDAO.update(data);
-        }
-        return count;
+    public void refreshArticle(Article data) {
+        articleDAO.update(data);
     }
 
     @Override
@@ -80,5 +68,26 @@ public class ArticleBOImpl extends PaginableBOImpl<Article> implements
             }
         }
         return data;
+    }
+
+    @Override
+    public void putOn(Article data, String location, String orderNo,
+            String updater, String remark) {
+        data.setStatus(EStatus.PUT_ON.getCode());
+        data.setLocation(location);
+        data.setOrderNo(StringValidater.toInteger(orderNo));
+        data.setUpdater(updater);
+        data.setUpdateDatetime(new Date());
+        data.setRemark(remark);
+        articleDAO.putOn(data);
+    }
+
+    @Override
+    public void putOff(Article data, String updater, String remark) {
+        data.setStatus(EStatus.PUT_OFF.getCode());
+        data.setUpdater(updater);
+        data.setUpdateDatetime(new Date());
+        data.setRemark(remark);
+        articleDAO.putOff(data);
     }
 }
