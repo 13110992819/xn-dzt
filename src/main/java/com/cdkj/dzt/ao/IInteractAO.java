@@ -11,11 +11,11 @@ import com.cdkj.dzt.domain.Interact;
 public interface IInteractAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public String addInteract(Interact data);
+    public String addInteract(String objectCode, String operator);
 
-    public int dropInteract(String code);
+    public void dropInteract(String objectCode, String operator);
 
-    public int editInteract(Interact data);
+    public void editInteract(Interact data);
 
     public Paginable<Interact> queryInteractPage(int start, int limit,
             Interact condition);

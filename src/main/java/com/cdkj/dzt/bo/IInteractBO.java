@@ -11,11 +11,11 @@ public interface IInteractBO extends IPaginableBO<Interact> {
 
     public boolean isInteractExist(String code);
 
-    public String saveInteract(Interact data);
+    public void saveInteract(Interact data);
 
-    public int removeInteract(String code);
+    public void removeInteract(Interact data);
 
-    public int refreshInteract(Interact data);
+    public void refreshInteract(Interact data);
 
     public List<Interact> queryInteractList(Interact condition);
 
@@ -23,5 +23,7 @@ public interface IInteractBO extends IPaginableBO<Interact> {
 
     public Long getTotalCount(EInteractCategory category, EInteractType type,
             String code, String userId);
+
+    public List<Interact> queryInteractList(String objectCode, String operator);
 
 }

@@ -8,10 +8,8 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IInteractBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
-import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.dao.IInteractDAO;
 import com.cdkj.dzt.domain.Interact;
-import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
 import com.cdkj.dzt.enums.EInteractType;
 import com.cdkj.dzt.exception.BizException;
@@ -34,35 +32,20 @@ public class InteractBOImpl extends PaginableBOImpl<Interact> implements
     }
 
     @Override
-    public String saveInteract(Interact data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater.generateM(EGeneratePrefix.INTERACT
-                .getCode());
-            data.setCode(code);
-            interactDAO.insert(data);
-        }
-        return code;
+    public void saveInteract(Interact data) {
+        interactDAO.insert(data);
     }
 
     @Override
-    public int removeInteract(String code) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            Interact data = new Interact();
-            data.setCode(code);
-            count = interactDAO.delete(data);
-        }
-        return count;
+    public void removeInteract(Interact data) {
+        interactDAO.delete(data);
     }
 
     @Override
-    public int refreshInteract(Interact data) {
-        int count = 0;
+    public void refreshInteract(Interact data) {
         if (StringUtils.isNotBlank(data.getCode())) {
-            count = interactDAO.update(data);
+            interactDAO.update(data);
         }
-        return count;
     }
 
     @Override
@@ -93,5 +76,13 @@ public class InteractBOImpl extends PaginableBOImpl<Interact> implements
         condition.setObjectCode(code);
         condition.setOperator(userId);
         return interactDAO.selectTotalCount(condition);
+    }
+
+    @Override
+    public List<Interact> queryInteractList(String objectCode, String operator) {
+        Interact condition = new Interact();
+        condition.setObjectCode(objectCode);
+        condition.setOperator(operator);
+        return interactDAO.selectList(condition);
     }
 }

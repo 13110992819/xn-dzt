@@ -1,5 +1,7 @@
 package com.cdkj.dzt.domain;
 
+import java.util.Date;
+
 import com.cdkj.dzt.dao.base.ABaseDO;
 
 /**
@@ -10,72 +12,72 @@ import com.cdkj.dzt.dao.base.ABaseDO;
 */
 public class Interact extends ABaseDO {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// 编号
-	private String code;
+    // 编号
+    private String code;
 
-	// 分类
-	private String category;
+    // 分类
+    private String category;
 
-	// 类型
-	private String type;
+    // 类型
+    private String type;
 
-	// 互动编号
-	private String objectCode;
+    // 互动编号
+    private String objectCode;
 
-	// 互动人
-	private String operator;
+    // 互动人
+    private String operator;
 
-	// 互动时间
-	private String operatDatetime;
+    // 互动时间
+    private Date operatDatetime;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-	public String getCategory() {
-		return category;
-	}
+    public String getCategory() {
+        return category;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setObjectCode(String objectCode) {
-		this.objectCode = objectCode;
-	}
+    public void setObjectCode(String objectCode) {
+        this.objectCode = objectCode;
+    }
 
-	public String getObjectCode() {
-		return objectCode;
-	}
+    public String getObjectCode() {
+        return objectCode;
+    }
 
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
 
-	public String getOperator() {
-		return operator;
-	}
+    public String getOperator() {
+        return operator;
+    }
 
-	public void setOperatDatetime(String operatDatetime) {
-		this.operatDatetime = operatDatetime;
-	}
+    public void setOperatDatetime(Date operatDatetime) {
+        this.operatDatetime = operatDatetime;
+    }
 
-	public String getOperatDatetime() {
-		return operatDatetime;
-	}
+    public Date getOperatDatetime() {
+        return operatDatetime;
+    }
 
 }
