@@ -8,4 +8,8 @@ public interface ICraftDAO extends IBaseDAO<Craft> {
     String NAMESPACE = ICraftDAO.class.getName().concat(".");
 
     public int update(Craft data);
+
+    public int putOn(Craft data);
+
+    public int putOff(Craft data);
 }

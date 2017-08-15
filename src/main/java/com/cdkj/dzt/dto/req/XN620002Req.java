@@ -48,6 +48,14 @@ public class XN620002Req {
     // 备注(选填)
     private String remark;
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getType() {
         return type;
     }

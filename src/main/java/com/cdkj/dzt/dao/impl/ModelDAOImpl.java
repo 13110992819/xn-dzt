@@ -13,12 +13,12 @@ public class ModelDAOImpl extends AMybatisTemplate implements IModelDAO {
 
     @Override
     public int insert(Model data) {
-        return 0;// super.insert(NAMESPACE.concat("insert_model"), data);
+        return super.insert(NAMESPACE.concat("insert_model"), data);
     }
 
     @Override
     public int delete(Model data) {
-        return 0;// super.delete(NAMESPACE.concat("delete_model"), data);
+        return super.delete(NAMESPACE.concat("delete_model"), data);
     }
 
     @Override
@@ -48,6 +48,16 @@ public class ModelDAOImpl extends AMybatisTemplate implements IModelDAO {
     @Override
     public int update(Model data) {
         return super.update(NAMESPACE.concat("update_model"), data);
+    }
+
+    @Override
+    public int putOn(Model data) {
+        return super.update(NAMESPACE.concat("update_putOn"), data);
+    }
+
+    @Override
+    public int putOff(Model data) {
+        return super.update(NAMESPACE.concat("update_putOff"), data);
     }
 
 }

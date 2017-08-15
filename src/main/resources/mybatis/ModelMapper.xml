@@ -4,19 +4,35 @@
 <mapper namespace="com.cdkj.dzt.dao.IModelDAO">
 	<resultMap id="model_DB_Result" type="model">
 		<result column="code" property="code" />
+		<result column="type" property="type" />
 		<result column="name" property="name" />
 		<result column="pic" property="pic" />
-		<result column="price" property="price" />
-		<result column="create_datetime" property="createDatetime" />
+		<result column="adv_pic" property="advPic" />
 		
+		<result column="description" property="description" />
+		<result column="loss" property="loss" />
+		<result column="process_fee" property="processFee" />
+		<result column="price" property="price" />
+		<result column="location" property="location" />
+		
+		<result column="order_no" property="orderNo" />
+		<result column="status" property="status" />
+		<result column="create_datetime" property="createDatetime" />
 		<result column="updater" property="updater" />
 		<result column="update_datetime" property="updateDatetime" />
+		
 		<result column="remark" property="remark" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
+			</if>
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
 			</if>
 			<if test="name != null and name != '' ">
 				AND t.name like "%"#{name}"%"
@@ -29,12 +45,23 @@
 	<select id="select_model" parameterType="model" resultMap="model_DB_Result">
 		SELECT
 		t.code
+		,t.type
 		,t.name
 		,t.pic
+		,t.adv_pic
+		
+		,t.description
+		,t.loss
+		,t.process_fee
 		,t.price
+		,t.location
+		
+		,t.order_no
+		,t.status
 		,t.create_datetime
 		,t.updater
 		,t.update_datetime
+		
 		,t.remark
 		FROM
 		tdzt_model t
@@ -52,17 +79,97 @@
 		<include refid="where_condition" />
 	</select>
 
+	<insert id="insert_model" parameterType="model">
+		insert into 
+		tdzt_model(
+		code
+		,type
+		,name
+		,pic
+		,adv_pic
+		
+		,description
+		,loss
+		,process_fee
+		,price
+		
+		,status
+		,create_datetime
+		,updater
+		,update_datetime
+		
+		,remark
+		)
+		set(
+		#{code}
+		,#{type}
+		,#{name}
+		,#{pic}
+		,#{advPic}
+		
+		,#{description}
+		,#{loss}
+		,#{processFee}
+		,#{price}
+		
+		,#{status}
+		,#{createDatetime}
+		,#{updater}
+		,#{updateDatetime}
+		
+		,#{remark}
+		)
+	</insert>
+
 	<update id="update_model" parameterType="model">
 		UPDATE tdzt_model
 		SET
-		name = #{name}
-		,pic = #{pic}
-		,price = #{price}
-		,updater = #{updater}
-		,update_datetime = #{updateDatetime}
-		,remark = #{remark}
+		type=#{type}
+		,name=#{name}
+		,pic=#{pic}
+		,adv_pic=#{advPic}
+		
+		,description=#{description}
+		,loss=#{loss}
+		,process_fee=#{processFee}
+		,price=#{price}
+		
+		,status=#{status}
+		,create_datetime=#{createDatetime}
+		,updater=#{updater}
+		,update_datetime=#{updateDatetime}
+		
+		,remark=#{remark}
 		WHERE code = #{code}
 	</update>
 
-
+	<update id="update_putOn" parameterType="model">
+		UPDATE tdzt_model
+		SET
+		location=#{location}
+		,order_no=#{orderNo}
+		,status=#{status}
+		,updater=#{updater}
+		,update_datetime=#{updateDatetime}
+		
+		,remark=#{remark}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_putOff" parameterType="model">
+		UPDATE tdzt_model
+		SET
+		status=#{status}
+		,updater=#{updater}
+		,update_datetime=#{updateDatetime}
+		
+		,remark=#{remark}
+		WHERE code = #{code}
+	</update>
+	
+	<delete id="delete_model" parameterType="model">
+		delete tdzt_model
+		where 
+		code=#{code}
+	</delete>
 </mapper>

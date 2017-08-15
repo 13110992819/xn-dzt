@@ -52,4 +52,6 @@ public interface IOrderBO extends IPaginableBO<Order> {
     // 订单数据是否完整
     public void checkInfoFull(Order order);
 
+    public Long getTotalCount(String userId, EOrderStatus status);
+
 }

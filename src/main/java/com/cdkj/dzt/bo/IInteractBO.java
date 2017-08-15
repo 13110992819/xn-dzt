@@ -4,28 +4,24 @@ import java.util.List;
 
 import com.cdkj.dzt.bo.base.IPaginableBO;
 import com.cdkj.dzt.domain.Interact;
-
-
+import com.cdkj.dzt.enums.EInteractCategory;
+import com.cdkj.dzt.enums.EInteractType;
 
 public interface IInteractBO extends IPaginableBO<Interact> {
 
+    public boolean isInteractExist(String code);
 
-	public boolean isInteractExist(String code);
+    public String saveInteract(Interact data);
 
+    public int removeInteract(String code);
 
-	public String saveInteract(Interact data);
+    public int refreshInteract(Interact data);
 
+    public List<Interact> queryInteractList(Interact condition);
 
-	public int removeInteract(String code);
+    public Interact getInteract(String code);
 
-
-	public int refreshInteract(Interact data);
-
-
-	public List<Interact> queryInteractList(Interact condition);
-
-
-	public Interact getInteract(String code);
-
+    public Long getTotalCount(EInteractCategory category, EInteractType type,
+            String code, String userId);
 
 }

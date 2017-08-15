@@ -8,4 +8,8 @@ public interface IModelDAO extends IBaseDAO<Model> {
     String NAMESPACE = IModelDAO.class.getName().concat(".");
 
     public int update(Model data);
+
+    public int putOn(Model data);
+
+    public int putOff(Model data);
 }

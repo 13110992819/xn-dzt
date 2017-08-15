@@ -1,34 +1,33 @@
 package com.cdkj.dzt.api.impl;
 
-import com.cdkj.dzt.ao.IModelAO;
+import com.cdkj.dzt.ao.ICraftAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
-import com.cdkj.dzt.domain.Model;
-import com.cdkj.dzt.dto.req.XN620007Req;
+import com.cdkj.dzt.core.StringValidater;
+import com.cdkj.dzt.dto.req.XN620042Req;
+import com.cdkj.dzt.dto.res.BooleanRes;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
-/**
- * 列表获取型号
+/** 
+ * 修改工艺
  * @author: asus 
  * @since: 2017年4月14日 下午3:15:23 
  * @history:
  */
-public class XN620007 extends AProcessor {
-    private IModelAO modelAO = SpringContextHolder.getBean(IModelAO.class);
+public class XN620042 extends AProcessor {
+    private ICraftAO craftAO = SpringContextHolder.getBean(ICraftAO.class);
 
-    private XN620007Req req = null;
+    private XN620042Req req = null;
 
     /** 
      * @see com.cdkj.dzt.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        Model condition = new Model();
-        condition.setName(req.getName());
-        condition.setUpdater(req.getUpdater());
-        return modelAO.queryModelList(condition);
+        craftAO.editCraft(req);
+        return new BooleanRes(true);
     }
 
     /** 
@@ -36,7 +35,8 @@ public class XN620007 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN620007Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN620042Req.class);
+        StringValidater.validateBlank(req.getCode(), req.getName());
     }
 
 }

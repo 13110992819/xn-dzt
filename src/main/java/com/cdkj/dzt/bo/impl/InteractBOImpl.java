@@ -12,6 +12,8 @@ import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.dao.IInteractDAO;
 import com.cdkj.dzt.domain.Interact;
 import com.cdkj.dzt.enums.EGeneratePrefix;
+import com.cdkj.dzt.enums.EInteractCategory;
+import com.cdkj.dzt.enums.EInteractType;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
@@ -80,5 +82,16 @@ public class InteractBOImpl extends PaginableBOImpl<Interact> implements
             }
         }
         return data;
+    }
+
+    @Override
+    public Long getTotalCount(EInteractCategory category, EInteractType type,
+            String code, String userId) {
+        Interact condition = new Interact();
+        condition.setCategory(category.getCode());
+        condition.setType(type.getCode());
+        condition.setObjectCode(code);
+        condition.setOperator(userId);
+        return interactDAO.selectTotalCount(condition);
     }
 }

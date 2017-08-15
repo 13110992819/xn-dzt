@@ -4,18 +4,29 @@ import java.util.List;
 
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Craft;
+import com.cdkj.dzt.dto.req.XN620040Req;
+import com.cdkj.dzt.dto.req.XN620042Req;
+import com.cdkj.dzt.dto.res.XN620053Res;
 
 public interface ICraftAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public void editModelSpecs(String code, String name, String pic,
-            Integer orderNo, String remark);
+    public String addCraft(XN620040Req req);
 
-    public Paginable<Craft> queryModelSpecsPage(int start, int limit,
-            Craft condition);
+    public void dropCraft(String code);
 
-    public List<Craft> queryModelSpecsList(Craft condition);
+    public void editCraft(XN620042Req req);
 
-    public Craft getModelSpecs(String code);
+    public void putOn(String code, String location, String orderNo,
+            String updater, String remark);
 
+    public void putOff(String code, String updater, String remark);
+
+    public Paginable<Craft> queryCraftPage(int start, int limit, Craft condition);
+
+    public List<Craft> queryCraftList(Craft condition);
+
+    public Craft getCraft(String code);
+
+    public XN620053Res getCraft(String code, String userId);
 }

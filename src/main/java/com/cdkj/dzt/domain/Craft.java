@@ -26,8 +26,11 @@ public class Craft extends ABaseDO {
     // 缩率图
     private String pic;
 
-    // 广告图
-    private String advPic;
+    // 工艺费
+    private Long price;
+
+    // UI位置
+    private String location;
 
     // 次序
     private Integer orderNo;
@@ -81,14 +84,6 @@ public class Craft extends ABaseDO {
 
     public void setPic(String pic) {
         this.pic = pic;
-    }
-
-    public String getAdvPic() {
-        return advPic;
-    }
-
-    public void setAdvPic(String advPic) {
-        this.advPic = advPic;
     }
 
     public Integer getOrderNo() {
@@ -145,6 +140,22 @@ public class Craft extends ABaseDO {
 
     public void setModel(Model model) {
         this.model = model;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
 }

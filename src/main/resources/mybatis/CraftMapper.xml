@@ -7,8 +7,9 @@
 		<result column="type" property="type" />
 		<result column="name" property="name" />
 		<result column="pic" property="pic" />
-		<result column="adv_pic" property="advPic" />
+		<result column="price" property="price" />
 		
+		<result column="location" property="location" />
 		<result column="order_no" property="orderNo" />
 		<result column="status" property="status"/>
 		<result column="updater" property="updater"/>
@@ -32,6 +33,9 @@
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>
+			<if test="location != null and location != '' ">
+				AND t.location = #{location}
+			</if>
 			<if test="modelCode != null and modelCode != '' ">
 				AND t.model_code = #{modelCode}
 			</if>
@@ -44,12 +48,14 @@
 		,t.type
 		,t.name
 		,t.pic
-		,t.adv_pic
+		,t.price
 		
+		,t.location
 		,t.order_no
 		,t.status
 		,t.updater
 		,t.update_datetime
+		
 		,t.remark
 		,t.model_code
 		,tm.name model_name
@@ -71,10 +77,8 @@
 		type = #{type}
 		,name = #{name}
 		,pic = #{pic}
-		,adv_pic = #{advPic}
-		,order_no = #{orderNo}
-		
-		,status = #{status}
+		,price = #{price}
+
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}
@@ -82,5 +86,34 @@
 		WHERE code = #{code}
 	</update>
 
+	<update id="update_putOn" parameterType="craft">
+		UPDATE tdzt_craft
+		SET
+		location=#{location}
+		,order_no=#{orderNo}
+		,status=#{status}
+		,updater=#{updater}
+		,update_datetime=#{updateDatetime}
+		
+		,remark=#{remark}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_putOff" parameterType="craft">
+		UPDATE tdzt_craft
+		SET
+		status=#{status}
+		,updater=#{updater}
+		,update_datetime=#{updateDatetime}
+		
+		,remark=#{remark}
+		WHERE code = #{code}
+	</update>
+	
+	<delete id="delete_craft" parameterType="craft">
+		delete tdzt_craft
+		where 
+		code=#{code}
+	</delete>
 
 </mapper>

@@ -1,12 +1,12 @@
 package com.cdkj.dzt.dto.req;
 
 /**
- * 详情获取型号规格
+ * 删除工艺
  * @author: asus 
  * @since: 2017年4月14日 下午3:24:11 
  * @history:
  */
-public class XN620056Req {
+public class XN620041Req {
 
     // 编号(必填)
     private String code;

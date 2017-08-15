@@ -1,5 +1,6 @@
 package com.cdkj.dzt.bo.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,46 +12,47 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.ICraftBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
+import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.dao.ICraftDAO;
 import com.cdkj.dzt.domain.Craft;
+import com.cdkj.dzt.enums.EStatus;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
-public class CraftBOImpl extends PaginableBOImpl<Craft> implements
-        ICraftBO {
+public class CraftBOImpl extends PaginableBOImpl<Craft> implements ICraftBO {
 
     @Autowired
-    private ICraftDAO modelSpecsDAO;
+    private ICraftDAO craftDAO;
 
     @Override
-    public void refreshModelSpecs(String code, String name, String pic,
-            Integer orderNo, String remark) {
-        if (StringUtils.isNotBlank(code)) {
-            Craft data = new Craft();
-            data.setCode(code);
-            data.setName(name);
-            data.setPic(pic);
-            data.setOrderNo(orderNo);
-            data.setRemark(remark);
-            modelSpecsDAO.update(data);
-        }
-
+    public void saveCraft(Craft data) {
+        craftDAO.insert(data);
     }
 
     @Override
-    public List<Craft> queryModelSpecsList(Craft condition) {
-        return modelSpecsDAO.selectList(condition);
+    public void dropCraft(Craft data) {
+        craftDAO.delete(data);
     }
 
     @Override
-    public Craft getModelSpecs(String code) {
+    public void refreshCraft(Craft data) {
+        craftDAO.update(data);
+    }
+
+    @Override
+    public List<Craft> queryCraftList(Craft condition) {
+        return craftDAO.selectList(condition);
+    }
+
+    @Override
+    public Craft getCraft(String code) {
         Craft data = null;
         if (StringUtils.isNotBlank(code)) {
             Craft condition = new Craft();
             condition.setCode(code);
-            data = modelSpecsDAO.select(condition);
+            data = craftDAO.select(condition);
             if (data == null) {
-                throw new BizException("xn0000", "不存在该产品规格");
+                throw new BizException("xn0000", "不存在该工艺");
             }
         }
         return data;
@@ -60,7 +62,7 @@ public class CraftBOImpl extends PaginableBOImpl<Craft> implements
     public Map<String, Craft> getMap() {
         Map<String, Craft> map = null;
         Craft condtion = new Craft();
-        List<Craft> list = this.queryModelSpecsList(condtion);
+        List<Craft> list = this.queryCraftList(condtion);
         if (CollectionUtils.isNotEmpty(list)) {
             map = new HashMap<String, Craft>();
             for (Craft ele : list) {
@@ -69,4 +71,26 @@ public class CraftBOImpl extends PaginableBOImpl<Craft> implements
         }
         return map;
     }
+
+    @Override
+    public void putOn(Craft data, String location, String orderNo,
+            String updater, String remark) {
+        data.setStatus(EStatus.PUT_ON.getCode());
+        data.setLocation(location);
+        data.setOrderNo(StringValidater.toInteger(orderNo));
+        data.setUpdater(updater);
+        data.setUpdateDatetime(new Date());
+        data.setRemark(remark);
+        craftDAO.putOn(data);
+    }
+
+    @Override
+    public void putOff(Craft data, String updater, String remark) {
+        data.setStatus(EStatus.PUT_OFF.getCode());
+        data.setUpdater(updater);
+        data.setUpdateDatetime(new Date());
+        data.setRemark(remark);
+        craftDAO.putOff(data);
+    }
+
 }

@@ -8,18 +8,23 @@
  */
 package com.cdkj.dzt.dto.req;
 
-
 /** 
  * @author: haiqingzheng 
  * @since: 2017年4月14日 下午2:51:51 
  * @history:
  */
-public class XN620005Req extends APageReq {
+public class XN620010Req extends APageReq {
 
     private static final long serialVersionUID = 6269722921688841847L;
 
     // 名称（选填）
     private String name;
+
+    // 类型
+    private String type;
+
+    // 状态
+    private String status;
 
     // 更新人（选填）
     private String updater;
@@ -38,6 +43,22 @@ public class XN620005Req extends APageReq {
 
     public void setUpdater(String updater) {
         this.updater = updater;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

@@ -7,13 +7,20 @@ import com.cdkj.dzt.bo.base.IPaginableBO;
 import com.cdkj.dzt.domain.Craft;
 
 public interface ICraftBO extends IPaginableBO<Craft> {
+    public void saveCraft(Craft data);
 
-    public void refreshModelSpecs(String code, String name, String pic,
-            Integer orderNo, String remark);
+    public void dropCraft(Craft data);
 
-    public List<Craft> queryModelSpecsList(Craft condition);
+    public void refreshCraft(Craft data);
 
-    public Craft getModelSpecs(String code);
+    public void putOn(Craft data, String location, String orderNo,
+            String updater, String remark);
+
+    public void putOff(Craft data, String updater, String remark);
+
+    public List<Craft> queryCraftList(Craft condition);
+
+    public Craft getCraft(String code);
 
     public Map<String, Craft> getMap();
 

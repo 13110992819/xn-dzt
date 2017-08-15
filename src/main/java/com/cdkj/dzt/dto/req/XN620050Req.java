@@ -1,17 +1,17 @@
 package com.cdkj.dzt.dto.req;
 
 /**
- * 列表获取工艺
+ * 分页获取工艺
  * @author: asus 
  * @since: 2017年4月14日 下午3:24:11 
  * @history:
  */
-public class XN620052Req extends APageReq {
+public class XN620050Req extends APageReq {
 
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
      */
-    private static final long serialVersionUID = 2948107036782765799L;
+    private static final long serialVersionUID = 2980650736065248024L;
 
     // 类型(选填)
     private String type;
