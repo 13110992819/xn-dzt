@@ -185,7 +185,8 @@
 	</update>
 	
 	<delete id="delete_cloth" parameterType="cloth">
-		delete tdzt_cloth
+		DELETE FROM
+		tdzt_cloth
 		where 
 		code=#{code}
 	</delete>

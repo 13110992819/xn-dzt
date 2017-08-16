@@ -24,6 +24,12 @@ public class XN620200Req {
     // 下单人手机号（必填）
     private String applyMobile;
 
+    // 身高（必填）
+    private String height;
+
+    // 体重（必填）
+    private String weight;
+
     // 量体时间（必填）
     private String ltDatetime;
 
@@ -134,6 +140,22 @@ public class XN620200Req {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
 }

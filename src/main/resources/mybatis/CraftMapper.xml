@@ -138,7 +138,8 @@
 	</update>
 	
 	<delete id="delete_craft" parameterType="craft">
-		delete tdzt_craft
+		DELETE FROM
+		tdzt_craft
 		where 
 		code=#{code}
 	</delete>

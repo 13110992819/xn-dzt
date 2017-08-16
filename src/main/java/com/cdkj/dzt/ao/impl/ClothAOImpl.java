@@ -62,6 +62,7 @@ public class ClothAOImpl implements IClothAO {
         data.setAdvPic(req.getAdvPic());
         data.setColor(req.getColor());
         data.setFlowers(req.getFlowers());
+        data.setForm(req.getForm());
         data.setWeight(StringValidater.toInteger(req.getWeight()));
         data.setYarn(req.getYarn());
 
@@ -94,6 +95,7 @@ public class ClothAOImpl implements IClothAO {
         data.setAdvPic(req.getAdvPic());
         data.setColor(req.getColor());
         data.setFlowers(req.getFlowers());
+        data.setForm(req.getForm());
         data.setWeight(StringValidater.toInteger(req.getWeight()));
         data.setYarn(req.getYarn());
 

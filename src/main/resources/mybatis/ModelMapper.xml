@@ -168,7 +168,8 @@
 	</update>
 	
 	<delete id="delete_model" parameterType="model">
-		delete tdzt_model
+		DELETE FROM
+		tdzt_model
 		where 
 		code=#{code}
 	</delete>
