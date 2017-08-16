@@ -1,5 +1,6 @@
 package com.cdkj.dzt.bo.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -8,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IClothBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
-import com.cdkj.dzt.core.OrderNoGenerater;
+import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.dao.IClothDAO;
 import com.cdkj.dzt.domain.Cloth;
-import com.cdkj.dzt.enums.EGeneratePrefix;
+import com.cdkj.dzt.enums.EStatus;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
@@ -31,34 +32,39 @@ public class ClothBOImpl extends PaginableBOImpl<Cloth> implements IClothBO {
     }
 
     @Override
-    public String saveCloth(Cloth data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater.generateM(EGeneratePrefix.CLOTH.getCode());
-            data.setCode(code);
-            clothDAO.insert(data);
-        }
-        return code;
+    public void saveCloth(Cloth data) {
+        clothDAO.insert(data);
     }
 
     @Override
-    public int removeCloth(String code) {
-        int count = 0;
-        if (StringUtils.isNotBlank(code)) {
-            Cloth data = new Cloth();
-            data.setCode(code);
-            count = clothDAO.delete(data);
-        }
-        return count;
+    public void removeCloth(Cloth data) {
+        clothDAO.delete(data);
     }
 
     @Override
-    public int refreshCloth(Cloth data) {
-        int count = 0;
-        if (StringUtils.isNotBlank(data.getCode())) {
-            count = clothDAO.update(data);
-        }
-        return count;
+    public void refreshCloth(Cloth data) {
+        clothDAO.update(data);
+    }
+
+    @Override
+    public void putOn(Cloth data, String location, String orderNo,
+            String updater, String remark) {
+        data.setStatus(EStatus.PUT_ON.getCode());
+        data.setLocation(location);
+        data.setOrderNo(StringValidater.toInteger(orderNo));
+        data.setUpdater(updater);
+        data.setUpdateDatetime(new Date());
+        data.setRemark(remark);
+        clothDAO.putOn(data);
+    }
+
+    @Override
+    public void putOff(Cloth data, String updater, String remark) {
+        data.setStatus(EStatus.PUT_OFF.getCode());
+        data.setUpdater(updater);
+        data.setUpdateDatetime(new Date());
+        data.setRemark(remark);
+        clothDAO.putOff(data);
     }
 
     @Override
@@ -79,4 +85,5 @@ public class ClothBOImpl extends PaginableBOImpl<Cloth> implements IClothBO {
         }
         return data;
     }
+
 }

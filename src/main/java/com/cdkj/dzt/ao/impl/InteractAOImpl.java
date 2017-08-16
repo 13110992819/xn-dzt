@@ -8,10 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdkj.dzt.ao.IInteractAO;
+import com.cdkj.dzt.bo.IArticleBO;
+import com.cdkj.dzt.bo.IClothBO;
+import com.cdkj.dzt.bo.ICraftBO;
 import com.cdkj.dzt.bo.IInteractBO;
+import com.cdkj.dzt.bo.IModelBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
+import com.cdkj.dzt.domain.Article;
+import com.cdkj.dzt.domain.Cloth;
+import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Interact;
+import com.cdkj.dzt.domain.Model;
+import com.cdkj.dzt.dto.res.XN620136Res;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
 import com.cdkj.dzt.enums.EInteractType;
@@ -22,6 +31,18 @@ public class InteractAOImpl implements IInteractAO {
 
     @Autowired
     private IInteractBO interactBO;
+
+    @Autowired
+    private IModelBO modelBO;
+
+    @Autowired
+    private ICraftBO craftBO;
+
+    @Autowired
+    private IClothBO clothBO;
+
+    @Autowired
+    private IArticleBO articleBO;
 
     @Override
     public String addInteract(String objectCode, String operator) {
@@ -78,7 +99,27 @@ public class InteractAOImpl implements IInteractAO {
     }
 
     @Override
-    public Interact getInteract(String code) {
-        return interactBO.getInteract(code);
+    public XN620136Res getInteract(String code) {
+        XN620136Res res = new XN620136Res();
+        Interact interact = interactBO.getInteract(code);
+        String objectCode = interact.getObjectCode();
+        if (EInteractCategory.ARTICLE.getCode().equals(interact.getCategory())) {
+            Article article = articleBO.getArticle(objectCode);
+            res.setArticle(article);
+        }
+        if (EInteractCategory.MODEL.getCode().equals(interact.getCategory())) {
+            Model model = modelBO.getModel(objectCode);
+            res.setModel(model);
+        }
+        if (EInteractCategory.CLOTH.getCode().equals(interact.getCategory())) {
+            Cloth cloth = clothBO.getCloth(objectCode);
+            res.setCloth(cloth);
+        }
+        if (EInteractCategory.CRAFT.getCode().equals(interact.getCategory())) {
+            Craft craft = craftBO.getCraft(objectCode);
+            res.setCraft(craft);
+        }
+        res.setInteract(interact);
+        return res;
     }
 }

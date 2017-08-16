@@ -1,6 +1,5 @@
 package com.cdkj.dzt.dto.req;
 
-
 /**
  * 评论
  * @author: asus 
@@ -15,8 +14,8 @@ public class XN6201600Req {
     // 评论人（必填）
     private String commer;
 
-    // 订单编号（必填）
-    private String orderCode;
+    // 产品/文章编号（必填）
+    private String parentCode;
 
     public String getContent() {
         return content;
@@ -34,11 +33,12 @@ public class XN6201600Req {
         this.commer = commer;
     }
 
-    public String getOrderCode() {
-        return orderCode;
+    public String getParentCode() {
+        return parentCode;
     }
 
-    public void setOrderCode(String orderCode) {
-        this.orderCode = orderCode;
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
     }
+
 }

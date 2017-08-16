@@ -42,7 +42,7 @@
 			
 		</trim>
 	</sql>
-	<select id="select_craft" parameterType="craft" resultMap="modelSpecs_DB_Result">
+	<select id="select_craft" parameterType="craft" resultMap="craft_DB_Result">
 		SELECT
 		t.code
 		,t.type
@@ -67,9 +67,36 @@
 
 	<select id="select_craft_count" parameterType="craft"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM craft t
+		SELECT count(1) FROM tdzt_craft t
 		<include refid="where_condition" />
 	</select>
+
+	<insert id="insert_craft" parameterType="craft">
+	INSERT INTO 
+	tdzt_craft
+        (code,
+         type,
+         name,
+         pic,
+         price,
+         status,
+         updater,
+         update_datetime,
+         remark,
+         model_code)
+	VALUES (
+	  #{code}
+     ,#{type}
+     ,#{name}
+     ,#{pic}
+     ,#{price}
+     ,#{status}
+     ,#{updater}
+     ,#{updateDatetime}
+     ,#{remark}
+     ,#{modelCode}
+     );
+	</insert>
 
 	<update id="update_craft" parameterType="craft">
 		UPDATE tdzt_craft

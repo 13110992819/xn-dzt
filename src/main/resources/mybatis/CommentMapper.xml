@@ -61,7 +61,7 @@
 		,t.top_code
 		,t.parent_code
 		FROM
-		tstd_comment t
+		tdzt_comment t
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -72,13 +72,13 @@
 
 	<select id="select_comment_count" parameterType="comment"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tstd_comment t
+		SELECT count(1) FROM tdzt_comment t
 		<include refid="where_condition" />
 	</select>
 
 	<insert id="insert_comment" parameterType="comment">
 		INSERT INTO
-		tstd_comment(
+		tdzt_comment(
 		code
 		,type
 		,content
@@ -107,7 +107,7 @@
 	</insert>
 
 	<update id="update_comment" parameterType="comment">
-		UPDATE tstd_comment
+		UPDATE tdzt_comment
 		SET
 		content = #{content}
 		,type = #{type}
@@ -123,7 +123,7 @@
 	</update>
 
 	<update id="update_approve" parameterType="comment">
-		UPDATE tstd_comment
+		UPDATE tdzt_comment
 		SET
 		status = #{status}
 		,approver = #{approver}

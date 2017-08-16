@@ -1,5 +1,7 @@
 package com.cdkj.dzt.domain;
 
+import java.util.Date;
+
 import com.cdkj.dzt.dao.base.ABaseDO;
 
 /**
@@ -10,226 +12,215 @@ import com.cdkj.dzt.dao.base.ABaseDO;
 */
 public class Cloth extends ABaseDO {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// 编号
-	private String code;
+    // 编号
+    private String code;
 
-	// 类型
-	private String type;
+    // 类型
+    private String type;
 
-	// 品牌
-	private String brand;
+    // 品牌
+    private String brand;
 
-	// 类别
-	private String category;
+    // 规格编号
+    private String modelNum;
 
-	// 规格编号
-	private String modelNum;
+    // 缩率图
+    private String pic;
 
-	// 缩率图
-	private String pic;
+    // 广告图
+    private String advPic;
 
-	// 广告图
-	private String advPic;
+    // 色系
+    private String color;
 
-	// 色系
-	private String color;
+    // 花色
+    private String flowers;
 
-	// 花色
-	private String flowers;
+    // 成分
+    private String form;
 
-	// 成分
-	private String form;
+    // 重量
+    private Integer weight;
 
-	// 重量
-	private String weight;
+    // 纱支
+    private String yarn;
 
-	// 纱支
-	private String yarn;
+    // 价格
+    private Long price;
 
-	// 价格
-	private String price;
+    // UI位置
+    private String location;
 
-	// UI位置
-	private String location;
+    // UI顺序
+    private Integer orderNo;
 
-	// UI顺序
-	private String orderNo;
+    // 状态
+    private String status;
 
-	// 状态
-	private String status;
+    // 更新人
+    private String updater;
 
-	// 更新人
-	private String updater;
+    // 更新时间
+    private Date updateDatetime;
 
-	// 更新时间
-	private String updateDatetime;
+    // 备注
+    private String remark;
 
-	// 备注
-	private String remark;
+    // 模型编号
+    private String modelCode;
 
-	// 模型编号
-	private String modelCode;
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
+    public String getBrand() {
+        return brand;
+    }
 
-	public String getBrand() {
-		return brand;
-	}
+    public void setModelNum(String modelNum) {
+        this.modelNum = modelNum;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public String getModelNum() {
+        return modelNum;
+    }
 
-	public String getCategory() {
-		return category;
-	}
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
 
-	public void setModelNum(String modelNum) {
-		this.modelNum = modelNum;
-	}
+    public String getPic() {
+        return pic;
+    }
 
-	public String getModelNum() {
-		return modelNum;
-	}
+    public void setAdvPic(String advPic) {
+        this.advPic = advPic;
+    }
 
-	public void setPic(String pic) {
-		this.pic = pic;
-	}
+    public String getAdvPic() {
+        return advPic;
+    }
 
-	public String getPic() {
-		return pic;
-	}
+    public void setColor(String color) {
+        this.color = color;
+    }
 
-	public void setAdvPic(String advPic) {
-		this.advPic = advPic;
-	}
+    public String getColor() {
+        return color;
+    }
 
-	public String getAdvPic() {
-		return advPic;
-	}
+    public void setFlowers(String flowers) {
+        this.flowers = flowers;
+    }
 
-	public void setColor(String color) {
-		this.color = color;
-	}
+    public String getFlowers() {
+        return flowers;
+    }
 
-	public String getColor() {
-		return color;
-	}
+    public void setForm(String form) {
+        this.form = form;
+    }
 
-	public void setFlowers(String flowers) {
-		this.flowers = flowers;
-	}
+    public String getForm() {
+        return form;
+    }
 
-	public String getFlowers() {
-		return flowers;
-	}
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
 
-	public void setForm(String form) {
-		this.form = form;
-	}
+    public Integer getWeight() {
+        return weight;
+    }
 
-	public String getForm() {
-		return form;
-	}
+    public void setYarn(String yarn) {
+        this.yarn = yarn;
+    }
 
-	public void setWeight(String weight) {
-		this.weight = weight;
-	}
+    public String getYarn() {
+        return yarn;
+    }
 
-	public String getWeight() {
-		return weight;
-	}
+    public void setPrice(Long price) {
+        this.price = price;
+    }
 
-	public void setYarn(String yarn) {
-		this.yarn = yarn;
-	}
+    public Long getPrice() {
+        return price;
+    }
 
-	public String getYarn() {
-		return yarn;
-	}
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-	public void setPrice(String price) {
-		this.price = price;
-	}
+    public String getLocation() {
+        return location;
+    }
 
-	public String getPrice() {
-		return price;
-	}
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
+    }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public Integer getOrderNo() {
+        return orderNo;
+    }
 
-	public String getLocation() {
-		return location;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public void setOrderNo(String orderNo) {
-		this.orderNo = orderNo;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public String getOrderNo() {
-		return orderNo;
-	}
+    public void setUpdater(String updater) {
+        this.updater = updater;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getUpdater() {
+        return updater;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public void setUpdateDatetime(Date updateDatetime) {
+        this.updateDatetime = updateDatetime;
+    }
 
-	public void setUpdater(String updater) {
-		this.updater = updater;
-	}
+    public Date getUpdateDatetime() {
+        return updateDatetime;
+    }
 
-	public String getUpdater() {
-		return updater;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public void setUpdateDatetime(String updateDatetime) {
-		this.updateDatetime = updateDatetime;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public String getUpdateDatetime() {
-		return updateDatetime;
-	}
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setModelCode(String modelCode) {
-		this.modelCode = modelCode;
-	}
-
-	public String getModelCode() {
-		return modelCode;
-	}
+    public String getModelCode() {
+        return modelCode;
+    }
 
 }

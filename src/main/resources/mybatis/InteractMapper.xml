@@ -15,6 +15,18 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="category != null and category != '' ">
+				AND t.category = #{category}
+			</if>
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
+			<if test="object_code != null and object_code != '' ">
+				AND t.object_code = #{objectCode}
+			</if>
+			<if test="operator != null and operator != '' ">
+				AND t.operator = #{operator}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_interact" parameterType="interact" resultMap="interact_DB_Result">

@@ -62,6 +62,7 @@ public class ModelAOImpl implements IModelAO {
         data.setProcessFee(StringValidater.toLong(req.getProcessFee()));
         data.setPrice(StringValidater.toLong(req.getPrice()));
         data.setStatus(EStatus.DRAFT.getCode());
+        data.setCreateDatetime(new Date());
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());

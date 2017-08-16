@@ -12,18 +12,36 @@
 
 	
 	<!-- 分页BO层注入paginableDao -->
-	
-	
-	<bean id="orderBO" class="com.cdkj.dzt.bo.impl.OrderBOImpl">
-		<property name="paginableDAO" ref="orderDAOImpl"/>
+	<bean id="articleBO" class="com.cdkj.dzt.bo.impl.ArticleBOImpl">
+		<property name="paginableDAO" ref="articleDAOImpl"/>
 	</bean>	
+	
+	<bean id="clothBO" class="com.cdkj.dzt.bo.impl.ClothBOImpl">
+		<property name="paginableDAO" ref="clothDAOImpl"/>
+	</bean>	
+	
+	<bean id="commentBO" class="com.cdkj.dzt.bo.impl.CommentBOImpl">
+		<property name="paginableDAO" ref="commentDAOImpl" />
+	</bean>
+	
+	<bean id="craftBO" class="com.cdkj.dzt.bo.impl.CraftBOImpl">
+		<property name="paginableDAO" ref="craftDAOImpl"/>
+	</bean>	
+	
+	<bean id="interactBO" class="com.cdkj.dzt.bo.impl.InteractBOImpl">
+		<property name="paginableDAO" ref="interactDAOImpl"/>
+	</bean>	
+	
+	<bean id="keywordBO" class="com.cdkj.dzt.bo.impl.KeywordBOImpl">
+		<property name="paginableDAO" ref="keywordDAOImpl" />
+	</bean>
 	
 	<bean id="modelBO" class="com.cdkj.dzt.bo.impl.ModelBOImpl">
 		<property name="paginableDAO" ref="modelDAOImpl"/>
 	</bean>	
 	
-	<bean id="craftBO" class="com.cdkj.dzt.bo.impl.CraftBOImpl">
-		<property name="paginableDAO" ref="craftDAOImpl"/>
+	<bean id="orderBO" class="com.cdkj.dzt.bo.impl.OrderBOImpl">
+		<property name="paginableDAO" ref="orderDAOImpl"/>
 	</bean>	
 	
 	<bean id="productBO" class="com.cdkj.dzt.bo.impl.ProductBOImpl">
@@ -34,14 +52,6 @@
 		<property name="paginableDAO" ref="productSpecsDAOImpl"/>
 	</bean>	
 	
-	<bean id="clothBO" class="com.cdkj.dzt.bo.impl.ClothBOImpl">
-		<property name="paginableDAO" ref="clothDAOImpl"/>
-	</bean>	
-	
-	<bean id="interactBO" class="com.cdkj.dzt.bo.impl.InteractBOImpl">
-		<property name="paginableDAO" ref="interactDAOImpl"/>
-	</bean>	
-	
 	<bean id="sizeDataBO" class="com.cdkj.dzt.bo.impl.SizeDataBOImpl">
 		<property name="paginableDAO" ref="sizeDataDAOImpl"/>
 	</bean>	
@@ -49,13 +59,6 @@
 	<bean id="swapBO" class="com.cdkj.dzt.bo.impl.SwapBOImpl">
 		<property name="paginableDAO" ref="swapDAOImpl"/>
 	</bean>	
-	
-	<bean id="commentBO" class="com.cdkj.dzt.bo.impl.CommentBOImpl">
-		<property name="paginableDAO" ref="commentDAOImpl" />
-	</bean>
-	<bean id="keywordBO" class="com.cdkj.dzt.bo.impl.KeywordBOImpl">
-		<property name="paginableDAO" ref="keywordDAOImpl" />
-	</bean>
 	
 	<bean id="sysDictBO" class="com.cdkj.dzt.bo.impl.SYSDictBOImpl">
 		<property name="paginableDAO" ref="sysDictDAOImpl" />

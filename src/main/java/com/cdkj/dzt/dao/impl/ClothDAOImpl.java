@@ -50,4 +50,14 @@ public class ClothDAOImpl extends AMybatisTemplate implements IClothDAO {
         return super.update(NAMESPACE.concat("update_cloth"), data);
     }
 
+    @Override
+    public int putOn(Cloth data) {
+        return super.update(NAMESPACE.concat("update_putOn"), data);
+    }
+
+    @Override
+    public int putOff(Cloth data) {
+        return super.update(NAMESPACE.concat("update_putOff"), data);
+    }
+
 }

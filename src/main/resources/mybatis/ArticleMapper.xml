@@ -117,9 +117,9 @@
 	<update id="update_putOn" parameterType="article">
 		UPDATE tdzt_article
 		SET
-		status = #{type}
-		,location = #{title}
-		,order_no = #{pic}
+		status = #{status}
+		,location = #{location}
+		,order_no = #{orderNo}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}
@@ -129,7 +129,7 @@
 	<update id="update_putOff" parameterType="article">
 		UPDATE tdzt_article
 		SET
-		status = #{type}
+		status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}

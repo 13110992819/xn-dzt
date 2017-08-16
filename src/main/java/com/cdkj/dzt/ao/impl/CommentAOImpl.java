@@ -15,6 +15,7 @@ import com.cdkj.dzt.bo.IUserBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Comment;
+import com.cdkj.dzt.dto.res.XN001400Res;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.ECommentStatus;
 import com.cdkj.dzt.enums.EGeneratePrefix;
@@ -38,13 +39,17 @@ public class CommentAOImpl implements ICommentAO {
 
     @Override
     @Transactional
-    public String comment(String content, String commer, String orderCode) {
+    public String comment(String content, String commer, String parentCode) {
         userBO.getRemoteUser(commer);
         // 判断是否含有关键字
         String status = ECommentStatus.PUBLISHED.getCode();
         EReaction result = keywordBO.checkContent(content);
         if (EReaction.REFUSE.getCode().equals(result.getCode())) {
             status = ECommentStatus.FILTERED.getCode();
+        }
+        String topCode = parentCode;
+        if (parentCode.startsWith(EGeneratePrefix.COMMENT.getCode())) {
+            topCode = commentBO.getComment(parentCode).getTopCode();
         }
         Comment data = new Comment();
         String code = OrderNoGenerater.generateME(EGeneratePrefix.COMMENT
@@ -54,6 +59,8 @@ public class CommentAOImpl implements ICommentAO {
         data.setStatus(status);
         data.setCommer(commer);
         data.setCommentDatetime(new Date());
+        data.setParentCode(parentCode);
+        data.setTopCode(topCode);
         commentBO.saveComment(data);
         if (ECommentStatus.FILTERED.getCode().equals(status)) {
             code = code + "; filter";
@@ -90,6 +97,8 @@ public class CommentAOImpl implements ICommentAO {
             condition);
         List<Comment> commentList = page.getList();
         for (Comment comment : commentList) {
+            XN001400Res user = userBO.getRemoteUser(comment.getCommer());
+            comment.setCommerRealName(user.getNickname());
         }
         return page;
     }
@@ -102,6 +111,8 @@ public class CommentAOImpl implements ICommentAO {
     @Override
     public Comment getComment(String code) {
         Comment comment = commentBO.getComment(code);
+        XN001400Res user = userBO.getRemoteUser(comment.getCommer());
+        comment.setCommerRealName(user.getNickname());
         return comment;
     }
 

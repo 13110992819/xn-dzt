@@ -73,7 +73,7 @@ public class OrderAOImpl implements IOrderAO {
     private IModelBO modelBO;
 
     @Autowired
-    private ICraftBO modelSpecsBO;
+    private ICraftBO craftBO;
 
     @Autowired
     private IAccountBO accountBO;
@@ -310,7 +310,7 @@ public class OrderAOImpl implements IOrderAO {
         // 落地量体数据
         productSpecsBO.removeProductSpecs(product.getCode());
         productSpecsBO.inputInforValue(order, product, map);
-        Map<String, Craft> modelSmap = modelSpecsBO.getMap();
+        Map<String, Craft> modelSmap = craftBO.getMap();
         productSpecsBO.inputInforCode(order, product, map, modelSmap);
     }
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Interact;
+import com.cdkj.dzt.dto.res.XN620136Res;
 
 @Component
 public interface IInteractAO {
@@ -22,6 +23,6 @@ public interface IInteractAO {
 
     public List<Interact> queryInteractList(Interact condition);
 
-    public Interact getInteract(String code);
+    public XN620136Res getInteract(String code);
 
 }

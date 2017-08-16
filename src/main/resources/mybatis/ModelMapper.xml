@@ -100,7 +100,7 @@
 		
 		,remark
 		)
-		set(
+		VALUES(
 		#{code}
 		,#{type}
 		,#{name}

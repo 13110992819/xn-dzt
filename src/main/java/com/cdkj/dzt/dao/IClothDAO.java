@@ -8,4 +8,8 @@ public interface IClothDAO extends IBaseDAO<Cloth> {
     String NAMESPACE = IClothDAO.class.getName().concat(".");
 
     int update(Cloth data);
+
+    int putOn(Cloth data);
+
+    int putOff(Cloth data);
 }

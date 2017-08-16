@@ -6,7 +6,6 @@
 		<result column="code" property="code" />
 		<result column="type" property="type" />
 		<result column="brand" property="brand" />
-		<result column="category" property="category" />
 		<result column="model_num" property="modelNum" />
 		<result column="pic" property="pic" />
 		<result column="adv_pic" property="advPic" />
@@ -29,6 +28,36 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
+			<if test="brand != null and brand != '' ">
+				AND t.brand = #{brand}
+			</if>
+			<if test="modelNum != null and modelNum != '' ">
+				AND t.model_num = #{modelNum}
+			</if>
+			<if test="color != null and color != '' ">
+				AND t.color = #{color}
+			</if>
+			<if test="flowers != null and flowers != '' ">
+				AND t.flowers = #{flowers}
+			</if>
+			<if test="form != null and form != '' ">
+				AND t.form = #{form}
+			</if>
+			<if test="yarn != null and yarn != '' ">
+				AND t.yarn = #{yarn}
+			</if>
+			<if test="location != null and location != '' ">
+				AND t.location = #{location}
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
+			</if>
+			<if test="updater != null and updater != '' ">
+				AND t.updater = #{updater}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_cloth" parameterType="cloth" resultMap="cloth_DB_Result">
@@ -36,7 +65,6 @@
 		t.code
 		,t.type
 		,t.brand
-		,t.category
 		,t.model_num
 		,t.pic
 		,t.adv_pic
@@ -75,7 +103,6 @@
 		code
 		,type
 		,brand
-		,category
 		,model_num
 		,pic
 		,adv_pic
@@ -85,8 +112,6 @@
 		,weight
 		,yarn
 		,price
-		,location
-		,order_no
 		,status
 		,updater
 		,update_datetime
@@ -97,7 +122,6 @@
 		#{code}
 		,#{type}
 		,#{brand}
-		,#{category}
 		,#{modelNum}
 		,#{pic}
 		,#{advPic}
@@ -107,8 +131,6 @@
 		,#{weight}
 		,#{yarn}
 		,#{price}
-		,#{location}
-		,#{orderNo}
 		,#{status}
 		,#{updater}
 		,#{updateDatetime}
@@ -122,7 +144,6 @@
 		SET
 		type = #{type}
 		,brand = #{brand}
-		,category = #{category}
 		,model_num = #{modelNum}
 		,pic = #{pic}
 		,adv_pic = #{advPic}
@@ -132,9 +153,6 @@
 		,weight = #{weight}
 		,yarn = #{yarn}
 		,price = #{price}
-		,location = #{location}
-		,order_no = #{orderNo}
-		,status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}
@@ -142,5 +160,34 @@
 		WHERE code = #{code}
 	</update>
 
+	<update id="update_putOn" parameterType="cloth">
+		UPDATE tdzt_cloth
+		SET
+		location=#{location}
+		,order_no=#{orderNo}
+		,status=#{status}
+		,updater=#{updater}
+		,update_datetime=#{updateDatetime}
+		
+		,remark=#{remark}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_putOff" parameterType="cloth">
+		UPDATE tdzt_cloth
+		SET
+		status=#{status}
+		,updater=#{updater}
+		,update_datetime=#{updateDatetime}
+		
+		,remark=#{remark}
+		WHERE code = #{code}
+	</update>
+	
+	<delete id="delete_cloth" parameterType="cloth">
+		delete tdzt_cloth
+		where 
+		code=#{code}
+	</delete>
 
 </mapper>

@@ -25,13 +25,13 @@ public class XN620160 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         return new PKCodeRes(commentAO.comment(req.getContent(),
-            req.getCommer(), req.getOrderCode()));
+            req.getCommer(), req.getParentCode()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN6201600Req.class);
-        StringValidater.validateBlank(req.getOrderCode(), req.getContent(),
+        StringValidater.validateBlank(req.getParentCode(), req.getContent(),
             req.getCommer());
     }
 }
