@@ -17,6 +17,21 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
+			<if test="commenter != null and commenter != '' ">
+				AND t.commenter = #{commenter}
+			</if>
+			<if test="receiver != null and receiver != '' ">
+				AND t.receiver = #{receiver}
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
+			</if>
+			<if test="lookUser != null and lookUser != '' ">
+				AND t.receiver = #{lookUser} OR t.commenter = #{lookUser}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_swap" parameterType="swap" resultMap="swap_DB_Result">
@@ -72,13 +87,7 @@
 	<update id="update_swap" parameterType="swap">
 		UPDATE tdzt_swap
 		SET
-		type = #{type}
-		,commenter = #{commenter}
-		,receiver = #{receiver}
-		,content = #{content}
-		,comment_datetime = #{commentDatetime}
-		,order_no = #{orderNo}
-		,status = #{status}
+		status = #{status}
 		WHERE code = #{code}
 	</update>
 

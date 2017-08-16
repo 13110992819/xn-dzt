@@ -11,11 +11,13 @@ import com.cdkj.dzt.domain.Swap;
 public interface ISwapAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public String addSwap(Swap data);
+    public String addSwap(String type, String commenter, String content);
 
-    public int dropSwap(String code);
+    public String addSwapReply(String commenter, String content, String receiver);
 
-    public int editSwap(Swap data);
+    public void dropSwap(String code);
+
+    public void editSwap(String code, String lookUser);
 
     public Paginable<Swap> querySwapPage(int start, int limit, Swap condition);
 
@@ -23,4 +25,5 @@ public interface ISwapAO {
 
     public Swap getSwap(String code);
 
+    public Paginable<Swap> queryMySwapPage(int start, int limit, Swap condition);
 }

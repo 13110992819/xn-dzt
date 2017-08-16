@@ -8,10 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.ISwapBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
-import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.dao.ISwapDAO;
 import com.cdkj.dzt.domain.Swap;
-import com.cdkj.dzt.enums.EGeneratePrefix;
+import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
@@ -31,34 +30,23 @@ public class SwapBOImpl extends PaginableBOImpl<Swap> implements ISwapBO {
     }
 
     @Override
-    public String saveSwap(Swap data) {
-        String code = null;
-        if (data != null) {
-            code = OrderNoGenerater.generateM(EGeneratePrefix.SWAP.getCode());
-            data.setCode(code);
-            swapDAO.insert(data);
-        }
-        return code;
+    public void saveSwap(Swap data) {
+        swapDAO.insert(data);
     }
 
     @Override
-    public int removeSwap(String code) {
-        int count = 0;
+    public void removeSwap(String code) {
         if (StringUtils.isNotBlank(code)) {
             Swap data = new Swap();
             data.setCode(code);
-            count = swapDAO.delete(data);
+            swapDAO.delete(data);
         }
-        return count;
     }
 
     @Override
-    public int refreshSwap(Swap data) {
-        int count = 0;
-        if (StringUtils.isNotBlank(data.getCode())) {
-            count = swapDAO.update(data);
-        }
-        return count;
+    public void refreshSwap(Swap data) {
+        data.setStatus(EBoolean.YES.getCode());
+        swapDAO.update(data);
     }
 
     @Override
@@ -78,5 +66,12 @@ public class SwapBOImpl extends PaginableBOImpl<Swap> implements ISwapBO {
             }
         }
         return data;
+    }
+
+    @Override
+    public Long getTotalCount(String lookUser) {
+        Swap condition = new Swap();
+        condition.setLookUser(lookUser);
+        return swapDAO.selectTotalCount(condition);
     }
 }

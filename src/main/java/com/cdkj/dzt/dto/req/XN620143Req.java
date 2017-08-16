@@ -7,8 +7,11 @@ package com.cdkj.dzt.dto.req;
  * @history:
  */
 public class XN620143Req {
-    // 编号
+    // 编号(必填)
     private String code;
+
+    // 查看人(必填)
+    private String lookUser;
 
     public String getCode() {
         return code;
@@ -16,6 +19,14 @@ public class XN620143Req {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getLookUser() {
+        return lookUser;
+    }
+
+    public void setLookUser(String lookUser) {
+        this.lookUser = lookUser;
     }
 
 }

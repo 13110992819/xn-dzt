@@ -1,5 +1,7 @@
 package com.cdkj.dzt.domain;
 
+import java.util.Date;
+
 import com.cdkj.dzt.dao.base.ABaseDO;
 
 /**
@@ -10,94 +12,128 @@ import com.cdkj.dzt.dao.base.ABaseDO;
 */
 public class Swap extends ABaseDO {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// 编号
-	private String code;
+    // 编号
+    private String code;
 
-	// 类型
-	private String type;
+    // 类型
+    private String type;
 
-	// 留言人
-	private String commenter;
+    // 留言人
+    private String commenter;
 
-	// 接收人
-	private String receiver;
+    // 接收人
+    private String receiver;
 
-	// 留言内容
-	private String content;
+    // 留言内容
+    private String content;
 
-	// 留言时间
-	private String commentDatetime;
+    // 留言时间
+    private Date commentDatetime;
 
-	// 次序
-	private String orderNo;
+    // 次序
+    private Integer orderNo;
 
-	// 状态
-	private String status;
+    // 状态
+    private String status;
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    // ***************DB************
+    // 查看人
+    private String lookUser;
 
-	public String getCode() {
-		return code;
-	}
+    // 留言人姓名
+    private String commentName;
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    // 结收人姓名
+    private String receiveName;
 
-	public String getType() {
-		return type;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setCommenter(String commenter) {
-		this.commenter = commenter;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public String getCommenter() {
-		return commenter;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getReceiver() {
-		return receiver;
-	}
+    public void setCommenter(String commenter) {
+        this.commenter = commenter;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public String getCommenter() {
+        return commenter;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
 
-	public void setCommentDatetime(String commentDatetime) {
-		this.commentDatetime = commentDatetime;
-	}
+    public String getReceiver() {
+        return receiver;
+    }
 
-	public String getCommentDatetime() {
-		return commentDatetime;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public void setOrderNo(String orderNo) {
-		this.orderNo = orderNo;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public String getOrderNo() {
-		return orderNo;
-	}
+    public void setCommentDatetime(Date commentDatetime) {
+        this.commentDatetime = commentDatetime;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public Date getCommentDatetime() {
+        return commentDatetime;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public Integer getOrderNo() {
+        return orderNo;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getLookUser() {
+        return lookUser;
+    }
+
+    public void setLookUser(String lookUser) {
+        this.lookUser = lookUser;
+    }
+
+    public String getCommentName() {
+        return commentName;
+    }
+
+    public void setCommentName(String commentName) {
+        this.commentName = commentName;
+    }
+
+    public String getReceiveName() {
+        return receiveName;
+    }
+
+    public void setReceiveName(String receiveName) {
+        this.receiveName = receiveName;
+    }
 
 }
