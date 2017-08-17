@@ -60,4 +60,9 @@ public interface IOrderAO {
 
     public List<Order> queryOrderlList(Order condition);
 
+    public Long calculatePrice(List<String> codeList);
+
+    public void confirmPrice(String orderCode, List<String> codeList,
+            Integer quantity, String updater, String remark);
+
 }

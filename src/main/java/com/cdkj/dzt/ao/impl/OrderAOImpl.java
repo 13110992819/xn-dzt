@@ -30,14 +30,17 @@ import com.cdkj.dzt.bo.IModelBO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.IProductSpecsBO;
+import com.cdkj.dzt.bo.ISYSConfigBO;
 import com.cdkj.dzt.bo.ISizeDataBO;
 import com.cdkj.dzt.bo.ISmsOutBO;
 import com.cdkj.dzt.bo.IUserBO;
 import com.cdkj.dzt.bo.base.Paginable;
+import com.cdkj.dzt.common.AmountUtil;
 import com.cdkj.dzt.common.DateUtil;
 import com.cdkj.dzt.common.SysConstants;
 import com.cdkj.dzt.core.CalculationUtil;
 import com.cdkj.dzt.core.OrderNoGenerater;
+import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.domain.Cloth;
 import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Model;
@@ -54,7 +57,9 @@ import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EPayType;
+import com.cdkj.dzt.enums.ESysConfigCkey;
 import com.cdkj.dzt.enums.ESysUser;
+import com.cdkj.dzt.enums.ESystemCode;
 import com.cdkj.dzt.enums.EUserKind;
 import com.cdkj.dzt.exception.BizException;
 
@@ -70,6 +75,9 @@ public class OrderAOImpl implements IOrderAO {
 
     @Autowired
     private IOrderBO orderBO;
+
+    @Autowired
+    private ISYSConfigBO sysConfigBO;
 
     @Autowired
     private IUserBO userBO;
@@ -403,7 +411,7 @@ public class OrderAOImpl implements IOrderAO {
                 cloth = clothBO.getCloth(code);
                 clothList.add(cloth);
             }
-            if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
+            if (code.startsWith(EGeneratePrefix.CRAFT.getCode())) {
                 craft = craftBO.getCraft(code);
                 craftList.add(craft);
             }
@@ -585,4 +593,101 @@ public class OrderAOImpl implements IOrderAO {
         return orderBO.queryOrderList(condition);
     }
 
+    // 计算价格
+    @Override
+    public Long calculatePrice(List<String> codeList) {
+        Model model = null;
+        Cloth cloth = null;
+        Craft craft = null;
+        List<Craft> craftList = new ArrayList<Craft>();
+        List<Cloth> clothList = new ArrayList<Cloth>();
+        Double price = 0.0;
+        for (String code : codeList) {
+            if (code.startsWith(EGeneratePrefix.MODEL.getCode())) {
+                model = modelBO.getModel(code);
+            }
+            if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
+                cloth = clothBO.getCloth(code);
+                clothList.add(cloth);
+            }
+            if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
+                craft = craftBO.getCraft(code);
+                craftList.add(craft);
+            }
+        }
+        // 售价=1.76*（面料单价*面料单耗+加工费+工艺费）+2.06*（快递费+包装费）
+        // 计算面料价格
+        // 计算工艺价格
+        Long clothPrice = 0L;
+        Long craftPrice = 0L;
+        for (Cloth cloth1 : clothList) {
+            clothPrice = clothPrice + cloth1.getPrice();
+        }
+        for (Craft craft1 : craftList) {
+            craftPrice = craftPrice + craft1.getPrice();
+        }
+        // 快递费
+        Long kdfPrice = StringValidater.toLong(sysConfigBO.getConfigValue(
+            ESysConfigCkey.KDF.getCode(), ESystemCode.DZT.getCode(),
+            ESystemCode.DZT.getCode()).getCvalue());
+        // 包装费
+        Long bzfPrice = StringValidater.toLong(sysConfigBO.getConfigValue(
+            ESysConfigCkey.BZF.getCode(), ESystemCode.DZT.getCode(),
+            ESystemCode.DZT.getCode()).getCvalue());
+        price = 1.76
+                * (clothPrice * model.getLoss() + model.getProcessFee() + craftPrice)
+                + 2.06 * (kdfPrice + bzfPrice);
+        Long truePrice = AmountUtil.rmbJinFen(price);
+        return truePrice;
+    }
+
+    @Override
+    public void confirmPrice(String orderCode, List<String> codeList,
+            Integer quantity, String updater, String remark) {
+        Order order = orderBO.getOrder(orderCode);
+        Double price = 0.0;
+        String productCode = null;
+        Model model = null;
+        List<Craft> craftList = new ArrayList<Craft>();
+        List<Cloth> clothList = new ArrayList<Cloth>();
+        for (String code : codeList) {
+            if (code.startsWith(EGeneratePrefix.MODEL.getCode())) {
+                model = modelBO.getModel(code);
+                productBO.saveProduct(order, model, quantity);
+            }
+            if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
+                Cloth cloth = clothBO.getCloth(code);
+                clothList.add(cloth);
+            }
+            if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
+                Craft craft = craftBO.getCraft(code);
+                craftList.add(craft);
+            }
+        }
+        // 售价=1.76*（面料单价*面料单耗+加工费+工艺费）+2.06*（快递费+包装费）
+        // 计算面料价格
+        // 计算工艺价格
+        Long clothPrice = 0L;
+        Long craftPrice = 0L;
+        for (Cloth cloth1 : clothList) {
+            clothPrice = clothPrice + cloth1.getPrice();
+            productSpecsBO.saveProductSpecs(cloth1.getCode(), null, null,
+                cloth1.getPic(), cloth1.getType(), productCode, orderCode);
+        }
+        for (Craft craft1 : craftList) {
+            craftPrice = craftPrice + craft1.getPrice();
+        }
+        // 快递费
+        Long kdfPrice = StringValidater.toLong(sysConfigBO.getConfigValue(
+            ESysConfigCkey.KDF.getCode(), ESystemCode.DZT.getCode(),
+            ESystemCode.DZT.getCode()).getCvalue());
+        // 包装费
+        Long bzfPrice = StringValidater.toLong(sysConfigBO.getConfigValue(
+            ESysConfigCkey.BZF.getCode(), ESystemCode.DZT.getCode(),
+            ESystemCode.DZT.getCode()).getCvalue());
+        price = 1.76
+                * (clothPrice * model.getLoss() + model.getProcessFee() + craftPrice)
+                + 2.06 * (kdfPrice + bzfPrice);
+        Long truePrice = AmountUtil.rmbJinFen(price);
+    }
 }
