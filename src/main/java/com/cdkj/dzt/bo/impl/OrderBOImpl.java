@@ -13,6 +13,7 @@ import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.IOrderDAO;
+import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.ProductSpecs;
@@ -49,8 +50,9 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
-    public void confirmPrice(Order order, Long amount, String updater,
-            String remark) {
+    public void confirmPrice(Order order, Model model, Long amount,
+            String updater, String remark) {
+        order.setType(model.getType());
         order.setAmount(amount);
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());

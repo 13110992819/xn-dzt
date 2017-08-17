@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.cdkj.dzt.bo.base.IPaginableBO;
+import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.enums.EOrderStatus;
 
@@ -14,8 +15,8 @@ public interface IOrderBO extends IPaginableBO<Order> {
     public void distributeOrder(Order order, String ltUser, String ltName,
             String updater, String remark);
 
-    public void confirmPrice(Order order, Long amount, String updater,
-            String remark);
+    public void confirmPrice(Order order, Model model, Long amount,
+            String updater, String remark);
 
     public void addPayGroup(Order order, String payGroup, String payType);
 

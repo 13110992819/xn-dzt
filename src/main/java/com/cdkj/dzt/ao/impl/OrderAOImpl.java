@@ -9,6 +9,7 @@
 package com.cdkj.dzt.ao.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -111,7 +112,7 @@ public class OrderAOImpl implements IOrderAO {
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         order.setCode(code);
-        Map<String, String> map = null;
+        Map<String, String> map = new HashMap<String, String>();
         // 确定订单类型
         String productCode = req.getProductCode();
         String type = null;
@@ -238,6 +239,7 @@ public class OrderAOImpl implements IOrderAO {
                 order.getApplyName()));
     }
 
+    // 衬衫定价
     @Override
     @Transactional
     public void confirmPrice(String orderCode, String modelCode,
@@ -254,7 +256,7 @@ public class OrderAOImpl implements IOrderAO {
         productBO.saveProduct(order, model, quantity);
         // 更新订单
         Long amount = model.getPrice() * quantity;
-        orderBO.confirmPrice(order, amount, updater, remark);
+        orderBO.confirmPrice(order, model, amount, updater, remark);
         // 短信通知用户付款
         smsOutBO.sentContent(
             order.getApplyUser(),

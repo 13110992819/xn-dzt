@@ -282,7 +282,8 @@
 	<update id="update_confirm" parameterType="order">
 		UPDATE tdzt_order
 		SET
-		amount = #{amount}
+		type = #{type}
+		,amount = #{amount}
 		,status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
