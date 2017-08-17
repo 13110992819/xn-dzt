@@ -25,6 +25,20 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     private IProductSpecsDAO productSpecsDAO;
 
     @Override
+    public void saveProductSpecs(String code, String name, String type,
+            String pic, String parentCode, String productCode, String orderCode) {
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(code);
+        data.setName(name);
+        data.setType(type);
+        data.setPic(pic);
+        data.setParentCode(parentCode);
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
+    }
+
+    @Override
     public void removeProductSpecs(String productCode) {
         ProductSpecs data = new ProductSpecs();
         data.setProductCode(productCode);
@@ -389,91 +403,68 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         productSpecsDAO.insert(data);
     }
 
-    @Override
-    public void inputInforCraft(Order order, Product product,
-            Map<String, String> valueMap, Map<String, Craft> modelSmap) {
-
-        String productCode = product.getCode();
-        String orderCode = order.getCode();
-
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CSGG.getCode()))) {
-            this.saveCSGG(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.CSGG.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CSML.getCode()))) {
-            this.saveCSML(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.CSML.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.LXXZ.getCode()))) {
-            this.saveLXXZ(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.LXXZ.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.XXXZ.getCode()))) {
-            this.saveXXXZ(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.XXXZ.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.MJXZ.getCode()))) {
-            this.saveMZXZ(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.MJXZ.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.XBXZ.getCode()))) {
-            this.saveXBXZ(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.XBXZ.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.SXXZ.getCode()))) {
-            this.saveSXXZ(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.SXXZ.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.LKYZ.getCode()))) {
-            this.saveLKYZ(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.LKYZ.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.KDXZ.getCode()))) {
-            this.saveKDXZ(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.KDXZ.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.NKXZ.getCode()))) {
-            this.saveNKXZ(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.NKXZ.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.NKYS.getCode()))) {
-            this.saveNKYS(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.NKYS.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.TX.getCode()))) {
-            this.saveTX(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.TX.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.JXL.getCode()))) {
-            this.saveJXL(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.JXL.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.FBL.getCode()))) {
-            this.saveFBL(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.FBL.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.BZ.getCode()))) {
-            this.saveBZ(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.BZ.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.BB.getCode()))) {
-            this.saveBB(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.BB.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CXWZ.getCode()))) {
-
-            this.saveCXWZ(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.CXWZ.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CXZT.getCode()))) {
-            this.saveCXZT(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.CXZT.getCode())));
-        }
-        if (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CXYS.getCode()))) {
-            this.saveCXYS(orderCode, productCode,
-                modelSmap.get(valueMap.get(EMeasureKey.CXYS.getCode())));
-        }
-    }
+    /*
+     * @Override public void inputInforCraft(Order order, Product product,
+     * Map<String, String> valueMap, Map<String, Craft> modelSmap) { String
+     * productCode = product.getCode(); String orderCode = order.getCode(); if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CSGG.getCode()))) {
+     * this.saveCSGG(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.CSGG.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CSML.getCode()))) {
+     * this.saveCSML(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.CSML.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.LXXZ.getCode()))) {
+     * this.saveLXXZ(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.LXXZ.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.XXXZ.getCode()))) {
+     * this.saveXXXZ(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.XXXZ.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.MJXZ.getCode()))) {
+     * this.saveMZXZ(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.MJXZ.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.XBXZ.getCode()))) {
+     * this.saveXBXZ(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.XBXZ.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.SXXZ.getCode()))) {
+     * this.saveSXXZ(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.SXXZ.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.LKYZ.getCode()))) {
+     * this.saveLKYZ(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.LKYZ.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.KDXZ.getCode()))) {
+     * this.saveKDXZ(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.KDXZ.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.NKXZ.getCode()))) {
+     * this.saveNKXZ(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.NKXZ.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.NKYS.getCode()))) {
+     * this.saveNKYS(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.NKYS.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.TX.getCode()))) {
+     * this.saveTX(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.TX.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.JXL.getCode()))) {
+     * this.saveJXL(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.JXL.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.FBL.getCode()))) {
+     * this.saveFBL(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.FBL.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.BZ.getCode()))) {
+     * this.saveBZ(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.BZ.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.BB.getCode()))) {
+     * this.saveBB(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.BB.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CXWZ.getCode()))) {
+     * this.saveCXWZ(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.CXWZ.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CXZT.getCode()))) {
+     * this.saveCXZT(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.CXZT.getCode()))); } if
+     * (StringUtils.isNotBlank(valueMap.get(EMeasureKey.CXYS.getCode()))) {
+     * this.saveCXYS(orderCode, productCode,
+     * modelSmap.get(valueMap.get(EMeasureKey.CXYS.getCode()))); } }
+     */
 
     private void saveCXYS(String orderCode, String productCode, Craft modelSpecs) {
         ProductSpecs data = new ProductSpecs();
@@ -710,10 +701,10 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         return productSpecsDAO.selectList(condition);
     }
 
-    @Override
-    public void inputInforCloth(Order order, Product product,
-            Map<String, String> map, Map<String, Cloth> clothSmap) {
-    }
+    /*
+     * @Override public void inputInforCloth(Order order, Product product,
+     * Map<String, String> map, Map<String, Cloth> clothSmap) { }
+     */
 
     @Override
     public List<ProductSpecs> queryPSByOrderCodeList(String orderCode) {
@@ -729,4 +720,34 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         data.setProductCode(productCode);
         productSpecsDAO.update(data);
     }
+
+    @Override
+    public void inputInforCloth(Order order, Product product,
+            List<Cloth> clothList) {
+        for (Cloth cloth : clothList) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(cloth.getCode());
+            data.setPic(cloth.getPic());
+            data.setParentCode(cloth.getType());
+            data.setProductCode(product.getCode());
+            data.setOrderCode(order.getCode());
+            productSpecsDAO.insert(data);
+        }
+    }
+
+    @Override
+    public void inputInforCraft(Order order, Product product,
+            List<Craft> craftList) {
+        for (Craft craft : craftList) {
+            ProductSpecs data = new ProductSpecs();
+            data.setCode(craft.getCode());
+            data.setName(craft.getName());
+            data.setPic(craft.getPic());
+            data.setParentCode(craft.getType());
+            data.setProductCode(product.getCode());
+            data.setOrderCode(order.getCode());
+            productSpecsDAO.insert(data);
+        }
+    }
+
 }

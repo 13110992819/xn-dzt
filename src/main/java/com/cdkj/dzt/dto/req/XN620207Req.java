@@ -1,5 +1,6 @@
 package com.cdkj.dzt.dto.req;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,6 +12,9 @@ import java.util.Map;
 public class XN620207Req {
     // 订单编号
     private String orderCode;
+
+    // 面料和工艺编号
+    private List<String> codeList;
 
     // 成衣数据
     private Map<String, String> map;
@@ -51,6 +55,14 @@ public class XN620207Req {
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
+    }
+
+    public List<String> getCodeList() {
+        return codeList;
+    }
+
+    public void setCodeList(List<String> codeList) {
+        this.codeList = codeList;
     }
 
 }

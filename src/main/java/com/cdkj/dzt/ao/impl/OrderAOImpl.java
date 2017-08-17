@@ -8,6 +8,7 @@
  */
 package com.cdkj.dzt.ao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -114,7 +115,7 @@ public class OrderAOImpl implements IOrderAO {
         order.setCode(code);
         String productCode = req.getProductCode();
         if (StringUtils.isNotBlank(productCode)) {
-            Map<String, String> map = new HashMap<String, String>();
+            // Map<String, String> map = new HashMap<String, String>();
             // 确定订单类型
             String type = null;
             Model model = null;
@@ -125,16 +126,19 @@ public class OrderAOImpl implements IOrderAO {
             if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {// 面料
                 Cloth cloth = clothBO.getCloth(productCode);
                 model = modelBO.getModel(cloth.getModelCode());
-                map.put(cloth.getType(), cloth.getCode());
-                Map<String, Cloth> clothSmap = clothBO.getMap();
-                productSpecsBO.inputInforCloth(order, null, map, clothSmap);
+                productSpecsBO.saveProductSpecs(cloth.getCode(), null, null,
+                    cloth.getPic(), cloth.getType(), null, order.getCode());
             }
             if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
                 Craft craft = craftBO.getCraft(productCode);
                 model = modelBO.getModel(craft.getModelCode());
-                map.put(craft.getType(), craft.getCode());
-                Map<String, Craft> craftSmap = craftBO.getMap();
-                productSpecsBO.inputInforCraft(order, null, map, craftSmap);
+                productSpecsBO.saveProductSpecs(craft.getCode(),
+                    craft.getName(), null, craft.getPic(), craft.getType(),
+                    null, order.getCode());
+
+                // map.put(craft.getType(), craft.getCode());
+                // Map<String, Craft> craftSmap = craftBO.getMap();
+                // productSpecsBO.inputInforCraft(order, null, map, craftSmap);
             }
             type = model.getType();
             order.setType(type);
@@ -163,9 +167,9 @@ public class OrderAOImpl implements IOrderAO {
         order.setRemark(req.getRemark());
 
         orderBO.applyOrder(order);
-        // 落地量体数据
+        // 落地量体数据(落地身高、体重)
         productSpecsBO.inputInforValue(order, req.getMap());
-        // 落地身材数据
+        // 落地身材数据(落地身高、体重)
         sizeDataBO.inputInforValue(req.getApplyUser(), req.getMap());
         // 如果有地区合伙人，短信通知
         if (!"0".equals(userId)) {
@@ -200,16 +204,24 @@ public class OrderAOImpl implements IOrderAO {
             if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {// 面料
                 Cloth cloth = clothBO.getCloth(productCode);
                 model = modelBO.getModel(cloth.getModelCode());
-                map.put(cloth.getType(), cloth.getCode());
-                Map<String, Cloth> clothSmap = clothBO.getMap();
-                productSpecsBO.inputInforCloth(order, null, map, clothSmap);
+
+                productSpecsBO.saveProductSpecs(cloth.getCode(), null, null,
+                    cloth.getPic(), cloth.getType(), null, order.getCode());
+                // map.put(cloth.getType(), cloth.getCode());
+                // Map<String, Cloth> clothSmap = clothBO.getMap();
+                // productSpecsBO.inputInforCloth(order, null, map, clothSmap);
             }
             if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
                 Craft craft = craftBO.getCraft(productCode);
                 model = modelBO.getModel(craft.getModelCode());
-                map.put(craft.getType(), craft.getCode());
-                Map<String, Craft> craftSmap = craftBO.getMap();
-                productSpecsBO.inputInforCraft(order, null, map, craftSmap);
+
+                productSpecsBO.saveProductSpecs(craft.getCode(),
+                    craft.getName(), null, craft.getPic(), craft.getType(),
+                    null, order.getCode());
+
+                // map.put(craft.getType(), craft.getCode());
+                // Map<String, Craft> craftSmap = craftBO.getMap();
+                // productSpecsBO.inputInforCraft(order, null, map, craftSmap);
             }
             type = model.getType();
             order.setType(type);
@@ -296,6 +308,7 @@ public class OrderAOImpl implements IOrderAO {
                 CalculationUtil.divi(order.getAmount())));
     }
 
+    // 支付
     @Override
     @Transactional
     public Object payment(String orderCode, String payType) {
@@ -345,6 +358,7 @@ public class OrderAOImpl implements IOrderAO {
             EBizType.AJ_GWFK.getCode(), "HE-SHIRTS衬衫购买订单支付", totalAmount);
     }
 
+    // 支付成功
     @Override
     public void paySuccess(String payGroup, String payCode, Long amount) {
         List<Order> orderList = orderBO.queryOrderListByPayGroup(payGroup);
@@ -365,10 +379,11 @@ public class OrderAOImpl implements IOrderAO {
         }
     }
 
+    // 数据录入
     @Override
     @Transactional
-    public void inputInfor(String orderCode, Map<String, String> map,
-            String updater, String remark) {
+    public void inputInfor(String orderCode, List<String> codeList,
+            Map<String, String> map, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单尚未支付,不能录入数据");
@@ -378,12 +393,27 @@ public class OrderAOImpl implements IOrderAO {
         orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
             remark);
         // 落地量体数据
-        productSpecsBO.removeProductSpecs(product.getCode());
+        // productSpecsBO.removeProductSpecs(product.getCode());
+        Cloth cloth = null;
+        Craft craft = null;
+        List<Cloth> clothList = new ArrayList<Cloth>();
+        List<Craft> craftList = new ArrayList<Craft>();
+        for (String code : codeList) {
+            if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
+                cloth = clothBO.getCloth(code);
+                clothList.add(cloth);
+            }
+            if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
+                craft = craftBO.getCraft(code);
+                craftList.add(craft);
+            }
+        }
         productSpecsBO.inputInforValue(order, product, map);
-        Map<String, Craft> craftSmap = craftBO.getMap();
-        productSpecsBO.inputInforCraft(order, product, map, craftSmap);
+        productSpecsBO.inputInforCloth(order, product, clothList);
+        productSpecsBO.inputInforCraft(order, product, craftList);
     }
 
+    // 提交复核
     @Override
     public void ltSubmit(String orderCode, String updater) {
         Order order = orderBO.getRichOrder(orderCode);
@@ -402,6 +432,7 @@ public class OrderAOImpl implements IOrderAO {
         }
     }
 
+    // 合伙人审核
     @Override
     public void approveOrder(String orderCode, String result, String updater,
             String remark) {
@@ -418,6 +449,7 @@ public class OrderAOImpl implements IOrderAO {
         orderBO.approveOrder(order, status, updater, remark);
     }
 
+    // 提交生产
     @Override
     public void submitProuduct(String orderCode, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
@@ -430,6 +462,7 @@ public class OrderAOImpl implements IOrderAO {
             SysConstants.SUBMIT_CONTENT, order.getApplyName(), orderCode));
     }
 
+    // 发货
     @Override
     public void sendGoods(String orderCode, String deliverer,
             String deliveryDatetime, String logisticsCompany,
@@ -447,6 +480,7 @@ public class OrderAOImpl implements IOrderAO {
             SysConstants.SENT_CONTENT, order.getApplyName(), orderCode));
     }
 
+    // 确认收货
     @Override
     @Transactional
     public void confirmReceipt(String orderCode, String updater, String remark) {
@@ -504,6 +538,7 @@ public class OrderAOImpl implements IOrderAO {
         }
     }
 
+    // 取消订单
     @Override
     @Transactional
     public void cancelOrder(String orderCode, String updater, String remark) {
