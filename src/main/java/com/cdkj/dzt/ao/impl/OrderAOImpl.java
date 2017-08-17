@@ -22,11 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.bo.IAccountBO;
-import com.cdkj.dzt.bo.IModelBO;
+import com.cdkj.dzt.bo.IClothBO;
 import com.cdkj.dzt.bo.ICraftBO;
+import com.cdkj.dzt.bo.IModelBO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.IProductSpecsBO;
+import com.cdkj.dzt.bo.ISizeDataBO;
 import com.cdkj.dzt.bo.ISmsOutBO;
 import com.cdkj.dzt.bo.IUserBO;
 import com.cdkj.dzt.bo.base.Paginable;
@@ -34,8 +36,9 @@ import com.cdkj.dzt.common.DateUtil;
 import com.cdkj.dzt.common.SysConstants;
 import com.cdkj.dzt.core.CalculationUtil;
 import com.cdkj.dzt.core.OrderNoGenerater;
-import com.cdkj.dzt.domain.Model;
+import com.cdkj.dzt.domain.Cloth;
 import com.cdkj.dzt.domain.Craft;
+import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.User;
@@ -76,6 +79,9 @@ public class OrderAOImpl implements IOrderAO {
     private ICraftBO craftBO;
 
     @Autowired
+    private IClothBO clothBO;
+
+    @Autowired
     private IAccountBO accountBO;
 
     @Autowired
@@ -83,6 +89,9 @@ public class OrderAOImpl implements IOrderAO {
 
     @Autowired
     private IProductSpecsBO productSpecsBO;
+
+    @Autowired
+    private ISizeDataBO sizeDataBO;
 
     @Autowired
     private ISmsOutBO smsOutBO;
@@ -102,6 +111,31 @@ public class OrderAOImpl implements IOrderAO {
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         order.setCode(code);
+        Map<String, String> map = null;
+        // 确定订单类型
+        String productCode = req.getProductCode();
+        String type = null;
+        Model model = null;
+        if (productCode.startsWith(EGeneratePrefix.MODEL.getCode())) {// 产品
+            model = modelBO.getModel(productCode);
+            productBO.saveProduct(order, model, 1);
+        }
+        if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {// 面料
+            Cloth cloth = clothBO.getCloth(productCode);
+            model = modelBO.getModel(cloth.getModelCode());
+            map.put(cloth.getType(), cloth.getCode());
+            Map<String, Cloth> clothSmap = clothBO.getMap();
+            productSpecsBO.inputInforCloth(order, null, map, clothSmap);
+        }
+        if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
+            Craft craft = craftBO.getCraft(productCode);
+            model = modelBO.getModel(craft.getModelCode());
+            map.put(craft.getType(), craft.getCode());
+            Map<String, Craft> craftSmap = craftBO.getMap();
+            productSpecsBO.inputInforCraft(order, null, map, craftSmap);
+        }
+        type = model.getType();
+        order.setType(type);
         order.setToUser(userId);
         order.setApplyUser(req.getApplyUser());
         order.setApplyName(req.getApplyName());
@@ -126,7 +160,10 @@ public class OrderAOImpl implements IOrderAO {
         order.setRemark(req.getRemark());
 
         orderBO.applyOrder(order);
-
+        // 落地量体数据
+        productSpecsBO.inputInforValue(order, req.getMap());
+        // 落地身材数据
+        sizeDataBO.inputInforValue(req.getApplyUser(), req.getMap());
         // 如果有地区合伙人，短信通知
         if (!"0".equals(userId)) {
             smsOutBO.sentContent(
@@ -310,8 +347,8 @@ public class OrderAOImpl implements IOrderAO {
         // 落地量体数据
         productSpecsBO.removeProductSpecs(product.getCode());
         productSpecsBO.inputInforValue(order, product, map);
-        Map<String, Craft> modelSmap = craftBO.getMap();
-        productSpecsBO.inputInforCode(order, product, map, modelSmap);
+        Map<String, Craft> craftSmap = craftBO.getMap();
+        productSpecsBO.inputInforCraft(order, product, map, craftSmap);
     }
 
     @Override

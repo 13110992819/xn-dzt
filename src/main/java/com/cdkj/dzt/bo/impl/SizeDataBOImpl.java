@@ -1,6 +1,7 @@
 package com.cdkj.dzt.bo.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.cdkj.dzt.bo.ISizeDataBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.ISizeDataDAO;
 import com.cdkj.dzt.domain.SizeData;
+import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.exception.BizException;
 
 @Component
@@ -30,12 +32,25 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     }
 
     @Override
-    public String saveSizeData(SizeData data) {
-        String code = null;
-        if (data != null) {
-            sizeDataDAO.insert(data);
-        }
-        return code;
+    public void inputInforValue(String applyUser, Map<String, String> map) {
+        this.saveSG(applyUser, map.get(EMeasureKey.SG.getCode()));
+        this.saveTZ(applyUser, map.get(EMeasureKey.TZ.getCode()));
+    }
+
+    private void saveTZ(String applyUser, String value) {
+        SizeData data = new SizeData();
+        data.setUserId(applyUser);
+        data.setKey(EMeasureKey.TZ.getCode());
+        data.setValue(value);
+        sizeDataDAO.insert(data);
+    }
+
+    private void saveSG(String applyUser, String value) {
+        SizeData data = new SizeData();
+        data.setUserId(applyUser);
+        data.setKey(EMeasureKey.SG.getCode());
+        data.setValue(value);
+        sizeDataDAO.insert(data);
     }
 
     @Override

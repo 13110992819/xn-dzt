@@ -1,8 +1,11 @@
 package com.cdkj.dzt.bo.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -84,6 +87,20 @@ public class ClothBOImpl extends PaginableBOImpl<Cloth> implements IClothBO {
             }
         }
         return data;
+    }
+
+    @Override
+    public Map<String, Cloth> getMap() {
+        Map<String, Cloth> map = null;
+        Cloth condition = new Cloth();
+        List<Cloth> list = this.queryClothList(condition);
+        if (CollectionUtils.isNotEmpty(list)) {
+            map = new HashMap<String, Cloth>();
+            for (Cloth ele : list) {
+                map.put(ele.getCode(), ele);
+            }
+        }
+        return map;
     }
 
 }

@@ -11,11 +11,11 @@ import com.cdkj.dzt.domain.SizeData;
 public interface ISizeDataAO {
     static final String DEFAULT_ORDER_COLUMN = "id";
 
-    public String addSizeData(SizeData data);
+    public void addSizeData(SizeData data);
 
-    public int dropSizeData(String code);
+    public void dropSizeData(String code);
 
-    public int editSizeData(SizeData data);
+    public void editSizeData(SizeData data);
 
     public Paginable<SizeData> querySizeDataPage(int start, int limit,
             SizeData condition);

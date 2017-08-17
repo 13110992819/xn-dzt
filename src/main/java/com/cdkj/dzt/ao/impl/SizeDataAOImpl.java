@@ -18,24 +18,24 @@ public class SizeDataAOImpl implements ISizeDataAO {
     private ISizeDataBO sizeDataBO;
 
     @Override
-    public String addSizeData(SizeData data) {
-        return sizeDataBO.saveSizeData(data);
+    public void addSizeData(SizeData data) {
+
     }
 
     @Override
-    public int editSizeData(SizeData data) {
+    public void editSizeData(SizeData data) {
         if (!sizeDataBO.isSizeDataExist(data.getId())) {
             throw new BizException("xn0000", "记录编号不存在");
         }
-        return sizeDataBO.refreshSizeData(data);
+        sizeDataBO.refreshSizeData(data);
     }
 
     @Override
-    public int dropSizeData(String code) {
+    public void dropSizeData(String code) {
         if (!sizeDataBO.isSizeDataExist(code)) {
             throw new BizException("xn0000", "记录编号不存在");
         }
-        return sizeDataBO.removeSizeData(code);
+        sizeDataBO.removeSizeData(code);
     }
 
     @Override

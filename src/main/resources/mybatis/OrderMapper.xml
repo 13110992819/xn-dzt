@@ -4,6 +4,7 @@
 <mapper namespace="com.cdkj.dzt.dao.IOrderDAO">
 	<resultMap id="order_DB_Result" type="order">
 		<result column="code" property="code" />
+		<result column="type" property="type" />
 		<result column="to_user" property="toUser" />
 		<result column="apply_user" property="applyUser" />
 		<result column="apply_name" property="applyName" />
@@ -56,6 +57,11 @@
 			<if test="applyMobile != null and applyMobile != '' ">
 				AND t.apply_mobile = #{applyMobile}
 			</if>
+			
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
+			
 			<if test="ltProvince != null and ltProvince != '' ">
 				AND t.lt_province = #{ltProvince}
 			</if>
@@ -109,6 +115,7 @@
 	<select id="select_order" parameterType="order" resultMap="order_DB_Result">
 		SELECT
 		t.code
+		,t.type
 		,t.to_user
 		,t.apply_user
 		,t.apply_name
@@ -153,6 +160,7 @@
 	<select id="select_getLastOrder" parameterType="order" resultMap="order_DB_Result">
 		SELECT
 		t.code
+		,t.type
 		,t.to_user
 		,t.apply_user
 		,t.apply_name
@@ -204,6 +212,7 @@
 		INSERT INTO
 		tdzt_order(
 		code
+		,type
 		,to_user
 		,apply_user
 		,apply_name
@@ -231,6 +240,7 @@
 		)
 		VALUES(
 		#{code}
+		,#{type}
 		,#{toUser}
 		,#{applyUser}
 		,#{applyName}

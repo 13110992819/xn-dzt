@@ -14,6 +14,7 @@ import com.cdkj.dzt.common.JsonUtil;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.dto.req.XN620200Req;
 import com.cdkj.dzt.dto.res.PKCodeRes;
+import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
@@ -48,5 +49,8 @@ public class XN620200 extends AProcessor {
             req.getApplyMobile(), req.getLtDatetime(), req.getLtProvince(),
             req.getLtCity(), req.getLtArea(), req.getLtAddress(),
             req.getUpdater());
+        StringValidater.validateBlank(req.getMap()
+            .get(EMeasureKey.SG.getCode()),
+            req.getMap().get(EMeasureKey.TZ.getCode()));
     }
 }

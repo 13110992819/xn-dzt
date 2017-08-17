@@ -8,6 +8,8 @@
  */
 package com.cdkj.dzt.dto.req;
 
+import java.util.Map;
+
 /** 
  * @author: haiqingzheng 
  * @since: 2017年4月14日 下午1:36:44 
@@ -18,17 +20,16 @@ public class XN620200Req {
     // 下单人UserId（必填）
     private String applyUser;
 
+    // 产品编号
+    private String productCode;
+
     // 下单人姓名（必填）
     private String applyName;
 
     // 下单人手机号（必填）
     private String applyMobile;
 
-    // 身高（必填）
-    private String height;
-
-    // 体重（必填）
-    private String weight;
+    private Map<String, String> map;
 
     // 量体时间（必填）
     private String ltDatetime;
@@ -142,20 +143,20 @@ public class XN620200Req {
         this.remark = remark;
     }
 
-    public String getHeight() {
-        return height;
+    public Map<String, String> getMap() {
+        return map;
     }
 
-    public void setHeight(String height) {
-        this.height = height;
+    public void setMap(Map<String, String> map) {
+        this.map = map;
     }
 
-    public String getWeight() {
-        return weight;
+    public String getProductCode() {
+        return productCode;
     }
 
-    public void setWeight(String weight) {
-        this.weight = weight;
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 
 }

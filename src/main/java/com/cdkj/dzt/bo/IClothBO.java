@@ -1,6 +1,7 @@
 package com.cdkj.dzt.bo;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cdkj.dzt.bo.base.IPaginableBO;
 import com.cdkj.dzt.domain.Cloth;
@@ -24,4 +25,5 @@ public interface IClothBO extends IPaginableBO<Cloth> {
 
     public Cloth getCloth(String code);
 
+    public Map<String, Cloth> getMap();
 }

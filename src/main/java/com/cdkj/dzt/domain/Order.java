@@ -19,6 +19,9 @@ public class Order extends ABaseDO {
     // 编号
     private String code;
 
+    // 类型
+    private String type;
+
     // 所属合伙人
     private String toUser;
 
@@ -431,6 +434,14 @@ public class Order extends ABaseDO {
 
     public void setLtUserDO(XN001400Res ltUserDO) {
         this.ltUserDO = ltUserDO;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }
