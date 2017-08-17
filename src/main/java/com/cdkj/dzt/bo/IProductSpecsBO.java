@@ -27,4 +27,8 @@ public interface IProductSpecsBO extends IPaginableBO<ProductSpecs> {
     public void inputInforCloth(Order order, Product product,
             Map<String, String> map, Map<String, Cloth> clothSmap);
 
+    public List<ProductSpecs> queryPSByOrderCodeList(String orderCode);
+
+    public void refreshProductCode(String orderCode, String productCode);
+
 }

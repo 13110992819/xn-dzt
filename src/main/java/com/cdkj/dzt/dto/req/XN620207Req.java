@@ -1,46 +1,25 @@
-/**
- * @Title XN620207Req.java 
- * @Package com.cdkj.dzt.dto.req 
- * @Description 
- * @author leo(haiqing)  
- * @date 2017年4月14日 下午5:57:52 
- * @version V1.0   
- */
 package com.cdkj.dzt.dto.req;
 
-/** 
- * @author: haiqingzheng 
- * @since: 2017年4月14日 下午5:57:52 
+import java.util.Map;
+
+/**
+ * 数据录入
+ * @author: asus 
+ * @since: 2017年4月14日 下午5:22:15 
  * @history:
  */
 public class XN620207Req {
-    // 订单编号（必填）
+    // 订单编号
     private String orderCode;
 
-    // 审核结果（必填）
-    private String result;
+    // 成衣数据
+    private Map<String, String> map;
 
-    // 更新人（必填）
+    // 更新人
     private String updater;
 
-    // 备注（选填）
+    // 备注
     private String remark;
-
-    public String getOrderCode() {
-        return orderCode;
-    }
-
-    public void setOrderCode(String orderCode) {
-        this.orderCode = orderCode;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
 
     public String getUpdater() {
         return updater;
@@ -56,6 +35,22 @@ public class XN620207Req {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public Map<String, String> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, String> map) {
+        this.map = map;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 
 }

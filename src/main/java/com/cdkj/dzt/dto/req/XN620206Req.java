@@ -1,17 +1,24 @@
+/**
+ * @Title XN620204Req.java 
+ * @Package com.cdkj.dzt.dto.req 
+ * @Description 
+ * @author leo(haiqing)  
+ * @date 2017年4月14日 下午1:57:12 
+ * @version V1.0   
+ */
 package com.cdkj.dzt.dto.req;
 
-/**
- * 量体师订单提交
- * @author: asus 
- * @since: 2017年4月14日 下午5:22:15 
+/** 
+ * @author: haiqingzheng 
+ * @since: 2017年4月14日 下午1:57:12 
  * @history:
  */
 public class XN620206Req {
     // 订单编号（必填）
     private String orderCode;
 
-    // 提交人（必填）
-    private String updater;
+    // 支付方式（必填）
+    private String payType;
 
     public String getOrderCode() {
         return orderCode;
@@ -21,11 +28,11 @@ public class XN620206Req {
         this.orderCode = orderCode;
     }
 
-    public String getUpdater() {
-        return updater;
+    public String getPayType() {
+        return payType;
     }
 
-    public void setUpdater(String updater) {
-        this.updater = updater;
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 }

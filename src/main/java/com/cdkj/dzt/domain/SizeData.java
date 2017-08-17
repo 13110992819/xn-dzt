@@ -10,50 +10,50 @@ import com.cdkj.dzt.dao.base.ABaseDO;
 */
 public class SizeData extends ABaseDO {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// 序号
-	private String id;
+    // 序号
+    private String id;
 
-	// 用户编号
-	private String userId;
+    // 用户编号
+    private String userId;
 
-	// 类型
-	private String key;
+    // 类型
+    private String ckey;
 
-	// 类型值
-	private String value;
+    // 类型值
+    private String cvalue;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+    public String getCkey() {
+        return ckey;
+    }
 
-	public String getKey() {
-		return key;
-	}
+    public void setCkey(String ckey) {
+        this.ckey = ckey;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public String getCvalue() {
+        return cvalue;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public void setCvalue(String cvalue) {
+        this.cvalue = cvalue;
+    }
 
 }

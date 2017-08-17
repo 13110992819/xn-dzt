@@ -714,4 +714,19 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     public void inputInforCloth(Order order, Product product,
             Map<String, String> map, Map<String, Cloth> clothSmap) {
     }
+
+    @Override
+    public List<ProductSpecs> queryPSByOrderCodeList(String orderCode) {
+        ProductSpecs condition = new ProductSpecs();
+        condition.setOrderCode(orderCode);
+        return productSpecsDAO.selectList(condition);
+    }
+
+    @Override
+    public void refreshProductCode(String orderCode, String productCode) {
+        ProductSpecs data = new ProductSpecs();
+        data.setOrderCode(orderCode);
+        data.setProductCode(productCode);
+        productSpecsDAO.update(data);
+    }
 }

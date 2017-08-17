@@ -5,7 +5,7 @@ import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.domain.Order;
-import com.cdkj.dzt.dto.req.XN620222Req;
+import com.cdkj.dzt.dto.req.XN620232Req;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
@@ -16,10 +16,10 @@ import com.cdkj.dzt.spring.SpringContextHolder;
  * @since: 2017年4月14日 下午5:06:16 
  * @history:
  */
-public class XN620222 extends AProcessor {
+public class XN620232 extends AProcessor {
     private IOrderAO orderAO = SpringContextHolder.getBean(IOrderAO.class);
 
-    private XN620222Req req = null;
+    private XN620232Req req = null;
 
     /** 
      * @see com.cdkj.dzt.api.IProcessor#doBusiness()
@@ -53,7 +53,7 @@ public class XN620222 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN620222Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN620232Req.class);
         StringValidater.validateNumber(req.getStart(), req.getLimit());
     }
 

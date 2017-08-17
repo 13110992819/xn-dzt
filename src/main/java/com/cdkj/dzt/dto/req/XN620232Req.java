@@ -7,7 +7,7 @@ package com.cdkj.dzt.dto.req;
  * @since: 2017年4月17日 下午8:11:56 
  * @history:
  */
-public class XN620222Req extends APageReq {
+public class XN620232Req extends APageReq {
 
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 

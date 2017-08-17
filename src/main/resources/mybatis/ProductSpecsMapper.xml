@@ -74,13 +74,8 @@
 	<update id="update_productSpecs" parameterType="productSpecs">
 		UPDATE tdzt_product_specs
 		SET
-		name = #{name}
-		,parent_code = #{parentCode}
-		,type = #{type}
-		,pic = #{pic}
-		,product_code = #{productCode}
-		,order_code = #{orderCode}
-		WHERE code = #{code}
+		product_code = #{productCode}
+		WHERE order_code = #{orderCode}
 	</update>
 	
 	<delete id="delete_productSpecs" parameterType="productSpecs">

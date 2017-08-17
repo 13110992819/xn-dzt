@@ -6,7 +6,7 @@ package com.cdkj.dzt.dto.req;
  * @since: 2017年4月17日 下午8:30:03 
  * @history:
  */
-public class XN620221Req {
+public class XN620231Req {
     // 订单编号
     private String code;
 

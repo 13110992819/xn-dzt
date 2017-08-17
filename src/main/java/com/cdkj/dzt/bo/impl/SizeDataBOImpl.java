@@ -40,16 +40,16 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveTZ(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setKey(EMeasureKey.TZ.getCode());
-        data.setValue(value);
+        data.setCkey(EMeasureKey.TZ.getCode());
+        data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
 
     private void saveSG(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setKey(EMeasureKey.SG.getCode());
-        data.setValue(value);
+        data.setCkey(EMeasureKey.SG.getCode());
+        data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
 

@@ -61,7 +61,7 @@ public class UserBOImpl implements IUserBO {
         req.setSystemCode(ESystemCode.DZT.getCode());
         req.setCompanyCode(ESystemCode.DZT.getCode());
         XN001403Res result = null;
-        String jsonStr = BizConnecter.getBizData("001403",
+        String jsonStr = BizConnecter.getBizData("805123",
             JsonUtils.object2Json(req));
         Gson gson = new Gson();
         List<XN001403Res> list = gson.fromJson(jsonStr,

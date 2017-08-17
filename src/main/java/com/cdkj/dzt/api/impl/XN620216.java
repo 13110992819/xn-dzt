@@ -4,36 +4,31 @@ import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
 import com.cdkj.dzt.core.StringValidater;
-import com.cdkj.dzt.domain.Order;
-import com.cdkj.dzt.dto.req.XN620223Req;
+import com.cdkj.dzt.dto.req.XN620216Req;
+import com.cdkj.dzt.dto.res.BooleanRes;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
- * 我的订单分页查询(供下单人使用)
+ * 取消预约单
  * @author: asus 
  * @since: 2017年4月14日 下午5:06:16 
  * @history:
  */
-public class XN620223 extends AProcessor {
+public class XN620216 extends AProcessor {
     private IOrderAO orderAO = SpringContextHolder.getBean(IOrderAO.class);
 
-    private XN620223Req req = null;
+    private XN620216Req req = null;
 
     /** 
      * @see com.cdkj.dzt.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        Order condition = new Order();
-        condition.setApplyUser(req.getApplyUser());
-        condition.setStatus(req.getStatus());
-        condition.setStatusList(req.getStatusList());
-
-        int start = StringValidater.toInteger(req.getStart());
-        int limit = StringValidater.toInteger(req.getLimit());
-        return orderAO.queryOrderPage(start, limit, condition);
+        orderAO.cancelOrder(req.getOrderCode(), req.getUpdater(),
+            req.getRemark());
+        return new BooleanRes(true);
     }
 
     /** 
@@ -41,9 +36,8 @@ public class XN620223 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN620223Req.class);
-        StringValidater.validateBlank(req.getApplyUser());
-        StringValidater.validateNumber(req.getStart(), req.getLimit());
+        req = JsonUtil.json2Bean(inputparams, XN620216Req.class);
+        StringValidater.validateBlank(req.getOrderCode(), req.getUpdater());
     }
 
 }

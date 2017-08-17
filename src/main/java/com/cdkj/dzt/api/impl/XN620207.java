@@ -1,3 +1,11 @@
+/**
+ * @Title XN620205.java 
+ * @Package com.cdkj.dzt.api.impl 
+ * @Description 
+ * @author leo(haiqing)  
+ * @date 2017年4月14日 下午1:59:01 
+ * @version V1.0   
+ */
 package com.cdkj.dzt.api.impl;
 
 import com.cdkj.dzt.ao.IOrderAO;
@@ -10,10 +18,10 @@ import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
-/**
- * 合伙人复核
- * @author: asus 
- * @since: 2017年4月14日 下午5:06:16 
+/** 
+ * 数据录入
+ * @author: haiqingzheng 
+ * @since: 2017年4月14日 下午1:59:01 
  * @history:
  */
 public class XN620207 extends AProcessor {
@@ -26,8 +34,8 @@ public class XN620207 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.approveOrder(req.getOrderCode(), req.getResult(),
-            req.getUpdater(), req.getRemark());
+        orderAO.inputInfor(req.getOrderCode(), req.getMap(), req.getUpdater(),
+            req.getRemark());
         return new BooleanRes(true);
     }
 
@@ -37,7 +45,6 @@ public class XN620207 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620207Req.class);
-        StringValidater.validateBlank(req.getOrderCode(), req.getResult(),
-            req.getUpdater());
+        StringValidater.validateBlank(req.getOrderCode(), req.getUpdater());
     }
 }

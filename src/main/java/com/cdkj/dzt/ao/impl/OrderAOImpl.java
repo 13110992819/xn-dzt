@@ -112,31 +112,33 @@ public class OrderAOImpl implements IOrderAO {
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         order.setCode(code);
-        Map<String, String> map = new HashMap<String, String>();
-        // 确定订单类型
         String productCode = req.getProductCode();
-        String type = null;
-        Model model = null;
-        if (productCode.startsWith(EGeneratePrefix.MODEL.getCode())) {// 产品
-            model = modelBO.getModel(productCode);
-            productBO.saveProduct(order, model, 1);
+        if (StringUtils.isNotBlank(productCode)) {
+            Map<String, String> map = new HashMap<String, String>();
+            // 确定订单类型
+            String type = null;
+            Model model = null;
+            if (productCode.startsWith(EGeneratePrefix.MODEL.getCode())) {// 产品
+                model = modelBO.getModel(productCode);
+                productBO.saveProduct(order, model, 1);
+            }
+            if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {// 面料
+                Cloth cloth = clothBO.getCloth(productCode);
+                model = modelBO.getModel(cloth.getModelCode());
+                map.put(cloth.getType(), cloth.getCode());
+                Map<String, Cloth> clothSmap = clothBO.getMap();
+                productSpecsBO.inputInforCloth(order, null, map, clothSmap);
+            }
+            if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
+                Craft craft = craftBO.getCraft(productCode);
+                model = modelBO.getModel(craft.getModelCode());
+                map.put(craft.getType(), craft.getCode());
+                Map<String, Craft> craftSmap = craftBO.getMap();
+                productSpecsBO.inputInforCraft(order, null, map, craftSmap);
+            }
+            type = model.getType();
+            order.setType(type);
         }
-        if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {// 面料
-            Cloth cloth = clothBO.getCloth(productCode);
-            model = modelBO.getModel(cloth.getModelCode());
-            map.put(cloth.getType(), cloth.getCode());
-            Map<String, Cloth> clothSmap = clothBO.getMap();
-            productSpecsBO.inputInforCloth(order, null, map, clothSmap);
-        }
-        if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
-            Craft craft = craftBO.getCraft(productCode);
-            model = modelBO.getModel(craft.getModelCode());
-            map.put(craft.getType(), craft.getCode());
-            Map<String, Craft> craftSmap = craftBO.getMap();
-            productSpecsBO.inputInforCraft(order, null, map, craftSmap);
-        }
-        type = model.getType();
-        order.setType(type);
         order.setToUser(userId);
         order.setApplyUser(req.getApplyUser());
         order.setApplyName(req.getApplyName());
@@ -177,7 +179,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public String applyOrder(String applyUser) {
+    public String applyOrder(String applyUser, String productCode) {
         // 获取最近订单
         Order lastOrder = orderBO.getLastOrder(applyUser);
         // 开始组装order
@@ -186,6 +188,32 @@ public class OrderAOImpl implements IOrderAO {
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         order.setCode(code);
+        if (StringUtils.isNotBlank(productCode)) {
+            Map<String, String> map = new HashMap<String, String>();
+            // 确定订单类型
+            String type = null;
+            Model model = null;
+            if (productCode.startsWith(EGeneratePrefix.MODEL.getCode())) {// 产品
+                model = modelBO.getModel(productCode);
+                productBO.saveProduct(order, model, 1);
+            }
+            if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {// 面料
+                Cloth cloth = clothBO.getCloth(productCode);
+                model = modelBO.getModel(cloth.getModelCode());
+                map.put(cloth.getType(), cloth.getCode());
+                Map<String, Cloth> clothSmap = clothBO.getMap();
+                productSpecsBO.inputInforCloth(order, null, map, clothSmap);
+            }
+            if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
+                Craft craft = craftBO.getCraft(productCode);
+                model = modelBO.getModel(craft.getModelCode());
+                map.put(craft.getType(), craft.getCode());
+                Map<String, Craft> craftSmap = craftBO.getMap();
+                productSpecsBO.inputInforCraft(order, null, map, craftSmap);
+            }
+            type = model.getType();
+            order.setType(type);
+        }
         order.setToUser(lastOrder.getToUser());
         order.setApplyUser(lastOrder.getApplyUser());
         order.setApplyName(lastOrder.getApplyName());
@@ -253,7 +281,10 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 落地成衣
         Model model = modelBO.getModel(modelCode);
-        productBO.saveProduct(order, model, quantity);
+        String code = productBO.saveProduct(order, model, quantity);
+
+        // 更新成衣数据
+        productSpecsBO.refreshProductCode(orderCode, code);
         // 更新订单
         Long amount = model.getPrice() * quantity;
         orderBO.confirmPrice(order, model, amount, updater, remark);
