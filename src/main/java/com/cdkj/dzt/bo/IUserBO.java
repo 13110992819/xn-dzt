@@ -16,4 +16,5 @@ public interface IUserBO {
     public User getPartner(String province, String city, String area,
             EUserKind kind);
 
+    public void doUpLevel(String userId, String level);
 }

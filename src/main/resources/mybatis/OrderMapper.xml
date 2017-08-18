@@ -388,4 +388,22 @@
 		WHERE code = #{code}
 	</update>
 
+	<update id="update_comment" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		WHERE code = #{code}
+	</update>
+
+	<update id="update_isFiled" parameterType="order">
+		UPDATE tdzt_order
+		SET
+		status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		WHERE code = #{code}
+	</update>
 </mapper>

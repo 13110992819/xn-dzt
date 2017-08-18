@@ -14,6 +14,7 @@ import java.util.Map;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.dto.req.XN620200Req;
+import com.cdkj.dzt.dto.res.XN620218Res;
 
 /** 
  * @author: haiqingzheng 
@@ -65,4 +66,16 @@ public interface IOrderAO {
     public void confirmPrice(String orderCode, List<String> codeList,
             Integer quantity, String updater, String remark);
 
+    public void inputInfor(String orderCode, Map<String, String> map,
+            String updater, String remark);
+
+    public String comment(String orderCode, String content, String commenter);
+
+    public void isFiled(String orderCode, String updater, String remark);
+
+    public Object paymentVIP(String userId, String payType);
+
+    public void paySuccessVIP(String payGroup, String payCode, Long amount);
+
+    public XN620218Res getLastOrder(String applyUser);
 }

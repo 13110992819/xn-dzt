@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IUserBO;
 import com.cdkj.dzt.domain.User;
+import com.cdkj.dzt.dto.req.XN001302Req;
 import com.cdkj.dzt.dto.req.XN001400Req;
 import com.cdkj.dzt.dto.req.XN001403Req;
 import com.cdkj.dzt.dto.res.XN001400Res;
@@ -75,6 +76,15 @@ public class UserBOImpl implements IUserBO {
             user.setMobile(result.getMobile());
         }
         return user;
+    }
+
+    @Override
+    public void doUpLevel(String userId, String level) {
+        XN001302Req req = new XN001302Req();
+        req.setUserId(userId);
+        req.setLevel(level);
+        BizConnecter.getBizData("001302", JsonUtils.object2Json(req),
+            Object.class);
     }
 
 }

@@ -140,4 +140,13 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
 
     }
 
+    @Override
+    public int comment(Order data) {
+        return super.update(NAMESPACE.concat("update_comment"), data);
+    }
+
+    @Override
+    public int isFiled(Order data) {
+        return super.update(NAMESPACE.concat("update_isFiled"), data);
+    }
 }

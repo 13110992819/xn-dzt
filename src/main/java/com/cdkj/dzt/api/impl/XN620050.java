@@ -33,6 +33,7 @@ public class XN620050 extends AProcessor {
         condition.setName(req.getName());
         condition.setLocation(req.getLocation());
         condition.setUpdater(req.getUpdater());
+        condition.setStatus(req.getStatus());
         condition.setModelCode(req.getModelCode());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {

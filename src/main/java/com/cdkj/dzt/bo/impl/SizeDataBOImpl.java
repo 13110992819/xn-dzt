@@ -91,4 +91,11 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
         }
         return data;
     }
+
+    @Override
+    public List<SizeData> querySizeDataList(String userId) {
+        SizeData condition = new SizeData();
+        condition.setUserId(userId);
+        return sizeDataDAO.selectList(condition);
+    }
 }

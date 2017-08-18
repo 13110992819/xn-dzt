@@ -273,4 +273,21 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         return orderDAO.selectTotalCount(order);
     }
 
+    @Override
+    public void comment(Order order, String commenter) {
+        order.setStatus(EOrderStatus.COMMENT.getCode());
+        order.setUpdater(commenter);
+        order.setUpdateDatetime(new Date());
+        orderDAO.comment(order);
+    }
+
+    @Override
+    public void isFiled(Order order, String updater, String remark) {
+        order.setStatus(EOrderStatus.FILED.getCode());
+        order.setUpdater(updater);
+        order.setUpdateDatetime(new Date());
+        order.setRemark(remark);
+        orderDAO.isFiled(order);
+    }
+
 }

@@ -25,7 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.bo.IAccountBO;
 import com.cdkj.dzt.bo.IClothBO;
+import com.cdkj.dzt.bo.ICommentBO;
 import com.cdkj.dzt.bo.ICraftBO;
+import com.cdkj.dzt.bo.IKeywordBO;
 import com.cdkj.dzt.bo.IModelBO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IProductBO;
@@ -41,26 +43,34 @@ import com.cdkj.dzt.common.SysConstants;
 import com.cdkj.dzt.core.CalculationUtil;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.core.StringValidater;
+import com.cdkj.dzt.domain.Account;
 import com.cdkj.dzt.domain.Cloth;
+import com.cdkj.dzt.domain.Comment;
 import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
+import com.cdkj.dzt.domain.SYSConfig;
+import com.cdkj.dzt.domain.SizeData;
 import com.cdkj.dzt.domain.User;
 import com.cdkj.dzt.dto.req.XN620200Req;
 import com.cdkj.dzt.dto.res.BooleanRes;
 import com.cdkj.dzt.dto.res.XN001400Res;
+import com.cdkj.dzt.dto.res.XN620218Res;
 import com.cdkj.dzt.enums.EBizType;
 import com.cdkj.dzt.enums.EBoolean;
+import com.cdkj.dzt.enums.ECommentStatus;
 import com.cdkj.dzt.enums.ECurrency;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EPayType;
+import com.cdkj.dzt.enums.EReaction;
 import com.cdkj.dzt.enums.ESysConfigCkey;
 import com.cdkj.dzt.enums.ESysUser;
 import com.cdkj.dzt.enums.ESystemCode;
 import com.cdkj.dzt.enums.EUserKind;
+import com.cdkj.dzt.enums.EUserLevel;
 import com.cdkj.dzt.exception.BizException;
 
 /** 
@@ -75,6 +85,9 @@ public class OrderAOImpl implements IOrderAO {
 
     @Autowired
     private IOrderBO orderBO;
+
+    @Autowired
+    private IKeywordBO keywordBO;
 
     @Autowired
     private ISYSConfigBO sysConfigBO;
@@ -96,6 +109,9 @@ public class OrderAOImpl implements IOrderAO {
 
     @Autowired
     private IProductBO productBO;
+
+    @Autowired
+    private ICommentBO commentBO;
 
     @Autowired
     private IProductSpecsBO productSpecsBO;
@@ -201,7 +217,7 @@ public class OrderAOImpl implements IOrderAO {
             .getCode());
         order.setCode(code);
         if (StringUtils.isNotBlank(productCode)) {
-            Map<String, String> map = new HashMap<String, String>();
+            // Map<String, String> map = new HashMap<String, String>();
             // 确定订单类型
             String type = null;
             Model model = null;
@@ -498,52 +514,6 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 更改订单状态
         orderBO.confirmReceipt(order, updater, remark);
-        // 合伙人和量体师进行分成
-        doFenCheng(order);
-    }
-
-    private void doFenCheng(Order order) {
-        // 合伙人分成
-        String parterUserId = order.getToUser();
-        if (StringUtils.isNotBlank(parterUserId) && !"0".equals(parterUserId)) {
-            XN001400Res parter = userBO.getRemoteUser(parterUserId);
-            Long amount = Double.valueOf(
-                order.getAmount() * Double.valueOf(parter.getDivRate()))
-                .longValue();
-            // 分成金额至少是一分钱
-            if (amount > 10) {
-                accountBO.doTransferAmountRemote(
-                    ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY,
-                    parterUserId, ECurrency.CNY, amount, EBizType.AJ_HHRFC,
-                    "订单：" + order.getCode() + " 合伙人分成", "订单：" + order.getCode()
-                            + " 分成收入", order.getCode());
-                // 短信通知
-                smsOutBO.sentContent(
-                    parterUserId,
-                    String.format(SysConstants.FENCHENG_CONTENT, "合伙人",
-                        order.getCode(), CalculationUtil.divi(amount)));
-            }
-        }
-        // 量体师分成
-        String ltUserId = order.getLtUser();
-        if (StringUtils.isNotBlank(ltUserId)) {
-            XN001400Res ltUser = userBO.getRemoteUser(ltUserId);
-            Long amount = Double.valueOf(
-                order.getAmount() * Double.valueOf(ltUser.getDivRate()))
-                .longValue();
-            if (amount > 10) {
-                accountBO.doTransferAmountRemote(
-                    ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY, ltUserId,
-                    ECurrency.CNY, amount, EBizType.AJ_LTSFC,
-                    "订单：" + order.getCode() + " 量体师分成", "订单：" + order.getCode()
-                            + " 分成收入", order.getCode());
-                // 短信通知
-                smsOutBO.sentContent(
-                    ltUserId,
-                    String.format(SysConstants.FENCHENG_CONTENT, "量体师",
-                        order.getCode(), CalculationUtil.divi(amount)));
-            }
-        }
     }
 
     // 取消订单
@@ -637,14 +607,27 @@ public class OrderAOImpl implements IOrderAO {
         price = 1.76
                 * (clothPrice * model.getLoss() + model.getProcessFee() + craftPrice)
                 + 2.06 * (kdfPrice + bzfPrice);
+        // XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
+        Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
+            ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
+            ESystemCode.DZT.getCode()).getCvalue());
+
+        // if (StringValidater.toInteger(user.getLevel()) > 1) {
+        // rate = 1.0;
+        // }
         Long truePrice = AmountUtil.rmbJinFen(price);
+        // truePrice = AmountUtil.mul(truePrice, rate);
         return truePrice;
     }
 
+    // H+定价
     @Override
     public void confirmPrice(String orderCode, List<String> codeList,
             Integer quantity, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
+        if (!EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
+            throw new BizException("xn0000", "订单不处于待量体状态，不可以定价");
+        }
         Double price = 0.0;
         String productCode = null;
         Model model = null;
@@ -653,7 +636,7 @@ public class OrderAOImpl implements IOrderAO {
         for (String code : codeList) {
             if (code.startsWith(EGeneratePrefix.MODEL.getCode())) {
                 model = modelBO.getModel(code);
-                productBO.saveProduct(order, model, quantity);
+                productCode = productBO.saveProduct(order, model, quantity);
             }
             if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
                 Cloth cloth = clothBO.getCloth(code);
@@ -676,6 +659,9 @@ public class OrderAOImpl implements IOrderAO {
         }
         for (Craft craft1 : craftList) {
             craftPrice = craftPrice + craft1.getPrice();
+            productSpecsBO
+                .saveProductSpecs(craft1.getCode(), craft1.getName(), null,
+                    craft1.getPic(), craft1.getType(), productCode, orderCode);
         }
         // 快递费
         Long kdfPrice = StringValidater.toLong(sysConfigBO.getConfigValue(
@@ -688,6 +674,366 @@ public class OrderAOImpl implements IOrderAO {
         price = 1.76
                 * (clothPrice * model.getLoss() + model.getProcessFee() + craftPrice)
                 + 2.06 * (kdfPrice + bzfPrice);
+        XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
+        Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
+            ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
+            ESystemCode.DZT.getCode()).getCvalue());
+        if (StringValidater.toInteger(user.getLevel()) > 1) {
+            rate = 1.0;
+        }
         Long truePrice = AmountUtil.rmbJinFen(price);
+        truePrice = AmountUtil.mul(truePrice, rate) * quantity;
+        orderBO.confirmPrice(order, model, truePrice, updater, remark);
+    }
+
+    @Override
+    public void inputInfor(String orderCode, Map<String, String> map,
+            String updater, String remark) {
+        Order order = orderBO.getOrder(orderCode);
+        if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
+            throw new BizException("xn000000", "订单尚未支付,不能录入数据");
+        }
+        Product product = productBO.getProductByOrderCode(orderCode);
+        productSpecsBO.inputInforValue(order, product, map);
+        // 更新订单
+        orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
+            remark);
+    }
+
+    @Override
+    public String comment(String orderCode, String content, String commenter) {
+        Order order = orderBO.getOrder(orderCode);
+        if (!EOrderStatus.RECEIVE.getCode().equals(order.getStatus())) {
+            throw new BizException("xn000000", "订单不处于已收货状态,不能评论");
+        }
+        Product product = productBO.getProductByOrderCode(orderCode);
+        // 判断是否含有关键字
+        String status = ECommentStatus.PUBLISHED.getCode();
+        EReaction result = keywordBO.checkContent(content);
+        if (EReaction.REFUSE.getCode().equals(result.getCode())) {
+            status = ECommentStatus.FILTERED.getCode();
+        }
+        Comment data = new Comment();
+        String code = OrderNoGenerater.generateME(EGeneratePrefix.COMMENT
+            .getCode());
+        data.setCode(code);
+        data.setContent(content);
+        data.setStatus(status);
+        data.setCommer(commenter);
+        data.setCommentDatetime(new Date());
+        data.setParentCode(orderCode);
+        data.setTopCode(product.getCode());
+        commentBO.saveComment(data);
+        if (ECommentStatus.FILTERED.getCode().equals(status)) {
+            code = code + "; filter";
+        }
+        orderBO.comment(order, commenter);
+        return code;
+    }
+
+    @Override
+    public void isFiled(String orderCode, String updater, String remark) {
+        Order order = orderBO.getOrder(orderCode);
+        if (!EOrderStatus.COMMENT.getCode().equals(order.getStatus())) {
+            throw new BizException("xn000000", "订单不处于已评论状态,不能归档");
+        }
+        orderBO.isFiled(order, updater, remark);
+        // 合伙人和量体师进行分成
+        doFenChengRMB(order);
+        // 计算积分
+        doJF(order);
+        // 计算经验
+        doJY(order);
+    }
+
+    private void doFenChengRMB(Order order) {
+        // 合伙人分成
+        String parterUserId = order.getToUser();
+        String type = order.getType();
+        // 0为衬衫，1为H+产品
+        // 如果为衬衫则分成
+        if (EBoolean.NO.getCode().equals(type)) {
+            if (StringUtils.isNotBlank(parterUserId)
+                    && !"0".equals(parterUserId)) {
+                Double rate = StringValidater.toDouble(sysConfigBO
+                    .getConfigValue(ESysConfigCkey.CSHHRFC.getCode(),
+                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
+                    .getCvalue());
+                Long amount = AmountUtil.mul(order.getAmount(), rate);
+                // 分成金额至少是一分钱
+                if (amount > 10) {
+                    accountBO.doTransferAmountRemote(
+                        ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY,
+                        parterUserId, ECurrency.CNY, amount, EBizType.AJ_HHRFC,
+                        "订单：" + order.getCode() + " 合伙人分成",
+                        "订单：" + order.getCode() + " 分成收入", order.getCode());
+                    // 短信通知
+                    smsOutBO.sentContent(parterUserId, String.format(
+                        SysConstants.FENCHENG_CONTENT, "合伙人", order.getCode(),
+                        CalculationUtil.divi(amount)));
+                }
+            }
+            // 量体师分成
+            String ltUserId = order.getLtUser();
+            if (StringUtils.isNotBlank(ltUserId)) {
+                Double rate = StringValidater.toDouble(sysConfigBO
+                    .getConfigValue(ESysConfigCkey.CSLTSFC.getCode(),
+                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
+                    .getCvalue());
+                Long amount = AmountUtil.mul(order.getAmount(), rate);
+                if (amount > 10) {
+                    accountBO.doTransferAmountRemote(
+                        ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY,
+                        ltUserId, ECurrency.CNY, amount, EBizType.AJ_LTSFC,
+                        "订单：" + order.getCode() + " 量体师分成",
+                        "订单：" + order.getCode() + " 分成收入", order.getCode());
+                    // 短信通知
+                    smsOutBO.sentContent(ltUserId, String.format(
+                        SysConstants.FENCHENG_CONTENT, "量体师", order.getCode(),
+                        CalculationUtil.divi(amount)));
+                }
+            }
+        } else {// 如果为H+产品则分成
+            if (StringUtils.isNotBlank(parterUserId)
+                    && !"0".equals(parterUserId)) {
+                Double rate = StringValidater.toDouble(sysConfigBO
+                    .getConfigValue(ESysConfigCkey.HHHRFC.getCode(),
+                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
+                    .getCvalue());
+                Long amount = AmountUtil.mul(order.getAmount(), rate);
+                // 分成金额至少是一分钱
+                if (amount > 10) {
+                    accountBO.doTransferAmountRemote(
+                        ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY,
+                        parterUserId, ECurrency.CNY, amount, EBizType.AJ_HHRFC,
+                        "订单：" + order.getCode() + " 合伙人分成",
+                        "订单：" + order.getCode() + " 分成收入", order.getCode());
+                    // 短信通知
+                    smsOutBO.sentContent(parterUserId, String.format(
+                        SysConstants.FENCHENG_CONTENT, "合伙人", order.getCode(),
+                        CalculationUtil.divi(amount)));
+                }
+            }
+            // 量体师分成
+            String ltUserId = order.getLtUser();
+            if (StringUtils.isNotBlank(ltUserId)) {
+                Double rate = StringValidater.toDouble(sysConfigBO
+                    .getConfigValue(ESysConfigCkey.HLTSFC.getCode(),
+                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
+                    .getCvalue());
+                Long amount = AmountUtil.mul(order.getAmount(), rate);
+                if (amount > 10) {
+                    accountBO.doTransferAmountRemote(
+                        ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY,
+                        ltUserId, ECurrency.CNY, amount, EBizType.AJ_LTSFC,
+                        "订单：" + order.getCode() + " 量体师分成",
+                        "订单：" + order.getCode() + " 分成收入", order.getCode());
+                    // 短信通知
+                    smsOutBO.sentContent(ltUserId, String.format(
+                        SysConstants.FENCHENG_CONTENT, "量体师", order.getCode(),
+                        CalculationUtil.divi(amount)));
+                }
+            }
+        }
+    }
+
+    private void doJF(Order order) {
+        XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
+        // 计算积分
+        if (StringUtils.isNotBlank(user.getUserReferee())) {
+            XN001400Res user1 = userBO.getRemoteUser(user.getUserReferee());
+            // 如果是会员
+            if (StringValidater.toInteger(user1.getLevel()) > 1) {
+                Long count = orderBO.getTotalCount(order.getApplyUser(),
+                    EOrderStatus.FILED);
+                // 如果是第一次下单成功,推荐人获得1500积分
+                // 其他情况获得比例积分
+                if (count > 1) {
+                    // 获取多少积分比例
+                    Long rate = StringValidater.toLong(sysConfigBO
+                        .getConfigValue(ESysConfigCkey.DCTJ.getCode(),
+                            ESystemCode.DZT.getCode(),
+                            ESystemCode.DZT.getCode()).getCvalue()) * 1000;
+                    // 兑换成多少积分
+                    Long amount = order.getAmount() / rate;
+                    accountBO.doTransferAmountRemote(
+                        ESysUser.SYS_USER_DZT.getCode(), ECurrency.JF,
+                        user.getUserReferee(), ECurrency.JF, amount,
+                        EBizType.DCTJ, EBizType.DCTJ.getValue(),
+                        EBizType.DCTJ.getValue(), order.getCode());
+                } else {
+                    // 首次直接加1500
+                    Long amount = StringValidater.toLong(sysConfigBO
+                        .getConfigValue(ESysConfigCkey.SCTJ.getCode(),
+                            ESystemCode.DZT.getCode(),
+                            ESystemCode.DZT.getCode()).getCvalue()) * 1000;
+                    accountBO.doTransferAmountRemote(
+                        ESysUser.SYS_USER_DZT.getCode(), ECurrency.JF,
+                        user.getUserReferee(), ECurrency.JF, amount,
+                        EBizType.DCTJ, EBizType.DCTJ.getValue(),
+                        EBizType.DCTJ.getValue(), order.getCode());
+                }
+            }
+        }
+        // 计算积分
+        // 购买者如果是会员
+        if (StringValidater.toInteger(user.getLevel()) > 1) {
+            // 获取多少积分比例
+            Long rate = StringValidater.toLong(sysConfigBO.getConfigValue(
+                ESysConfigCkey.YHHD.getCode(), ESystemCode.DZT.getCode(),
+                ESystemCode.DZT.getCode()).getCvalue()) * 1000;
+            // 兑换成多少积分
+            Long amount = order.getAmount() / rate;
+            accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
+                ECurrency.JF, user.getUserReferee(), ECurrency.JF, amount,
+                EBizType.DCTJ, EBizType.DCTJ.getValue(),
+                EBizType.DCTJ.getValue(), order.getCode());
+        }
+    }
+
+    private void doJY(Order order) {
+        List<SYSConfig> sysConfigList = sysConfigBO
+            .querySYSConfigList(EBoolean.YES.getCode());
+        XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
+        // 送经验,计算经验
+        if (StringUtils.isNotBlank(user.getUserReferee())) {
+            XN001400Res user1 = userBO.getRemoteUser(user.getUserReferee());
+            // 如果是会员
+            if (StringValidater.toInteger(user1.getLevel()) > 1) {
+                Long count = orderBO.getTotalCount(order.getApplyUser(),
+                    EOrderStatus.FILED);
+                // 如果是第一次下单成功,推荐人获得1500经验
+                // 其他情况获得比例积分
+                if (count > 1) {
+                    if (StringValidater.toInteger(user.getLevel()) > 1) {// 如果下单用户时会员
+                        // 获取多少积分比例
+                        Double rate = StringValidater.toDouble(sysConfigBO
+                            .getConfigValue(ESysConfigCkey.HDCJY.getCode(),
+                                ESystemCode.DZT.getCode(),
+                                ESystemCode.DZT.getCode()).getCvalue());
+                        // 兑换成多少积分
+                        Long amount = AmountUtil.mul(order.getAmount(), rate);
+                        accountBO.doTransferAmountRemote(
+                            ESysUser.SYS_USER_DZT.getCode(), ECurrency.JY,
+                            user.getUserReferee(), ECurrency.JY, amount,
+                            EBizType.HSCJY, EBizType.HSCJY.getValue(),
+                            EBizType.HSCJY.getValue(), order.getCode());
+                    } else {// 下单用户不是会员
+                        // 获取多少积分比例
+                        Double rate = StringValidater.toDouble(sysConfigBO
+                            .getConfigValue(ESysConfigCkey.FDCJY.getCode(),
+                                ESystemCode.DZT.getCode(),
+                                ESystemCode.DZT.getCode()).getCvalue());
+                        // 兑换成多少积分
+                        Long amount = AmountUtil.mul(order.getAmount(), rate);
+                        accountBO.doTransferAmountRemote(
+                            ESysUser.SYS_USER_DZT.getCode(), ECurrency.JF,
+                            user.getUserReferee(), ECurrency.JF, amount,
+                            EBizType.FDCJY, EBizType.FDCJY.getValue(),
+                            EBizType.FDCJY.getValue(), order.getCode());
+                    }
+                } else {
+                    // 首次直接加1500
+                    Long amount = StringValidater.toLong(sysConfigBO
+                        .getConfigValue(ESysConfigCkey.HSCJY.getCode(),
+                            ESystemCode.DZT.getCode(),
+                            ESystemCode.DZT.getCode()).getCvalue()) * 1000;
+                    accountBO.doTransferAmountRemote(
+                        ESysUser.SYS_USER_DZT.getCode(), ECurrency.JF,
+                        user.getUserReferee(), ECurrency.JF, amount,
+                        EBizType.HSCJY, EBizType.HSCJY.getValue(),
+                        EBizType.HSCJY.getValue(), order.getCode());
+                }
+            }
+            Account account = accountBO.getRemoteAccount(user.getUserReferee(),
+                ECurrency.JY);
+            Integer level = 0;
+            for (SYSConfig sysConfig : sysConfigList) {
+                if (StringValidater.toLong(sysConfig.getCvalue()) < account
+                    .getAmount()) {
+                    level = StringValidater.toInteger(user1.getLevel()) + 1;
+                }
+            }
+            if (level > 4) {
+                level = 4;
+            }
+            userBO.doUpLevel(user.getUserReferee(), Integer.toString(level));
+        }
+        // 计算经验
+        // 购买者如果是会员
+        if (StringValidater.toInteger(user.getLevel()) > 1) {
+            // 获取多少积分比例
+            Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
+                ESysConfigCkey.YHJY.getCode(), ESystemCode.DZT.getCode(),
+                ESystemCode.DZT.getCode()).getCvalue());
+            // 兑换成多少积分
+            Long amount = AmountUtil.mul(order.getAmount(), rate);
+            accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
+                ECurrency.JF, user.getUserReferee(), ECurrency.JF, amount,
+                EBizType.DCTJ, EBizType.DCTJ.getCode(),
+                EBizType.DCTJ.getCode(), order.getCode());
+            Account account = accountBO.getRemoteAccount(order.getApplyUser(),
+                ECurrency.JY);
+            Integer level = 0;
+            for (SYSConfig sysConfig : sysConfigList) {
+                if (StringValidater.toLong(sysConfig.getCvalue()) < account
+                    .getAmount()) {
+                    level = StringValidater.toInteger(user.getLevel()) + 1;
+                }
+            }
+            if (level > 4) {
+                level = 4;
+            }
+            userBO.doUpLevel(order.getApplyUser(), Integer.toString(level));
+        }
+    }
+
+    @Override
+    public Object paymentVIP(String userId, String payType) {
+        if (EPayType.WEIXIN.getCode().equals(payType)) {
+            XN001400Res user = userBO.getRemoteUser(userId);
+            if (StringValidater.toInteger(user.getLevel()) > 1) {
+                throw new BizException("xn0000", "您已经是VIP会员了,无需重复充值");
+            }
+            Long totalAmount = StringValidater.toLong(sysConfigBO
+                .getConfigValue(ESysConfigCkey.HYF.getCode(),
+                    ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
+                .getCvalue());
+            return accountBO.doWeiXinH5PayRemote(userId, user.getOpenId(),
+                ESysUser.SYS_USER_DZT.getCode(), userId, userId,
+                EBizType.AJ_HYCZ.getCode(), EBizType.AJ_HYCZ.getValue(),
+                totalAmount);
+        } else {
+            throw new BizException("xn0000", "暂不支持其他支付方式");
+        }
+    }
+
+    @Override
+    public void paySuccessVIP(String payGroup, String payCode, Long amount) {
+        XN001400Res user = userBO.getRemoteUser(payGroup);
+        if (StringValidater.toInteger(user.getLevel()) < 2) {
+            userBO.doUpLevel(payGroup, EUserLevel.TWO.getCode());
+        } else {
+            logger.info("已支付，重复回调");
+        }
+    }
+
+    @Override
+    public XN620218Res getLastOrder(String applyUser) {
+        XN620218Res res = new XN620218Res();
+        Order order = orderBO.getLastOrder(applyUser);
+        Map<String, String> map = new HashMap<String, String>();
+        List<SizeData> sizeDataList = sizeDataBO.querySizeDataList(applyUser);
+        for (SizeData sizeData : sizeDataList) {
+            if (sizeData.getCkey().equals(EMeasureKey.SG.getCode())) {
+                map.put(sizeData.getCkey(), sizeData.getCvalue());
+            }
+            if (sizeData.getCkey().equals(EMeasureKey.TZ.getCode())) {
+                map.put(sizeData.getCkey(), sizeData.getCvalue());
+            }
+        }
+        res.setOrder(order);
+        res.setMap(map);
+        return res;
     }
 }

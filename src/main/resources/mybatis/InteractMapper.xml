@@ -21,7 +21,7 @@
 			<if test="type != null and type != '' ">
 				AND t.type = #{type}
 			</if>
-			<if test="object_code != null and object_code != '' ">
+			<if test="objectCode != null and objectCode != '' ">
 				AND t.object_code = #{objectCode}
 			</if>
 			<if test="operator != null and operator != '' ">
@@ -83,6 +83,12 @@
 		,operat_datetime = #{operatDatetime}
 		WHERE code = #{code}
 	</update>
-
+	
+	<delete id="delete_interact" parameterType="interact">
+		DELETE FROM
+		tdzt_interact
+		where 
+		code=#{code}
+	</delete>
 
 </mapper>

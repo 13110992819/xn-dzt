@@ -20,4 +20,6 @@ public interface ISizeDataBO extends IPaginableBO<SizeData> {
 
     public SizeData getSizeData(String code);
 
+    public List<SizeData> querySizeDataList(String userId);
+
 }

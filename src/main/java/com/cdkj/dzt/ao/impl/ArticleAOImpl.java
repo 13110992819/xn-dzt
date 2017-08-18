@@ -3,17 +3,23 @@ package com.cdkj.dzt.ao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdkj.dzt.ao.IArticleAO;
 import com.cdkj.dzt.bo.IArticleBO;
+import com.cdkj.dzt.bo.IInteractBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Article;
 import com.cdkj.dzt.dto.req.XN620110Req;
 import com.cdkj.dzt.dto.req.XN620112Req;
+import com.cdkj.dzt.dto.res.XN620123Res;
+import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.EGeneratePrefix;
+import com.cdkj.dzt.enums.EInteractCategory;
+import com.cdkj.dzt.enums.EInteractType;
 import com.cdkj.dzt.enums.EStatus;
 import com.cdkj.dzt.exception.BizException;
 
@@ -22,6 +28,9 @@ public class ArticleAOImpl implements IArticleAO {
 
     @Autowired
     private IArticleBO articleBO;
+
+    @Autowired
+    private IInteractBO interactBO;
 
     @Override
     public String addArticle(XN620110Req req) {
@@ -98,6 +107,23 @@ public class ArticleAOImpl implements IArticleAO {
     @Override
     public Article getArticle(String code) {
         return articleBO.getArticle(code);
+    }
+
+    @Override
+    public XN620123Res getArticle(String code, String userId) {
+        XN620123Res res = new XN620123Res();
+        Article article = articleBO.getArticle(code);
+        String isSC = EBoolean.NO.getCode();
+        if (StringUtils.isNotBlank(userId)) {
+            Long num = interactBO.getTotalCount(EInteractCategory.CLOTH,
+                EInteractType.SC, code, userId);
+            if (num > 0) {
+                isSC = EBoolean.YES.getCode();
+            }
+        }
+        res.setArticle(article);
+        res.setIsSC(isSC);
+        return res;
     }
 
 }

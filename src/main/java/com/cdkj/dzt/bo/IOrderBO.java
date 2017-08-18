@@ -55,4 +55,8 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public Long getTotalCount(String userId, EOrderStatus status);
 
+    public void comment(Order order, String commenter);
+
+    public void isFiled(Order order, String updater, String remark);
+
 }

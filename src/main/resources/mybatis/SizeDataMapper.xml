@@ -13,6 +13,9 @@
 			<if test="id != null and id != '' ">
 				AND t.id = #{id}
 			</if>
+			<if test="userId != null and userId != '' ">
+				AND t.user_id = #{userId}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_sizeData" parameterType="sizeData" resultMap="sizeData_DB_Result">

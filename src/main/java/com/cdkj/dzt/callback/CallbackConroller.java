@@ -44,9 +44,13 @@ public class CallbackConroller {
             // ------------------------------
             try {
                 if (EBizType.AJ_GWFK.getCode().equals(bizType)) {
-                    System.out.println("**** 进入商品购物，微信APP支付服务器回调 start****");
+                    System.out.println("**** 进入商品购物，微信H5支付服务器回调 start****");
                     orderAO.paySuccess(payGroup, payCode, amount);
-                    System.out.println("**** 进入商品购物，微信APP支付服务器回调 end****");
+                    System.out.println("**** 进入商品购物，微信H5支付服务器回调 end****");
+                } else if (EBizType.AJ_HYCZ.getCode().equals(bizType)) {
+                    System.out.println("**** 进入会员充值，微信H5支付服务器回调 start****");
+                    orderAO.paySuccessVIP(payGroup, payCode, amount);
+                    System.out.println("**** 进入会员充值，微信H5支付服务器回调 end****");
                 }
             } catch (Exception e) {
                 logger.info("支付回调异常");

@@ -35,4 +35,8 @@ public interface IOrderDAO extends IBaseDAO<Order> {
 
     public Order getLastOrder(String applyUser);
 
+    public int comment(Order data);
+
+    public int isFiled(Order data);
+
 }

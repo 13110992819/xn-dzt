@@ -8,6 +8,7 @@ import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Article;
 import com.cdkj.dzt.dto.req.XN620110Req;
 import com.cdkj.dzt.dto.req.XN620112Req;
+import com.cdkj.dzt.dto.res.XN620123Res;
 
 @Component
 public interface IArticleAO {
@@ -31,4 +32,5 @@ public interface IArticleAO {
 
     public Article getArticle(String code);
 
+    public XN620123Res getArticle(String code, String userId);
 }
