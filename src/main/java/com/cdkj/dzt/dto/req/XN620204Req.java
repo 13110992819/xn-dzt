@@ -9,8 +9,14 @@ import java.util.List;
  * @history:
  */
 public class XN620204Req {
+    // 订单编号
+    private String orderCode;
+
     // 编号List(必填)
     private List<String> codeList;
+
+    // 数量
+    private String quantity;
 
     public List<String> getCodeList() {
         return codeList;
@@ -18,5 +24,21 @@ public class XN620204Req {
 
     public void setCodeList(List<String> codeList) {
         this.codeList = codeList;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 }

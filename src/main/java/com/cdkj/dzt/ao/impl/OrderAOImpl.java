@@ -143,6 +143,7 @@ public class OrderAOImpl implements IOrderAO {
             // 确定订单类型
             String type = null;
             Model model = null;
+            String dProductCode = null;
             if (productCode.startsWith(EGeneratePrefix.MODEL.getCode())) {// 产品
                 model = modelBO.getModel(productCode);
                 productBO.saveProduct(order, model, 1);
@@ -150,15 +151,22 @@ public class OrderAOImpl implements IOrderAO {
             if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {// 面料
                 Cloth cloth = clothBO.getCloth(productCode);
                 model = modelBO.getModel(cloth.getModelCode());
-                productSpecsBO.saveProductSpecs(cloth.getCode(), null, null,
-                    cloth.getPic(), cloth.getType(), null, order.getCode());
+                dProductCode = productBO.saveProduct(order, model, 1);
+                productSpecsBO.saveProductSpecs(cloth.getCode(), null,
+                    cloth.getType(), cloth.getPic(), cloth.getBrand(),
+                    cloth.getModelNum(), cloth.getAdvPic(), cloth.getColor(),
+                    cloth.getFlowers(), cloth.getForm(), cloth.getWeight(),
+                    cloth.getYarn(), cloth.getPrice(), dProductCode,
+                    order.getCode());
             }
             if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
                 Craft craft = craftBO.getCraft(productCode);
                 model = modelBO.getModel(craft.getModelCode());
+                dProductCode = productBO.saveProduct(order, model, 1);
                 productSpecsBO.saveProductSpecs(craft.getCode(),
-                    craft.getName(), null, craft.getPic(), craft.getType(),
-                    null, order.getCode());
+                    craft.getName(), craft.getType(), craft.getPic(), null,
+                    null, null, null, null, null, null, null, craft.getPrice(),
+                    dProductCode, order.getCode());
 
                 // map.put(craft.getType(), craft.getCode());
                 // Map<String, Craft> craftSmap = craftBO.getMap();
@@ -221,6 +229,7 @@ public class OrderAOImpl implements IOrderAO {
             // 确定订单类型
             String type = null;
             Model model = null;
+            String dProductCode = null;
             if (productCode.startsWith(EGeneratePrefix.MODEL.getCode())) {// 产品
                 model = modelBO.getModel(productCode);
                 productBO.saveProduct(order, model, 1);
@@ -228,9 +237,13 @@ public class OrderAOImpl implements IOrderAO {
             if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {// 面料
                 Cloth cloth = clothBO.getCloth(productCode);
                 model = modelBO.getModel(cloth.getModelCode());
-
-                productSpecsBO.saveProductSpecs(cloth.getCode(), null, null,
-                    cloth.getPic(), cloth.getType(), null, order.getCode());
+                dProductCode = productBO.saveProduct(order, model, 1);
+                productSpecsBO.saveProductSpecs(cloth.getCode(), null,
+                    cloth.getType(), cloth.getPic(), cloth.getBrand(),
+                    cloth.getModelNum(), cloth.getAdvPic(), cloth.getColor(),
+                    cloth.getFlowers(), cloth.getForm(), cloth.getWeight(),
+                    cloth.getYarn(), cloth.getPrice(), dProductCode,
+                    order.getCode());
                 // map.put(cloth.getType(), cloth.getCode());
                 // Map<String, Cloth> clothSmap = clothBO.getMap();
                 // productSpecsBO.inputInforCloth(order, null, map, clothSmap);
@@ -238,10 +251,11 @@ public class OrderAOImpl implements IOrderAO {
             if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
                 Craft craft = craftBO.getCraft(productCode);
                 model = modelBO.getModel(craft.getModelCode());
-
+                dProductCode = productBO.saveProduct(order, model, 1);
                 productSpecsBO.saveProductSpecs(craft.getCode(),
-                    craft.getName(), null, craft.getPic(), craft.getType(),
-                    null, order.getCode());
+                    craft.getName(), craft.getType(), craft.getPic(), null,
+                    null, null, null, null, null, null, null, craft.getPrice(),
+                    dProductCode, order.getCode());
 
                 // map.put(craft.getType(), craft.getCode());
                 // Map<String, Craft> craftSmap = craftBO.getMap();
@@ -569,7 +583,9 @@ public class OrderAOImpl implements IOrderAO {
 
     // 计算价格
     @Override
-    public Long calculatePrice(List<String> codeList) {
+    public Long calculatePrice(String orderCode, List<String> codeList,
+            String quantity) {
+        Order order = orderBO.getOrder(orderCode);
         Model model = null;
         Cloth cloth = null;
         Craft craft = null;
@@ -611,16 +627,17 @@ public class OrderAOImpl implements IOrderAO {
         price = 1.76
                 * (clothPrice * model.getLoss() + model.getProcessFee() + craftPrice)
                 + 2.06 * (kdfPrice + bzfPrice);
-        // XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
+        XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
         Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
             ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
             ESystemCode.DZT.getCode()).getCvalue());
 
-        // if (StringValidater.toInteger(user.getLevel()) > 1) {
-        // rate = 1.0;
-        // }
-        Long truePrice = AmountUtil.rmbJinFen(price);
-        // truePrice = AmountUtil.mul(truePrice, rate);
+        if (StringValidater.toInteger(user.getLevel()) > 1) {
+            rate = 1.0;
+        }
+        Long truePrice = AmountUtil.rmbJinFen(price)
+                * StringValidater.toLong(quantity);
+        truePrice = AmountUtil.mul(truePrice, rate);
         return truePrice;
     }
 
@@ -646,10 +663,13 @@ public class OrderAOImpl implements IOrderAO {
                 Cloth cloth = clothBO.getCloth(code);
                 clothList.add(cloth);
             }
-            if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
+            if (code.startsWith(EGeneratePrefix.CRAFT.getCode())) {
                 Craft craft = craftBO.getCraft(code);
                 craftList.add(craft);
             }
+        }
+        if (StringUtils.isBlank(productCode)) {
+            productCode = productBO.getProductByOrderCode(orderCode).getCode();
         }
         // 售价=1.76*（面料单价*面料单耗+加工费+工艺费）+2.06*（快递费+包装费）
         // 计算面料价格
@@ -658,14 +678,19 @@ public class OrderAOImpl implements IOrderAO {
         Long craftPrice = 0L;
         for (Cloth cloth1 : clothList) {
             clothPrice = clothPrice + cloth1.getPrice();
-            productSpecsBO.saveProductSpecs(cloth1.getCode(), null, null,
-                cloth1.getPic(), cloth1.getType(), productCode, orderCode);
+            productSpecsBO.saveProductSpecs(cloth1.getCode(), null,
+                cloth1.getType(), cloth1.getPic(), cloth1.getBrand(),
+                cloth1.getModelNum(), cloth1.getAdvPic(), cloth1.getColor(),
+                cloth1.getFlowers(), cloth1.getForm(), cloth1.getWeight(),
+                cloth1.getYarn(), cloth1.getPrice(), productCode,
+                order.getCode());
         }
         for (Craft craft1 : craftList) {
             craftPrice = craftPrice + craft1.getPrice();
-            productSpecsBO
-                .saveProductSpecs(craft1.getCode(), craft1.getName(), null,
-                    craft1.getPic(), craft1.getType(), productCode, orderCode);
+            productSpecsBO.saveProductSpecs(craft1.getCode(), craft1.getName(),
+                craft1.getType(), craft1.getPic(), null, null, null, null,
+                null, null, null, null, craft1.getPrice(), productCode,
+                order.getCode());
         }
         // 快递费
         Long kdfPrice = StringValidater.toLong(sysConfigBO.getConfigValue(

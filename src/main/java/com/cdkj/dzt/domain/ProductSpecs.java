@@ -24,8 +24,32 @@ public class ProductSpecs extends ABaseDO {
     // 图片(冗余)
     private String pic;
 
-    // key
-    private String parentCode;
+    // 品牌
+    private String brand;
+
+    // 规格编号
+    private String modelNum;
+
+    // 广告图
+    private String advPic;
+
+    // 色系
+    private String color;
+
+    // 花色
+    private String flowers;
+
+    // 成分
+    private String form;
+
+    // 重量
+    private Integer weight;
+
+    // 纱支
+    private String yarn;
+
+    // 价格
+    private Long price;
 
     // 成衣编号
     private String productCode;
@@ -47,14 +71,6 @@ public class ProductSpecs extends ABaseDO {
 
     public String getName() {
         return name;
-    }
-
-    public void setParentCode(String parentCode) {
-        this.parentCode = parentCode;
-    }
-
-    public String getParentCode() {
-        return parentCode;
     }
 
     public void setType(String type) {
@@ -87,6 +103,78 @@ public class ProductSpecs extends ABaseDO {
 
     public String getOrderCode() {
         return orderCode;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModelNum() {
+        return modelNum;
+    }
+
+    public void setModelNum(String modelNum) {
+        this.modelNum = modelNum;
+    }
+
+    public String getAdvPic() {
+        return advPic;
+    }
+
+    public void setAdvPic(String advPic) {
+        this.advPic = advPic;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getFlowers() {
+        return flowers;
+    }
+
+    public void setFlowers(String flowers) {
+        this.flowers = flowers;
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public String getYarn() {
+        return yarn;
+    }
+
+    public void setYarn(String yarn) {
+        this.yarn = yarn;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
 }

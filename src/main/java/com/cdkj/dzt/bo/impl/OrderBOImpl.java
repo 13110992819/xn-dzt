@@ -239,12 +239,12 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
             for (String key : map.keySet()) {
                 boolean isIn = false;
                 for (ProductSpecs productSpecs : product.getProductSpecsList()) {
-                    if (key.equalsIgnoreCase(productSpecs.getParentCode())) {
+                    if (key.equalsIgnoreCase(productSpecs.getType())) {
                         isIn = true;
                         break;
                     }
-                    if (productSpecs.getParentCode().substring(0, 1) != null) {
-                        code = productSpecs.getParentCode().substring(0, 1);
+                    if (productSpecs.getType().substring(0, 1) != null) {
+                        code = productSpecs.getType().substring(0, 1);
                     }
                     if (key.equalsIgnoreCase(EMeasureKey.QXK.getCode())
                             || key.equalsIgnoreCase(EMeasureKey.HBK.getCode())

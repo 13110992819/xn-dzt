@@ -12,7 +12,9 @@ import com.cdkj.dzt.domain.ProductSpecs;
 
 public interface IProductSpecsBO extends IPaginableBO<ProductSpecs> {
     public void saveProductSpecs(String code, String name, String type,
-            String pic, String parentCode, String productCode, String orderCode);
+            String pic, String brand, String modelNum, String advPic,
+            String color, String flowers, String form, Integer weight,
+            String yarn, Long price, String productCode, String orderCode);
 
     public void removeProductSpecs(String productCode);
 
