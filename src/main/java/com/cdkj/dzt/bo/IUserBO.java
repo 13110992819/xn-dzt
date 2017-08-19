@@ -17,4 +17,10 @@ public interface IUserBO {
             EUserKind kind);
 
     public void doUpLevel(String userId, String level);
+
+    // 更新最后下单时间
+    public void refreshLastOrderDatetime(String userId, String lastOrderDatetime);
+
+    // 更新用户活跃度
+    public void refreshFrequent(String userId, String frequent);
 }

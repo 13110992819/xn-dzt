@@ -514,6 +514,10 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 更改订单状态
         orderBO.confirmReceipt(order, updater, remark);
+        // 更新用户最后下单时间
+        userBO
+            .refreshLastOrderDatetime(order.getApplyUser(), DateUtil.dateToStr(
+                order.getCreateDatetime(), DateUtil.DATA_TIME_PATTERN_1));
     }
 
     // 取消订单
@@ -1035,5 +1039,47 @@ public class OrderAOImpl implements IOrderAO {
         res.setOrder(order);
         res.setMap(map);
         return res;
+    }
+
+    @Override
+    public void refreshFrequent() {
+        // 半年
+        Date createDatetimeEnd = new Date();
+        Date createDatetimeStartB = DateUtil.getRelativeDateOfDays(new Date(),
+            -90);
+        List<Order> orderListB = orderBO.getGroupTotalCount(
+            createDatetimeStartB, createDatetimeEnd);
+        if (CollectionUtils.isNotEmpty(orderListB)) {
+            for (Order order : orderListB) {
+                if (order.getCount() <= 0) {
+                    userBO.refreshFrequent(order.getApplyUser(), "6");
+                }
+            }
+        }
+
+        // 三个月
+        Date createDatetimeStartS = DateUtil.getRelativeDateOfDays(new Date(),
+            -30);
+        List<Order> orderListS = orderBO.getGroupTotalCount(
+            createDatetimeStartS, createDatetimeEnd);
+        if (CollectionUtils.isNotEmpty(orderListS)) {
+            for (Order order : orderListS) {
+                if (order.getCount() <= 0) {
+                    userBO.refreshFrequent(order.getApplyUser(), "5");
+                }
+                if (order.getCount() >= 5) {
+                    userBO.refreshFrequent(order.getApplyUser(), "4");
+                }
+                if (order.getCount() < 5 || order.getCount() >= 3) {
+                    userBO.refreshFrequent(order.getApplyUser(), "3");
+                }
+                if (order.getCount() <= 2) {
+                    userBO.refreshFrequent(order.getApplyUser(), "2");
+                }
+                if (order.getCount() < 2 || order.getCount() >= 1) {
+                    userBO.refreshFrequent(order.getApplyUser(), "1");
+                }
+            }
+        }
     }
 }

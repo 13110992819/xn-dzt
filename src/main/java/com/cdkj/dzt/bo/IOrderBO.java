@@ -59,4 +59,7 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public void isFiled(Order order, String updater, String remark);
 
+    public List<Order> getGroupTotalCount(Date createDatetimeStart,
+            Date createDatetimeEnd);
+
 }

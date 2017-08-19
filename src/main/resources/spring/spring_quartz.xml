@@ -19,6 +19,7 @@
        <property name="triggers">  
            <list>
            	  <!-- <ref bean="orderTrigger"/>  -->
+           	  <ref bean="userTrigger"/>
           </list>  
        </property>  
        <property name="autoStartup" value="true"/>  
@@ -34,4 +35,13 @@
 	        <property name="concurrent" value="true"/>   是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程  
 	</bean> -->
 	
+	
+	<bean id="userTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="doChangeUserFrequentDaily"/>  
+      <property name="cronExpression" value="0 0/1 * * * ?"/>
+	</bean>
+	<bean id="doChangeUserFrequentDaily" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+	        <property name="targetObject" ref="orderAOImpl"/>  
+	        <property name="targetMethod" value="refreshFrequent"/>  
+	</bean>  
 </beans>

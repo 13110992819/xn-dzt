@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import com.cdkj.dzt.bo.IUserBO;
 import com.cdkj.dzt.domain.User;
 import com.cdkj.dzt.dto.req.XN001302Req;
+import com.cdkj.dzt.dto.req.XN001304Req;
+import com.cdkj.dzt.dto.req.XN001305Req;
 import com.cdkj.dzt.dto.req.XN001400Req;
 import com.cdkj.dzt.dto.req.XN001403Req;
 import com.cdkj.dzt.dto.res.XN001400Res;
@@ -87,4 +89,23 @@ public class UserBOImpl implements IUserBO {
             Object.class);
     }
 
+    // 更新最后下单时间
+    @Override
+    public void refreshLastOrderDatetime(String userId, String lastOrderDatetime) {
+        XN001304Req req = new XN001304Req();
+        req.setUserId(userId);
+        req.setLastOrderDatetime(lastOrderDatetime);
+        BizConnecter.getBizData("001304", JsonUtils.object2Json(req),
+            Object.class);
+    }
+
+    // 更新用户活跃度
+    @Override
+    public void refreshFrequent(String userId, String frequent) {
+        XN001305Req req = new XN001305Req();
+        req.setUserId(userId);
+        req.setFrequent(frequent);
+        BizConnecter.getBizData("001305", JsonUtils.object2Json(req),
+            Object.class);
+    }
 }

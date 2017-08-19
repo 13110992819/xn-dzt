@@ -78,4 +78,6 @@ public interface IOrderAO {
     public void paySuccessVIP(String payGroup, String payCode, Long amount);
 
     public XN620218Res getLastOrder(String applyUser);
+
+    public void refreshFrequent();
 }

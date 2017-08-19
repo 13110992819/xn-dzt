@@ -1,5 +1,7 @@
 package com.cdkj.dzt.dao;
 
+import java.util.List;
+
 import com.cdkj.dzt.dao.base.IBaseDAO;
 import com.cdkj.dzt.domain.Order;
 
@@ -38,5 +40,7 @@ public interface IOrderDAO extends IBaseDAO<Order> {
     public int comment(Order data);
 
     public int isFiled(Order data);
+
+    public List<Order> selectGroupList(Order condition);
 
 }

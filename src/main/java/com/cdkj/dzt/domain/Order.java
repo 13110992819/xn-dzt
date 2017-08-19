@@ -132,6 +132,15 @@ public class Order extends ABaseDO {
     // 搜索条件
     private List<String> statusList;
 
+    // 创建时间开始
+    private Date createDatetimeStart;
+
+    // 创建时间结束
+    private Date createDatetimeEnd;
+
+    // 数量
+    private Long count;
+
     public List<String> getStatusList() {
         return statusList;
     }
@@ -442,6 +451,30 @@ public class Order extends ABaseDO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Date getCreateDatetimeStart() {
+        return createDatetimeStart;
+    }
+
+    public void setCreateDatetimeStart(Date createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
+    }
+
+    public Date getCreateDatetimeEnd() {
+        return createDatetimeEnd;
+    }
+
+    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
     }
 
 }

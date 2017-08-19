@@ -290,4 +290,13 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         orderDAO.isFiled(order);
     }
 
+    @Override
+    public List<Order> getGroupTotalCount(Date createDatetimeStart,
+            Date createDatetimeEnd) {
+        Order condition = new Order();
+        condition.setCreateDatetimeStart(createDatetimeStart);
+        condition.setCreateDatetimeEnd(createDatetimeEnd);
+        return orderDAO.selectGroupList(condition);
+    }
+
 }

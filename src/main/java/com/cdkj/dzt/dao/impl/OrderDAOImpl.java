@@ -149,4 +149,10 @@ public class OrderDAOImpl extends AMybatisTemplate implements IOrderDAO {
     public int isFiled(Order data) {
         return super.update(NAMESPACE.concat("update_isFiled"), data);
     }
+
+    @Override
+    public List<Order> selectGroupList(Order condition) {
+        return super.selectList(NAMESPACE.concat("select_group_order"),
+            condition, Order.class);
+    }
 }
