@@ -15,20 +15,20 @@ public class ProductSpecs extends ABaseDO {
     // 编号/具体值----不是主键，是用户选择的选项
     private String code;
 
-    // 名称(冗余)
-    private String name;
-
     // 类型(冗余)
     private String type;
 
-    // 图片(冗余)
-    private String pic;
+    // 名称(冗余)
+    private String name;
 
     // 品牌
     private String brand;
 
     // 规格编号
     private String modelNum;
+
+    // 图片(冗余)
+    private String pic;
 
     // 广告图
     private String advPic;

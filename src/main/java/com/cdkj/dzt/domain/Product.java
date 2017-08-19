@@ -29,6 +29,18 @@ public class Product extends ABaseDO {
     // 产品图片
     private String modelPic;
 
+    // 广告图
+    private String advPic;
+
+    // 图文描述
+    private String description;
+
+    // 损耗
+    private Integer loss;
+
+    // 加工费
+    private Long processFee;
+
     // 单价
     private Long price;
 
@@ -100,6 +112,38 @@ public class Product extends ABaseDO {
 
     public void setProductSpecsList(List<ProductSpecs> productSpecsList) {
         this.productSpecsList = productSpecsList;
+    }
+
+    public String getAdvPic() {
+        return advPic;
+    }
+
+    public void setAdvPic(String advPic) {
+        this.advPic = advPic;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getLoss() {
+        return loss;
+    }
+
+    public void setLoss(Integer loss) {
+        this.loss = loss;
+    }
+
+    public Long getProcessFee() {
+        return processFee;
+    }
+
+    public void setProcessFee(Long processFee) {
+        this.processFee = processFee;
     }
 
 }

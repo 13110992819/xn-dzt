@@ -8,6 +8,12 @@
 		<result column="model_code" property="modelCode" />
 		<result column="model_name" property="modelName" />
 		<result column="model_pic" property="modelPic" />
+		<result column="adv_pic" property="advPic" />
+		
+		<result column="description" property="description" />
+		<result column="loss" property="loss" />
+		<result column="process_fee" property="processFee" />
+		<result column="price" property="price" />
 		<result column="price" property="price" />
 		<result column="quantity" property="quantity" />
 	</resultMap>
@@ -31,6 +37,11 @@
 		,t.model_code
 		,t.model_name
 		,t.model_pic
+		,t.adv_pic
+		
+		,t.description
+		,t.loss
+		,t.process_fee
 		,t.price
 		,t.quantity
 		FROM
@@ -57,6 +68,11 @@
 		,model_code
 		,model_name
 		,model_pic
+		,adv_pic
+		
+		,description
+		,loss
+		,process_fee
 		,price
 		,quantity
 		)
@@ -66,6 +82,11 @@
 		,#{modelCode}
 		,#{modelName}
 		,#{modelPic}
+		,#{advPic}
+		
+		,#{description}
+		,#{loss}
+		,#{processFee}
 		,#{price}
 		,#{quantity}
 		)
