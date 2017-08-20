@@ -45,7 +45,7 @@ public class XN620010 extends AProcessor {
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
-        return modelAO.queryModelPage(start, limit, condition);
+        return modelAO.queryModelPage(start, limit, condition, req.getUserId());
     }
 
     @Override

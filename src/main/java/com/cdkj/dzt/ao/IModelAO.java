@@ -22,7 +22,8 @@ public interface IModelAO {
 
     public void putOff(String code, String updater, String remark);
 
-    public Paginable<Model> queryModelPage(int start, int limit, Model condition);
+    public Paginable<Model> queryModelPage(int start, int limit,
+            Model condition, String userId);
 
     public List<Model> queryModelList(Model condition);
 

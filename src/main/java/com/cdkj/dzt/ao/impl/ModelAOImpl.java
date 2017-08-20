@@ -108,8 +108,23 @@ public class ModelAOImpl implements IModelAO {
     }
 
     @Override
-    public Paginable<Model> queryModelPage(int start, int limit, Model condition) {
-        return modelBO.getPaginable(start, limit, condition);
+    public Paginable<Model> queryModelPage(int start, int limit,
+            Model condition, String userId) {
+        Paginable<Model> pageList = modelBO.getPaginable(start, limit,
+            condition);
+        List<Model> modelList = pageList.getList();
+        for (Model model : modelList) {
+            String isSC = EBoolean.NO.getCode();
+            if (StringUtils.isNotBlank(userId)) {
+                Long num = interactBO.getTotalCount(EInteractCategory.MODEL,
+                    EInteractType.SC, model.getCode(), userId);
+                if (num > 0) {
+                    isSC = EBoolean.YES.getCode();
+                }
+            }
+            model.setIsSC(isSC);
+        }
+        return pageList;
     }
 
     @Override

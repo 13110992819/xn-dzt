@@ -62,6 +62,9 @@ public class Model extends ABaseDO {
     // 备注
     private String remark;
 
+    // 是否收藏
+    private String isSC;
+
     public String getCode() {
         return code;
     }
@@ -188,6 +191,14 @@ public class Model extends ABaseDO {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getIsSC() {
+        return isSC;
+    }
+
+    public void setIsSC(String isSC) {
+        this.isSC = isSC;
     }
 
 }

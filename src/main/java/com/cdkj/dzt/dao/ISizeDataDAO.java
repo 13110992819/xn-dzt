@@ -8,4 +8,6 @@ public interface ISizeDataDAO extends IBaseDAO<SizeData> {
     String NAMESPACE = ISizeDataDAO.class.getName().concat(".");
 
     int update(SizeData data);
+
+    int deleteByUserId(SizeData data);
 }

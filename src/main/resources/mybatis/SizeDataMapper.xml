@@ -63,5 +63,11 @@
 		WHERE id = #{id}
 	</update>
 
+	<delete id="delete_byUserId" parameterType="model">
+		DELETE FROM
+		tdzt_size_data
+		where 
+		user_id=#{userId}
+	</delete>
 
 </mapper>

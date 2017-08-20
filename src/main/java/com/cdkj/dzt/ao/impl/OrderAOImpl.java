@@ -554,6 +554,9 @@ public class OrderAOImpl implements IOrderAO {
                 || EOrderStatus.ASSIGN_PRICE.getCode()
                     .equals(order.getStatus())) {
             orderBO.cancelOrder(order, updater, remark);
+            if (EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
+                sizeDataBO.removeSizeDataByUserId(order.getApplyUser());
+            }
         } else {
             throw new BizException("xn000000", "订单不处于可取消订单状态,不能取消订单");
         }
@@ -1051,18 +1054,23 @@ public class OrderAOImpl implements IOrderAO {
     public XN620218Res getLastOrder(String applyUser) {
         XN620218Res res = new XN620218Res();
         Order order = orderBO.getIsLastOrder(applyUser);
-        Map<String, String> map = new HashMap<String, String>();
-        List<SizeData> sizeDataList = sizeDataBO.querySizeDataList(applyUser);
-        for (SizeData sizeData : sizeDataList) {
-            if (sizeData.getCkey().equals(EMeasureKey.SG.getCode())) {
-                map.put(sizeData.getCkey(), sizeData.getCvalue());
+        if (null != order) {
+            Map<String, String> map = new HashMap<String, String>();
+            List<SizeData> sizeDataList = sizeDataBO
+                .querySizeDataList(applyUser);
+            for (SizeData sizeData : sizeDataList) {
+                if (sizeData.getCkey().equals(EMeasureKey.SG.getCode())
+                        || sizeData.getUserId().equals(applyUser)) {
+                    map.put(sizeData.getCkey(), sizeData.getCvalue());
+                }
+                if (sizeData.getCkey().equals(EMeasureKey.TZ.getCode())
+                        || sizeData.getUserId().equals(applyUser)) {
+                    map.put(sizeData.getCkey(), sizeData.getCvalue());
+                }
             }
-            if (sizeData.getCkey().equals(EMeasureKey.TZ.getCode())) {
-                map.put(sizeData.getCkey(), sizeData.getCvalue());
-            }
+            res.setMap(map);
         }
         res.setOrder(order);
-        res.setMap(map);
         return res;
     }
 

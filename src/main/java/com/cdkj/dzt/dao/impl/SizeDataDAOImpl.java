@@ -50,4 +50,9 @@ public class SizeDataDAOImpl extends AMybatisTemplate implements ISizeDataDAO {
         return super.update(NAMESPACE.concat("update_sizeData"), data);
     }
 
+    @Override
+    public int deleteByUserId(SizeData data) {
+        return super.delete(NAMESPACE.concat("delete_byUserId"), data);
+    }
+
 }

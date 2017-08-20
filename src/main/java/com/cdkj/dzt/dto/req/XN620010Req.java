@@ -29,6 +29,9 @@ public class XN620010Req extends APageReq {
     // 更新人（选填）
     private String updater;
 
+    // 当前用户编号
+    private String userId;
+
     public String getName() {
         return name;
     }
@@ -59,6 +62,14 @@ public class XN620010Req extends APageReq {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
 }

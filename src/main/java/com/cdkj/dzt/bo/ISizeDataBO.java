@@ -22,4 +22,6 @@ public interface ISizeDataBO extends IPaginableBO<SizeData> {
 
     public List<SizeData> querySizeDataList(String userId);
 
+    public void removeSizeDataByUserId(String applyUser);
+
 }

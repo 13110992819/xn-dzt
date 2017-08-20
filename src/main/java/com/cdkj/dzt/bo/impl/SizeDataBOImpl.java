@@ -98,4 +98,11 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
         condition.setUserId(userId);
         return sizeDataDAO.selectList(condition);
     }
+
+    @Override
+    public void removeSizeDataByUserId(String applyUser) {
+        SizeData data = new SizeData();
+        data.setUserId(applyUser);
+        sizeDataDAO.deleteByUserId(data);
+    }
 }
