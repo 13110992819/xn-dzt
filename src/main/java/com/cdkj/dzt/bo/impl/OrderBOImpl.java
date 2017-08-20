@@ -215,6 +215,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
+    public Order getIsLastOrder(String applyUser) {
+        return orderDAO.getLastOrder(applyUser);
+    }
+
+    @Override
     public Order getRichOrder(String code) {
         Order order = this.getOrder(code);
         List<Product> list = productBO.queryRichProductList(order.getCode());

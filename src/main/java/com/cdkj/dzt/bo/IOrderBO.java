@@ -48,6 +48,8 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public Order getLastOrder(String applyUser);
 
+    public Order getIsLastOrder(String applyUser);
+
     public List<Order> queryOrderListByPayGroup(String payGroup);
 
     // 订单数据是否完整

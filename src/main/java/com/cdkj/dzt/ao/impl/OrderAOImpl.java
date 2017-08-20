@@ -1050,7 +1050,7 @@ public class OrderAOImpl implements IOrderAO {
     @Override
     public XN620218Res getLastOrder(String applyUser) {
         XN620218Res res = new XN620218Res();
-        Order order = orderBO.getLastOrder(applyUser);
+        Order order = orderBO.getIsLastOrder(applyUser);
         Map<String, String> map = new HashMap<String, String>();
         List<SizeData> sizeDataList = sizeDataBO.querySizeDataList(applyUser);
         for (SizeData sizeData : sizeDataList) {
