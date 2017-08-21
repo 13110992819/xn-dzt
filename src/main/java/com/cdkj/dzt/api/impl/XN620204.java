@@ -24,9 +24,8 @@ public class XN620204 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.calculatePrice(req.getOrderCode(), req.getCodeList(),
+        return orderAO.calculatePrice(req.getOrderCode(), req.getCodeList(),
             req.getQuantity());
-        return null;
     }
 
     @Override

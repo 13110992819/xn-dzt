@@ -186,6 +186,84 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             this.saveBEIZHU(orderCode, productCode,
                 map.get(EMeasureKey.BEIZHU.getCode()));
         }
+        if (StringUtils.isNotBlank(map.get(EMeasureKey.TX.getCode()))) {
+            this.saveTX(orderCode, productCode,
+                map.get(EMeasureKey.TX.getCode()));
+        }
+        if (StringUtils.isNotBlank(map.get(EMeasureKey.BB.getCode()))) {
+            this.saveBB(orderCode, productCode,
+                map.get(EMeasureKey.BB.getCode()));
+        }
+        if (StringUtils.isNotBlank(map.get(EMeasureKey.BZ.getCode()))) {
+            this.saveBZ(orderCode, productCode,
+                map.get(EMeasureKey.BZ.getCode()));
+        }
+        if (StringUtils.isNotBlank(map.get(EMeasureKey.FBL.getCode()))) {
+            this.saveFBL(orderCode, productCode,
+                map.get(EMeasureKey.FBL.getCode()));
+        }
+        if (StringUtils.isNotBlank(map.get(EMeasureKey.CXWZ.getCode()))) {
+            this.saveCXWZ(orderCode, productCode,
+                map.get(EMeasureKey.CXWZ.getCode()));
+        }
+        if (StringUtils.isNotBlank(map.get(EMeasureKey.JXL.getCode()))) {
+            this.saveJXL(orderCode, productCode,
+                map.get(EMeasureKey.JXL.getCode()));
+        }
+    }
+
+    private void saveCXWZ(String orderCode, String productCode, String value) {
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(value);
+        data.setType(EMeasureKey.CXWZ.getCode());
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
+    }
+
+    private void saveJXL(String orderCode, String productCode, String value) {
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(value);
+        data.setType(EMeasureKey.JXL.getCode());
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
+    }
+
+    private void saveFBL(String orderCode, String productCode, String value) {
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(value);
+        data.setType(EMeasureKey.FBL.getCode());
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
+    }
+
+    private void saveBZ(String orderCode, String productCode, String value) {
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(value);
+        data.setType(EMeasureKey.BZ.getCode());
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
+    }
+
+    private void saveBB(String orderCode, String productCode, String value) {
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(value);
+        data.setType(EMeasureKey.BB.getCode());
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
+    }
+
+    private void saveTX(String orderCode, String productCode, String value) {
+        ProductSpecs data = new ProductSpecs();
+        data.setCode(value);
+        data.setType(EMeasureKey.TX.getCode());
+        data.setProductCode(productCode);
+        data.setOrderCode(orderCode);
+        productSpecsDAO.insert(data);
     }
 
     private void saveBEIZHU(String orderCode, String productCode, String value) {
@@ -720,7 +798,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         for (Cloth cloth : clothList) {
             ProductSpecs data = new ProductSpecs();
             data.setCode(cloth.getCode());
-            data.setType(cloth.getType());
+            data.setType(EMeasureKey.CSML.getCode());
             data.setPic(cloth.getPic());
             data.setBrand(cloth.getBrand());
 

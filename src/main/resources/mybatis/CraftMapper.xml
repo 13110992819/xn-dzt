@@ -67,7 +67,7 @@
 
 	<select id="select_craft_count" parameterType="craft"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tdzt_craft t
+		SELECT count(1) FROM tdzt_craft t INNER JOIN tdzt_model tm ON t.model_code = tm.code
 		<include refid="where_condition" />
 	</select>
 

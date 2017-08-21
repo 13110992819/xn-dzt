@@ -1,6 +1,7 @@
 package com.cdkj.dzt.ao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Craft;
@@ -25,6 +26,8 @@ public interface ICraftAO {
     public Paginable<Craft> queryCraftPage(int start, int limit, Craft condition);
 
     public List<Craft> queryCraftList(Craft condition);
+
+    public Map<String, List<Craft>> queryMapCraftList(Craft condition);
 
     public Craft getCraft(String code);
 

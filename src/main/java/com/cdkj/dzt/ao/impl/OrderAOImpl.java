@@ -69,6 +69,7 @@ import com.cdkj.dzt.enums.EReaction;
 import com.cdkj.dzt.enums.ESysConfigCkey;
 import com.cdkj.dzt.enums.ESysUser;
 import com.cdkj.dzt.enums.ESystemCode;
+import com.cdkj.dzt.enums.EUserFrequent;
 import com.cdkj.dzt.enums.EUserKind;
 import com.cdkj.dzt.enums.EUserLevel;
 import com.cdkj.dzt.exception.BizException;
@@ -124,6 +125,10 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     public String applyOrder(XN620200Req req) {
+        Order lastOrder = orderBO.getIsLastOrder(req.getApplyUser());
+        if (EOrderStatus.TO_MEASURE.getCode().equals(lastOrder.getStatus())) {
+            throw new BizException("xn0000", "您已经有一个预约单了");
+        }
         // 获取城市合伙人
         User user = userBO.getPartner(req.getLtProvince(), req.getLtCity(),
             req.getLtArea(), EUserKind.Partner);
@@ -1078,39 +1083,66 @@ public class OrderAOImpl implements IOrderAO {
     public void refreshFrequent() {
         // 半年
         Date createDatetimeEnd = new Date();
+        Integer mothed = StringValidater.toInteger(sysConfigBO.getConfigValue(
+            ESysConfigCkey.DMOTHED.getCode(), ESystemCode.DZT.getCode(),
+            ESystemCode.DZT.getCode()).getCvalue());
         Date createDatetimeStartB = DateUtil.getRelativeDateOfDays(new Date(),
-            -90);
+            -mothed * 30);
         List<Order> orderListB = orderBO.getGroupTotalCount(
             createDatetimeStartB, createDatetimeEnd);
+        Integer count = StringValidater.toInteger(sysConfigBO.getConfigValue(
+            ESysConfigCkey.LSCS.getCode(), ESystemCode.DZT.getCode(),
+            ESystemCode.DZT.getCode()).getCvalue());
         if (CollectionUtils.isNotEmpty(orderListB)) {
             for (Order order : orderListB) {
-                if (order.getCount() <= 0) {
-                    userBO.refreshFrequent(order.getApplyUser(), "6");
+                if (order.getCount() <= count) {
+                    userBO.refreshFrequent(order.getApplyUser(),
+                        EUserFrequent.SIX.getCode());
                 }
             }
         }
 
         // 三个月
+        mothed = StringValidater.toInteger(sysConfigBO.getConfigValue(
+            ESysConfigCkey.SMOTHED.getCode(), ESystemCode.DZT.getCode(),
+            ESystemCode.DZT.getCode()).getCvalue());
         Date createDatetimeStartS = DateUtil.getRelativeDateOfDays(new Date(),
-            -30);
+            -mothed * 30);
         List<Order> orderListS = orderBO.getGroupTotalCount(
             createDatetimeStartS, createDatetimeEnd);
+        Map<String, String> map = sysConfigBO.getMap();
+
+        Integer YLSCS = StringValidater.toInteger(map.get(ESysConfigCkey.YLSCS
+            .getCode()));
+        Integer FCHY = StringValidater.toInteger(map.get(ESysConfigCkey.FCHY
+            .getCode()));
+        Integer HY = StringValidater.toInteger(map.get(ESysConfigCkey.HY
+            .getCode()));
+        Integer LKH = StringValidater.toInteger(map.get(ESysConfigCkey.LKH
+            .getCode()));
+        Integer XKH = StringValidater.toInteger(map.get(ESysConfigCkey.XKH
+            .getCode()));
         if (CollectionUtils.isNotEmpty(orderListS)) {
             for (Order order : orderListS) {
-                if (order.getCount() <= 0) {
-                    userBO.refreshFrequent(order.getApplyUser(), "5");
+                if (order.getCount() <= YLSCS) {
+                    userBO.refreshFrequent(order.getApplyUser(),
+                        EUserFrequent.FIVE.getCode());
                 }
-                if (order.getCount() >= 5) {
-                    userBO.refreshFrequent(order.getApplyUser(), "4");
+                if (order.getCount() >= FCHY) {
+                    userBO.refreshFrequent(order.getApplyUser(),
+                        EUserFrequent.FOUR.getCode());
                 }
-                if (order.getCount() < 5 || order.getCount() >= 3) {
-                    userBO.refreshFrequent(order.getApplyUser(), "3");
+                if (order.getCount() >= HY || order.getCount() < FCHY) {
+                    userBO.refreshFrequent(order.getApplyUser(),
+                        EUserFrequent.THREE.getCode());
                 }
-                if (order.getCount() <= 2) {
-                    userBO.refreshFrequent(order.getApplyUser(), "2");
+                if (order.getCount() >= LKH || order.getCount() < HY) {
+                    userBO.refreshFrequent(order.getApplyUser(),
+                        EUserFrequent.TWO.getCode());
                 }
-                if (order.getCount() < 2 || order.getCount() >= 1) {
-                    userBO.refreshFrequent(order.getApplyUser(), "1");
+                if (order.getCount() < LKH || order.getCount() >= XKH) {
+                    userBO.refreshFrequent(order.getApplyUser(),
+                        EUserFrequent.ONE.getCode());
                 }
             }
         }

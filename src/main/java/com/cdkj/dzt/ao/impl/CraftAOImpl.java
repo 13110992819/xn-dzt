@@ -1,8 +1,12 @@
 package com.cdkj.dzt.ao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,6 +101,26 @@ public class CraftAOImpl implements ICraftAO {
     @Override
     public List<Craft> queryCraftList(Craft condition) {
         return craftBO.queryCraftList(condition);
+    }
+
+    @Override
+    public Map<String, List<Craft>> queryMapCraftList(Craft condition) {
+        List<Craft> list = craftBO.queryCraftList(condition);
+        Map<String, List<Craft>> map = new HashMap<String, List<Craft>>();
+        if (CollectionUtils.isNotEmpty(list)) {
+            List<Craft> craftList = null;
+            for (Craft craft : list) {
+                craftList = map.get(craft.getType());
+                if (CollectionUtils.isEmpty(craftList)) {
+                    craftList = new ArrayList<Craft>();
+                    craftList.add(craft);
+                    map.put(craft.getType(), craftList);
+                } else {
+                    craftList.add(craft);
+                }
+            }
+        }
+        return map;
     }
 
     @Override

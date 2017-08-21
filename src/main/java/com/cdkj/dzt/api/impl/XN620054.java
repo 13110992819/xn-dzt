@@ -17,7 +17,7 @@ import com.cdkj.dzt.spring.SpringContextHolder;
  * @since: 2017年4月14日 下午3:15:23 
  * @history:
  */
-public class XN620052 extends AProcessor {
+public class XN620054 extends AProcessor {
     private ICraftAO craftAO = SpringContextHolder.getBean(ICraftAO.class);
 
     private XN620052Req req = null;
@@ -38,7 +38,7 @@ public class XN620052 extends AProcessor {
             orderColumn = ICraftAO.DEFAULT_ORDER_COLUMN;
         }
         condition.setOrder(orderColumn, req.getOrderDir());
-        return craftAO.queryCraftList(condition);
+        return craftAO.queryMapCraftList(condition);
     }
 
     /** 
