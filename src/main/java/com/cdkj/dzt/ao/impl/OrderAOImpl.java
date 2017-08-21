@@ -50,6 +50,7 @@ import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
+import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.domain.SYSConfig;
 import com.cdkj.dzt.domain.SizeData;
 import com.cdkj.dzt.domain.User;
@@ -435,8 +436,18 @@ public class OrderAOImpl implements IOrderAO {
         // 更新订单
         orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
             remark);
+        List<ProductSpecs> productSpecsList = productSpecsBO
+            .queryPSByOrderCodeList(orderCode);
+        for (ProductSpecs productSpecs : productSpecsList) {
+            if (EMeasureKey.TZ.getCode().equals(productSpecs.getType())) {
+                map.put(productSpecs.getType(), productSpecs.getCode());
+            }
+            if (EMeasureKey.SG.getCode().equals(productSpecs.getType())) {
+                map.put(productSpecs.getType(), productSpecs.getCode());
+            }
+        }
         // 落地量体数据
-        // productSpecsBO.removeProductSpecs(product.getCode());
+        productSpecsBO.removeProductSpecs(product.getCode());
         Cloth cloth = null;
         Craft craft = null;
         List<Cloth> clothList = new ArrayList<Cloth>();

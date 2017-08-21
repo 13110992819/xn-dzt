@@ -60,21 +60,23 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     @Override
     public void inputInforValue(Order order, Map<String, String> map) {
         String orderCode = order.getCode();
-        this.saveSG(orderCode, map.get(EMeasureKey.SG.getCode()));
-        this.saveTZ(orderCode, map.get(EMeasureKey.TZ.getCode()));
+        this.saveSG(orderCode, null, map.get(EMeasureKey.SG.getCode()));
+        this.saveTZ(orderCode, null, map.get(EMeasureKey.TZ.getCode()));
     }
 
-    private void saveTZ(String orderCode, String value) {
+    private void saveTZ(String orderCode, String productCode, String value) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
+        data.setProductCode(productCode);
         data.setType(EMeasureKey.TZ.getCode());
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
     }
 
-    private void saveSG(String orderCode, String value) {
+    private void saveSG(String orderCode, String productCode, String value) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
+        data.setProductCode(productCode);
         data.setType(EMeasureKey.SG.getCode());
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -209,6 +211,14 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         if (StringUtils.isNotBlank(map.get(EMeasureKey.JXL.getCode()))) {
             this.saveJXL(orderCode, productCode,
                 map.get(EMeasureKey.JXL.getCode()));
+        }
+        if (StringUtils.isNotBlank(map.get(EMeasureKey.SG.getCode()))) {
+            this.saveSG(orderCode, productCode,
+                map.get(EMeasureKey.SG.getCode()));
+        }
+        if (StringUtils.isNotBlank(map.get(EMeasureKey.TZ.getCode()))) {
+            this.saveTZ(orderCode, productCode,
+                map.get(EMeasureKey.TZ.getCode()));
         }
     }
 
