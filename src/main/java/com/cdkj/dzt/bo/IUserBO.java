@@ -1,5 +1,7 @@
 package com.cdkj.dzt.bo;
 
+import java.util.List;
+
 import com.cdkj.dzt.domain.User;
 import com.cdkj.dzt.dto.res.XN001400Res;
 import com.cdkj.dzt.enums.EUserKind;
@@ -23,4 +25,6 @@ public interface IUserBO {
 
     // 更新用户活跃度
     public void refreshFrequent(String userId, String frequent);
+
+    public List<XN001400Res> queryUserList();
 }

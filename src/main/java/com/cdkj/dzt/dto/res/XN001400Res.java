@@ -1,5 +1,7 @@
 package com.cdkj.dzt.dto.res;
 
+import java.util.Date;
+
 public class XN001400Res {
     // 用户ID
     private String userId;
@@ -72,6 +74,12 @@ public class XN001400Res {
 
     // 区(县)
     private String area;
+
+    // 注册时间
+    private Date createDatetime;
+
+    // 最后下单时间
+    private Date lastOrderDatetime;
 
     public String getProvince() {
         return province;
@@ -264,4 +272,21 @@ public class XN001400Res {
     public void setDivRate(String divRate) {
         this.divRate = divRate;
     }
+
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
+
+    public void setCreateDatetime(Date createDatetime) {
+        this.createDatetime = createDatetime;
+    }
+
+    public Date getLastOrderDatetime() {
+        return lastOrderDatetime;
+    }
+
+    public void setLastOrderDatetime(Date lastOrderDatetime) {
+        this.lastOrderDatetime = lastOrderDatetime;
+    }
+
 }

@@ -127,8 +127,10 @@ public class OrderAOImpl implements IOrderAO {
     @Override
     public String applyOrder(XN620200Req req) {
         Order lastOrder = orderBO.getIsLastOrder(req.getApplyUser());
-        if (EOrderStatus.TO_MEASURE.getCode().equals(lastOrder.getStatus())) {
-            throw new BizException("xn0000", "您已经有一个预约单了");
+        if (null != lastOrder) {
+            if (EOrderStatus.TO_MEASURE.getCode().equals(lastOrder.getStatus())) {
+                throw new BizException("xn0000", "您已经有一个预约单了");
+            }
         }
         // 获取城市合伙人
         User user = userBO.getPartner(req.getLtProvince(), req.getLtCity(),
@@ -1099,6 +1101,21 @@ public class OrderAOImpl implements IOrderAO {
             ESystemCode.DZT.getCode()).getCvalue());
         Date createDatetimeStartB = DateUtil.getRelativeDateOfDays(new Date(),
             -mothed * 30);
+        List<XN001400Res> userList = userBO.queryUserList();
+        if (CollectionUtils.isNotEmpty(userList)) {
+            for (XN001400Res res : userList) {
+                if (null != res.getLastOrderDatetime()) {
+                    if (res.getLastOrderDatetime().before(createDatetimeStartB)) {
+                        userBO.refreshFrequent(res.getUserId(),
+                            EUserFrequent.SIX.getCode());
+                    }
+                } else if (res.getCreateDatetime().before(createDatetimeStartB)) {
+                    userBO.refreshFrequent(res.getUserId(),
+                        EUserFrequent.SIX.getCode());
+                }
+
+            }
+        }
         List<Order> orderListB = orderBO.getGroupTotalCount(
             createDatetimeStartB, createDatetimeEnd);
         Integer count = StringValidater.toInteger(sysConfigBO.getConfigValue(
@@ -1138,20 +1155,16 @@ public class OrderAOImpl implements IOrderAO {
                 if (order.getCount() <= YLSCS) {
                     userBO.refreshFrequent(order.getApplyUser(),
                         EUserFrequent.FIVE.getCode());
-                }
-                if (order.getCount() >= FCHY) {
+                } else if (order.getCount() >= FCHY) {
                     userBO.refreshFrequent(order.getApplyUser(),
                         EUserFrequent.FOUR.getCode());
-                }
-                if (order.getCount() >= HY || order.getCount() < FCHY) {
+                } else if (order.getCount() >= HY && order.getCount() < FCHY) {
                     userBO.refreshFrequent(order.getApplyUser(),
                         EUserFrequent.THREE.getCode());
-                }
-                if (order.getCount() >= LKH || order.getCount() < HY) {
+                } else if (order.getCount() >= LKH && order.getCount() < HY) {
                     userBO.refreshFrequent(order.getApplyUser(),
                         EUserFrequent.TWO.getCode());
-                }
-                if (order.getCount() < LKH || order.getCount() >= XKH) {
+                } else if (order.getCount() < LKH && order.getCount() >= XKH) {
                     userBO.refreshFrequent(order.getApplyUser(),
                         EUserFrequent.ONE.getCode());
                 }

@@ -15,11 +15,22 @@ public class XN620147Req extends APageReq {
     // 留言与接收人
     private String lookUser;
 
+    // 类型
+    private String type;
+
     public String getLookUser() {
         return lookUser;
     }
 
     public void setLookUser(String lookUser) {
         this.lookUser = lookUser;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -12,6 +12,7 @@ import com.cdkj.dzt.dto.req.XN001302Req;
 import com.cdkj.dzt.dto.req.XN001304Req;
 import com.cdkj.dzt.dto.req.XN001305Req;
 import com.cdkj.dzt.dto.req.XN001400Req;
+import com.cdkj.dzt.dto.req.XN001401Req;
 import com.cdkj.dzt.dto.req.XN001403Req;
 import com.cdkj.dzt.dto.res.XN001400Res;
 import com.cdkj.dzt.dto.res.XN001403Res;
@@ -107,5 +108,19 @@ public class UserBOImpl implements IUserBO {
         req.setFrequent(frequent);
         BizConnecter.getBizData("001305", JsonUtils.object2Json(req),
             Object.class);
+    }
+
+    @Override
+    public List<XN001400Res> queryUserList() {
+        XN001401Req req = new XN001401Req();
+        req.setSystemCode(ESystemCode.DZT.getCode());
+        req.setCompanyCode(ESystemCode.DZT.getCode());
+        String jsonStr = BizConnecter.getBizData("001401",
+            JsonUtils.object2Json(req));
+        Gson gson = new Gson();
+        List<XN001400Res> list = gson.fromJson(jsonStr,
+            new TypeToken<List<XN001400Res>>() {
+            }.getType());
+        return list;
     }
 }

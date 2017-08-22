@@ -115,7 +115,7 @@ public class ArticleAOImpl implements IArticleAO {
         Article article = articleBO.getArticle(code);
         String isSC = EBoolean.NO.getCode();
         if (StringUtils.isNotBlank(userId)) {
-            Long num = interactBO.getTotalCount(EInteractCategory.CLOTH,
+            Long num = interactBO.getTotalCount(EInteractCategory.ARTICLE,
                 EInteractType.SC, code, userId);
             if (num > 0) {
                 isSC = EBoolean.YES.getCode();

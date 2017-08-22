@@ -3,6 +3,7 @@ package com.cdkj.dzt.ao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import com.cdkj.dzt.domain.Swap;
 import com.cdkj.dzt.dto.res.XN001400Res;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.EGeneratePrefix;
+import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.exception.BizException;
 
 @Service
@@ -35,8 +37,9 @@ public class SwapAOImpl implements ISwapAO {
     public String addSwap(String type, String commenter, String content) {
         String receiver = "0";
         if (EBoolean.YES.getCode().equals(type)) {
-            Order order = orderBO.getLastOrder(commenter);
-            if (null == order) {
+            Order order = orderBO.getIsLastOrder(commenter);
+            if (null == order
+                    || !EOrderStatus.CANCEL.getCode().equals(order.getStatus())) {
                 throw new BizException("xn0000", "您还没有专属顾问");
             }
             receiver = order.getLtUser();
@@ -106,8 +109,25 @@ public class SwapAOImpl implements ISwapAO {
                 XN001400Res res = userBO.getRemoteUser(swap.getCommenter());
                 XN001400Res receiverRes = userBO.getRemoteUser(swap
                     .getReceiver());
-                swap.setCommentName(res.getNickname());
-                swap.setReceiveName(receiverRes.getNickname());
+                Order order = orderBO.getIsLastOrder(swap.getCommenter());
+                swap.setCommentMobile(res.getMobile());
+                swap.setCommentName(res.getRealName());
+                if (StringUtils.isBlank(res.getRealName())) {
+                    swap.setCommentName(order.getApplyName());
+                }
+                if (StringUtils.isBlank(res.getMobile())) {
+                    swap.setCommentMobile(order.getApplyMobile());
+                }
+
+                Order order1 = orderBO.getIsLastOrder(swap.getCommenter());
+                swap.setReceiveName(receiverRes.getRealName());
+                swap.setReceiveMobile(receiverRes.getMobile());
+                if (StringUtils.isBlank(receiverRes.getRealName())) {
+                    swap.setReceiveName(order1.getApplyName());
+                }
+                if (StringUtils.isBlank(receiverRes.getMobile())) {
+                    swap.setReceiveMobile(order1.getApplyMobile());
+                }
             }
         }
         return page;
