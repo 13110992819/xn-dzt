@@ -105,6 +105,9 @@
 			<if test="updater != null and updater != '' ">
 				AND t.updater = #{updater}
 			</if>
+			<if test="burry != null and burry != '' ">
+				AND t.apply_name like CONCAT("%",#{burry},"%") or t.apply_mobile like CONCAT("%",#{burry},"%") or t.code like CONCAT("%",#{burry},"%")
+			</if>
 			<if test="statusList != null and statusList != '' ">
 				AND t.status in 
                 <foreach item="item" index="index" collection="statusList" open="(" separator="," close=")">

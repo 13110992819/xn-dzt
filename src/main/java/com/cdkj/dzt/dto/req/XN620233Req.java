@@ -21,6 +21,9 @@ public class XN620233Req extends APageReq {
     // 状态（选填）
     private String status;
 
+    // 订单号、申请人手机号、申请人姓名
+    private String burry;
+
     // 搜索条件
     private List<String> statusList;
 
@@ -46,6 +49,14 @@ public class XN620233Req extends APageReq {
 
     public void setStatusList(List<String> statusList) {
         this.statusList = statusList;
+    }
+
+    public String getBurry() {
+        return burry;
+    }
+
+    public void setBurry(String burry) {
+        this.burry = burry;
     }
 
 }

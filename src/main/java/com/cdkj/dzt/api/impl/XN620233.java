@@ -30,6 +30,7 @@ public class XN620233 extends AProcessor {
         condition.setApplyUser(req.getApplyUser());
         condition.setStatus(req.getStatus());
         condition.setStatusList(req.getStatusList());
+        condition.setBurry(req.getBurry());
 
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());

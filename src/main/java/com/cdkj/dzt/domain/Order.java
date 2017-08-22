@@ -141,6 +141,9 @@ public class Order extends ABaseDO {
     // 数量
     private Long count;
 
+    // 订单号、申请人手机号、申请人姓名
+    private String burry;
+
     public List<String> getStatusList() {
         return statusList;
     }
@@ -475,6 +478,14 @@ public class Order extends ABaseDO {
 
     public void setCount(Long count) {
         this.count = count;
+    }
+
+    public String getBurry() {
+        return burry;
+    }
+
+    public void setBurry(String burry) {
+        this.burry = burry;
     }
 
 }
