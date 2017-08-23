@@ -252,9 +252,6 @@ public class OrderAOImpl implements IOrderAO {
                     cloth.getFlowers(), cloth.getForm(), cloth.getWeight(),
                     cloth.getYarn(), cloth.getPrice(), dProductCode,
                     order.getCode());
-                // map.put(cloth.getType(), cloth.getCode());
-                // Map<String, Cloth> clothSmap = clothBO.getMap();
-                // productSpecsBO.inputInforCloth(order, null, map, clothSmap);
             }
             if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
                 Craft craft = craftBO.getCraft(productCode);
@@ -264,10 +261,6 @@ public class OrderAOImpl implements IOrderAO {
                     craft.getName(), craft.getType(), craft.getPic(), null,
                     null, null, null, null, null, null, null, craft.getPrice(),
                     dProductCode, order.getCode());
-
-                // map.put(craft.getType(), craft.getCode());
-                // Map<String, Craft> craftSmap = craftBO.getMap();
-                // productSpecsBO.inputInforCraft(order, null, map, craftSmap);
             }
             type = model.getType();
             order.setType(type);
@@ -299,7 +292,18 @@ public class OrderAOImpl implements IOrderAO {
         order.setRemark("根据<" + lastOrder.getCode() + ">订单一键复购形成");
 
         orderBO.applyOrder(order);
-
+        List<ProductSpecs> productSpecsList = productSpecsBO
+            .queryPSByOrderCodeList(order.getCode());
+        Map<String, String> map = new HashMap<String, String>();
+        for (ProductSpecs productSpecs : productSpecsList) {
+            if (EMeasureKey.TZ.getCode().equals(productSpecs.getType())) {
+                map.put(productSpecs.getType(), productSpecs.getCode());
+            }
+            if (EMeasureKey.SG.getCode().equals(productSpecs.getType())) {
+                map.put(productSpecs.getType(), productSpecs.getCode());
+            }
+        }
+        productSpecsBO.inputInforValue(order, map);
         // 一键复购，直接短信通知量体师
         smsOutBO.sentContent(
             order.getLtUser(),
@@ -399,7 +403,7 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不处于已定价状态");
         }
         orderBO.addPayGroup(order, payGroup, EPayType.WEIXIN.getCode());
-        return accountBO.doWeiXinH5PayRemote(userId, user.getOpenId(),
+        return accountBO.doWeiXinH5PayRemote(userId, user.getH5OpenId(),
             ESysUser.SYS_USER_DZT.getCode(), payGroup, orderCode,
             EBizType.AJ_GWFK.getCode(), "HE-SHIRTS衬衫购买订单支付", totalAmount);
     }
@@ -450,6 +454,7 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 落地量体数据
         productSpecsBO.removeProductSpecs(product.getCode());
+        sizeDataBO.removeSizeDataByUserId(order.getApplyUser());
         Cloth cloth = null;
         Craft craft = null;
         List<Cloth> clothList = new ArrayList<Cloth>();
@@ -464,6 +469,13 @@ public class OrderAOImpl implements IOrderAO {
                 craftList.add(craft);
             }
         }
+        if (CollectionUtils.isEmpty(clothList)) {
+            throw new BizException("xn0000", "布料不能为空");
+        }
+        if (CollectionUtils.isEmpty(craftList)) {
+            throw new BizException("xn0000", "工艺不能为空");
+        }
+        sizeDataBO.inputInforValue(order.getApplyUser(), map);
         productSpecsBO.inputInforValue(order, product, map);
         productSpecsBO.inputInforCloth(order, product, clothList);
         productSpecsBO.inputInforCraft(order, product, craftList);
@@ -665,7 +677,8 @@ public class OrderAOImpl implements IOrderAO {
     // H+定价
     @Override
     public void confirmPrice(String orderCode, List<String> codeList,
-            Integer quantity, String updater, String remark) {
+            Integer quantity, Map<String, String> map, String updater,
+            String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
             throw new BizException("xn0000", "订单不处于待量体状态，不可以定价");
@@ -700,7 +713,7 @@ public class OrderAOImpl implements IOrderAO {
         for (Cloth cloth1 : clothList) {
             clothPrice = clothPrice + cloth1.getPrice();
             productSpecsBO.saveProductSpecs(cloth1.getCode(), null,
-                cloth1.getType(), cloth1.getPic(), cloth1.getBrand(),
+                EMeasureKey.CSML.getCode(), cloth1.getPic(), cloth1.getBrand(),
                 cloth1.getModelNum(), cloth1.getAdvPic(), cloth1.getColor(),
                 cloth1.getFlowers(), cloth1.getForm(), cloth1.getWeight(),
                 cloth1.getYarn(), cloth1.getPrice(), productCode,
@@ -733,6 +746,8 @@ public class OrderAOImpl implements IOrderAO {
         }
         Long truePrice = AmountUtil.rmbJinFen(price);
         truePrice = AmountUtil.mul(truePrice, rate) * quantity;
+        productSpecsBO.inputInforValue(order,
+            productBO.getProductByOrderCode(orderCode), map);
         orderBO.confirmPrice(order, model, truePrice, updater, remark);
     }
 
@@ -1049,7 +1064,7 @@ public class OrderAOImpl implements IOrderAO {
                 .getConfigValue(ESysConfigCkey.HYF.getCode(),
                     ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
                 .getCvalue());
-            return accountBO.doWeiXinH5PayRemote(userId, user.getOpenId(),
+            return accountBO.doWeiXinH5PayRemote(userId, user.getH5OpenId(),
                 ESysUser.SYS_USER_DZT.getCode(), userId, userId,
                 EBizType.AJ_HYCZ.getCode(), EBizType.AJ_HYCZ.getValue(),
                 totalAmount);
@@ -1113,7 +1128,6 @@ public class OrderAOImpl implements IOrderAO {
                     userBO.refreshFrequent(res.getUserId(),
                         EUserFrequent.SIX.getCode());
                 }
-
             }
         }
         List<Order> orderListB = orderBO.getGroupTotalCount(

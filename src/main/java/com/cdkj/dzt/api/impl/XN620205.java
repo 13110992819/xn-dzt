@@ -26,8 +26,8 @@ public class XN620205 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         orderAO.confirmPrice(req.getOrderCode(), req.getCodeList(),
-            StringValidater.toInteger(req.getQuantity()), req.getUpdater(),
-            req.getRemark());
+            StringValidater.toInteger(req.getQuantity()), req.getMap(),
+            req.getUpdater(), req.getRemark());
         return new BooleanRes(true);
     }
 

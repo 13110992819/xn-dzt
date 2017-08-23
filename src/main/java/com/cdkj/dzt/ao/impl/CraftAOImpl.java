@@ -56,6 +56,7 @@ public class CraftAOImpl implements ICraftAO {
         data.setType(req.getType());
         data.setName(req.getName());
         data.setPic(req.getPic());
+        data.setAdvPic(req.getAdvPic());
         data.setPrice(StringValidater.toLong(req.getPrice()));
         data.setStatus(EStatus.DRAFT.getCode());
         data.setUpdater(req.getUpdater());
@@ -85,6 +86,7 @@ public class CraftAOImpl implements ICraftAO {
         data.setType(req.getType());
         data.setName(req.getName());
         data.setPic(req.getPic());
+        data.setAdvPic(req.getAdvPic());
         data.setPrice(StringValidater.toLong(req.getPrice()));
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());

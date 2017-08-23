@@ -26,6 +26,9 @@ public class Craft extends ABaseDO {
     // 缩率图
     private String pic;
 
+    // 广告图
+    private String advPic;
+
     // 工艺费
     private Long price;
 
@@ -156,6 +159,14 @@ public class Craft extends ABaseDO {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public String getAdvPic() {
+        return advPic;
+    }
+
+    public void setAdvPic(String advPic) {
+        this.advPic = advPic;
     }
 
 }

@@ -58,6 +58,9 @@
 			<if test="updater != null and updater != '' ">
 				AND t.updater = #{updater}
 			</if>
+			<if test="modelCode != null and modelCode != '' ">
+				AND t.model_code = #{modelCode}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_cloth" parameterType="cloth" resultMap="cloth_DB_Result">

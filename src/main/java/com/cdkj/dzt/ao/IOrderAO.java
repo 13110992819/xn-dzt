@@ -65,7 +65,8 @@ public interface IOrderAO {
             String quantity);
 
     public void confirmPrice(String orderCode, List<String> codeList,
-            Integer quantity, String updater, String remark);
+            Integer quantity, Map<String, String> map, String updater,
+            String remark);
 
     public void inputInfor(String orderCode, Map<String, String> map,
             String updater, String remark);

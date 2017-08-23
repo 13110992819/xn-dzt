@@ -30,7 +30,7 @@
 				AND t.status = #{status}
 			</if>
 			<if test="lookUser != null and lookUser != '' ">
-				AND t.receiver = #{lookUser} OR t.commenter = #{lookUser}
+				AND (t.receiver = #{lookUser} OR t.commenter = #{lookUser})
 			</if>
 		</trim>
 	</sql>

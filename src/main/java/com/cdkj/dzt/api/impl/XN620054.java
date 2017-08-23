@@ -30,6 +30,7 @@ public class XN620054 extends AProcessor {
         Craft condition = new Craft();
         condition.setType(req.getType());
         condition.setName(req.getName());
+        // condition.setStatus(req.getStatus());
         condition.setLocation(req.getLocation());
         condition.setUpdater(req.getUpdater());
         condition.setModelCode(req.getModelCode());

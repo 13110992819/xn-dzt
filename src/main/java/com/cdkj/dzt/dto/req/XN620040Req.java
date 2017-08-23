@@ -17,6 +17,9 @@ public class XN620040Req {
     // 缩率图(必填)
     private String pic;
 
+    // 缩率图(必填)
+    private String advPic;
+
     // 工艺费(必填)
     private String price;
 
@@ -83,6 +86,14 @@ public class XN620040Req {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getAdvPic() {
+        return advPic;
+    }
+
+    public void setAdvPic(String advPic) {
+        this.advPic = advPic;
     }
 
 }

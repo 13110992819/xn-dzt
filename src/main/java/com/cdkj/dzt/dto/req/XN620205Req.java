@@ -1,6 +1,7 @@
 package com.cdkj.dzt.dto.req;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 产品定价（H+）
@@ -17,6 +18,8 @@ public class XN620205Req {
 
     // 编号List
     private List<String> codeList;
+
+    private Map<String, String> map;
 
     // 更新人
     private String updater;
@@ -62,6 +65,14 @@ public class XN620205Req {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+
+    public Map<String, String> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, String> map) {
+        this.map = map;
     }
 
 }

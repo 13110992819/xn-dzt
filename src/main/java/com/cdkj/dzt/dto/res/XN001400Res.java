@@ -6,8 +6,14 @@ public class XN001400Res {
     // 用户ID
     private String userId;
 
-    // openID
-    private String openId;
+    // 开放平台和公众平台唯一号
+    private String unionId;
+
+    // 微信h5第三方登录开放编号
+    private String h5OpenId;
+
+    // 微信app第三方登录开放编号
+    private String appOpenId;
 
     // 最好不是手机号，就是一般的登录名。目前第一版版本先用手机号，因为用一般登录名，注册流程以及手机验证就要变
     private String loginName;
@@ -153,14 +159,6 @@ public class XN001400Res {
         this.userId = userId;
     }
 
-    public String getOpenId() {
-        return openId;
-    }
-
-    public void setOpenId(String openId) {
-        this.openId = openId;
-    }
-
     public String getLoginName() {
         return loginName;
     }
@@ -287,6 +285,30 @@ public class XN001400Res {
 
     public void setLastOrderDatetime(Date lastOrderDatetime) {
         this.lastOrderDatetime = lastOrderDatetime;
+    }
+
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
+
+    public String getH5OpenId() {
+        return h5OpenId;
+    }
+
+    public void setH5OpenId(String h5OpenId) {
+        this.h5OpenId = h5OpenId;
+    }
+
+    public String getAppOpenId() {
+        return appOpenId;
+    }
+
+    public void setAppOpenId(String appOpenId) {
+        this.appOpenId = appOpenId;
     }
 
 }

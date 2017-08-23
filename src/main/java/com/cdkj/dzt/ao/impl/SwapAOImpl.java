@@ -39,7 +39,7 @@ public class SwapAOImpl implements ISwapAO {
         if (EBoolean.YES.getCode().equals(type)) {
             Order order = orderBO.getIsLastOrder(commenter);
             if (null == order
-                    || !EOrderStatus.CANCEL.getCode().equals(order.getStatus())) {
+                    || EOrderStatus.CANCEL.getCode().equals(order.getStatus())) {
                 throw new BizException("xn0000", "您还没有专属顾问");
             }
             receiver = order.getLtUser();
