@@ -10,4 +10,6 @@ public interface ISizeDataDAO extends IBaseDAO<SizeData> {
     int update(SizeData data);
 
     int deleteByUserId(SizeData data);
+
+    void deleteByKey(SizeData data);
 }

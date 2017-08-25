@@ -46,6 +46,9 @@ public class XN620032Req extends APageReq {
     // 模型编号(选填)
     private String modelCode;
 
+    // 产品状态(选填)
+    private String modelStatus;
+
     public String getType() {
         return type;
     }
@@ -132,5 +135,13 @@ public class XN620032Req extends APageReq {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getModelStatus() {
+        return modelStatus;
+    }
+
+    public void setModelStatus(String modelStatus) {
+        this.modelStatus = modelStatus;
     }
 }

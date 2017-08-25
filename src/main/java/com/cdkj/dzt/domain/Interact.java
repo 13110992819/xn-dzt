@@ -32,6 +32,14 @@ public class Interact extends ABaseDO {
     // 互动时间
     private Date operatDatetime;
 
+    private Model model;
+
+    private Craft craft;
+
+    private Cloth cloth;
+
+    private Article article;
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -78,6 +86,38 @@ public class Interact extends ABaseDO {
 
     public Date getOperatDatetime() {
         return operatDatetime;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
+
+    public Craft getCraft() {
+        return craft;
+    }
+
+    public void setCraft(Craft craft) {
+        this.craft = craft;
+    }
+
+    public Cloth getCloth() {
+        return cloth;
+    }
+
+    public void setCloth(Cloth cloth) {
+        this.cloth = cloth;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
 }

@@ -117,4 +117,11 @@
 		product_code = #{productCode}
 	</delete>
 
+
+	<delete id="delete_productSpecs_type" parameterType="productSpecs">
+		DELETE FROM
+		tdzt_product_specs
+		WHERE
+		order_code = #{orderCode} and type=#{type}
+	</delete>
 </mapper>

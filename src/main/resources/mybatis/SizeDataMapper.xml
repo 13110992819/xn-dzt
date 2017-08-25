@@ -70,4 +70,10 @@
 		user_id=#{userId}
 	</delete>
 
+	<delete id="delete_byType" parameterType="model">
+		DELETE FROM
+		tdzt_size_data
+		where 
+		user_id=#{userId} and ckey=#{ckey}
+	</delete>
 </mapper>

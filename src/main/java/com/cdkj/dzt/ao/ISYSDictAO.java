@@ -8,7 +8,9 @@
  */
 package com.cdkj.dzt.ao;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.SYSDict;
@@ -30,6 +32,8 @@ public interface ISYSDictAO {
 
     public Paginable<SYSDict> querySYSDictPage(int start, int limit,
             SYSDict condition);
+
+    public Map<String, LinkedHashMap<String, String>> queryMapSysDictList();
 
     public List<SYSDict> querySysDictList(SYSDict condition);
 

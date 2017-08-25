@@ -8,4 +8,6 @@ public interface IProductSpecsDAO extends IBaseDAO<ProductSpecs> {
     String NAMESPACE = IProductSpecsDAO.class.getName().concat(".");
 
     public int update(ProductSpecs data);
+
+    public int deleteProductSpecs(ProductSpecs condition);
 }

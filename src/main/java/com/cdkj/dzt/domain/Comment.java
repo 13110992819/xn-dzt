@@ -61,6 +61,9 @@ public class Comment extends ABaseDO {
     // 头像
     private String photo;
 
+    // 针对对象
+    private String name;
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -179,6 +182,14 @@ public class Comment extends ABaseDO {
 
     public void setTopCode(String topCode) {
         this.topCode = topCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdkj.dzt.ao.IModelAO;
+import com.cdkj.dzt.bo.IClothBO;
+import com.cdkj.dzt.bo.ICraftBO;
 import com.cdkj.dzt.bo.IInteractBO;
 import com.cdkj.dzt.bo.IModelBO;
 import com.cdkj.dzt.bo.IOrderBO;
@@ -35,6 +37,12 @@ public class ModelAOImpl implements IModelAO {
 
     @Autowired
     private IInteractBO interactBO;
+
+    @Autowired
+    private ICraftBO craftBO;
+
+    @Autowired
+    private IClothBO clothBO;
 
     @Autowired
     private IOrderBO orderBO;
@@ -144,6 +152,10 @@ public class ModelAOImpl implements IModelAO {
         if (EStatus.PUT_ON.getCode().equals(data.getStatus())) {
             throw new BizException("xn0000", "该产品已上架");
         }
+        // Craft condition = new Craft();
+        // condition.setModelCode(code);
+        // condition.setStatus(EStatus.PUT_ON.getCode());
+        // craftBO.getTotalCount(condition);
         modelBO.putOn(data, location, orderNo, updater, remark);
     }
 

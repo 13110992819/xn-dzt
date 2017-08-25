@@ -1,7 +1,9 @@
 package com.cdkj.dzt.domain;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.cdkj.dzt.dao.base.ABaseDO;
 import com.cdkj.dzt.dto.res.XN001400Res;
@@ -143,6 +145,8 @@ public class Order extends ABaseDO {
 
     // 订单号、申请人手机号、申请人姓名
     private String burry;
+
+    private Map<String, LinkedHashMap<String, ProductSpecs>> resultMap;
 
     public List<String> getStatusList() {
         return statusList;
@@ -486,6 +490,15 @@ public class Order extends ABaseDO {
 
     public void setBurry(String burry) {
         this.burry = burry;
+    }
+
+    public Map<String, LinkedHashMap<String, ProductSpecs>> getResultMap() {
+        return resultMap;
+    }
+
+    public void setResultMap(
+            Map<String, LinkedHashMap<String, ProductSpecs>> resultMap) {
+        this.resultMap = resultMap;
     }
 
 }

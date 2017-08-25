@@ -12,8 +12,12 @@ public interface IProductBO extends IPaginableBO<Product> {
 
     public Product getProduct(String code);
 
+    public void removeProduct(String code);
+
     public Product getProductByOrderCode(String orderCode);
 
     public List<Product> queryRichProductList(String orderCode);
+
+    public List<Product> queryProductList(String orderCode);
 
 }

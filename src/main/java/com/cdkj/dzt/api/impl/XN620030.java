@@ -37,6 +37,7 @@ public class XN620030 extends AProcessor {
         condition.setStatus(req.getStatus());
         condition.setUpdater(req.getUpdater());
         condition.setModelCode(req.getModelCode());
+        condition.setModelStatus(req.getModelStatus());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = IClothAO.DEFAULT_ORDER_COLUMN;

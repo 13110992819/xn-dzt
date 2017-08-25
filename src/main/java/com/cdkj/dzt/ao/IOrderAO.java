@@ -59,6 +59,8 @@ public interface IOrderAO {
 
     public Order getRichOrder(String code);
 
+    public Order getMapRichOrder(String code);
+
     public List<Order> queryOrderlList(Order condition);
 
     public Long calculatePrice(String orderCode, List<String> codeList,

@@ -41,4 +41,6 @@ public interface IProductSpecsBO extends IPaginableBO<ProductSpecs> {
     public void inputInforCraft(Order order, Product product,
             List<Craft> craftList);
 
+    public void removeProductSpecs(String type, String orderCode);
+
 }

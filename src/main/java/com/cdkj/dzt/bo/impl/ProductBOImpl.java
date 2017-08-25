@@ -72,8 +72,21 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
                     .queryProductSpecsList(ele.getCode());
                 ele.setProductSpecsList(productSpecsList);
             }
+        } else {
+            Product data = new Product();
+            List<ProductSpecs> productSpecsList = productSpecsBO
+                .queryPSByOrderCodeList(orderCode);
+            data.setProductSpecsList(productSpecsList);
+            list.add(data);
         }
         return list;
+    }
+
+    @Override
+    public List<Product> queryProductList(String orderCode) {
+        Product condition = new Product();
+        condition.setOrderCode(orderCode);
+        return productDAO.selectList(condition);
     }
 
     @Override
@@ -90,4 +103,10 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
         return data;
     }
 
+    @Override
+    public void removeProduct(String code) {
+        Product data = new Product();
+        data.setOrderCode(code);
+        productDAO.delete(data);
+    }
 }

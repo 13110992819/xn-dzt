@@ -90,7 +90,33 @@ public class InteractAOImpl implements IInteractAO {
     @Override
     public Paginable<Interact> queryInteractPage(int start, int limit,
             Interact condition) {
-        return interactBO.getPaginable(start, limit, condition);
+        Paginable<Interact> page = interactBO.getPaginable(start, limit,
+            condition);
+        List<Interact> list = page.getList();
+        for (Interact interact : list) {
+            String objectCode = interact.getObjectCode();
+            if (EInteractCategory.ARTICLE.getCode().equals(
+                interact.getCategory())) {
+                Article article = articleBO.getArticle(objectCode);
+                interact.setArticle(article);
+            }
+            if (EInteractCategory.MODEL.getCode()
+                .equals(interact.getCategory())) {
+                Model model = modelBO.getModel(objectCode);
+                interact.setModel(model);
+            }
+            if (EInteractCategory.CLOTH.getCode()
+                .equals(interact.getCategory())) {
+                Cloth cloth = clothBO.getCloth(objectCode);
+                interact.setCloth(cloth);
+            }
+            if (EInteractCategory.CRAFT.getCode()
+                .equals(interact.getCategory())) {
+                Craft craft = craftBO.getCraft(objectCode);
+                interact.setCraft(craft);
+            }
+        }
+        return page;
     }
 
     @Override

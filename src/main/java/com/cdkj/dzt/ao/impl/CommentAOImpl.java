@@ -9,12 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cdkj.dzt.ao.ICommentAO;
 import com.cdkj.dzt.bo.IAccountBO;
+import com.cdkj.dzt.bo.IArticleBO;
 import com.cdkj.dzt.bo.ICommentBO;
 import com.cdkj.dzt.bo.IKeywordBO;
+import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.IUserBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
+import com.cdkj.dzt.domain.Article;
 import com.cdkj.dzt.domain.Comment;
+import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.dto.res.XN001400Res;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.ECommentStatus;
@@ -30,6 +34,12 @@ public class CommentAOImpl implements ICommentAO {
 
     @Autowired
     private IUserBO userBO;
+
+    @Autowired
+    private IArticleBO articleBO;
+
+    @Autowired
+    private IProductBO productBO;
 
     @Autowired
     private IKeywordBO keywordBO;
@@ -55,6 +65,8 @@ public class CommentAOImpl implements ICommentAO {
         String code = OrderNoGenerater.generateME(EGeneratePrefix.COMMENT
             .getCode());
         data.setCode(code);
+        // type:0为文章，1为产品
+        data.setType(EBoolean.NO.getCode());
         data.setContent(content);
         data.setStatus(status);
         data.setCommer(commer);
@@ -99,6 +111,14 @@ public class CommentAOImpl implements ICommentAO {
         for (Comment comment : commentList) {
             XN001400Res user = userBO.getRemoteUser(comment.getCommer());
             comment.setCommerRealName(user.getNickname());
+            // type:0为文章，1为产品
+            if (EBoolean.NO.getCode().equals(comment.getType())) {
+                Article article = articleBO.getArticle(comment.getParentCode());
+                comment.setName(article.getTitle());
+            } else if (EBoolean.YES.getCode().equals(comment.getType())) {
+                Product product = productBO.getProduct(comment.getTopCode());
+                comment.setName(product.getModelName());
+            }
         }
         return page;
     }
@@ -113,6 +133,14 @@ public class CommentAOImpl implements ICommentAO {
         Comment comment = commentBO.getComment(code);
         XN001400Res user = userBO.getRemoteUser(comment.getCommer());
         comment.setCommerRealName(user.getNickname());
+        // type:0为文章，1为产品
+        if (EBoolean.NO.getCode().equals(comment.getType())) {
+            Article article = articleBO.getArticle(comment.getParentCode());
+            comment.setName(article.getTitle());
+        } else if (EBoolean.YES.getCode().equals(comment.getType())) {
+            Product product = productBO.getProduct(comment.getTopCode());
+            comment.setName(product.getModelName());
+        }
         return comment;
     }
 

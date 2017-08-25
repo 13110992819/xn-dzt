@@ -61,6 +61,9 @@
 			<if test="modelCode != null and modelCode != '' ">
 				AND t.model_code = #{modelCode}
 			</if>
+			<if test="modelStatus != null and modelStatus != '' ">
+				AND tm.status = #{modelStatus}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_cloth" parameterType="cloth" resultMap="cloth_DB_Result">
@@ -85,7 +88,7 @@
 		,t.remark
 		,t.model_code
 		FROM
-		tdzt_cloth t
+		tdzt_cloth t INNER JOIN tdzt_model tm ON t.model_code = tm.code
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -96,7 +99,7 @@
 
 	<select id="select_cloth_count" parameterType="cloth"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tdzt_cloth t
+		SELECT count(1) FROM tdzt_cloth t INNER JOIN tdzt_model tm ON t.model_code = tm.code
 		<include refid="where_condition" />
 	</select>
 

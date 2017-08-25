@@ -9,6 +9,7 @@
 package com.cdkj.dzt.bo;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cdkj.dzt.bo.base.IPaginableBO;
 import com.cdkj.dzt.domain.SYSDict;
@@ -36,4 +37,6 @@ public interface ISYSDictBO extends IPaginableBO<SYSDict> {
     public SYSDict getSYSDict(Long id);
 
     public List<SYSDict> querySYSDictList(SYSDict condition);
+
+    public Map<String, List<SYSDict>> queryMapSYSDictList(SYSDict condition);
 }

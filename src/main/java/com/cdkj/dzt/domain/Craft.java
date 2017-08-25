@@ -57,6 +57,9 @@ public class Craft extends ABaseDO {
     // 所属产品
     private Model model;
 
+    // 产品状态(选填)
+    private String modelStatus;
+
     public String getCode() {
         return code;
     }
@@ -167,6 +170,14 @@ public class Craft extends ABaseDO {
 
     public void setAdvPic(String advPic) {
         this.advPic = advPic;
+    }
+
+    public String getModelStatus() {
+        return modelStatus;
+    }
+
+    public void setModelStatus(String modelStatus) {
+        this.modelStatus = modelStatus;
     }
 
 }

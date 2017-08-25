@@ -1,0 +1,12 @@
+truncate tstd_account;
+truncate tstd_bankcard;
+truncate tstd_channel_bank;
+truncate tstd_charge;
+truncate tstd_company_channel;
+truncate tstd_exchange_currency;
+truncate tstd_hlorder;
+truncate tstd_jour;
+truncate tstd_jour_history;
+truncate tstd_withdraw;
+truncate tsys_config;
+truncate tsys_dict;

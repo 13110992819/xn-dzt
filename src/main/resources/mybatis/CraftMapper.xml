@@ -40,7 +40,9 @@
 			<if test="modelCode != null and modelCode != '' ">
 				AND t.model_code = #{modelCode}
 			</if>
-			
+			<if test="modelStatus != null and modelStatus != '' ">
+				AND tm.status = #{modelStatus}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_craft" parameterType="craft" resultMap="craft_DB_Result">

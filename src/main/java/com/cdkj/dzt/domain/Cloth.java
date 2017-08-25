@@ -71,6 +71,9 @@ public class Cloth extends ABaseDO {
     // 模型编号
     private String modelCode;
 
+    // 产品状态(选填)
+    private String modelStatus;
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -221,6 +224,14 @@ public class Cloth extends ABaseDO {
 
     public String getModelCode() {
         return modelCode;
+    }
+
+    public String getModelStatus() {
+        return modelStatus;
+    }
+
+    public void setModelStatus(String modelStatus) {
+        this.modelStatus = modelStatus;
     }
 
 }

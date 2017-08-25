@@ -33,6 +33,7 @@ public class XN620052 extends AProcessor {
         condition.setLocation(req.getLocation());
         condition.setUpdater(req.getUpdater());
         condition.setModelCode(req.getModelCode());
+        condition.setModelStatus(req.getModelStatus());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = ICraftAO.DEFAULT_ORDER_COLUMN;

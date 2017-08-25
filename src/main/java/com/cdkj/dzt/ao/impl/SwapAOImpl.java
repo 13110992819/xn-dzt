@@ -3,7 +3,6 @@ package com.cdkj.dzt.ao.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -105,29 +104,21 @@ public class SwapAOImpl implements ISwapAO {
         Paginable<Swap> page = swapBO.getPaginable(start, limit, condition);
         List<Swap> list = page.getList();
         for (Swap swap : list) {
-            if (!EBoolean.NO.getCode().equals(swap.getType())) {
-                XN001400Res res = userBO.getRemoteUser(swap.getCommenter());
-                XN001400Res receiverRes = userBO.getRemoteUser(swap
-                    .getReceiver());
-                Order order = orderBO.getIsLastOrder(swap.getCommenter());
+            XN001400Res res = null;
+            XN001400Res receiverRes = null;
+            if (!EBoolean.NO.getCode().equals(swap.getCommenter())) {
+                res = userBO.getRemoteUser(swap.getCommenter());
+            }
+            if (!EBoolean.NO.getCode().equals(swap.getReceiver())) {
+                receiverRes = userBO.getRemoteUser(swap.getReceiver());
+            }
+            if (null != res) {
                 swap.setCommentMobile(res.getMobile());
-                swap.setCommentName(res.getRealName());
-                if (StringUtils.isBlank(res.getRealName())) {
-                    swap.setCommentName(order.getApplyName());
-                }
-                if (StringUtils.isBlank(res.getMobile())) {
-                    swap.setCommentMobile(order.getApplyMobile());
-                }
-
-                Order order1 = orderBO.getIsLastOrder(swap.getCommenter());
-                swap.setReceiveName(receiverRes.getRealName());
+                swap.setCommentName(res.getNickname());
+            }
+            if (null != receiverRes) {
+                swap.setReceiveName(receiverRes.getNickname());
                 swap.setReceiveMobile(receiverRes.getMobile());
-                if (StringUtils.isBlank(receiverRes.getRealName())) {
-                    swap.setReceiveName(order1.getApplyName());
-                }
-                if (StringUtils.isBlank(receiverRes.getMobile())) {
-                    swap.setReceiveMobile(order1.getApplyMobile());
-                }
             }
         }
         return page;
@@ -141,11 +132,23 @@ public class SwapAOImpl implements ISwapAO {
     @Override
     public Swap getSwap(String code) {
         Swap swap = swapBO.getSwap(code);
-        if (!EBoolean.NO.getCode().equals(swap.getType())) {
-            XN001400Res res = userBO.getRemoteUser(swap.getCommenter());
-            XN001400Res receiverRes = userBO.getRemoteUser(swap.getReceiver());
-            swap.setCommentName(res.getNickname());
-            swap.setReceiveName(receiverRes.getNickname());
+        if (EBoolean.NO.getCode().equals(swap.getType())) {
+            XN001400Res res = null;
+            XN001400Res receiverRes = null;
+            if (!EBoolean.NO.getCode().equals(swap.getCommenter())) {
+                res = userBO.getRemoteUser(swap.getCommenter());
+            }
+            if (!EBoolean.NO.getCode().equals(swap.getReceiver())) {
+                receiverRes = userBO.getRemoteUser(swap.getReceiver());
+            }
+            if (null != res) {
+                swap.setCommentMobile(res.getMobile());
+                swap.setCommentName(res.getNickname());
+            }
+            if (null != receiverRes) {
+                swap.setReceiveName(receiverRes.getNickname());
+                swap.setReceiveMobile(receiverRes.getMobile());
+            }
         }
         return swap;
     }

@@ -8,8 +8,12 @@
  */
 package com.cdkj.dzt.ao.impl;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,7 @@ import com.cdkj.dzt.ao.ISYSDictAO;
 import com.cdkj.dzt.bo.ISYSDictBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.SYSDict;
+import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.EDictType;
 import com.cdkj.dzt.exception.BizException;
 
@@ -113,6 +118,28 @@ public class SYSDictAOImpl implements ISYSDictAO {
     @Override
     public List<SYSDict> querySysDictList(SYSDict condition) {
         return sysDictBO.querySYSDictList(condition);
+    }
+
+    @Override
+    public Map<String, LinkedHashMap<String, String>> queryMapSysDictList() {
+        Map<String, LinkedHashMap<String, String>> resultMap = new HashMap<String, LinkedHashMap<String, String>>();
+        SYSDict condition = new SYSDict();
+        condition.setType(EBoolean.NO.getCode());
+        List<SYSDict> sysDictList = sysDictBO.querySYSDictList(condition);
+        if (CollectionUtils.isNotEmpty(sysDictList)) {
+            for (SYSDict sysDict : sysDictList) {
+                SYSDict childCondition = new SYSDict();
+                childCondition.setParentKey(sysDict.getDkey());
+                List<SYSDict> childSysDictList = sysDictBO
+                    .querySYSDictList(childCondition);
+                LinkedHashMap<String, String> childList = new LinkedHashMap<String, String>();
+                for (SYSDict domain : childSysDictList) {
+                    childList.put(domain.getDkey(), domain.getDvalue());
+                }
+                resultMap.put(sysDict.getDkey(), childList);
+            }
+        }
+        return resultMap;
     }
 
     @Override

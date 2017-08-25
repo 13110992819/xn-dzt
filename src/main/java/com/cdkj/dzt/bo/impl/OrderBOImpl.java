@@ -208,8 +208,9 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     @Override
     public Order getLastOrder(String applyUser) {
         Order order = orderDAO.getLastOrder(applyUser);
-        if (order == null) {
-            throw new BizException("xn0000", "您还未下过订单,不能进行一键复购操作");
+        if (order == null
+                || EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
+            throw new BizException("xn0000", "您还未成功下过订单,不能进行一键复购操作");
         }
         return order;
     }
@@ -254,7 +255,10 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
                     if (key.equalsIgnoreCase(EMeasureKey.GXCX.getCode())
                             || key.equalsIgnoreCase(EMeasureKey.CXWZ.getCode())
                             || key.equalsIgnoreCase(EMeasureKey.CXZT.getCode())
-                            || key.equalsIgnoreCase(EMeasureKey.CXYS.getCode())) {
+                            || key.equalsIgnoreCase(EMeasureKey.CXYS.getCode())
+                            || key.equalsIgnoreCase(EMeasureKey.YJDZ.getCode())
+                            || key.equalsIgnoreCase(EMeasureKey.BEIZHU
+                                .getCode())) {
                         isIn = true;
                         break;
                     }

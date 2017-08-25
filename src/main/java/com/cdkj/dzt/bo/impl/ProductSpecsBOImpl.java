@@ -235,10 +235,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             this.saveGXCX(orderCode, productCode,
                 map.get(EMeasureKey.GXCX.getCode()));
         }
-        if (StringUtils.isNotBlank(map.get(EMeasureKey.NL.getCode()))) {
-            this.saveNL(orderCode, productCode,
-                map.get(EMeasureKey.NL.getCode()));
-        }
         if (StringUtils.isNotBlank(map.get(EMeasureKey.YJDZ.getCode()))) {
             this.saveYJDZ(orderCode, productCode,
                 map.get(EMeasureKey.YJDZ.getCode()));
@@ -265,6 +261,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.GL.getCode());
+        data.setName(EMeasureKey.GL.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -274,6 +271,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.TUNX.getCode());
+        data.setName(EMeasureKey.TUNX.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -283,6 +281,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.DB.getCode());
+        data.setName(EMeasureKey.DB.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -292,6 +291,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.SB.getCode());
+        data.setName(EMeasureKey.SB.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -301,6 +301,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.SC.getCode());
+        data.setName(EMeasureKey.SC.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -310,6 +311,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.DX.getCode());
+        data.setName(EMeasureKey.DX.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -319,6 +321,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.FS.getCode());
+        data.setName(EMeasureKey.FS.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -328,6 +331,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.YJ.getCode());
+        data.setName(EMeasureKey.YJ.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -337,6 +341,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.ZJ.getCode());
+        data.setName(EMeasureKey.ZJ.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -346,6 +351,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.WW.getCode());
+        data.setName(EMeasureKey.WW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -355,6 +361,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.QYC.getCode());
+        data.setName(EMeasureKey.QYC.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -364,6 +371,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.XBW.getCode());
+        data.setName(EMeasureKey.XBW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -373,6 +381,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.FW.getCode());
+        data.setName(EMeasureKey.FW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -382,6 +391,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.CXWZ.getCode());
+        data.setName(EMeasureKey.CXWZ.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -391,6 +401,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.BZ.getCode());
+        data.setName(EMeasureKey.BZ.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -400,6 +411,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.BX.getCode());
+        data.setName(EMeasureKey.BX.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -410,6 +422,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             ProductSpecs data = new ProductSpecs();
             data.setCode(value);
             data.setType(EMeasureKey.BEIZHU.getCode());
+            data.setName(EMeasureKey.BEIZHU.getValue());
             data.setProductCode(productCode);
             data.setOrderCode(orderCode);
             productSpecsDAO.insert(data);
@@ -420,6 +433,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.QXK.getCode());
+        data.setName(EMeasureKey.QXK.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -429,6 +443,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.HBK.getCode());
+        data.setName(EMeasureKey.HBK.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -438,6 +453,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.TX.getCode());
+        data.setName(EMeasureKey.TX.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -447,15 +463,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.YJDZ.getCode());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
-    }
-
-    private void saveNL(String orderCode, String productCode, String value) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(value);
-        data.setType(EMeasureKey.NL.getCode());
+        data.setName(EMeasureKey.YJDZ.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -465,6 +473,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.XTW.getCode());
+        data.setName(EMeasureKey.XTW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -474,6 +483,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.KC.getCode());
+        data.setName(EMeasureKey.KC.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -483,6 +493,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.QYG.getCode());
+        data.setName(EMeasureKey.QYG.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -492,6 +503,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.QYJC.getCode());
+        data.setName(EMeasureKey.QYJC.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -501,6 +513,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.HYGH.getCode());
+        data.setName(EMeasureKey.HYGH.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -510,6 +523,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.HYG.getCode());
+        data.setName(EMeasureKey.HYG.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -519,6 +533,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.HYJC.getCode());
+        data.setName(EMeasureKey.HYJC.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -528,6 +543,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.QJK.getCode());
+        data.setName(EMeasureKey.QJK.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -537,6 +553,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.XC.getCode());
+        data.setName(EMeasureKey.XC.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -546,6 +563,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.ZJK.getCode());
+        data.setName(EMeasureKey.ZJK.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -555,6 +573,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.BW.getCode());
+        data.setName(EMeasureKey.BW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -564,6 +583,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.TD.getCode());
+        data.setName(EMeasureKey.TD.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -573,6 +593,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.DTW.getCode());
+        data.setName(EMeasureKey.DTW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -582,6 +603,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.TW.getCode());
+        data.setName(EMeasureKey.TW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -591,6 +613,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.KYW.getCode());
+        data.setName(EMeasureKey.KYW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -600,6 +623,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.ZYW.getCode());
+        data.setName(EMeasureKey.ZYW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -609,6 +633,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.SW.getCode());
+        data.setName(EMeasureKey.SW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -618,6 +643,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.LW.getCode());
+        data.setName(EMeasureKey.LW.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -627,6 +653,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
         data.setType(EMeasureKey.GXCX.getCode());
+        data.setName(EMeasureKey.GXCX.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -693,6 +720,14 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             data.setOrderCode(order.getCode());
             productSpecsDAO.insert(data);
         }
+    }
+
+    @Override
+    public void removeProductSpecs(String type, String orderCode) {
+        ProductSpecs condition = new ProductSpecs();
+        condition.setType(type);
+        condition.setOrderCode(orderCode);
+        productSpecsDAO.deleteProductSpecs(condition);
     }
 
 }

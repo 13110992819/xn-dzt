@@ -8,9 +8,13 @@
  */
 package com.cdkj.dzt.bo.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -93,4 +97,22 @@ public class SYSDictBOImpl extends PaginableBOImpl<SYSDict> implements
         return sysDictDAO.selectList(condition);
     }
 
+    @Override
+    public Map<String, List<SYSDict>> queryMapSYSDictList(SYSDict condition) {
+        List<SYSDict> sysDictList = sysDictDAO.selectList(condition);
+        Map<String, List<SYSDict>> map = null;
+        List<SYSDict> list = new ArrayList<SYSDict>();
+        for (SYSDict sysDict : sysDictList) {
+            list = map.get(sysDict.getDkey());
+            if (CollectionUtils.isEmpty(list)) {
+                map = new HashMap<String, List<SYSDict>>();
+                list.add(sysDict);
+                map.put(sysDict.getDkey(), list);
+            } else {
+                list.add(sysDict);
+                map.put(sysDict.getDkey(), list);
+            }
+        }
+        return map;
+    }
 }

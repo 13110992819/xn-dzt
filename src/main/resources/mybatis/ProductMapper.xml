@@ -104,5 +104,10 @@
 		WHERE code = #{code}
 	</update>
 
-
+	<delete id="delete_product" parameterType="product">
+		DELETE FROM
+		tdzt_product
+		where 
+		order_code=#{orderCode}
+	</delete>
 </mapper>

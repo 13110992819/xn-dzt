@@ -11,8 +11,10 @@ package com.cdkj.dzt.ao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -64,6 +66,7 @@ import com.cdkj.dzt.enums.ECommentStatus;
 import com.cdkj.dzt.enums.ECurrency;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EMeasureKey;
+import com.cdkj.dzt.enums.EMeasureType;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EPayType;
 import com.cdkj.dzt.enums.EReaction;
@@ -147,7 +150,6 @@ public class OrderAOImpl implements IOrderAO {
         order.setCode(code);
         String productCode = req.getProductCode();
         if (StringUtils.isNotBlank(productCode)) {
-            // Map<String, String> map = new HashMap<String, String>();
             // 确定订单类型
             String type = null;
             Model model = null;
@@ -175,10 +177,6 @@ public class OrderAOImpl implements IOrderAO {
                     craft.getName(), craft.getType(), craft.getPic(), null,
                     null, null, null, null, null, null, null, craft.getPrice(),
                     dProductCode, order.getCode());
-
-                // map.put(craft.getType(), craft.getCode());
-                // Map<String, Craft> craftSmap = craftBO.getMap();
-                // productSpecsBO.inputInforCraft(order, null, map, craftSmap);
             }
             type = model.getType();
             order.setType(type);
@@ -225,22 +223,29 @@ public class OrderAOImpl implements IOrderAO {
     @Override
     public String applyOrder(String applyUser, String productCode) {
         // 获取最近订单
-        Order lastOrder = orderBO.getLastOrder(applyUser);
+        Order lastOrder = orderBO.getIsLastOrder(applyUser);
+        if (null != lastOrder) {
+            if (EOrderStatus.TO_MEASURE.getCode().equals(lastOrder.getStatus())) {
+                throw new BizException("xn0000", "您已经有一个预约单了");
+            }
+        }
+        List<ProductSpecs> productSpecsList = productSpecsBO
+            .queryPSByOrderCodeList(lastOrder.getCode());
         // 开始组装order
         Order order = new Order();
         Date now = new Date();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
             .getCode());
         order.setCode(code);
+        Product product = null;
         if (StringUtils.isNotBlank(productCode)) {
-            // Map<String, String> map = new HashMap<String, String>();
             // 确定订单类型
             String type = null;
             Model model = null;
             String dProductCode = null;
             if (productCode.startsWith(EGeneratePrefix.MODEL.getCode())) {// 产品
                 model = modelBO.getModel(productCode);
-                productBO.saveProduct(order, model, 1);
+                dProductCode = productBO.saveProduct(order, model, 1);
             }
             if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {// 面料
                 Cloth cloth = clothBO.getCloth(productCode);
@@ -264,6 +269,7 @@ public class OrderAOImpl implements IOrderAO {
             }
             type = model.getType();
             order.setType(type);
+            product = productBO.getProduct(dProductCode);
         }
         order.setToUser(lastOrder.getToUser());
         order.setApplyUser(lastOrder.getApplyUser());
@@ -292,8 +298,6 @@ public class OrderAOImpl implements IOrderAO {
         order.setRemark("根据<" + lastOrder.getCode() + ">订单一键复购形成");
 
         orderBO.applyOrder(order);
-        List<ProductSpecs> productSpecsList = productSpecsBO
-            .queryPSByOrderCodeList(order.getCode());
         Map<String, String> map = new HashMap<String, String>();
         for (ProductSpecs productSpecs : productSpecsList) {
             if (EMeasureKey.TZ.getCode().equals(productSpecs.getType())) {
@@ -303,7 +307,7 @@ public class OrderAOImpl implements IOrderAO {
                 map.put(productSpecs.getType(), productSpecs.getCode());
             }
         }
-        productSpecsBO.inputInforValue(order, map);
+        productSpecsBO.inputInforValue(order, product, map);
         // 一键复购，直接短信通知量体师
         smsOutBO.sentContent(
             order.getLtUser(),
@@ -343,6 +347,7 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 落地成衣
         Model model = modelBO.getModel(modelCode);
+        productBO.removeProduct(orderCode);
         String code = productBO.saveProduct(order, model, quantity);
 
         // 更新成衣数据
@@ -455,6 +460,7 @@ public class OrderAOImpl implements IOrderAO {
         // 落地量体数据
         productSpecsBO.removeProductSpecs(product.getCode());
         sizeDataBO.removeSizeDataByUserId(order.getApplyUser());
+
         Cloth cloth = null;
         Craft craft = null;
         List<Cloth> clothList = new ArrayList<Cloth>();
@@ -489,7 +495,7 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不是已支付状态,不能提交审核");
         }
         // 确保所有规格已经填充完毕
-        orderBO.checkInfoFull(order);
+        // orderBO.checkInfoFull(order);
         orderBO.ltSubmit(order, updater);
         // 如果有地区合伙人，短信通知
         if (!"0".equals(order.getToUser())) {
@@ -610,6 +616,71 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
+    public Order getMapRichOrder(String code) {
+        Order order = orderBO.getOrder(code);
+        Map<String, LinkedHashMap<String, ProductSpecs>> resultMap = new HashMap<String, LinkedHashMap<String, ProductSpecs>>();
+        List<Product> productList = productBO.queryProductList(code);
+        List<ProductSpecs> productSpecsList = productSpecsBO
+            .queryPSByOrderCodeList(code);
+
+        resultMap.put(EMeasureType.DZSJ.getValue(), null);
+        resultMap.put(EMeasureType.CLSJ.getValue(), null);
+        resultMap.put(EMeasureType.TXSJ.getValue(), null);
+        resultMap.put(EMeasureType.CXSJ.getValue(), null);
+        resultMap.put(EMeasureType.QT.getValue(), null);
+        //
+        if (CollectionUtils.isNotEmpty(productList)) {
+            LinkedHashMap<String, ProductSpecs> childList = null;
+            for (ProductSpecs productSpecs : productSpecsList) {
+                if (productSpecs.getType().substring(0, 2)
+                    .equals(EMeasureType.DZSJ.getCode())) {
+                    childList = resultMap.get(EMeasureType.DZSJ.getValue());
+                    if (childList == null) {
+                        childList = new LinkedHashMap<String, ProductSpecs>();
+                    }
+                    childList.put(productSpecs.getType(), productSpecs);
+                    resultMap.put(EMeasureType.DZSJ.getValue(), childList);
+                } else if (productSpecs.getType().substring(0, 2)
+                    .equals(EMeasureType.CLSJ.getCode())) {
+                    childList = resultMap.get(EMeasureType.CLSJ.getValue());
+                    if (childList == null) {
+                        childList = new LinkedHashMap<String, ProductSpecs>();
+                    }
+                    childList.put(productSpecs.getType(), productSpecs);
+                    resultMap.put(EMeasureType.CLSJ.getValue(), childList);
+                } else if (productSpecs.getType().substring(0, 2)
+                    .equals(EMeasureType.TXSJ.getCode())) {
+                    childList = resultMap.get(EMeasureType.TXSJ.getValue());
+                    if (childList == null) {
+                        childList = new LinkedHashMap<String, ProductSpecs>();
+                    }
+                    childList.put(productSpecs.getType(), productSpecs);
+                    resultMap.put(EMeasureType.TXSJ.getValue(), childList);
+                } else if (productSpecs.getType().substring(0, 2)
+                    .equals(EMeasureType.CXSJ.getCode())) {
+                    childList = resultMap.get(EMeasureType.CXSJ.getValue());
+                    if (childList == null) {
+                        childList = new LinkedHashMap<String, ProductSpecs>();
+                    }
+                    childList.put(productSpecs.getType(), productSpecs);
+                    resultMap.put(EMeasureType.CXSJ.getValue(), childList);
+                } else if (productSpecs.getType().substring(0, 2)
+                    .equals(EMeasureType.QT.getCode())) {
+                    childList = resultMap.get(EMeasureType.QT.getValue());
+                    if (childList == null) {
+                        childList = new LinkedHashMap<String, ProductSpecs>();
+                    }
+                    childList.put(productSpecs.getType(), productSpecs);
+                    resultMap.put(EMeasureType.QT.getValue(), childList);
+                }
+            }
+        }
+        order.setProductList(productList);
+        order.setResultMap(resultMap);
+        return order;
+    }
+
+    @Override
     public List<Order> queryOrderlList(Order condition) {
         return orderBO.queryOrderList(condition);
     }
@@ -633,7 +704,7 @@ public class OrderAOImpl implements IOrderAO {
                 cloth = clothBO.getCloth(code);
                 clothList.add(cloth);
             }
-            if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
+            if (code.startsWith(EGeneratePrefix.CRAFT.getCode())) {
                 craft = craftBO.getCraft(code);
                 craftList.add(craft);
             }
@@ -659,7 +730,7 @@ public class OrderAOImpl implements IOrderAO {
             ESystemCode.DZT.getCode()).getCvalue());
         price = 1.76
                 * (clothPrice * model.getLoss() + model.getProcessFee() + craftPrice)
-                + 2.06 * (kdfPrice + bzfPrice);
+                + 2.06 * (kdfPrice + bzfPrice) * 1000;
         XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
         Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
             ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
@@ -703,7 +774,20 @@ public class OrderAOImpl implements IOrderAO {
             }
         }
         if (StringUtils.isBlank(productCode)) {
-            productCode = productBO.getProductByOrderCode(orderCode).getCode();
+            throw new BizException("xn0000", "产品不能为空");
+        }
+        List<ProductSpecs> productSpecsList = productSpecsBO
+            .queryPSByOrderCodeList(orderCode);
+        if (map == null) {
+            map = new HashMap<String, String>();
+        }
+        for (ProductSpecs productSpecs : productSpecsList) {
+            if (EMeasureKey.TZ.getCode().equals(productSpecs.getType())) {
+                map.put(productSpecs.getType(), productSpecs.getCode());
+            }
+            if (EMeasureKey.SG.getCode().equals(productSpecs.getType())) {
+                map.put(productSpecs.getType(), productSpecs.getCode());
+            }
         }
         // 售价=1.76*（面料单价*面料单耗+加工费+工艺费）+2.06*（快递费+包装费）
         // 计算面料价格
@@ -736,21 +820,26 @@ public class OrderAOImpl implements IOrderAO {
             ESystemCode.DZT.getCode()).getCvalue());
         price = 1.76
                 * (clothPrice * model.getLoss() + model.getProcessFee() + craftPrice)
-                + 2.06 * (kdfPrice + bzfPrice);
+                + 2.06 * (kdfPrice + bzfPrice) * 1000;
         XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
         Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
             ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
             ESystemCode.DZT.getCode()).getCvalue());
-        if (StringValidater.toInteger(user.getLevel()) > 1) {
+        if (StringValidater.toInteger(user.getLevel()) >= 1) {
             rate = 1.0;
         }
         Long truePrice = AmountUtil.rmbJinFen(price);
         truePrice = AmountUtil.mul(truePrice, rate) * quantity;
+
         productSpecsBO.inputInforValue(order,
             productBO.getProductByOrderCode(orderCode), map);
+
+        sizeDataBO.inputInforValue(order.getApplyUser(), map);
+
         orderBO.confirmPrice(order, model, truePrice, updater, remark);
     }
 
+    // H+入数据
     @Override
     public void inputInfor(String orderCode, Map<String, String> map,
             String updater, String remark) {
@@ -759,7 +848,38 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单尚未支付,不能录入数据");
         }
         Product product = productBO.getProductByOrderCode(orderCode);
+        // List<ProductSpecs> productSpecsList = productSpecsBO
+        // .queryPSByOrderCodeList(orderCode);
+        // Cloth cloth = null;
+        // Craft craft = null;
+        // List<Craft> craftList = new ArrayList<Craft>();
+        // List<Cloth> clothList = new ArrayList<Cloth>();
+        // String productCode = null;
+
+        // for (ProductSpecs productSpecs : productSpecsList) {
+        // productCode = productSpecs.getCode();
+        // if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {
+        // cloth = clothBO.getCloth(productCode);
+        // clothList.add(cloth);
+        // } else if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {
+        // craft = craftBO.getCraft(productCode);
+        // craftList.add(craft);
+        // } else if (productCode.substring(0, 2).equals(
+        // EMeasureType.CXSJ.getCode())) {
+        // map.put(productSpecs.getType(), productCode);
+        // }
+        // }
+
+        for (Entry<String, String> entry : map.entrySet()) {
+            productSpecsBO.removeProductSpecs(entry.getKey(), orderCode);
+            sizeDataBO
+                .removeSizeDataByKey(order.getApplyUser(), entry.getKey());
+        }
+
+        sizeDataBO.inputInforValue(order.getApplyUser(), map);
         productSpecsBO.inputInforValue(order, product, map);
+        // productSpecsBO.inputInforCloth(order, product, clothList);
+        // productSpecsBO.inputInforCraft(order, product, craftList);
         // 更新订单
         orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
             remark);
@@ -782,6 +902,7 @@ public class OrderAOImpl implements IOrderAO {
         String code = OrderNoGenerater.generateME(EGeneratePrefix.COMMENT
             .getCode());
         data.setCode(code);
+        data.setType(EBoolean.YES.getCode());
         data.setContent(content);
         data.setStatus(status);
         data.setCommer(commenter);
@@ -908,7 +1029,7 @@ public class OrderAOImpl implements IOrderAO {
         if (StringUtils.isNotBlank(user.getUserReferee())) {
             XN001400Res user1 = userBO.getRemoteUser(user.getUserReferee());
             // 如果是会员
-            if (StringValidater.toInteger(user1.getLevel()) > 1) {
+            if (StringValidater.toInteger(user1.getLevel()) >= 1) {
                 Long count = orderBO.getTotalCount(order.getApplyUser(),
                     EOrderStatus.FILED);
                 // 如果是第一次下单成功,推荐人获得1500积分
@@ -942,7 +1063,7 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 计算积分
         // 购买者如果是会员
-        if (StringValidater.toInteger(user.getLevel()) > 1) {
+        if (StringValidater.toInteger(user.getLevel()) >= 1) {
             // 获取多少积分比例
             Long rate = StringValidater.toLong(sysConfigBO.getConfigValue(
                 ESysConfigCkey.YHHD.getCode(), ESystemCode.DZT.getCode(),
@@ -964,7 +1085,7 @@ public class OrderAOImpl implements IOrderAO {
         if (StringUtils.isNotBlank(user.getUserReferee())) {
             XN001400Res user1 = userBO.getRemoteUser(user.getUserReferee());
             // 如果是会员
-            if (StringValidater.toInteger(user1.getLevel()) > 1) {
+            if (StringValidater.toInteger(user1.getLevel()) >= 1) {
                 Long count = orderBO.getTotalCount(order.getApplyUser(),
                     EOrderStatus.FILED);
                 // 如果是第一次下单成功,推荐人获得1500经验
@@ -1026,7 +1147,7 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 计算经验
         // 购买者如果是会员
-        if (StringValidater.toInteger(user.getLevel()) > 1) {
+        if (StringValidater.toInteger(user.getLevel()) >= 1) {
             // 获取多少积分比例
             Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
                 ESysConfigCkey.YHJY.getCode(), ESystemCode.DZT.getCode(),
@@ -1057,17 +1178,19 @@ public class OrderAOImpl implements IOrderAO {
     public Object paymentVIP(String userId, String payType) {
         if (EPayType.WEIXIN.getCode().equals(payType)) {
             XN001400Res user = userBO.getRemoteUser(userId);
-            if (StringValidater.toInteger(user.getLevel()) > 1) {
+            if (StringValidater.toInteger(user.getLevel()) >= 1) {
                 throw new BizException("xn0000", "您已经是VIP会员了,无需重复充值");
             }
-            Long totalAmount = StringValidater.toLong(sysConfigBO
+            Double totalAmount = StringValidater.toDouble(sysConfigBO
                 .getConfigValue(ESysConfigCkey.HYF.getCode(),
                     ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
-                .getCvalue());
-            return accountBO.doWeiXinH5PayRemote(userId, user.getH5OpenId(),
-                ESysUser.SYS_USER_DZT.getCode(), userId, userId,
-                EBizType.AJ_HYCZ.getCode(), EBizType.AJ_HYCZ.getValue(),
-                totalAmount);
+                .getCvalue()) * 1000;
+            Long amount = totalAmount.longValue();
+            return accountBO
+                .doWeiXinH5PayRemote(userId, user.getH5OpenId(),
+                    ESysUser.SYS_USER_DZT.getCode(), userId, userId,
+                    EBizType.AJ_HYCZ.getCode(), EBizType.AJ_HYCZ.getValue(),
+                    amount);
         } else {
             throw new BizException("xn0000", "暂不支持其他支付方式");
         }
