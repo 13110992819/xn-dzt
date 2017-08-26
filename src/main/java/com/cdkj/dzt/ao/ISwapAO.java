@@ -26,4 +26,9 @@ public interface ISwapAO {
     public Swap getSwap(String code);
 
     public Paginable<Swap> queryMySwapPage(int start, int limit, Swap condition);
+
+    public Paginable<Swap> queryBfrontSwapPage(int start, int limit,
+            Swap condition);
+
+    public Paginable<Swap> queryBLYSwapPage(int start, int limit, Swap condition);
 }

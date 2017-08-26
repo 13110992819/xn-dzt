@@ -146,6 +146,12 @@ public class Order extends ABaseDO {
     // 订单号、申请人手机号、申请人姓名
     private String burry;
 
+    // 模板编号
+    private String modelCode;
+
+    // 评论
+    private Comment comment;
+
     private Map<String, LinkedHashMap<String, ProductSpecs>> resultMap;
 
     public List<String> getStatusList() {
@@ -499,6 +505,22 @@ public class Order extends ABaseDO {
     public void setResultMap(
             Map<String, LinkedHashMap<String, ProductSpecs>> resultMap) {
         this.resultMap = resultMap;
+    }
+
+    public String getModelCode() {
+        return modelCode;
+    }
+
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
 }

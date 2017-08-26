@@ -21,4 +21,12 @@ public interface ISwapBO extends IPaginableBO<Swap> {
 
     public Long getTotalCount(String lookUser);
 
+    public List<Swap> queryGroupList(Swap condition);
+
+    public List<Swap> queryGroupList(Swap condition, int start, int limit);
+
+    public List<Swap> queryBLYList(Swap condition);
+
+    public List<Swap> queryBLYList(Swap condition, int start, int pageSize);
+
 }

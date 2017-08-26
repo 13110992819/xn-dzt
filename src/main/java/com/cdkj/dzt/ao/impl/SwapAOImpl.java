@@ -10,6 +10,7 @@ import com.cdkj.dzt.ao.ISwapAO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.ISwapBO;
 import com.cdkj.dzt.bo.IUserBO;
+import com.cdkj.dzt.bo.base.Page;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Order;
@@ -115,10 +116,12 @@ public class SwapAOImpl implements ISwapAO {
             if (null != res) {
                 swap.setCommentMobile(res.getMobile());
                 swap.setCommentName(res.getNickname());
+                swap.setCommentPhoto(res.getPhoto());
             }
             if (null != receiverRes) {
                 swap.setReceiveName(receiverRes.getNickname());
                 swap.setReceiveMobile(receiverRes.getMobile());
+                swap.setReceivePhoto(receiverRes.getPhoto());
             }
         }
         return page;
@@ -144,10 +147,12 @@ public class SwapAOImpl implements ISwapAO {
             if (null != res) {
                 swap.setCommentMobile(res.getMobile());
                 swap.setCommentName(res.getNickname());
+                swap.setCommentPhoto(res.getPhoto());
             }
             if (null != receiverRes) {
                 swap.setReceiveName(receiverRes.getNickname());
                 swap.setReceiveMobile(receiverRes.getMobile());
+                swap.setReceivePhoto(receiverRes.getPhoto());
             }
         }
         return swap;
@@ -155,7 +160,69 @@ public class SwapAOImpl implements ISwapAO {
 
     @Override
     public Paginable<Swap> queryMySwapPage(int start, int limit, Swap condition) {
-        condition.setOrder("order_no", "asc");
         return swapBO.getPaginable(start, limit, condition);
+    }
+
+    @Override
+    public Paginable<Swap> queryBfrontSwapPage(int start, int limit,
+            Swap condition) {
+        Paginable<Swap> page = null;
+        List<Swap> list = swapBO.queryGroupList(condition);
+        page = new Page<Swap>(start, limit, list.size());
+        List<Swap> dataList = swapBO.queryGroupList(condition, page.getStart(),
+            page.getPageSize());
+        for (Swap swap : dataList) {
+            XN001400Res res = null;
+            XN001400Res receiverRes = null;
+            if (!EBoolean.NO.getCode().equals(swap.getCommenter())) {
+                res = userBO.getRemoteUser(swap.getCommenter());
+            }
+            if (!EBoolean.NO.getCode().equals(swap.getReceiver())) {
+                receiverRes = userBO.getRemoteUser(swap.getReceiver());
+            }
+            if (null != res) {
+                swap.setCommentMobile(res.getMobile());
+                swap.setCommentName(res.getNickname());
+                swap.setCommentPhoto(res.getPhoto());
+            }
+            if (null != receiverRes) {
+                swap.setReceiveName(receiverRes.getNickname());
+                swap.setReceiveMobile(receiverRes.getMobile());
+                swap.setReceivePhoto(receiverRes.getPhoto());
+            }
+        }
+        page.setList(dataList);
+        return page;
+    }
+
+    @Override
+    public Paginable<Swap> queryBLYSwapPage(int start, int limit, Swap condition) {
+        Paginable<Swap> page = null;
+        List<Swap> list = swapBO.queryBLYList(condition);
+        page = new Page<Swap>(start, limit, list.size());
+        List<Swap> dataList = swapBO.queryBLYList(condition, page.getStart(),
+            page.getPageSize());
+        for (Swap swap : dataList) {
+            XN001400Res res = null;
+            XN001400Res receiverRes = null;
+            if (!EBoolean.NO.getCode().equals(swap.getCommenter())) {
+                res = userBO.getRemoteUser(swap.getCommenter());
+            }
+            if (!EBoolean.NO.getCode().equals(swap.getReceiver())) {
+                receiverRes = userBO.getRemoteUser(swap.getReceiver());
+            }
+            if (null != res) {
+                swap.setCommentMobile(res.getMobile());
+                swap.setCommentName(res.getNickname());
+                swap.setCommentPhoto(res.getPhoto());
+            }
+            if (null != receiverRes) {
+                swap.setReceiveName(receiverRes.getNickname());
+                swap.setReceiveMobile(receiverRes.getMobile());
+                swap.setReceivePhoto(receiverRes.getPhoto());
+            }
+        }
+        page.setList(dataList);
+        return page;
     }
 }

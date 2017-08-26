@@ -60,4 +60,10 @@ public class CraftDAOImpl extends AMybatisTemplate implements ICraftDAO {
         return super.update(NAMESPACE.concat("update_putOff"), data);
     }
 
+    @Override
+    public long selectGroupCount(Craft condition) {
+        return super.selectTotalCount(NAMESPACE.concat("select_craft_group"),
+            condition);
+    }
+
 }

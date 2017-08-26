@@ -12,4 +12,6 @@ public interface ICraftDAO extends IBaseDAO<Craft> {
     public int putOn(Craft data);
 
     public int putOff(Craft data);
+
+    public long selectGroupCount(Craft condition);
 }

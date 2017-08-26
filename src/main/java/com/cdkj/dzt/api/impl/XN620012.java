@@ -32,6 +32,7 @@ public class XN620012 extends AProcessor {
         condition.setStatus(req.getStatus());
         condition.setName(req.getName());
         condition.setUpdater(req.getUpdater());
+        condition.setLocation(req.getLocation());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = IModelAO.DEFAULT_ORDER_COLUMN;

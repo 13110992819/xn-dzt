@@ -103,4 +103,12 @@ public class ClothBOImpl extends PaginableBOImpl<Cloth> implements IClothBO {
         return map;
     }
 
+    @Override
+    public long getTotalCount(String modelCode) {
+        Cloth condition = new Cloth();
+        condition.setModelCode(modelCode);
+        condition.setStatus(EStatus.PUT_ON.getCode());
+        return clothDAO.selectTotalCount(condition);
+    }
+
 }

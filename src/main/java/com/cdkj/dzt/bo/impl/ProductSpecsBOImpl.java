@@ -69,6 +69,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         data.setCode(value);
         data.setProductCode(productCode);
         data.setType(EMeasureKey.TZ.getCode());
+        data.setName(EMeasureKey.TZ.getValue());
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
     }
@@ -78,6 +79,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         data.setCode(value);
         data.setProductCode(productCode);
         data.setType(EMeasureKey.SG.getCode());
+        data.setName(EMeasureKey.SG.getValue());
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
     }
@@ -85,7 +87,11 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     @Override
     public void inputInforValue(Order order, Product product,
             Map<String, String> map) {
-        String productCode = product.getCode();
+
+        String productCode = null;
+        if (null != product) {
+            productCode = product.getCode();
+        }
         String orderCode = order.getCode();
         if (StringUtils.isNotBlank(map.get(EMeasureKey.LW.getCode()))) {
             this.saveLW(orderCode, productCode,

@@ -22,6 +22,9 @@ public class XN620012Req extends APageReq {
     // 状态（选填）
     private String status;
 
+    // UI位置（选填）
+    private String location;
+
     // 更新人（选填）
     private String updater;
 
@@ -55,6 +58,14 @@ public class XN620012Req extends APageReq {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
 }

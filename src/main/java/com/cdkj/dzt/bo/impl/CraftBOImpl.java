@@ -93,4 +93,11 @@ public class CraftBOImpl extends PaginableBOImpl<Craft> implements ICraftBO {
         craftDAO.putOff(data);
     }
 
+    @Override
+    public long getGroupTotalCount(String modelCode) {
+        Craft condition = new Craft();
+        condition.setModelCode(modelCode);
+        return craftDAO.selectGroupCount(condition);
+    }
+
 }

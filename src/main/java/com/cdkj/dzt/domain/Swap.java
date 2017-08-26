@@ -54,6 +54,12 @@ public class Swap extends ABaseDO {
     // 结收人手机号
     private String receiveMobile;
 
+    // 留言人头像
+    private String commentPhoto;
+
+    // 结收人头像
+    private String receivePhoto;
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -156,6 +162,22 @@ public class Swap extends ABaseDO {
 
     public void setReceiveMobile(String receiveMobile) {
         this.receiveMobile = receiveMobile;
+    }
+
+    public String getCommentPhoto() {
+        return commentPhoto;
+    }
+
+    public void setCommentPhoto(String commentPhoto) {
+        this.commentPhoto = commentPhoto;
+    }
+
+    public String getReceivePhoto() {
+        return receivePhoto;
+    }
+
+    public void setReceivePhoto(String receivePhoto) {
+        this.receivePhoto = receivePhoto;
     }
 
 }

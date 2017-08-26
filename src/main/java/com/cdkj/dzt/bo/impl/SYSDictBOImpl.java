@@ -100,17 +100,18 @@ public class SYSDictBOImpl extends PaginableBOImpl<SYSDict> implements
     @Override
     public Map<String, List<SYSDict>> queryMapSYSDictList(SYSDict condition) {
         List<SYSDict> sysDictList = sysDictDAO.selectList(condition);
-        Map<String, List<SYSDict>> map = null;
-        List<SYSDict> list = new ArrayList<SYSDict>();
+        Map<String, List<SYSDict>> map = new HashMap<String, List<SYSDict>>();
+        List<SYSDict> list = null;
         for (SYSDict sysDict : sysDictList) {
-            list = map.get(sysDict.getDkey());
+            list = map.get(sysDict.getParentKey());
             if (CollectionUtils.isEmpty(list)) {
-                map = new HashMap<String, List<SYSDict>>();
+                // map = new HashMap<String, List<SYSDict>>();
+                list = new ArrayList<SYSDict>();
                 list.add(sysDict);
-                map.put(sysDict.getDkey(), list);
+                map.put(sysDict.getParentKey(), list);
             } else {
                 list.add(sysDict);
-                map.put(sysDict.getDkey(), list);
+                map.put(sysDict.getParentKey(), list);
             }
         }
         return map;

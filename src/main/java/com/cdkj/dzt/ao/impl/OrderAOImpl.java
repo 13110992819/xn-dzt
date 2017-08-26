@@ -603,6 +603,10 @@ public class OrderAOImpl implements IOrderAO {
         Paginable<Order> results = orderBO
             .getPaginable(start, limit, condition);
         for (Order order : results.getList()) {
+            Product product = productBO.getProductByOrderCode(order.getCode());
+            if (null != product) {
+                order.setModelCode(product.getModelCode());
+            }
             order.setLtUserDO(userBO.getRemoteUser(order.getLtUser()));
         }
         return results;
@@ -612,6 +616,13 @@ public class OrderAOImpl implements IOrderAO {
     public Order getRichOrder(String code) {
         Order order = orderBO.getRichOrder(code);
         order.setLtUserDO(userBO.getRemoteUser(order.getLtUser()));
+        Comment condition = new Comment();
+        condition.setParentCode(code);
+        List<Comment> commentList = commentBO.queryCommentList(condition);
+        if (CollectionUtils.isNotEmpty(commentList)) {
+            Comment comment = commentList.get(0);
+            order.setComment(comment);
+        }
         return order;
     }
 
@@ -825,7 +836,7 @@ public class OrderAOImpl implements IOrderAO {
         Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
             ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
             ESystemCode.DZT.getCode()).getCvalue());
-        if (StringValidater.toInteger(user.getLevel()) >= 1) {
+        if (StringValidater.toInteger(user.getLevel()) > 1) {
             rate = 1.0;
         }
         Long truePrice = AmountUtil.rmbJinFen(price);
@@ -1029,7 +1040,7 @@ public class OrderAOImpl implements IOrderAO {
         if (StringUtils.isNotBlank(user.getUserReferee())) {
             XN001400Res user1 = userBO.getRemoteUser(user.getUserReferee());
             // 如果是会员
-            if (StringValidater.toInteger(user1.getLevel()) >= 1) {
+            if (StringValidater.toInteger(user1.getLevel()) > 1) {
                 Long count = orderBO.getTotalCount(order.getApplyUser(),
                     EOrderStatus.FILED);
                 // 如果是第一次下单成功,推荐人获得1500积分
@@ -1063,7 +1074,7 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 计算积分
         // 购买者如果是会员
-        if (StringValidater.toInteger(user.getLevel()) >= 1) {
+        if (StringValidater.toInteger(user.getLevel()) > 1) {
             // 获取多少积分比例
             Long rate = StringValidater.toLong(sysConfigBO.getConfigValue(
                 ESysConfigCkey.YHHD.getCode(), ESystemCode.DZT.getCode(),
@@ -1085,7 +1096,7 @@ public class OrderAOImpl implements IOrderAO {
         if (StringUtils.isNotBlank(user.getUserReferee())) {
             XN001400Res user1 = userBO.getRemoteUser(user.getUserReferee());
             // 如果是会员
-            if (StringValidater.toInteger(user1.getLevel()) >= 1) {
+            if (StringValidater.toInteger(user1.getLevel()) > 1) {
                 Long count = orderBO.getTotalCount(order.getApplyUser(),
                     EOrderStatus.FILED);
                 // 如果是第一次下单成功,推荐人获得1500经验
@@ -1147,7 +1158,7 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 计算经验
         // 购买者如果是会员
-        if (StringValidater.toInteger(user.getLevel()) >= 1) {
+        if (StringValidater.toInteger(user.getLevel()) > 1) {
             // 获取多少积分比例
             Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
                 ESysConfigCkey.YHJY.getCode(), ESystemCode.DZT.getCode(),
@@ -1178,7 +1189,7 @@ public class OrderAOImpl implements IOrderAO {
     public Object paymentVIP(String userId, String payType) {
         if (EPayType.WEIXIN.getCode().equals(payType)) {
             XN001400Res user = userBO.getRemoteUser(userId);
-            if (StringValidater.toInteger(user.getLevel()) >= 1) {
+            if (StringValidater.toInteger(user.getLevel()) > 1) {
                 throw new BizException("xn0000", "您已经是VIP会员了,无需重复充值");
             }
             Double totalAmount = StringValidater.toDouble(sysConfigBO
@@ -1198,6 +1209,7 @@ public class OrderAOImpl implements IOrderAO {
 
     @Override
     public void paySuccessVIP(String payGroup, String payCode, Long amount) {
+        logger.info(payGroup);
         XN001400Res user = userBO.getRemoteUser(payGroup);
         if (StringValidater.toInteger(user.getLevel()) < 2) {
             userBO.doUpLevel(payGroup, EUserLevel.TWO.getCode());

@@ -63,3 +63,79 @@ insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `upd
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','4-4','A','正常','admin',now(),'','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','4-4','B','偏高','admin',now(),'','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','4-4','C','偏低','admin',now(),'','CD-CDZT000009');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('0','','craftwork_type','工艺类型','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('0','','fabric_color','面料色系','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_color','1','紫色','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_color','2','棕色','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_color','3','蓝色','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_color','4','绿色','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_color','5','红色','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_color','6','粉红色','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_color','7','白色','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_color','8','黑色','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('0','','fabric_type','面料类型','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_type','1','进口面料','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_type','2','衬衫面料','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_type','3','西裤面料','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_type','4','人衣面料','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('0','','fabric_design','面料花色','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_design','1','净色','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_design','2','素色','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_design','3','黑色','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_design','4','灰色','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('0','','fabric_divide','面料成分','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_divide','1','100%W','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_divide','2','80%C+20%W','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_divide','3','60%C+40%W','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_divide','4','100%C','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('0','','fabric_yarn','面料纱支类型','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_yarn','1','80支棉','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_yarn','2','100支棉','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_yarn','3','棉真丝','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','fabric_yarn','4','棉弹力','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','order_status','9','已评价','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','order_status','10','已归档','admin',now(),NULL,'CD-CDZT000009');
+
+
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','5-04','刺绣颜色工艺','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','5-03','刺绣字体工艺','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','5-02','刺绣位置','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','1-03','领型工艺','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','1-04','袖型工艺','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','1-05','门襟工艺','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','1-06','下摆工艺','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','1-07','收省工艺','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','1-08','着装风格','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','1-01','规格','admin',now(),NULL,'CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','craftwork_type','1-09','口袋工艺','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','chanpin_type','0','衬衫','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('1','chanpin_type','1','H+产品','admin',now(),'','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`,  `system_code`) values('0','','chanpin_type','产品类型','admin',now(),NULL,'CD-CDZT000009');

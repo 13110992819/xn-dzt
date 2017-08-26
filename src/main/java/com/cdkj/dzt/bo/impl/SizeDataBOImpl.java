@@ -150,17 +150,17 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             this.saveGL(applyUser, map.get(EMeasureKey.GL.getCode()), sysMap);
         }
         if (StringUtils.isNotBlank(map.get(EMeasureKey.SG.getCode()))) {
-            this.saveSG(applyUser, map.get(EMeasureKey.SG.getCode()));
+            this.saveSG(applyUser, map.get(EMeasureKey.SG.getCode()), sysMap);
         }
         if (StringUtils.isNotBlank(map.get(EMeasureKey.TZ.getCode()))) {
-            this.saveTZ(applyUser, map.get(EMeasureKey.TZ.getCode()));
+            this.saveTZ(applyUser, map.get(EMeasureKey.TZ.getCode()), sysMap);
         }
     }
 
     private void saveLW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.LW.getCode());
+        data.setCkey(EMeasureKey.LW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -168,7 +168,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveSW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.SW.getCode());
+        data.setCkey(EMeasureKey.SW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -176,7 +176,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveZYW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.ZYW.getCode());
+        data.setCkey(EMeasureKey.ZYW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -184,7 +184,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveKYW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.KYW.getCode());
+        data.setCkey(EMeasureKey.KYW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -192,7 +192,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveTW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.TW.getCode());
+        data.setCkey(EMeasureKey.TW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -200,7 +200,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveDTW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.DTW.getCode());
+        data.setCkey(EMeasureKey.DTW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -208,7 +208,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveTD(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.TD.getCode());
+        data.setCkey(EMeasureKey.TD.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -216,7 +216,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveBW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.BW.getCode());
+        data.setCkey(EMeasureKey.BW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -224,7 +224,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveZJK(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.ZJK.getCode());
+        data.setCkey(EMeasureKey.ZJK.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -232,7 +232,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveXC(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.XC.getCode());
+        data.setCkey(EMeasureKey.XC.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -240,7 +240,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveQJK(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.QJK.getCode());
+        data.setCkey(EMeasureKey.QJK.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -248,7 +248,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveHYJC(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.HYJC.getCode());
+        data.setCkey(EMeasureKey.HYJC.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -256,7 +256,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveHYG(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.HYG.getCode());
+        data.setCkey(EMeasureKey.HYG.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -264,7 +264,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveHYGH(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.HYGH.getCode());
+        data.setCkey(EMeasureKey.HYGH.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -272,7 +272,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveQYJC(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.QYJC.getCode());
+        data.setCkey(EMeasureKey.QYJC.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -280,7 +280,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveQYG(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.QYG.getCode());
+        data.setCkey(EMeasureKey.QYG.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -288,7 +288,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveKC(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.KC.getCode());
+        data.setCkey(EMeasureKey.KC.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -296,7 +296,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveXTW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.XTW.getCode());
+        data.setCkey(EMeasureKey.XTW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -304,7 +304,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveQXK(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.QXK.getCode());
+        data.setCkey(EMeasureKey.QXK.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -312,7 +312,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveHBK(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.HBK.getCode());
+        data.setCkey(EMeasureKey.HBK.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -320,7 +320,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveFW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.FW.getCode());
+        data.setCkey(EMeasureKey.FW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -328,7 +328,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveXBW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.XBW.getCode());
+        data.setCkey(EMeasureKey.XBW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -336,7 +336,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveQYC(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.QYC.getCode());
+        data.setCkey(EMeasureKey.QYC.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -344,7 +344,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     private void saveWW(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.WW.getCode());
+        data.setCkey(EMeasureKey.WW.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
@@ -353,7 +353,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.TX.getCode());
+        data.setCkey(EMeasureKey.TX.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.TX.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -367,7 +367,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.BX.getCode());
+        data.setCkey(EMeasureKey.BX.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.BX.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -381,7 +381,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.ZJ.getCode());
+        data.setCkey(EMeasureKey.ZJ.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.ZJ.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -395,7 +395,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.YJ.getCode());
+        data.setCkey(EMeasureKey.YJ.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.YJ.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -409,7 +409,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.BZ.getCode());
+        data.setCkey(EMeasureKey.BZ.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.BZ.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -423,7 +423,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.FS.getCode());
+        data.setCkey(EMeasureKey.FS.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.FS.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -437,7 +437,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.DX.getCode());
+        data.setCkey(EMeasureKey.DX.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.DX.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -451,7 +451,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.SC.getCode());
+        data.setCkey(EMeasureKey.SC.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.SC.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -465,7 +465,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.SB.getCode());
+        data.setCkey(EMeasureKey.SB.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.SB.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -479,7 +479,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.DB.getCode());
+        data.setCkey(EMeasureKey.DB.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.DB.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -493,7 +493,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.TUNX.getCode());
+        data.setCkey(EMeasureKey.TUNX.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.TUNX.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -507,7 +507,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.GL.getCode());
+        data.setCkey(EMeasureKey.GL.getValue());
         List<SYSDict> sysDictList = sysMap.get(EMeasureKey.GL.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
@@ -517,18 +517,20 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
         sizeDataDAO.insert(data);
     }
 
-    private void saveTZ(String applyUser, String value) {
+    private void saveTZ(String applyUser, String value,
+            Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.TZ.getCode());
+        data.setCkey(EMeasureKey.TZ.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }
 
-    private void saveSG(String applyUser, String value) {
+    private void saveSG(String applyUser, String value,
+            Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.SG.getCode());
+        data.setCkey(EMeasureKey.SG.getValue());
         data.setCvalue(value);
         sizeDataDAO.insert(data);
     }

@@ -50,4 +50,28 @@ public class SwapDAOImpl extends AMybatisTemplate implements ISwapDAO {
         return super.update(NAMESPACE.concat("update_swap"), data);
     }
 
+    @Override
+    public List<Swap> selectGroupList(Swap condition) {
+        return super.selectList(NAMESPACE.concat("select_swap_group"),
+            condition, Swap.class);
+    }
+
+    @Override
+    public List<Swap> selectGroupList(Swap condition, int start, int limit) {
+        return super.selectList(NAMESPACE.concat("select_swap_group"), start,
+            limit, condition, Swap.class);
+    }
+
+    @Override
+    public List<Swap> selectBLYList(Swap condition) {
+        return super.selectList(NAMESPACE.concat("select_swap_bfront"),
+            condition, Swap.class);
+    }
+
+    @Override
+    public List<Swap> selectBLYList(Swap condition, int start, int limit) {
+        return super.selectList(NAMESPACE.concat("select_swap_bfront"), start,
+            limit, condition, Swap.class);
+    }
+
 }

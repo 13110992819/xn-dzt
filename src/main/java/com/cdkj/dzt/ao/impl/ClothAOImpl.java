@@ -132,6 +132,11 @@ public class ClothAOImpl implements IClothAO {
         if (!EStatus.PUT_ON.getCode().equals(data.getStatus())) {
             throw new BizException("xn0000", "该布料未上架,请仔细查看");
         }
+        long number = clothBO.getTotalCount(data.getModelCode());
+        Model model = modelBO.getModel(data.getModelCode());
+        if (number < 1 && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
+            throw new BizException("xn0000", "面料下架影响产品,请先下架产品");
+        }
         clothBO.putOff(data, updater, remark);
     }
 

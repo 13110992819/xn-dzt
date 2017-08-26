@@ -152,10 +152,14 @@ public class ModelAOImpl implements IModelAO {
         if (EStatus.PUT_ON.getCode().equals(data.getStatus())) {
             throw new BizException("xn0000", "该产品已上架");
         }
-        // Craft condition = new Craft();
-        // condition.setModelCode(code);
-        // condition.setStatus(EStatus.PUT_ON.getCode());
-        // craftBO.getTotalCount(condition);
+        long num = craftBO.getGroupTotalCount(code);
+        if (num < 11) {
+            throw new BizException("xn0000", "有部分工艺类型未上架,请仔细检查");
+        }
+        long number = clothBO.getTotalCount(code);
+        if (number <= 0) {
+            throw new BizException("xn0000", "面料未上架");
+        }
         modelBO.putOn(data, location, orderNo, updater, remark);
     }
 

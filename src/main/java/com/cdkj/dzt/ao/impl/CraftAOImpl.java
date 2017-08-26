@@ -20,6 +20,7 @@ import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.domain.Craft;
+import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.dto.req.XN620040Req;
 import com.cdkj.dzt.dto.req.XN620042Req;
 import com.cdkj.dzt.dto.res.XN620053Res;
@@ -57,7 +58,10 @@ public class CraftAOImpl implements ICraftAO {
         data.setName(req.getName());
         data.setPic(req.getPic());
         data.setAdvPic(req.getAdvPic());
-        data.setPrice(StringValidater.toLong(req.getPrice()));
+        data.setPrice(StringValidater.toLong(EBoolean.NO.getCode()));
+        if (StringUtils.isNotBlank(req.getPrice())) {
+            data.setPrice(StringValidater.toLong(req.getPrice()));
+        }
         data.setStatus(EStatus.DRAFT.getCode());
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
@@ -87,6 +91,10 @@ public class CraftAOImpl implements ICraftAO {
         data.setName(req.getName());
         data.setPic(req.getPic());
         data.setAdvPic(req.getAdvPic());
+        data.setPrice(StringValidater.toLong(EBoolean.NO.getCode()));
+        if (StringUtils.isNotBlank(req.getPrice())) {
+            data.setPrice(StringValidater.toLong(req.getPrice()));
+        }
         data.setPrice(StringValidater.toLong(req.getPrice()));
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
@@ -159,6 +167,11 @@ public class CraftAOImpl implements ICraftAO {
         Craft craft = craftBO.getCraft(code);
         if (EStatus.PUT_ON.getCode().equals(craft.getStatus())) {
             throw new BizException("xn0000", "工艺已上架,无需重复上架");
+        }
+        long num = craftBO.getGroupTotalCount(craft.getModelCode());
+        Model model = modelBO.getModel(craft.getModelCode());
+        if (num < 1 && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
+            throw new BizException("xn0000", "工艺下架影响产品,请先下架产品");
         }
         craftBO.putOn(craft, location, orderNo, updater, remark);
     }

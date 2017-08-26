@@ -74,4 +74,24 @@ public class SwapBOImpl extends PaginableBOImpl<Swap> implements ISwapBO {
         condition.setLookUser(lookUser);
         return swapDAO.selectTotalCount(condition);
     }
+
+    @Override
+    public List<Swap> queryGroupList(Swap condition) {
+        return swapDAO.selectGroupList(condition);
+    }
+
+    @Override
+    public List<Swap> queryGroupList(Swap condition, int start, int limit) {
+        return swapDAO.selectGroupList(condition, start, limit);
+    }
+
+    @Override
+    public List<Swap> queryBLYList(Swap condition) {
+        return swapDAO.selectBLYList(condition);
+    }
+
+    @Override
+    public List<Swap> queryBLYList(Swap condition, int start, int limit) {
+        return swapDAO.selectBLYList(condition, start, limit);
+    }
 }

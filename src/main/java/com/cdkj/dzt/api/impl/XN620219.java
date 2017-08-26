@@ -10,7 +10,7 @@ import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
- * 获取最后一个订单
+ * VIP充值
  * @author: asus 
  * @since: 2017年8月19日 上午12:11:28 
  * @history:

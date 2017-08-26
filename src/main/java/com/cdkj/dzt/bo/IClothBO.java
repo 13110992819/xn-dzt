@@ -26,4 +26,6 @@ public interface IClothBO extends IPaginableBO<Cloth> {
     public Cloth getCloth(String code);
 
     public Map<String, Cloth> getMap();
+
+    public long getTotalCount(String modelCode);
 }

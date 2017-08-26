@@ -29,6 +29,9 @@ public class XN620010Req extends APageReq {
     // 更新人（选填）
     private String updater;
 
+    // UI位置（选填）
+    private String location;
+
     // 当前用户编号
     private String userId;
 
@@ -70,6 +73,14 @@ public class XN620010Req extends APageReq {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
 }

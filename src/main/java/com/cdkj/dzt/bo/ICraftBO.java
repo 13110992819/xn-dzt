@@ -24,4 +24,6 @@ public interface ICraftBO extends IPaginableBO<Craft> {
 
     public Map<String, Craft> getMap();
 
+    public long getGroupTotalCount(String modelCode);
+
 }
