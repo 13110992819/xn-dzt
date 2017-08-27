@@ -1,6 +1,7 @@
 package com.cdkj.dzt.ao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -10,8 +11,6 @@ import com.cdkj.dzt.domain.SizeData;
 @Component
 public interface ISizeDataAO {
     static final String DEFAULT_ORDER_COLUMN = "id";
-
-    public void addSizeData(SizeData data);
 
     public void dropSizeData(String code);
 
@@ -23,5 +22,7 @@ public interface ISizeDataAO {
     public List<SizeData> querySizeDataList(SizeData condition);
 
     public SizeData getSizeData(String code);
+
+    public void addSizeData(String userId, Map<String, String> map);
 
 }

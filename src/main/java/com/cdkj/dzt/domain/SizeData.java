@@ -21,8 +21,14 @@ public class SizeData extends ABaseDO {
     // 类型
     private String ckey;
 
-    // 类型值
+    // 类型名称
     private String cvalue;
+
+    // 值类型
+    private String dkey;
+
+    // 值名称
+    private String dvalue;
 
     public void setId(String id) {
         this.id = id;
@@ -54,6 +60,22 @@ public class SizeData extends ABaseDO {
 
     public void setCvalue(String cvalue) {
         this.cvalue = cvalue;
+    }
+
+    public String getDkey() {
+        return dkey;
+    }
+
+    public void setDkey(String dkey) {
+        this.dkey = dkey;
+    }
+
+    public String getDvalue() {
+        return dvalue;
+    }
+
+    public void setDvalue(String dvalue) {
+        this.dvalue = dvalue;
     }
 
 }

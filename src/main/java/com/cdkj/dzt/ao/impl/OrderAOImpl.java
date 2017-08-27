@@ -133,6 +133,8 @@ public class OrderAOImpl implements IOrderAO {
         if (null != lastOrder) {
             if (EOrderStatus.TO_MEASURE.getCode().equals(lastOrder.getStatus())) {
                 throw new BizException("xn0000", "您已经有一个预约单了");
+            } else {
+                throw new BizException("xn0000", "您已经成功下过单了,可以直接复购");
             }
         }
         // 获取城市合伙人
@@ -205,10 +207,14 @@ public class OrderAOImpl implements IOrderAO {
         order.setRemark(req.getRemark());
 
         orderBO.applyOrder(order);
-        // 落地量体数据(落地身高、体重)
-        productSpecsBO.inputInforValue(order, req.getMap());
         // 落地身材数据(落地身高、体重)
         sizeDataBO.inputInforValue(req.getApplyUser(), req.getMap());
+        req.getMap().put(
+            EMeasureKey.YJDZ.getCode(),
+            req.getLtProvince() + req.getLtCity() + req.getLtArea()
+                    + req.getLtAddress());
+        // 落地量体数据(落地身高、体重)
+        productSpecsBO.inputInforValue(order, req.getMap());
         // 如果有地区合伙人，短信通知
         if (!"0".equals(userId)) {
             smsOutBO.sentContent(
@@ -229,8 +235,10 @@ public class OrderAOImpl implements IOrderAO {
                 throw new BizException("xn0000", "您已经有一个预约单了");
             }
         }
-        List<ProductSpecs> productSpecsList = productSpecsBO
-            .queryPSByOrderCodeList(lastOrder.getCode());
+        if (null == lastOrder) {
+            throw new BizException("xn0000", "您还未成功预约过,不能一件复购");
+        }
+        List<SizeData> sizeDataList = sizeDataBO.querySizeDataList(applyUser);
         // 开始组装order
         Order order = new Order();
         Date now = new Date();
@@ -299,14 +307,10 @@ public class OrderAOImpl implements IOrderAO {
 
         orderBO.applyOrder(order);
         Map<String, String> map = new HashMap<String, String>();
-        for (ProductSpecs productSpecs : productSpecsList) {
-            if (EMeasureKey.TZ.getCode().equals(productSpecs.getType())) {
-                map.put(productSpecs.getType(), productSpecs.getCode());
-            }
-            if (EMeasureKey.SG.getCode().equals(productSpecs.getType())) {
-                map.put(productSpecs.getType(), productSpecs.getCode());
-            }
+        for (SizeData sizeData : sizeDataList) {
+            map.put(sizeData.getCkey(), sizeData.getDkey());
         }
+        map.put(EMeasureKey.YJDZ.getCode(), lastOrder.getReAddress());
         productSpecsBO.inputInforValue(order, product, map);
         // 一键复购，直接短信通知量体师
         smsOutBO.sentContent(
@@ -787,19 +791,20 @@ public class OrderAOImpl implements IOrderAO {
         if (StringUtils.isBlank(productCode)) {
             throw new BizException("xn0000", "产品不能为空");
         }
-        List<ProductSpecs> productSpecsList = productSpecsBO
-            .queryPSByOrderCodeList(orderCode);
-        if (map == null) {
-            map = new HashMap<String, String>();
-        }
-        for (ProductSpecs productSpecs : productSpecsList) {
-            if (EMeasureKey.TZ.getCode().equals(productSpecs.getType())) {
-                map.put(productSpecs.getType(), productSpecs.getCode());
-            }
-            if (EMeasureKey.SG.getCode().equals(productSpecs.getType())) {
-                map.put(productSpecs.getType(), productSpecs.getCode());
-            }
-        }
+        productSpecsBO.refreshProductCode(orderCode, productCode);
+        // List<ProductSpecs> productSpecsList = productSpecsBO
+        // .queryPSByOrderCodeList(orderCode);
+        // if (map == null) {
+        // map = new HashMap<String, String>();
+        // }
+        // for (ProductSpecs productSpecs : productSpecsList) {
+        // if (EMeasureKey.TZ.getCode().equals(productSpecs.getType())) {
+        // map.put(productSpecs.getType(), productSpecs.getCode());
+        // }
+        // if (EMeasureKey.SG.getCode().equals(productSpecs.getType())) {
+        // map.put(productSpecs.getType(), productSpecs.getCode());
+        // }
+        // }
         // 售价=1.76*（面料单价*面料单耗+加工费+工艺费）+2.06*（快递费+包装费）
         // 计算面料价格
         // 计算工艺价格
@@ -845,7 +850,7 @@ public class OrderAOImpl implements IOrderAO {
         productSpecsBO.inputInforValue(order,
             productBO.getProductByOrderCode(orderCode), map);
 
-        sizeDataBO.inputInforValue(order.getApplyUser(), map);
+        // sizeDataBO.inputInforValue(order.getApplyUser(), map);
 
         orderBO.confirmPrice(order, model, truePrice, updater, remark);
     }
@@ -866,7 +871,7 @@ public class OrderAOImpl implements IOrderAO {
         // List<Craft> craftList = new ArrayList<Craft>();
         // List<Cloth> clothList = new ArrayList<Cloth>();
         // String productCode = null;
-
+        //
         // for (ProductSpecs productSpecs : productSpecsList) {
         // productCode = productSpecs.getCode();
         // if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {
@@ -880,7 +885,7 @@ public class OrderAOImpl implements IOrderAO {
         // map.put(productSpecs.getType(), productCode);
         // }
         // }
-
+        // productSpecsBO.removeProductSpecs(product.getCode());
         for (Entry<String, String> entry : map.entrySet()) {
             productSpecsBO.removeProductSpecs(entry.getKey(), orderCode);
             sizeDataBO
@@ -1227,14 +1232,7 @@ public class OrderAOImpl implements IOrderAO {
             List<SizeData> sizeDataList = sizeDataBO
                 .querySizeDataList(applyUser);
             for (SizeData sizeData : sizeDataList) {
-                if (sizeData.getCkey().equals(EMeasureKey.SG.getCode())
-                        || sizeData.getUserId().equals(applyUser)) {
-                    map.put(sizeData.getCkey(), sizeData.getCvalue());
-                }
-                if (sizeData.getCkey().equals(EMeasureKey.TZ.getCode())
-                        || sizeData.getUserId().equals(applyUser)) {
-                    map.put(sizeData.getCkey(), sizeData.getCvalue());
-                }
+                map.put(sizeData.getCkey(), sizeData.getDkey());
             }
             res.setMap(map);
         }

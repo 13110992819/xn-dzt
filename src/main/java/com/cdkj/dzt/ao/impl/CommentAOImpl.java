@@ -111,6 +111,7 @@ public class CommentAOImpl implements ICommentAO {
         for (Comment comment : commentList) {
             XN001400Res user = userBO.getRemoteUser(comment.getCommer());
             comment.setCommerRealName(user.getNickname());
+            comment.setPhoto(user.getPhoto());
             // type:0为文章，1为产品
             if (EBoolean.NO.getCode().equals(comment.getType())) {
                 Article article = articleBO.getArticle(comment.getParentCode());

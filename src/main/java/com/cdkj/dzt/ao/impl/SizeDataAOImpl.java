@@ -1,6 +1,7 @@
 package com.cdkj.dzt.ao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,6 @@ public class SizeDataAOImpl implements ISizeDataAO {
 
     @Autowired
     private ISizeDataBO sizeDataBO;
-
-    @Override
-    public void addSizeData(SizeData data) {
-
-    }
 
     @Override
     public void editSizeData(SizeData data) {
@@ -52,5 +48,14 @@ public class SizeDataAOImpl implements ISizeDataAO {
     @Override
     public SizeData getSizeData(String code) {
         return sizeDataBO.getSizeData(code);
+    }
+
+    @Override
+    public void addSizeData(String userId, Map<String, String> map) {
+        if (map == null) {
+            throw new BizException("xn0000", "修改内容不能为空");
+        }
+        sizeDataBO.removeSizeDataByUserId(userId);
+        sizeDataBO.inputInforValue(userId, map);
     }
 }

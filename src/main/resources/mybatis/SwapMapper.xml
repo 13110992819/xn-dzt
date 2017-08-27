@@ -107,7 +107,8 @@
 	</update>
 	
 	<select id="select_swap_group" parameterType="swap" resultMap="swap_DB_Result">
-		select t.* from tdzt_swap t,(select max(order_no) order_no,commenter from tdzt_swap t where t.receiver =#{receiver} 
+		select t.* from tdzt_swap t,(select max(order_no) order_no,commenter from tdzt_swap t 
+		where t.receiver =#{receiver} or t.commenter=#{receiver}
 		group by commenter) tor 
 		where t.commenter= tor.commenter and t.order_no = tor.order_no  
 		group by t.commenter having t.receiver =#{receiver}

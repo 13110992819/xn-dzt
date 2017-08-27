@@ -12,7 +12,7 @@ public class XN6201600Req {
     private String content;
 
     // 评论人（必填）
-    private String commer;
+    private String commenter;
 
     // 产品/文章编号（必填）
     private String parentCode;
@@ -25,20 +25,20 @@ public class XN6201600Req {
         this.content = content;
     }
 
-    public String getCommer() {
-        return commer;
-    }
-
-    public void setCommer(String commer) {
-        this.commer = commer;
-    }
-
     public String getParentCode() {
         return parentCode;
     }
 
     public void setParentCode(String parentCode) {
         this.parentCode = parentCode;
+    }
+
+    public String getCommenter() {
+        return commenter;
+    }
+
+    public void setCommenter(String commenter) {
+        this.commenter = commenter;
     }
 
 }

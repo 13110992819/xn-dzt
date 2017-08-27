@@ -7,6 +7,8 @@
 		<result column="user_id" property="userId" />
 		<result column="ckey" property="ckey" />
 		<result column="cvalue" property="cvalue" />
+		<result column="dkey" property="dkey" />
+		<result column="dvalue" property="dvalue" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -24,6 +26,8 @@
 		,t.user_id
 		,t.ckey
 		,t.cvalue
+		,t.dkey
+		,t.dvalue
 		FROM
 		tdzt_size_data t
 		<include refid="where_condition" />
@@ -46,11 +50,15 @@
 		user_id
 		,ckey
 		,cvalue
+		,dkey
+		,dvalue
 		)
 		VALUES(
 		#{userId}
 		,#{ckey}
 		,#{cvalue}
+		,#{dkey}
+		,#{dvalue}
 		)
 	</insert>
 
@@ -60,6 +68,8 @@
 		user_id = #{userId}
 		,ckey = #{ckey}
 		,cvalue = #{cvalue}
+		,dkey = #{dkey}
+		,dvalue = #{dvalue}
 		WHERE id = #{id}
 	</update>
 
