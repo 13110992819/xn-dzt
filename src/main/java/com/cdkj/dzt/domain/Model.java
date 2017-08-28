@@ -33,7 +33,7 @@ public class Model extends ABaseDO {
     private String description;
 
     // 损耗
-    private Integer loss;
+    private Double loss;
 
     // 加工费
     private Long processFee;
@@ -113,11 +113,11 @@ public class Model extends ABaseDO {
         this.description = description;
     }
 
-    public Integer getLoss() {
+    public Double getLoss() {
         return loss;
     }
 
-    public void setLoss(Integer loss) {
+    public void setLoss(Double loss) {
         this.loss = loss;
     }
 

@@ -10,6 +10,7 @@
 		<result column="content" property="content" />
 		<result column="comment_datetime" property="commentDatetime" />
 		<result column="order_no" property="orderNo" />
+		<result column="is_new" property="isNew" />
 		<result column="status" property="status" />
 	</resultMap>
 	<sql id="where_condition">
@@ -29,6 +30,9 @@
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>
+			<if test="isNew != null and isNew != '' ">
+				AND t.is_new = #{isNew}
+			</if>
 			<if test="lookUser != null and lookUser != '' ">
 				AND (t.receiver = #{lookUser} OR t.commenter = #{lookUser})
 			</if>
@@ -43,6 +47,7 @@
 		,t.content
 		,t.comment_datetime
 		,t.order_no
+		,t.is_new
 		,t.status
 		FROM
 		tdzt_swap t
@@ -63,6 +68,7 @@
 		,t.content
 		,t.comment_datetime
 		,t.order_no
+		,t.is_new
 		,t.status
 		FROM
 		tdzt_swap t
@@ -85,6 +91,7 @@
 		,content
 		,comment_datetime
 		,order_no
+		,is_new
 		,status
 		)
 		VALUES(
@@ -95,6 +102,7 @@
 		,#{content}
 		,#{commentDatetime}
 		,#{orderNo}
+		,#{isNew}
 		,#{status}
 		)
 	</insert>
@@ -106,12 +114,26 @@
 		WHERE code = #{code}
 	</update>
 	
+	<update id="update_isNew" parameterType="swap">
+		UPDATE tdzt_swap
+		SET
+		is_new = #{isNew}
+		WHERE code = #{code}
+	</update>
+	
 	<select id="select_swap_group" parameterType="swap" resultMap="swap_DB_Result">
-		select t.* from tdzt_swap t,(select max(order_no) order_no,commenter from tdzt_swap t 
-		where t.receiver =#{receiver} or t.commenter=#{receiver}
-		group by commenter) tor 
-		where t.commenter= tor.commenter and t.order_no = tor.order_no  
-		group by t.commenter having t.receiver =#{receiver}
+		SELECT
+		t.code
+		,t.type
+		,t.commenter
+		,t.receiver
+		,t.content
+		,t.comment_datetime
+		,t.order_no
+		,t.is_new
+		,t.status
+		FROM
+		tdzt_swap t where is_new ='1'
 	</select>
 
 </mapper>

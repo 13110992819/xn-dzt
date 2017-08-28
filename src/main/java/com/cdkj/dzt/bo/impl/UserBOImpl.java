@@ -11,6 +11,7 @@ import com.cdkj.dzt.domain.User;
 import com.cdkj.dzt.dto.req.XN001302Req;
 import com.cdkj.dzt.dto.req.XN001304Req;
 import com.cdkj.dzt.dto.req.XN001305Req;
+import com.cdkj.dzt.dto.req.XN001306Req;
 import com.cdkj.dzt.dto.req.XN001400Req;
 import com.cdkj.dzt.dto.req.XN001401Req;
 import com.cdkj.dzt.dto.req.XN001403Req;
@@ -122,5 +123,14 @@ public class UserBOImpl implements IUserBO {
             new TypeToken<List<XN001400Res>>() {
             }.getType());
         return list;
+    }
+
+    @Override
+    public void modifyRealName(String userId, String realName) {
+        XN001306Req req = new XN001306Req();
+        req.setUserId(userId);
+        req.setRealName(realName);
+        BizConnecter.getBizData("001306", JsonUtils.object2Json(req),
+            Object.class);
     }
 }

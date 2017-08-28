@@ -18,4 +18,6 @@ public interface ISwapDAO extends IBaseDAO<Swap> {
     List<Swap> selectBLYList(Swap condition);
 
     List<Swap> selectBLYList(Swap condition, int start, int limit);
+
+    void updateNew(Swap swap);
 }

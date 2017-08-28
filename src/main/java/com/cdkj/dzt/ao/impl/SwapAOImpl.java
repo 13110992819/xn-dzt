@@ -45,6 +45,14 @@ public class SwapAOImpl implements ISwapAO {
             receiver = order.getLtUser();
         }
         Long num = swapBO.getTotalCount(commenter);
+        if (num != 0) {
+            Swap condition = new Swap();
+            condition.setLookUser(commenter);
+            condition.setOrder("comment_datetime", "desc");
+            List<Swap> swapList = swapBO.querySwapList(condition);
+            Swap swap = swapList.get(0);
+            swapBO.updateNew(swap);
+        }
         Integer orderNo = (int) (num + 1);
         Swap data = new Swap();
         String code = OrderNoGenerater
@@ -56,6 +64,7 @@ public class SwapAOImpl implements ISwapAO {
         data.setContent(content);
         data.setCommentDatetime(new Date());
         data.setOrderNo(orderNo);
+        data.setIsNew(EBoolean.YES.getCode());
         data.setStatus(EBoolean.NO.getCode());
         swapBO.saveSwap(data);
         return code;
@@ -69,6 +78,14 @@ public class SwapAOImpl implements ISwapAO {
         }
         Long num = swapBO.getTotalCount(commenter);
         Integer orderNo = (int) (num + 1);
+        if (num != 0) {
+            Swap condition = new Swap();
+            condition.setLookUser(commenter);
+            condition.setOrder("comment_datetime", "desc");
+            List<Swap> swapList = swapBO.querySwapList(condition);
+            Swap swap = swapList.get(0);
+            swapBO.updateNew(swap);
+        }
         Swap data = new Swap();
         String code = OrderNoGenerater
             .generateM(EGeneratePrefix.SWAP.getCode());
@@ -79,6 +96,7 @@ public class SwapAOImpl implements ISwapAO {
         data.setContent(content);
         data.setCommentDatetime(new Date());
         data.setOrderNo(orderNo);
+        data.setIsNew(EBoolean.YES.getCode());
         data.setStatus(EBoolean.NO.getCode());
         swapBO.saveSwap(data);
         return code;

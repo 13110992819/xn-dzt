@@ -60,6 +60,7 @@ import com.cdkj.dzt.dto.req.XN620200Req;
 import com.cdkj.dzt.dto.res.BooleanRes;
 import com.cdkj.dzt.dto.res.XN001400Res;
 import com.cdkj.dzt.dto.res.XN620218Res;
+import com.cdkj.dzt.dto.res.XN620221Res;
 import com.cdkj.dzt.enums.EBizType;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.ECommentStatus;
@@ -215,6 +216,8 @@ public class OrderAOImpl implements IOrderAO {
                     + req.getLtAddress());
         // 落地量体数据(落地身高、体重)
         productSpecsBO.inputInforValue(order, req.getMap());
+        // 更新用户姓名
+        userBO.modifyRealName(req.getApplyUser(), req.getApplyName());
         // 如果有地区合伙人，短信通知
         if (!"0".equals(userId)) {
             smsOutBO.sentContent(
@@ -857,6 +860,7 @@ public class OrderAOImpl implements IOrderAO {
 
     // H+入数据
     @Override
+    @Transactional
     public void inputInfor(String orderCode, Map<String, String> map,
             String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
@@ -864,28 +868,6 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单尚未支付,不能录入数据");
         }
         Product product = productBO.getProductByOrderCode(orderCode);
-        // List<ProductSpecs> productSpecsList = productSpecsBO
-        // .queryPSByOrderCodeList(orderCode);
-        // Cloth cloth = null;
-        // Craft craft = null;
-        // List<Craft> craftList = new ArrayList<Craft>();
-        // List<Cloth> clothList = new ArrayList<Cloth>();
-        // String productCode = null;
-        //
-        // for (ProductSpecs productSpecs : productSpecsList) {
-        // productCode = productSpecs.getCode();
-        // if (productCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {
-        // cloth = clothBO.getCloth(productCode);
-        // clothList.add(cloth);
-        // } else if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {
-        // craft = craftBO.getCraft(productCode);
-        // craftList.add(craft);
-        // } else if (productCode.substring(0, 2).equals(
-        // EMeasureType.CXSJ.getCode())) {
-        // map.put(productSpecs.getType(), productCode);
-        // }
-        // }
-        // productSpecsBO.removeProductSpecs(product.getCode());
         for (Entry<String, String> entry : map.entrySet()) {
             productSpecsBO.removeProductSpecs(entry.getKey(), orderCode);
             sizeDataBO
@@ -894,8 +876,6 @@ public class OrderAOImpl implements IOrderAO {
 
         sizeDataBO.inputInforValue(order.getApplyUser(), map);
         productSpecsBO.inputInforValue(order, product, map);
-        // productSpecsBO.inputInforCloth(order, product, clothList);
-        // productSpecsBO.inputInforCraft(order, product, craftList);
         // 更新订单
         orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
             remark);
@@ -1317,5 +1297,49 @@ public class OrderAOImpl implements IOrderAO {
                 }
             }
         }
+    }
+
+    @Override
+    public XN620221Res totalAmount(String userId) {
+        XN620221Res res = new XN620221Res();
+        XN001400Res user = userBO.getRemoteUser(userId);
+        Account jyAccount = accountBO.getRemoteAccount(userId, ECurrency.JY);
+        Account jfAccount = accountBO.getRemoteAccount(userId, ECurrency.JF);
+        List<SYSConfig> sysConfigList = sysConfigBO
+            .querySYSConfigList(EBoolean.YES.getCode());
+        Long sjAmount = 0L;
+        Integer days = DateUtil.daysBetween(user.getCreateDatetime(),
+            new Date());
+        for (SYSConfig sysConfig : sysConfigList) {
+            if (EUserLevel.TWO.getCode().equals(user.getLevel())
+                    && sysConfig.getCkey().equals("TWO")) {
+                sjAmount = jyAccount.getAmount()
+                        - StringValidater.toLong(sysConfig.getCvalue());
+            } else if (EUserLevel.THREE.getCode().equals(user.getLevel())
+                    && sysConfig.getCkey().equals("THREE")) {
+                sjAmount = jyAccount.getAmount()
+                        - StringValidater.toLong(sysConfig.getCvalue());
+            } else if (EUserLevel.FOUR.getCode().equals(user.getLevel())
+                    && sysConfig.getCkey().equals("FOUR")) {
+                sjAmount = jyAccount.getAmount()
+                        - StringValidater.toLong(sysConfig.getCvalue());
+            } else if (EUserLevel.FIVE.getCode().equals(user.getLevel())
+                    && sysConfig.getCkey().equals("FIVE")) {
+                sjAmount = 0L;
+            }
+        }
+        Order order = orderBO.getIsLastOrder(userId);
+        List<SizeData> sizeDataList = sizeDataBO.querySizeDataList(userId);
+        res.setRealName(user.getRealName());
+        res.setMobile(user.getMobile());
+        res.setJfAmount(jfAccount.getAmount());
+        res.setJyAmount(jyAccount.getAmount());
+        res.setSjAmount(sjAmount);
+        res.setDays(days);
+        res.setSizeDataList(sizeDataList);
+        if (null != order) {
+            res.setAddress(order.getReAddress());
+        }
+        return res;
     }
 }

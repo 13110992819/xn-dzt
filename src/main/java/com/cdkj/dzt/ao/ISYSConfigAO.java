@@ -1,5 +1,8 @@
 package com.cdkj.dzt.ao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.SYSConfig;
 
@@ -21,4 +24,7 @@ public interface ISYSConfigAO {
 
     public SYSConfig getSYSConfig(String key, String companyCode,
             String systemCode);
+
+    public Map<String, String> getSYSConfig(List<String> keyList,
+            String companyCode, String systemCode);
 }

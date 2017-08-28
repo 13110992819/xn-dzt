@@ -94,4 +94,10 @@ public class SwapBOImpl extends PaginableBOImpl<Swap> implements ISwapBO {
     public List<Swap> queryBLYList(Swap condition, int start, int limit) {
         return swapDAO.selectBLYList(condition, start, limit);
     }
+
+    @Override
+    public void updateNew(Swap swap) {
+        swap.setIsNew(EBoolean.NO.getCode());
+        swapDAO.updateNew(swap);
+    }
 }

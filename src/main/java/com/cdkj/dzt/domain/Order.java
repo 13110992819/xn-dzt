@@ -152,6 +152,9 @@ public class Order extends ABaseDO {
     // 评论
     private Comment comment;
 
+    // 编号
+    private String codeForQuery;
+
     private Map<String, LinkedHashMap<String, ProductSpecs>> resultMap;
 
     public List<String> getStatusList() {
@@ -521,6 +524,14 @@ public class Order extends ABaseDO {
 
     public void setComment(Comment comment) {
         this.comment = comment;
+    }
+
+    public String getCodeForQuery() {
+        return codeForQuery;
+    }
+
+    public void setCodeForQuery(String codeForQuery) {
+        this.codeForQuery = codeForQuery;
     }
 
 }

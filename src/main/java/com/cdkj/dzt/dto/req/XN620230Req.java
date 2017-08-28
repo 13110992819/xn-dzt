@@ -17,6 +17,9 @@ public class XN620230Req extends APageReq {
 
     private String code;
 
+    // 编号
+    private String codeForQuery;
+
     // 所属合伙人（选填）
     private String toUser;
 
@@ -243,6 +246,14 @@ public class XN620230Req extends APageReq {
 
     public void setBurry(String burry) {
         this.burry = burry;
+    }
+
+    public String getCodeForQuery() {
+        return codeForQuery;
+    }
+
+    public void setCodeForQuery(String codeForQuery) {
+        this.codeForQuery = codeForQuery;
     }
 
 }

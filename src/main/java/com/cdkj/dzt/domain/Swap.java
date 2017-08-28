@@ -38,6 +38,9 @@ public class Swap extends ABaseDO {
     // 状态
     private String status;
 
+    // 是否最新
+    private String isNew;
+
     // ***************DB************
     // 查看人
     private String lookUser;
@@ -178,6 +181,14 @@ public class Swap extends ABaseDO {
 
     public void setReceivePhoto(String receivePhoto) {
         this.receivePhoto = receivePhoto;
+    }
+
+    public String getIsNew() {
+        return isNew;
+    }
+
+    public void setIsNew(String isNew) {
+        this.isNew = isNew;
     }
 
 }

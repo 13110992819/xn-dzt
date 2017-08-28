@@ -22,7 +22,7 @@
 				AND t.code = #{code}
 			</if>
 			<if test="type != null and type != '' ">
-				AND t.type = #{type}
+				AND t.type like "%"#{type}#"%"
 			</if>
 			<if test="location != null and location != '' ">
 				AND t.location = #{location}

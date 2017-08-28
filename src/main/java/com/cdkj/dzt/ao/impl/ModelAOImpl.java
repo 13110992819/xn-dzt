@@ -17,6 +17,7 @@ import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.domain.Model;
+import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.dto.req.XN620000Req;
 import com.cdkj.dzt.dto.req.XN620002Req;
 import com.cdkj.dzt.dto.res.XN620013Res;
@@ -25,7 +26,6 @@ import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
 import com.cdkj.dzt.enums.EInteractType;
 import com.cdkj.dzt.enums.EModelType;
-import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EStatus;
 import com.cdkj.dzt.exception.BizException;
 
@@ -51,7 +51,6 @@ public class ModelAOImpl implements IModelAO {
     public String addModel(XN620000Req req) {
         EModelType.getModelTypeMap().containsKey(req.getType());
         if (EModelType.H.getCode().equals(req.getType())) {
-            StringValidater.validateNumber(req.getLoss());
             StringValidater.validateAmount(req.getProcessFee());
         }
         if (EModelType.CHENSHAN.getCode().equals(req.getType())) {
@@ -66,7 +65,7 @@ public class ModelAOImpl implements IModelAO {
         data.setPic(req.getPic());
         data.setAdvPic(req.getAdvPic());
         data.setDescription(req.getDescription());
-        data.setLoss(StringValidater.toInteger(req.getLoss()));
+        data.setLoss(StringValidater.toDouble(req.getLoss()));
         data.setProcessFee(StringValidater.toLong(req.getProcessFee()));
         data.setPrice(StringValidater.toLong(req.getPrice()));
         data.setStatus(EStatus.DRAFT.getCode());
@@ -95,7 +94,6 @@ public class ModelAOImpl implements IModelAO {
             throw new BizException("xn0000", "产品上线中,不可修改");
         }
         if (EModelType.H.getCode().equals(req.getType())) {
-            StringValidater.validateNumber(req.getLoss());
             StringValidater.validateAmount(req.getProcessFee());
         }
         if (EModelType.CHENSHAN.getCode().equals(req.getType())) {
@@ -106,7 +104,7 @@ public class ModelAOImpl implements IModelAO {
         data.setPic(req.getPic());
         data.setAdvPic(req.getAdvPic());
         data.setDescription(req.getDescription());
-        data.setLoss(StringValidater.toInteger(req.getLoss()));
+        data.setLoss(StringValidater.toDouble(req.getLoss()));
         data.setProcessFee(StringValidater.toLong(req.getProcessFee()));
         data.setPrice(StringValidater.toLong(req.getPrice()));
         data.setUpdater(req.getUpdater());
@@ -153,7 +151,7 @@ public class ModelAOImpl implements IModelAO {
             throw new BizException("xn0000", "该产品已上架");
         }
         long num = craftBO.getGroupTotalCount(code);
-        if (num < 11) {
+        if (num < 10) {
             throw new BizException("xn0000", "有部分工艺类型未上架,请仔细检查");
         }
         long number = clothBO.getTotalCount(code);
@@ -177,21 +175,18 @@ public class ModelAOImpl implements IModelAO {
         XN620013Res res = new XN620013Res();
         Model data = modelBO.getModel(code);
         String isSC = EBoolean.NO.getCode();
-        String isOrder = EBoolean.NO.getCode();
         if (StringUtils.isNotEmpty(userId)) {
             Long num = interactBO.getTotalCount(EInteractCategory.MODEL,
                 EInteractType.SC, code, userId);
             if (num > 0) {
                 isSC = EBoolean.YES.getCode();
             }
-            Long orderNum = orderBO.getTotalCount(userId, EOrderStatus.RECEIVE);
-            if (orderNum > 0) {
-                isOrder = EBoolean.YES.getCode();
-            }
+
+            Order order = new Order();
+            order.setApplyUser(userId);
         }
         res.setModel(data);
         res.setIsSC(isSC);
-        res.setIsOrder(isOrder);
         return res;
     }
 }

@@ -7,7 +7,7 @@
 		<result column="type" property="type" />
 		<result column="name" property="name" />
 		<result column="pic" property="pic" />
-		<result column="adv_pic" property="advPic" />
+		<result column="selected" property="selected" />
 		<result column="price" property="price" />
 		
 		<result column="location" property="location" />
@@ -51,7 +51,7 @@
 		,t.type
 		,t.name
 		,t.pic
-		,t.adv_pic
+		,t.selected
 		,t.price
 		
 		,t.location
@@ -82,7 +82,7 @@
          type,
          name,
          pic,
-         adv_pic,
+         selected,
          price,
          status,
          updater,
@@ -94,7 +94,7 @@
      ,#{type}
      ,#{name}
      ,#{pic}
-     ,#{advPic}
+     ,#{selected}
      ,#{price}
      ,#{status}
      ,#{updater}
@@ -110,7 +110,7 @@
 		type = #{type}
 		,name = #{name}
 		,pic = #{pic}
-		,adv_pic=#{advPic}
+		,selected=#{selected}
 		,price = #{price}
 
 		,updater = #{updater}

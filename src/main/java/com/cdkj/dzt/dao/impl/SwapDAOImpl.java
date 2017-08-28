@@ -74,4 +74,9 @@ public class SwapDAOImpl extends AMybatisTemplate implements ISwapDAO {
             limit, condition, Swap.class);
     }
 
+    @Override
+    public void updateNew(Swap swap) {
+        super.update(NAMESPACE.concat("update_isNew"), swap);
+    }
+
 }

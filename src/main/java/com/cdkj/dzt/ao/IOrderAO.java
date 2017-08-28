@@ -15,6 +15,7 @@ import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.dto.req.XN620200Req;
 import com.cdkj.dzt.dto.res.XN620218Res;
+import com.cdkj.dzt.dto.res.XN620221Res;
 
 /** 
  * @author: haiqingzheng 
@@ -84,4 +85,6 @@ public interface IOrderAO {
     public XN620218Res getLastOrder(String applyUser);
 
     public void refreshFrequent();
+
+    public XN620221Res totalAmount(String userId);
 }

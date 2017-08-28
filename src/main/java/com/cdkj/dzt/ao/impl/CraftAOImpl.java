@@ -28,7 +28,6 @@ import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
 import com.cdkj.dzt.enums.EInteractType;
-import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EStatus;
 import com.cdkj.dzt.exception.BizException;
 
@@ -57,7 +56,7 @@ public class CraftAOImpl implements ICraftAO {
         data.setType(req.getType());
         data.setName(req.getName());
         data.setPic(req.getPic());
-        data.setAdvPic(req.getAdvPic());
+        data.setSelected(req.getSelected());
         data.setPrice(StringValidater.toLong(EBoolean.NO.getCode()));
         if (StringUtils.isNotBlank(req.getPrice())) {
             data.setPrice(StringValidater.toLong(req.getPrice()));
@@ -90,7 +89,7 @@ public class CraftAOImpl implements ICraftAO {
         data.setType(req.getType());
         data.setName(req.getName());
         data.setPic(req.getPic());
-        data.setAdvPic(req.getAdvPic());
+        data.setSelected(req.getSelected());
         data.setPrice(StringValidater.toLong(EBoolean.NO.getCode()));
         if (StringUtils.isNotBlank(req.getPrice())) {
             data.setPrice(StringValidater.toLong(req.getPrice()));
@@ -143,21 +142,15 @@ public class CraftAOImpl implements ICraftAO {
         XN620053Res res = new XN620053Res();
         Craft craft = craftBO.getCraft(code);
         String isSC = EBoolean.NO.getCode();
-        String isOrder = EBoolean.NO.getCode();
         if (StringUtils.isNotBlank(userId)) {
             Long num = interactBO.getTotalCount(EInteractCategory.CRAFT,
                 EInteractType.SC, code, userId);
             if (num > 0) {
                 isSC = EBoolean.YES.getCode();
             }
-            Long orderNum = orderBO.getTotalCount(userId, EOrderStatus.RECEIVE);
-            if (orderNum > 0) {
-                isOrder = EBoolean.YES.getCode();
-            }
         }
         res.setCraft(craft);
         res.setIsSC(isSC);
-        res.setIsOrder(isOrder);
         return res;
     }
 

@@ -46,6 +46,9 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="codeForQuery != null and codeForQuery != '' ">
+				AND t.code like "%"#{codeForQuery}"%"
+			</if>
 			<if test="toUser != null and toUser != '' ">
 				AND t.to_user = #{toUser}
 			</if>
@@ -53,7 +56,7 @@
 				AND t.apply_user = #{applyUser}
 			</if>
 			<if test="applyName != null and applyName != '' ">
-				AND t.apply_name = #{applyName}
+				AND t.apply_name like "%"#{applyName}#"%"
 			</if>
 			<if test="applyMobile != null and applyMobile != '' ">
 				AND t.apply_mobile = #{applyMobile}
@@ -82,7 +85,7 @@
 				AND t.lt_user = #{ltUser}
 			</if>
 			<if test="ltName != null and ltName != '' ">
-				AND t.lt_name = #{ltName}
+				AND t.lt_name like "%"#{ltName}#"%"
 			</if>
 			<if test="deliverer != null and deliverer != '' ">
 				AND t.deliverer = #{deliverer}
@@ -207,7 +210,7 @@
 		,t.remark
 		FROM
 		tdzt_order t
-		WHERE t.apply_user = #{applyUser} AND t.status >= '1'
+		WHERE t.apply_user = #{applyUser} AND t.status >= '1' and t.status !='11'
 		ORDER BY create_datetime desc
 		Limit 1
 	</select>

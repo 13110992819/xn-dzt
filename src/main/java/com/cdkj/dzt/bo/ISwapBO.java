@@ -29,4 +29,6 @@ public interface ISwapBO extends IPaginableBO<Swap> {
 
     public List<Swap> queryBLYList(Swap condition, int start, int pageSize);
 
+    public void updateNew(Swap swap);
+
 }

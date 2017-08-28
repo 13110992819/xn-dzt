@@ -48,7 +48,7 @@ public class XN620230 extends AProcessor {
         condition.setUpdater(req.getUpdater());
         condition.setStatusList(req.getStatusList());
         condition.setBurry(req.getBurry());
-
+        condition.setCodeForQuery(req.getCodeForQuery());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
         return orderAO.queryOrderPage(start, limit, condition);

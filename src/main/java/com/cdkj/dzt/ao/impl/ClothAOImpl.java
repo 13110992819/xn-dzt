@@ -25,7 +25,6 @@ import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
 import com.cdkj.dzt.enums.EInteractType;
 import com.cdkj.dzt.enums.EModelType;
-import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EStatus;
 import com.cdkj.dzt.exception.BizException;
 
@@ -160,21 +159,15 @@ public class ClothAOImpl implements IClothAO {
         XN620033Res res = new XN620033Res();
         Cloth cloth = clothBO.getCloth(code);
         String isSC = EBoolean.NO.getCode();
-        String isOrder = EBoolean.NO.getCode();
         if (StringUtils.isNotBlank(userId)) {
             Long num = interactBO.getTotalCount(EInteractCategory.CLOTH,
                 EInteractType.SC, code, userId);
             if (num > 0) {
                 isSC = EBoolean.YES.getCode();
             }
-            Long orderNum = orderBO.getTotalCount(userId, EOrderStatus.RECEIVE);
-            if (orderNum > 0) {
-                isOrder = EBoolean.YES.getCode();
-            }
         }
         res.setCloth(cloth);
         res.setIsSC(isSC);
-        res.setIsOrder(isOrder);
         return res;
     }
 

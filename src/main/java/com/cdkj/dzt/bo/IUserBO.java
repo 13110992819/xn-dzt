@@ -27,4 +27,7 @@ public interface IUserBO {
     public void refreshFrequent(String userId, String frequent);
 
     public List<XN001400Res> queryUserList();
+
+    // 修改真实姓名
+    public void modifyRealName(String userId, String realName);
 }
