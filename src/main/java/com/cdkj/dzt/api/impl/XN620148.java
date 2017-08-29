@@ -26,7 +26,7 @@ public class XN620148 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Swap condition = new Swap();
-        condition.setReceiver(req.getReceiver());
+        condition.setLookUser(req.getReceiver());
         condition.setType(req.getType());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {

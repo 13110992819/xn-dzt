@@ -31,6 +31,7 @@ public class XN620052 extends AProcessor {
         condition.setType(req.getType());
         condition.setName(req.getName());
         condition.setLocation(req.getLocation());
+        condition.setStatus(req.getStatus());
         condition.setUpdater(req.getUpdater());
         condition.setModelCode(req.getModelCode());
         condition.setModelStatus(req.getModelStatus());

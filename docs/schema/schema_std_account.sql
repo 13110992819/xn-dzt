@@ -1,6 +1,5 @@
-
-
 DROP TABLE IF EXISTS `tstd_account`;
+
 CREATE TABLE `tstd_account` (
   `account_number` varchar(32) NOT NULL DEFAULT '' COMMENT '账号',
   `user_id` varchar(32) DEFAULT NULL COMMENT '用户编号',
@@ -21,7 +20,7 @@ CREATE TABLE `tstd_account` (
   PRIMARY KEY (`account_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+/*Table structure for table `tstd_bankcard` */
 
 DROP TABLE IF EXISTS `tstd_bankcard`;
 
@@ -311,3 +310,7 @@ CREATE TABLE `tsys_dict` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=935 DEFAULT CHARSET=utf8;
 
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

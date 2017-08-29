@@ -155,6 +155,9 @@ public class Order extends ABaseDO {
     // 编号
     private String codeForQuery;
 
+    // 倍数
+    private Double times;
+
     private Map<String, LinkedHashMap<String, ProductSpecs>> resultMap;
 
     public List<String> getStatusList() {
@@ -532,6 +535,14 @@ public class Order extends ABaseDO {
 
     public void setCodeForQuery(String codeForQuery) {
         this.codeForQuery = codeForQuery;
+    }
+
+    public Double getTimes() {
+        return times;
+    }
+
+    public void setTimes(Double times) {
+        this.times = times;
     }
 
 }

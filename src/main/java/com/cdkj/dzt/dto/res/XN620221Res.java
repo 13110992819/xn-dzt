@@ -1,8 +1,7 @@
 package com.cdkj.dzt.dto.res;
 
-import java.util.List;
-
-import com.cdkj.dzt.domain.SizeData;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class XN620221Res {
     private String realName;
@@ -19,7 +18,9 @@ public class XN620221Res {
 
     private String address;
 
-    private List<SizeData> sizeDataList;
+    private String level;
+
+    private Map<String, LinkedHashMap<String, String>> resultMap;
 
     public Long getJfAmount() {
         return jfAmount;
@@ -61,14 +62,6 @@ public class XN620221Res {
         this.address = address;
     }
 
-    public List<SizeData> getSizeDataList() {
-        return sizeDataList;
-    }
-
-    public void setSizeDataList(List<SizeData> sizeDataList) {
-        this.sizeDataList = sizeDataList;
-    }
-
     public String getRealName() {
         return realName;
     }
@@ -83,5 +76,22 @@ public class XN620221Res {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public Map<String, LinkedHashMap<String, String>> getResultMap() {
+        return resultMap;
+    }
+
+    public void setResultMap(
+            Map<String, LinkedHashMap<String, String>> resultMap) {
+        this.resultMap = resultMap;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

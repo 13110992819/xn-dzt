@@ -85,7 +85,7 @@
 				AND t.lt_user = #{ltUser}
 			</if>
 			<if test="ltName != null and ltName != '' ">
-				AND t.lt_name like "%"#{ltName}#"%"
+				AND t.lt_name like "%"#{ltName}"%"
 			</if>
 			<if test="deliverer != null and deliverer != '' ">
 				AND t.deliverer = #{deliverer}

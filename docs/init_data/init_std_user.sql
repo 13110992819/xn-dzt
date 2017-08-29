@@ -76,7 +76,16 @@ insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `upd
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','account_status','0','正常','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','account_status','1','程序冻结','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','account_status','2','人工冻结','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
-
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','','order_status','订单状态','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','1','待量体','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','2','已定价','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','3','已支付','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','4','待复核','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','5','待生产','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','6','生产中','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','7','已发货','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','8','已收货','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','11','取消订单','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','','wl_company','物流公司','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','wl_company','EMS','邮政EMS','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','wl_company','STO','申通快递','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
@@ -86,6 +95,11 @@ insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `upd
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','wl_company','ZJS','宅急送','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','wl_company','SF','顺丰快递','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','wl_company','TTKD','天天快递','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','','m_type','型号参数','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','m_type','1','80支棉','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','m_type','2','100支棉','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','m_type','3','棉真丝','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','m_type','4','棉弹力','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0',NULL,'bank_code','银行名称code','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','bank_code','CBC','中国建设银行','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','bank_code','ABC','中国农业银行','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
@@ -112,39 +126,6 @@ insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `upd
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','hl_status','1','待审批','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','hl_status','2','审批不通过','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','hl_status','3','审批通过','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
-
-
-
-
-
-
-
-
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','','order_status','订单状态','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','1','待量体','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','2','已定价','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','3','已支付','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','4','待复核','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','5','待生产','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','6','生产中','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','7','已发货','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','8','已收货','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','11','取消订单','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-
-
-
-
-
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','','m_type','型号参数','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','m_type','1','80支棉','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','m_type','2','100支棉','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','m_type','3','棉真丝','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','m_type','4','棉弹力','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-
-
-
-
-
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','','craftwork_type','工艺类型','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','','fabric_color','面料色系','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','fabric_color','1','紫色','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
@@ -177,24 +158,16 @@ insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `upd
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','fabric_yarn','4','棉弹力','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','9','已评价','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','order_status','10','已归档','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
-
-
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','5-04','刺绣颜色工艺','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','5-03','刺绣字体工艺','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','5-02','刺绣位置','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-01','规格','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-03','领型工艺','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-04','袖型工艺','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-05','门襟工艺','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-06','下摆工艺','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-07','收省工艺','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-08','着装风格','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-01','规格','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-09','口袋工艺','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','chanpin_type','0','衬衫','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','chanpin_type','1','H+产品','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','','chanpin_type','产品类型','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
-
-
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-06','收省工艺','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-07','着装风格','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','craftwork_type','1-08','口袋工艺','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0',NULL,'user_frequent','用户活跃度','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','user_frequent','1','新客户','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','user_frequent','2','老客户','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
@@ -207,6 +180,9 @@ insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `upd
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','user_level','2','金卡会员','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','user_level','3','铂金会员','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','user_level','4','钻石会石','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','','chanpin_type','产品类型','admin',now(),NULL,'CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','chanpin_type','0','衬衫','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','chanpin_type','1','H+产品','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','currency_type','JY','经验','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','biz_type','HYCZ','会员充值','admin',now(),'','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_dict` (`type`, `parent_key`, `dkey`, `dvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('1','biz_type','SCTJ','首次推荐加积分','admin',now(),'','CD-CDZT000009','CD-CDZT000009');

@@ -133,7 +133,11 @@
 		,t.is_new
 		,t.status
 		FROM
-		tdzt_swap t where is_new ='1'
+		tdzt_swap t where 
+	    is_new ='1'
+		 <if test="lookUser != null and lookUser != '' ">
+			and (t.receiver = #{lookUser} OR t.commenter = #{lookUser})
+		</if>
 	</select>
 
 </mapper>

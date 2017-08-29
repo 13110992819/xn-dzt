@@ -42,4 +42,7 @@ public class SysConstants {
     // 用户确认收货，短信通知地区合伙人收到分成
     public static final String FENCHENG_CONTENT = "尊敬的合衣定制%S，订单：%S已经确认收货，收到分成￥%S元，登录网站可查看详情。";
 
+    // 订单取消，短信通知用户
+    public static final String CANCEL_ORDER_CONTENT = "尊敬的%S，您的订单：%S已取消，登录网站可查看详情。";
+
 }

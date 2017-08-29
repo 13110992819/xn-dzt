@@ -16,6 +16,7 @@ import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.dto.req.XN620200Req;
 import com.cdkj.dzt.dto.res.XN620218Res;
 import com.cdkj.dzt.dto.res.XN620221Res;
+import com.cdkj.dzt.dto.res.XN620222Res;
 
 /** 
  * @author: haiqingzheng 
@@ -87,4 +88,6 @@ public interface IOrderAO {
     public void refreshFrequent();
 
     public XN620221Res totalAmount(String userId);
+
+    public XN620222Res getLtInfo(String userId);
 }

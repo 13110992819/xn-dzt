@@ -9,11 +9,11 @@
   ssh root@121.43.101.148 -p 22
   T6dh%$%$ss1
 
-  cd /home/wwwroot/dzt/tomcat_dzt_biz/webapps
+  cd /mnt/www/dzt/tomcat_dzt_biz/webapps
   cp ./xn-dzt/WEB-INF/classes/application.properties .
   cp ./xn-dzt/WEB-INF/classes/config.properties .
   rm -rf xn-dzt*
-  mv /home/xn-dzt.war .
+  mv /mnt/xn-dzt.war .
    
 4. 已备份配置文件放回原处,重启tomcat
   mv -f application.properties ./xn-dzt/WEB-INF/classes/
