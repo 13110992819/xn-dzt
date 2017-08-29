@@ -155,7 +155,7 @@ CREATE TABLE `tsys_config` (
   `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tsys_dict`;
 CREATE TABLE `tsys_dict` (
@@ -170,7 +170,7 @@ CREATE TABLE `tsys_dict` (
   `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1230 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1415 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tsys_menu`;
 CREATE TABLE `tsys_menu` (
@@ -197,7 +197,7 @@ CREATE TABLE `tsys_menu_role` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23112 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23798 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tsys_role`;
 CREATE TABLE `tsys_role` (

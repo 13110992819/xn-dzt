@@ -592,7 +592,9 @@ public class OrderAOImpl implements IOrderAO {
                 ECurrency.CNY, order.getApplyUser(), ECurrency.CNY,
                 order.getAmount(), EBizType.AJ_TK, "订单：" + orderCode + "取消后退款",
                 "订单：" + orderCode + "取消后退款", orderCode);
-
+            if (EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
+                sizeDataBO.removeSizeDataByUserId(order.getApplyUser());
+            }
             // 短信通知用户订单已被取消
             smsOutBO.sentContent(
                 order.getApplyUser(),
@@ -1212,8 +1214,8 @@ public class OrderAOImpl implements IOrderAO {
         } else if (EPayType.YEZF.getCode().equals(payType)) {
             accountBO.doTransferAmountRemote(userId, ECurrency.CNY,
                 ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY, amount,
-                EBizType.AJ_GWFK, "HE-SHIRTS衬衫购买订单支付", "HE-SHIRTS衬衫购买订单支付",
-                userId);
+                EBizType.AJ_HYCZ, EBizType.AJ_HYCZ.getValue(),
+                EBizType.AJ_HYCZ.getValue(), userId);
             userBO.doUpLevel(userId, EUserLevel.TWO.getCode());
             return new BooleanRes(true);
         } else {

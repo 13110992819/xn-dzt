@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS `tstd_account`;
-
 CREATE TABLE `tstd_account` (
   `account_number` varchar(32) NOT NULL DEFAULT '' COMMENT '账号',
   `user_id` varchar(32) DEFAULT NULL COMMENT '用户编号',
@@ -20,10 +19,7 @@ CREATE TABLE `tstd_account` (
   PRIMARY KEY (`account_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `tstd_bankcard` */
-
 DROP TABLE IF EXISTS `tstd_bankcard`;
-
 CREATE TABLE `tstd_bankcard` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `bankcard_number` varchar(64) DEFAULT NULL COMMENT '银行卡编号',
@@ -46,10 +42,7 @@ CREATE TABLE `tstd_bankcard` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `tstd_channel_bank` */
-
 DROP TABLE IF EXISTS `tstd_channel_bank`;
-
 CREATE TABLE `tstd_channel_bank` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号（自增长）',
   `bank_code` varchar(32) DEFAULT NULL COMMENT '银行编号',
@@ -63,12 +56,9 @@ CREATE TABLE `tstd_channel_bank` (
   `month_amount` bigint(32) DEFAULT NULL COMMENT '每月限额',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `tstd_charge` */
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tstd_charge`;
-
 CREATE TABLE `tstd_charge` (
   `code` varchar(32) NOT NULL COMMENT '针对编号',
   `pay_group` varchar(32) DEFAULT NULL COMMENT '支付组号',
@@ -94,10 +84,7 @@ CREATE TABLE `tstd_charge` (
   PRIMARY KEY (`code`) COMMENT '充值订单'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `tstd_company_channel` */
-
 DROP TABLE IF EXISTS `tstd_company_channel`;
-
 CREATE TABLE `tstd_company_channel` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号（自增长）',
   `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
@@ -117,12 +104,9 @@ CREATE TABLE `tstd_company_channel` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `system_code` varchar(32) NOT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `tstd_exchange_currency` */
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tstd_exchange_currency`;
-
 CREATE TABLE `tstd_exchange_currency` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `to_user_id` varchar(32) DEFAULT NULL COMMENT '去方用户',
@@ -148,10 +132,7 @@ CREATE TABLE `tstd_exchange_currency` (
   PRIMARY KEY (`code`) COMMENT '币种兑换'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `tstd_hlorder` */
-
 DROP TABLE IF EXISTS `tstd_hlorder`;
-
 CREATE TABLE `tstd_hlorder` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `account_number` varchar(32) NOT NULL COMMENT '账号',
@@ -173,10 +154,7 @@ CREATE TABLE `tstd_hlorder` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `tstd_jour` */
-
 DROP TABLE IF EXISTS `tstd_jour`;
-
 CREATE TABLE `tstd_jour` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `pay_group` varchar(32) DEFAULT NULL COMMENT '订单分组组号',
@@ -208,10 +186,7 @@ CREATE TABLE `tstd_jour` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `tstd_jour_history` */
-
 DROP TABLE IF EXISTS `tstd_jour_history`;
-
 CREATE TABLE `tstd_jour_history` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `pay_group` varchar(32) DEFAULT NULL COMMENT '订单分组组号',
@@ -243,10 +218,7 @@ CREATE TABLE `tstd_jour_history` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `tstd_withdraw` */
-
 DROP TABLE IF EXISTS `tstd_withdraw`;
-
 CREATE TABLE `tstd_withdraw` (
   `code` varchar(32) NOT NULL COMMENT '针对编号',
   `account_number` varchar(32) DEFAULT NULL COMMENT '针对账号',
@@ -276,10 +248,7 @@ CREATE TABLE `tstd_withdraw` (
   PRIMARY KEY (`code`) COMMENT '取现订单'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `tsys_config` */
-
 DROP TABLE IF EXISTS `tsys_config`;
-
 CREATE TABLE `tsys_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `type` varchar(32) DEFAULT NULL COMMENT '类型',
@@ -291,12 +260,9 @@ CREATE TABLE `tsys_config` (
   `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`) COMMENT '系统参数'
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `tsys_dict` */
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tsys_dict`;
-
 CREATE TABLE `tsys_dict` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号（自增长）',
   `type` varchar(4) DEFAULT NULL COMMENT '类型（第一层/第二层）',
@@ -309,8 +275,3 @@ CREATE TABLE `tsys_dict` (
   `system_code` varchar(32) NOT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=935 DEFAULT CHARSET=utf8;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

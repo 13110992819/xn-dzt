@@ -15,7 +15,6 @@ CREATE TABLE `tdzt_article` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 DROP TABLE IF EXISTS `tdzt_cloth`;
 CREATE TABLE `tdzt_cloth` (
   `code` varchar(32) NOT NULL COMMENT '编号',
@@ -214,8 +213,10 @@ CREATE TABLE `tdzt_size_data` (
   `user_id` varchar(32) DEFAULT NULL COMMENT '用户编号',
   `ckey` varchar(32) DEFAULT NULL COMMENT 'key',
   `cvalue` varchar(32) DEFAULT NULL COMMENT 'value',
+  `dkey` varchar(32) DEFAULT NULL COMMENT 'dkey',
+  `dvalue` varchar(32) DEFAULT NULL COMMENT 'dvalue',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tdzt_swap`;
 CREATE TABLE `tdzt_swap` (
@@ -226,7 +227,7 @@ CREATE TABLE `tdzt_swap` (
   `content` text COMMENT '内容',
   `comment_datetime` datetime DEFAULT NULL COMMENT '留言时间',
   `order_no` int(11) DEFAULT NULL COMMENT '顺序',
-   `is_new` varchar(32) DEFAULT NULL COMMENT '是否最新',
+  `is_new` varchar(32) DEFAULT NULL COMMENT '是否最新',
   `status` varchar(4) DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -243,7 +244,7 @@ CREATE TABLE `tsys_config` (
   `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tsys_dict`;
 CREATE TABLE `tsys_dict` (
@@ -257,4 +258,4 @@ CREATE TABLE `tsys_dict` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
