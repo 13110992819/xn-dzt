@@ -16,7 +16,7 @@ public interface IOrderBO extends IPaginableBO<Order> {
             String updater, String remark);
 
     public void confirmPrice(Order order, Model model, Long amount,
-            String updater, String remark);
+            Long originalPrice, String updater, String remark);
 
     public void addPayGroup(Order order, String payGroup, String payType);
 
@@ -25,7 +25,7 @@ public interface IOrderBO extends IPaginableBO<Order> {
     public void inputInfor(Order order, String reAddress, String updater,
             String remark);
 
-    public void ltSubmit(Order order, String updater);
+    public void ltSubmit(Order order, String updater, String remark);
 
     public void approveOrder(Order order, EOrderStatus status, String updater,
             String remark);
@@ -63,5 +63,7 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public List<Order> getGroupTotalCount(Date createDatetimeStart,
             Date createDatetimeEnd);
+
+    public Boolean checkInfoFullOrder(Order order, String result);
 
 }

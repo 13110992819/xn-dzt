@@ -21,6 +21,9 @@ public class XN620170Req extends APageReq {
     // 产品编号（选填）
     private String productCode;
 
+    // 产品编号（选填）
+    private String topCode;
+
     // 状态（选填）
     private String status;
 
@@ -68,5 +71,13 @@ public class XN620170Req extends APageReq {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getTopCode() {
+        return topCode;
+    }
+
+    public void setTopCode(String topCode) {
+        this.topCode = topCode;
     }
 }

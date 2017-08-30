@@ -20,6 +20,7 @@
 		<result column="lt_user" property="ltUser" />
 		<result column="lt_name" property="ltName" />
 		<result column="amount" property="amount" />
+		<result column="original_amount" property="originalAmount" />
 		<result column="pay_type" property="payType" />
 		<result column="pay_group" property="payGroup" />
 		<result column="pay_code" property="payCode" />
@@ -56,7 +57,7 @@
 				AND t.apply_user = #{applyUser}
 			</if>
 			<if test="applyName != null and applyName != '' ">
-				AND t.apply_name like "%"#{applyName}#"%"
+				AND t.apply_name like "%"#{applyName}"%"
 			</if>
 			<if test="applyMobile != null and applyMobile != '' ">
 				AND t.apply_mobile = #{applyMobile}
@@ -86,6 +87,9 @@
 			</if>
 			<if test="ltName != null and ltName != '' ">
 				AND t.lt_name like "%"#{ltName}"%"
+			</if>
+			<if test="ltDatetime != null and ltDatetime != '' ">
+				AND t.lt_datetime = #{ltDatetime}
 			</if>
 			<if test="deliverer != null and deliverer != '' ">
 				AND t.deliverer = #{deliverer}
@@ -123,6 +127,12 @@
 			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
 				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
 			</if>
+			<if test="createLtDatetime != null and createLtDatetime != '' ">
+				<![CDATA[AND t.lt_datetime >= #{createLtDatetime}]]>
+			</if>
+			<if test="endLtDatetime != null and endLtDatetime != '' ">
+				<![CDATA[AND t.lt_datetime <= #{endLtDatetime}]]>
+			</if>
 		</trim>
 	</sql>
 	<select id="select_order" parameterType="order" resultMap="order_DB_Result">
@@ -144,6 +154,7 @@
 		,t.lt_user
 		,t.lt_name
 		,t.amount
+		,t.original_amount
 		,t.pay_type
 		,t.pay_group
 		,t.pay_code
@@ -189,6 +200,7 @@
 		,t.lt_user
 		,t.lt_name
 		,t.amount
+		,t.original_amount
 		,t.pay_type
 		,t.pay_group
 		,t.pay_code
@@ -303,6 +315,7 @@
 		SET
 		type = #{type}
 		,amount = #{amount}
+		,original_amount=#{originalAmount}
 		,status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}

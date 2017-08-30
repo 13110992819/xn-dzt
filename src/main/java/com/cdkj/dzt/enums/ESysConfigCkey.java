@@ -17,7 +17,7 @@ public enum ESysConfigCkey {
 
     SCTJ("SCTJ", "首次推荐加积分"), DCTJ("DCTJ", "多次推荐加积分"), YHHD("YHHD", "用户消费送积分"), HSCJY(
             "HSCJY", "首次推荐加积分"), HDCJY("HDCJY", "会员多次推荐加积分"), FDCJY("FDCJY",
-            "非会员多次推荐加积分"), YHJY("YHJY", "用户消费送积分"), FHY("FHY", "非会员是会员价的几倍"),
+            "非会员多次推荐加积分"), YHJY("YHJY", "用户消费送经验"), FHY("FHY", "非会员是会员价的几倍"),
 
     SMOTHED("SMOTHED", "多少个月没有订单为预流失客户"), DMOTHED("DMOTHED", "多少个月没有订单为流失客户"),
 

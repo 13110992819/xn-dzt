@@ -53,6 +53,9 @@ public class XN620230Req extends APageReq {
     // 量体师姓名（选填）
     private String ltName;
 
+    // 量体时间（选填）
+    private String ltDatetime;
+
     // 发货人编号（选填）
     private String deliverer;
 
@@ -254,6 +257,14 @@ public class XN620230Req extends APageReq {
 
     public void setCodeForQuery(String codeForQuery) {
         this.codeForQuery = codeForQuery;
+    }
+
+    public String getLtDatetime() {
+        return ltDatetime;
+    }
+
+    public void setLtDatetime(String ltDatetime) {
+        this.ltDatetime = ltDatetime;
     }
 
 }

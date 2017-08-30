@@ -51,9 +51,10 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
 
     @Override
     public void confirmPrice(Order order, Model model, Long amount,
-            String updater, String remark) {
+            Long originalPrice, String updater, String remark) {
         order.setType(model.getType());
         order.setAmount(amount);
+        order.setOriginalAmount(originalPrice);
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
         if (StringUtils.isNotBlank(remark)) {
@@ -96,11 +97,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
-    public void ltSubmit(Order order, String updater) {
+    public void ltSubmit(Order order, String updater, String remark) {
         order.setStatus(EOrderStatus.TO_APPROVE.getCode());
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
-        order.setRemark(EOrderStatus.TO_APPROVE.getValue());
+        order.setRemark(remark);
         orderDAO.ltSubmit(order);
     }
 
@@ -230,6 +231,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
 
     @Override
     public void checkInfoFull(Order order) {
+        boolean isIn = false;
         if (order == null) {
             throw new BizException("xn0000", "订单为空");
         }
@@ -243,7 +245,6 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
             Map<String, EMeasureKey> map = EMeasureKey.getMap();
             String code = null;
             for (String key : map.keySet()) {
-                boolean isIn = false;
                 for (ProductSpecs productSpecs : product.getProductSpecsList()) {
                     if (key.equalsIgnoreCase(productSpecs.getType())) {
                         isIn = true;
@@ -255,10 +256,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
                     if (key.equalsIgnoreCase(EMeasureKey.GXCX.getCode())
                             || key.equalsIgnoreCase(EMeasureKey.CXWZ.getCode())
                             || key.equalsIgnoreCase(EMeasureKey.CXZT.getCode())
-                            || key.equalsIgnoreCase(EMeasureKey.CXYS.getCode())
-                            || key.equalsIgnoreCase(EMeasureKey.YJDZ.getCode())
-                            || key.equalsIgnoreCase(EMeasureKey.BEIZHU
-                                .getCode())) {
+                            || key.equalsIgnoreCase(EMeasureKey.CXYS.getCode())) {
                         isIn = true;
                         break;
                     }
@@ -270,6 +268,43 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
             }
 
         }
+    }
+
+    @Override
+    public Boolean checkInfoFullOrder(Order order, String result) {
+        boolean isIn = false;
+        if (order == null) {
+            throw new BizException("xn0000", "订单为空");
+        }
+        if (CollectionUtils.isEmpty(order.getProductList())) {
+            return isIn;
+        }
+        for (Product product : order.getProductList()) {
+            if (CollectionUtils.isEmpty(product.getProductSpecsList())) {
+                return isIn;
+            }
+            Map<String, EMeasureKey> map = EMeasureKey.getMap();
+            String code = null;
+            for (String key : map.keySet()) {
+                for (ProductSpecs productSpecs : product.getProductSpecsList()) {
+                    if (key.equalsIgnoreCase(productSpecs.getType())) {
+                        isIn = true;
+                        break;
+                    }
+                    if (productSpecs.getType().substring(0, 1) != null) {
+                        code = productSpecs.getType().substring(0, 1);
+                    }
+                    if (key.equalsIgnoreCase(EMeasureKey.GXCX.getCode())
+                            || key.equalsIgnoreCase(EMeasureKey.CXWZ.getCode())
+                            || key.equalsIgnoreCase(EMeasureKey.CXZT.getCode())
+                            || key.equalsIgnoreCase(EMeasureKey.CXYS.getCode())) {
+                        isIn = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return isIn;
     }
 
     @Override

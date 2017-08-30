@@ -2,6 +2,7 @@ package com.cdkj.dzt.api.impl;
 
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.api.AProcessor;
+import com.cdkj.dzt.common.DateUtil;
 import com.cdkj.dzt.common.JsonUtil;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.domain.Order;
@@ -39,6 +40,10 @@ public class XN620230 extends AProcessor {
         condition.setStatus(req.getStatus());
         condition.setLtUser(req.getLtUser());
         condition.setLtName(req.getLtName());
+        condition.setCreateLtDatetime(DateUtil.getStartDatetime(req
+            .getLtDatetime()));
+        condition.setEndLtDatetime(DateUtil.getFrontDate(req.getLtDatetime(),
+            true));
         condition.setDeliverer(req.getDeliverer());
         condition.setLogisticsCompany(req.getLogisticsCompany());
         condition.setLogisticsCode(req.getLogisticsCode());

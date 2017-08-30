@@ -570,7 +570,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
         SizeData data = new SizeData();
         data.setUserId(applyUser);
         data.setCkey(EMeasureKey.TZ.getCode());
-        data.setCvalue(EMeasureKey.SG.getValue());
+        data.setCvalue(EMeasureKey.TZ.getValue());
         data.setDkey(value);
         sizeDataDAO.insert(data);
     }

@@ -150,6 +150,7 @@ CREATE TABLE `tdzt_order` (
   `lt_user` varchar(32) DEFAULT NULL COMMENT '量体师UserId',
   `lt_name` varchar(32) DEFAULT NULL COMMENT '量体师姓名',
   `amount` bigint(20) DEFAULT NULL COMMENT '订单总金额',
+  `original_amount` bigint(20) DEFAULT NULL COMMENT '原价',
   `pay_type` varchar(4) DEFAULT NULL COMMENT '支付类型',
   `pay_group` varchar(32) DEFAULT NULL COMMENT '支付组号',
   `pay_code` varchar(32) DEFAULT NULL COMMENT '支付编号',

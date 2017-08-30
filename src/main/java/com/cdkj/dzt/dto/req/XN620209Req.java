@@ -13,6 +13,9 @@ public class XN620209Req {
     // 提交人（必填）
     private String updater;
 
+    // 备注
+    private String remark;
+
     public String getOrderCode() {
         return orderCode;
     }
@@ -27,5 +30,13 @@ public class XN620209Req {
 
     public void setUpdater(String updater) {
         this.updater = updater;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

@@ -29,6 +29,7 @@ public class XN620170 extends AProcessor {
         Comment condition = new Comment();
         condition.setStatus(req.getStatus());
         condition.setContent(req.getContent());
+        condition.setTopCode(req.getTopCode());
         condition.setStatusList(req.getStatusList());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {

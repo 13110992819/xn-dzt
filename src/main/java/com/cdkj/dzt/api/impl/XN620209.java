@@ -26,7 +26,7 @@ public class XN620209 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.ltSubmit(req.getOrderCode(), req.getUpdater());
+        orderAO.ltSubmit(req.getOrderCode(), req.getUpdater(), req.getRemark());
         return new BooleanRes(true);
     }
 

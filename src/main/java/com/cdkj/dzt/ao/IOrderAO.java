@@ -42,7 +42,7 @@ public interface IOrderAO {
     public void inputInfor(String orderCode, List<String> codeList,
             Map<String, String> map, String updater, String remark);
 
-    public void ltSubmit(String orderCode, String updater);
+    public void ltSubmit(String orderCode, String updater, String remark);
 
     public void approveOrder(String orderCode, String result, String updater,
             String remark);

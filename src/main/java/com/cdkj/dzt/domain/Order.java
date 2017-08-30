@@ -69,6 +69,9 @@ public class Order extends ABaseDO {
     // 订单总金额
     private Long amount;
 
+    // 原价
+    private Long originalAmount;
+
     // 支付类型
     private String payType;
 
@@ -149,6 +152,9 @@ public class Order extends ABaseDO {
     // 模板编号
     private String modelCode;
 
+    // 模板名称
+    private String modelName;
+
     // 评论
     private Comment comment;
 
@@ -157,6 +163,12 @@ public class Order extends ABaseDO {
 
     // 倍数
     private Double times;
+
+    private String checkOrder;
+
+    private Date createLtDatetime;
+
+    private Date endLtDatetime;
 
     private Map<String, LinkedHashMap<String, ProductSpecs>> resultMap;
 
@@ -543,6 +555,46 @@ public class Order extends ABaseDO {
 
     public void setTimes(Double times) {
         this.times = times;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public String getCheckOrder() {
+        return checkOrder;
+    }
+
+    public void setCheckOrder(String checkOrder) {
+        this.checkOrder = checkOrder;
+    }
+
+    public Date getCreateLtDatetime() {
+        return createLtDatetime;
+    }
+
+    public void setCreateLtDatetime(Date createLtDatetime) {
+        this.createLtDatetime = createLtDatetime;
+    }
+
+    public Date getEndLtDatetime() {
+        return endLtDatetime;
+    }
+
+    public void setEndLtDatetime(Date endLtDatetime) {
+        this.endLtDatetime = endLtDatetime;
+    }
+
+    public Long getOriginalAmount() {
+        return originalAmount;
+    }
+
+    public void setOriginalAmount(Long originalAmount) {
+        this.originalAmount = originalAmount;
     }
 
 }
