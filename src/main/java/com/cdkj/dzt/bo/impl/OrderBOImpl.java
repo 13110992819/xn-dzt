@@ -1,6 +1,7 @@
 package com.cdkj.dzt.bo.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -271,7 +272,7 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
-    public Boolean checkInfoFullOrder(Order order, String result) {
+    public Boolean checkInfoFullOrder(Order order) {
         boolean isIn = false;
         if (order == null) {
             throw new BizException("xn0000", "订单为空");
@@ -284,23 +285,32 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
                 return isIn;
             }
             Map<String, EMeasureKey> map = EMeasureKey.getMap();
-            String code = null;
+            Map<String, String> productSpecsMap = new HashMap<String, String>();
+            for (ProductSpecs productSpecs : product.getProductSpecsList()) {
+                productSpecsMap.put(productSpecs.getType(),
+                    productSpecs.getCode());
+            }
+            EMeasureKey GXCXMap = map.get(EMeasureKey.GXCX.getCode());
+            if (null != GXCXMap) {
+                map.remove(EMeasureKey.GXCX.getCode());
+            }
+            EMeasureKey CXWZMap = map.get(EMeasureKey.CXWZ.getCode());
+            if (null != CXWZMap) {
+                map.remove(EMeasureKey.CXWZ.getCode());
+            }
+            EMeasureKey CXZTMap = map.get(EMeasureKey.CXZT.getCode());
+            if (null != CXZTMap) {
+                map.remove(EMeasureKey.CXZT.getCode());
+            }
+            EMeasureKey CXYSMap = map.get(EMeasureKey.CXYS.getCode());
+            if (null != CXYSMap) {
+                map.remove(EMeasureKey.CXYS.getCode());
+            }
             for (String key : map.keySet()) {
-                for (ProductSpecs productSpecs : product.getProductSpecsList()) {
-                    if (key.equalsIgnoreCase(productSpecs.getType())) {
-                        isIn = true;
-                        break;
-                    }
-                    if (productSpecs.getType().substring(0, 1) != null) {
-                        code = productSpecs.getType().substring(0, 1);
-                    }
-                    if (key.equalsIgnoreCase(EMeasureKey.GXCX.getCode())
-                            || key.equalsIgnoreCase(EMeasureKey.CXWZ.getCode())
-                            || key.equalsIgnoreCase(EMeasureKey.CXZT.getCode())
-                            || key.equalsIgnoreCase(EMeasureKey.CXYS.getCode())) {
-                        isIn = true;
-                        break;
-                    }
+                if (productSpecsMap.containsKey(key)) {
+                    isIn = true;
+                } else {
+                    return false;
                 }
             }
         }

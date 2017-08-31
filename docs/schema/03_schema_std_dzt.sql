@@ -71,7 +71,7 @@ CREATE TABLE `tdzt_craft` (
   `remark` text COMMENT '备注',
   `model_code` varchar(32) DEFAULT NULL COMMENT '模型编号',
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tdzt_interact`;
 CREATE TABLE `tdzt_interact` (
@@ -82,7 +82,7 @@ CREATE TABLE `tdzt_interact` (
   `operator` varchar(32) DEFAULT NULL COMMENT '操作人',
   `operat_datetime` datetime DEFAULT NULL COMMENT '操作时间',
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tdzt_keyword`;
 CREATE TABLE `tdzt_keyword` (
@@ -105,7 +105,7 @@ CREATE TABLE `tdzt_model` (
   `pic` text COMMENT '图片',
   `adv_pic` text COMMENT '广告图',
   `description` text COMMENT '图文描述',
-  `loss` bigint(20) DEFAULT NULL COMMENT '面料损耗',
+  `loss` double(10,3) DEFAULT NULL COMMENT '面料损耗',
   `process_fee` bigint(20) DEFAULT NULL COMMENT '工艺费',
   `price` bigint(20) DEFAULT NULL COMMENT '价格',
   `location` varchar(32) DEFAULT NULL COMMENT 'UI位置',
@@ -116,7 +116,7 @@ CREATE TABLE `tdzt_model` (
   `update_datetime` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`code`) COMMENT '产品表'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tdzt_model_specs`;
 CREATE TABLE `tdzt_model_specs` (
@@ -129,7 +129,7 @@ CREATE TABLE `tdzt_model_specs` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `model_code` varchar(32) DEFAULT NULL COMMENT '产品编号',
   PRIMARY KEY (`code`) COMMENT '产品规格表'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tdzt_order`;
 CREATE TABLE `tdzt_order` (
@@ -171,7 +171,7 @@ CREATE TABLE `tdzt_order` (
   `update_datetime` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`code`) COMMENT '订单'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tdzt_product`;
 CREATE TABLE `tdzt_product` (
@@ -187,7 +187,7 @@ CREATE TABLE `tdzt_product` (
   `price` bigint(20) DEFAULT NULL COMMENT '单价',
   `quantity` int(11) DEFAULT NULL COMMENT '数量',
   PRIMARY KEY (`code`) COMMENT '成衣表'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tdzt_product_specs`;
 CREATE TABLE `tdzt_product_specs` (
@@ -206,7 +206,7 @@ CREATE TABLE `tdzt_product_specs` (
   `price` bigint(20) DEFAULT NULL COMMENT '单价',
   `product_code` varchar(32) DEFAULT NULL COMMENT '成衣编号',
   `order_code` varchar(32) DEFAULT NULL COMMENT '订单编号'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tdzt_size_data`;
 CREATE TABLE `tdzt_size_data` (
@@ -217,7 +217,7 @@ CREATE TABLE `tdzt_size_data` (
   `dkey` varchar(32) DEFAULT NULL COMMENT 'dkey',
   `dvalue` varchar(32) DEFAULT NULL COMMENT 'dvalue',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tdzt_swap`;
 CREATE TABLE `tdzt_swap` (
@@ -231,7 +231,7 @@ CREATE TABLE `tdzt_swap` (
   `is_new` varchar(32) DEFAULT NULL COMMENT '是否最新',
   `status` varchar(4) DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tsys_config`;
 CREATE TABLE `tsys_config` (
@@ -245,7 +245,7 @@ CREATE TABLE `tsys_config` (
   `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `tsys_dict`;
 CREATE TABLE `tsys_dict` (
@@ -259,4 +259,4 @@ CREATE TABLE `tsys_dict` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;

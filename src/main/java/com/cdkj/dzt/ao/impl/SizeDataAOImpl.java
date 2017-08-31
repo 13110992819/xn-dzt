@@ -10,6 +10,7 @@ import com.cdkj.dzt.ao.ISizeDataAO;
 import com.cdkj.dzt.bo.ISizeDataBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.SizeData;
+import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.exception.BizException;
 
 @Service
@@ -54,6 +55,15 @@ public class SizeDataAOImpl implements ISizeDataAO {
     public void addSizeData(String userId, Map<String, String> map) {
         if (map == null) {
             throw new BizException("xn0000", "修改内容不能为空");
+        }
+        List<SizeData> sizeDataList = sizeDataBO.querySizeDataList(userId);
+        for (SizeData sizeData : sizeDataList) {
+            if (EMeasureKey.SG.getCode().equals(sizeData.getCkey())) {
+                map.put(sizeData.getCkey(), sizeData.getDkey());
+            }
+            if (EMeasureKey.TZ.getCode().equals(sizeData.getCkey())) {
+                map.put(sizeData.getCkey(), sizeData.getDkey());
+            }
         }
         sizeDataBO.removeSizeDataByUserId(userId);
         sizeDataBO.inputInforValue(userId, map);

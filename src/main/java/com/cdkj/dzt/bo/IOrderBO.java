@@ -64,6 +64,6 @@ public interface IOrderBO extends IPaginableBO<Order> {
     public List<Order> getGroupTotalCount(Date createDatetimeStart,
             Date createDatetimeEnd);
 
-    public Boolean checkInfoFullOrder(Order order, String result);
+    public Boolean checkInfoFullOrder(Order order);
 
 }

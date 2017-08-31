@@ -606,6 +606,11 @@ public class OrderAOImpl implements IOrderAO {
             if (EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
                 sizeDataBO.removeSizeDataByUserId(order.getApplyUser());
             }
+            // 短信通知用户订单已被取消
+            smsOutBO.sentContent(
+                order.getApplyUser(),
+                String.format(SysConstants.CANCEL_ORDER_CONTENT,
+                    order.getApplyName(), orderCode));
         } else {
             throw new BizException("xn000000", "订单不处于可取消订单状态,不能取消订单");
         }
@@ -617,10 +622,9 @@ public class OrderAOImpl implements IOrderAO {
             .getPaginable(start, limit, condition);
         for (Order order : results.getList()) {
             Order richOrder = orderBO.getRichOrder(order.getCode());
-            Boolean flag = orderBO.checkInfoFullOrder(richOrder,
-                EBoolean.YES.getCode());
+            Boolean flag = orderBO.checkInfoFullOrder(richOrder);
             order.setCheckOrder(EBoolean.NO.getCode());
-            if (flag == true) {
+            if (flag) {
                 order.setCheckOrder(EBoolean.YES.getCode());
             }
             Product product = productBO.getProductByOrderCode(order.getCode());
@@ -860,7 +864,7 @@ public class OrderAOImpl implements IOrderAO {
         }
         Long truePrice = AmountUtil.rmbJinFen(price);
         truePrice = AmountUtil.mul(truePrice, rate) * quantity;
-        Long originalPrice = (long) (truePrice * rate);
+        Long originalPrice = (long) (truePrice / rate);
 
         productSpecsBO.inputInforValue(order,
             productBO.getProductByOrderCode(orderCode), map);
@@ -1404,7 +1408,7 @@ public class OrderAOImpl implements IOrderAO {
                 resultMap.put(EMeasureType.QT.getValue(), map);
             }
         }
-        res.setRealName(user.getRealName());
+        res.setRealName(user.getNickname());
         res.setMobile(user.getMobile());
         res.setJfAmount(jfAccount.getAmount());
         res.setJyAmount(jyAccount.getAmount());
