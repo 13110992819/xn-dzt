@@ -167,11 +167,11 @@ public class OrderAOImpl implements IOrderAO {
                 model = modelBO.getModel(cloth.getModelCode());
                 dProductCode = productBO.saveProduct(order, model, 1);
                 productSpecsBO.saveProductSpecs(cloth.getCode(), null,
-                    cloth.getType(), cloth.getPic(), cloth.getBrand(),
-                    cloth.getModelNum(), cloth.getAdvPic(), cloth.getColor(),
-                    cloth.getFlowers(), cloth.getForm(), cloth.getWeight(),
-                    cloth.getYarn(), cloth.getPrice(), dProductCode,
-                    order.getCode());
+                    EMeasureKey.CSML.getCode(), cloth.getPic(),
+                    cloth.getBrand(), cloth.getModelNum(), cloth.getAdvPic(),
+                    cloth.getColor(), cloth.getFlowers(), cloth.getForm(),
+                    cloth.getWeight(), cloth.getYarn(), cloth.getPrice(),
+                    dProductCode, order.getCode());
             }
             if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
                 Craft craft = craftBO.getCraft(productCode);
@@ -264,11 +264,11 @@ public class OrderAOImpl implements IOrderAO {
                 model = modelBO.getModel(cloth.getModelCode());
                 dProductCode = productBO.saveProduct(order, model, 1);
                 productSpecsBO.saveProductSpecs(cloth.getCode(), null,
-                    cloth.getType(), cloth.getPic(), cloth.getBrand(),
-                    cloth.getModelNum(), cloth.getAdvPic(), cloth.getColor(),
-                    cloth.getFlowers(), cloth.getForm(), cloth.getWeight(),
-                    cloth.getYarn(), cloth.getPrice(), dProductCode,
-                    order.getCode());
+                    EMeasureKey.CSML.getCode(), cloth.getPic(),
+                    cloth.getBrand(), cloth.getModelNum(), cloth.getAdvPic(),
+                    cloth.getColor(), cloth.getFlowers(), cloth.getForm(),
+                    cloth.getWeight(), cloth.getYarn(), cloth.getPrice(),
+                    dProductCode, order.getCode());
             }
             if (productCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {// 工艺
                 Craft craft = craftBO.getCraft(productCode);

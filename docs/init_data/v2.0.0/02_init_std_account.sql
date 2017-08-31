@@ -13,7 +13,7 @@ insert into `tsys_config` (`type`, `ckey`, `cvalue`, `updater`, `update_datetime
 insert into `tsys_config` (`type`, `ckey`, `cvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','BUSERQXFL','0.01','admin',now(),'着装顾问取现费率','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_config` (`type`, `ckey`, `cvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','BUSERQXSX','T+1','admin',now(),'着装顾问取现时效','CD-CDZT000009','CD-CDZT000009');
 insert into `tsys_config` (`type`, `ckey`, `cvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','BUSERMONTIMES','5','admin',now(),'着装顾问每月取现次数','CD-CDZT000009','CD-CDZT000009');
-insert into `tsys_config` (`type`, `ckey`, `cvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','CZSJY','1','admin',now(),'充值送经验','CD-CDZT000009','CD-CDZT000009');
+insert into `tsys_config` (`type`, `ckey`, `cvalue`, `updater`, `update_datetime`, `remark`, `company_code`, `system_code`) values('0','CZSJY','1','admin',now(),'充值送经验比例','CD-CDZT000009','CD-CDZT000009');
 
 
 insert into `tstd_company_channel` (`company_code`, `company_name`, `channel_type`, `status`, `channel_company`, `private_key1`, `private_key2`, `private_key3`, `private_key4`, `private_key5`, `page_url`, `error_url`, `back_url`, `fee`, `remark`, `system_code`) values('CD-CDZT000009','定制通','35','1','1429521602','r2jgDFSdiikklwlllejlwjio3242342n','wx9b874d991d7e50d5','aa1832cf32722e0fb977a6c9f6aafa20',NULL,NULL,NULL,NULL,'http://121.43.101.148:3302/xn-dzt/thirdPay/callback',NULL,NULL,'CD-CDZT000009');
