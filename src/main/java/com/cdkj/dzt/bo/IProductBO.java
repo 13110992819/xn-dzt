@@ -20,4 +20,6 @@ public interface IProductBO extends IPaginableBO<Product> {
 
     public List<Product> queryProductList(String orderCode);
 
+    List<Product> queryCheckProductList(String orderCode);
+
 }

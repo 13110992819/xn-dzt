@@ -455,16 +455,17 @@ public class OrderAOImpl implements IOrderAO {
         // 更新订单
         orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()), updater,
             remark);
-        List<ProductSpecs> productSpecsList = productSpecsBO
-            .queryPSByOrderCodeList(orderCode);
-        for (ProductSpecs productSpecs : productSpecsList) {
-            if (EMeasureKey.TZ.getCode().equals(productSpecs.getType())) {
-                map.put(productSpecs.getType(), productSpecs.getCode());
+        List<SizeData> sizeDataList = sizeDataBO.querySizeDataList(order
+            .getApplyUser());
+        for (SizeData sizeData : sizeDataList) {
+            if (EMeasureKey.TZ.getCode().equals(sizeData.getCkey())) {
+                map.put(sizeData.getCkey(), sizeData.getDkey());
             }
-            if (EMeasureKey.SG.getCode().equals(productSpecs.getType())) {
-                map.put(productSpecs.getType(), productSpecs.getCode());
+            if (EMeasureKey.SG.getCode().equals(sizeData.getCkey())) {
+                map.put(sizeData.getCkey(), sizeData.getDkey());
             }
         }
+
         // 落地量体数据
         productSpecsBO.removeProductSpecs(product.getCode());
         sizeDataBO.removeSizeDataByUserId(order.getApplyUser());
@@ -621,7 +622,7 @@ public class OrderAOImpl implements IOrderAO {
         Paginable<Order> results = orderBO
             .getPaginable(start, limit, condition);
         for (Order order : results.getList()) {
-            Order richOrder = orderBO.getRichOrder(order.getCode());
+            Order richOrder = orderBO.getCheckOrder(order.getCode());
             Boolean flag = orderBO.checkInfoFullOrder(richOrder);
             order.setCheckOrder(EBoolean.NO.getCode());
             if (flag) {

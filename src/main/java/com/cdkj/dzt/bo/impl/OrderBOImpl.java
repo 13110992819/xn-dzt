@@ -231,6 +231,14 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
+    public Order getCheckOrder(String code) {
+        Order order = this.getOrder(code);
+        List<Product> list = productBO.queryRichProductList(order.getCode());
+        order.setProductList(list);
+        return order;
+    }
+
+    @Override
     public void checkInfoFull(Order order) {
         boolean isIn = false;
         if (order == null) {

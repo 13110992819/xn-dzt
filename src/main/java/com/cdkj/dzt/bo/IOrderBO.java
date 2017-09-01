@@ -66,4 +66,6 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public Boolean checkInfoFullOrder(Order order);
 
+    public Order getCheckOrder(String code);
+
 }

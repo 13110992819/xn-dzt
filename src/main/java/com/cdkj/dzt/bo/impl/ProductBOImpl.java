@@ -83,6 +83,21 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
     }
 
     @Override
+    public List<Product> queryCheckProductList(String orderCode) {
+        Product condition = new Product();
+        condition.setOrderCode(orderCode);
+        List<Product> list = productDAO.selectList(condition);
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (Product ele : list) {
+                List<ProductSpecs> productSpecsList = productSpecsBO
+                    .queryProductSpecsList(ele.getCode());
+                ele.setProductSpecsList(productSpecsList);
+            }
+        }
+        return list;
+    }
+
+    @Override
     public List<Product> queryProductList(String orderCode) {
         Product condition = new Product();
         condition.setOrderCode(orderCode);

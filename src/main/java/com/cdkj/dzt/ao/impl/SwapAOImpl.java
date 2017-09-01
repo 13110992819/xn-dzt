@@ -50,8 +50,9 @@ public class SwapAOImpl implements ISwapAO {
             condition.setLookUser(commenter);
             condition.setOrder("comment_datetime", "desc");
             List<Swap> swapList = swapBO.querySwapList(condition);
-            Swap swap = swapList.get(0);
-            swapBO.updateNew(swap);
+            for (Swap swap : swapList) {
+                swapBO.updateNew(swap);
+            }
         }
         Integer orderNo = (int) (num + 1);
         Swap data = new Swap();
@@ -83,8 +84,9 @@ public class SwapAOImpl implements ISwapAO {
             condition.setLookUser(commenter);
             condition.setOrder("comment_datetime", "desc");
             List<Swap> swapList = swapBO.querySwapList(condition);
-            Swap swap = swapList.get(0);
-            swapBO.updateNew(swap);
+            for (Swap swap : swapList) {
+                swapBO.updateNew(swap);
+            }
         }
         Swap data = new Swap();
         String code = OrderNoGenerater
