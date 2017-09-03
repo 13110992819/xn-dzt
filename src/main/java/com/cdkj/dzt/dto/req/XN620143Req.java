@@ -7,26 +7,36 @@ package com.cdkj.dzt.dto.req;
  * @history:
  */
 public class XN620143Req {
-    // 编号(必填)
-    private String code;
+    // 类型(必填)
+    private String type;
 
-    // 查看人(必填)
-    private String lookUser;
+    // 评论人(必填)
+    private String commenter;
 
-    public String getCode() {
-        return code;
+    // 接收人(必填)
+    private String receiver;
+
+    public String getCommenter() {
+        return commenter;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCommenter(String commenter) {
+        this.commenter = commenter;
     }
 
-    public String getLookUser() {
-        return lookUser;
+    public String getReceiver() {
+        return receiver;
     }
 
-    public void setLookUser(String lookUser) {
-        this.lookUser = lookUser;
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

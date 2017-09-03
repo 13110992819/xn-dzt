@@ -35,7 +35,7 @@ public class XN620201 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         String code = orderAO.applyOrder(req.getApplyUser(),
-            req.getProductCode());
+            req.getLtDatetime(), req.getProductCode());
         return new PKCodeRes(code);
     }
 
@@ -45,6 +45,6 @@ public class XN620201 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620201Req.class);
-        StringValidater.validateBlank(req.getApplyUser());
+        StringValidater.validateBlank(req.getApplyUser(), req.getLtDatetime());
     }
 }

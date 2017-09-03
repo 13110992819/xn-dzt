@@ -7,13 +7,13 @@ package com.cdkj.dzt.dto.req;
  * @history:
  */
 public class XN620214Req {
-    // 订单号
+    // 订单号（必填）
     private String orderCode;
 
-    // 评论内容
+    // 评论内容（必填）
     private String content;
 
-    // 评论人
+    // 评论人（必填）
     private String commenter;
 
     public String getOrderCode() {

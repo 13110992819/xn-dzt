@@ -27,7 +27,8 @@ public interface IOrderAO {
 
     public String applyOrder(XN620200Req req);
 
-    public String applyOrder(String applyUser, String productCode);
+    public String applyOrder(String applyUser, String ltDatetime,
+            String productCode);
 
     public void distributeOrder(String orderCode, String ltUser,
             String updater, String remark);

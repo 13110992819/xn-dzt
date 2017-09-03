@@ -231,7 +231,8 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
-    public String applyOrder(String applyUser, String productCode) {
+    public String applyOrder(String applyUser, String ltDatetime,
+            String productCode) {
         // 获取最近订单
         Order lastOrder = orderBO.getIsLastOrder(applyUser);
         if (null != lastOrder) {
@@ -291,7 +292,8 @@ public class OrderAOImpl implements IOrderAO {
         order.setLtUser(lastOrder.getLtUser());
         order.setLtName(lastOrder.getLtName());
 
-        order.setLtDatetime(now);
+        order.setLtDatetime(DateUtil.strToDate(ltDatetime,
+            DateUtil.FRONT_DATE_FORMAT_STRING));
         order.setLtProvince(lastOrder.getLtProvince());
         order.setLtCity(lastOrder.getLtCity());
         order.setLtArea(lastOrder.getLtArea());
@@ -860,12 +862,15 @@ public class OrderAOImpl implements IOrderAO {
         Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
             ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
             ESystemCode.DZT.getCode()).getCvalue());
+        Long truePrice = AmountUtil.rmbJinFen(price);
+        // 计算非会员价
+        Long originalPrice = AmountUtil.mul(truePrice, rate) * quantity;
         if (StringValidater.toInteger(user.getLevel()) > 1) {
             rate = 1.0;
         }
-        Long truePrice = AmountUtil.rmbJinFen(price);
+
+        // 如果是会员,真实金额乘于倍数
         truePrice = AmountUtil.mul(truePrice, rate) * quantity;
-        Long originalPrice = (long) (truePrice / rate);
 
         productSpecsBO.inputInforValue(order,
             productBO.getProductByOrderCode(orderCode), map);
@@ -1098,10 +1103,6 @@ public class OrderAOImpl implements IOrderAO {
         }
     }
 
-    public static void main(String[] args) {
-
-    }
-
     private void doJY(Order order) {
         List<SYSConfig> sysConfigList = sysConfigBO
             .querySYSConfigList(EBoolean.YES.getCode());
@@ -1116,33 +1117,18 @@ public class OrderAOImpl implements IOrderAO {
                 // 如果是第一次下单成功,推荐人获得1500经验
                 // 其他情况获得比例积分
                 if (count > 1) {
-                    if (StringValidater.toInteger(user.getLevel()) > 1) {// 如果下单用户时会员
-                        // 获取多少积分比例
-                        Double rate = StringValidater.toDouble(sysConfigBO
-                            .getConfigValue(ESysConfigCkey.HDCJY.getCode(),
-                                ESystemCode.DZT.getCode(),
-                                ESystemCode.DZT.getCode()).getCvalue());
-                        // 兑换成多少积分
-                        Long amount = AmountUtil.mul(order.getAmount(), rate);
-                        accountBO.doTransferAmountRemote(
-                            ESysUser.SYS_USER_DZT.getCode(), ECurrency.JY,
-                            user.getUserReferee(), ECurrency.JY, amount,
-                            EBizType.HDCJY, EBizType.HDCJY.getValue(),
-                            EBizType.HDCJY.getValue(), order.getCode());
-                    } else {// 下单用户不是会员
-                        // 获取多少经验比例
-                        Double rate = StringValidater.toDouble(sysConfigBO
-                            .getConfigValue(ESysConfigCkey.FDCJY.getCode(),
-                                ESystemCode.DZT.getCode(),
-                                ESystemCode.DZT.getCode()).getCvalue());
-                        // 兑换成多少经验
-                        Long amount = AmountUtil.mul(order.getAmount(), rate);
-                        accountBO.doTransferAmountRemote(
-                            ESysUser.SYS_USER_DZT.getCode(), ECurrency.JY,
-                            user.getUserReferee(), ECurrency.JY, amount,
-                            EBizType.FDCJY, EBizType.FDCJY.getValue(),
-                            EBizType.FDCJY.getValue(), order.getCode());
-                    }
+                    // 获取多少积分比例
+                    Double rate = StringValidater.toDouble(sysConfigBO
+                        .getConfigValue(ESysConfigCkey.HDCJY.getCode(),
+                            ESystemCode.DZT.getCode(),
+                            ESystemCode.DZT.getCode()).getCvalue());
+                    // 兑换成多少积分
+                    Long amount = AmountUtil.mul(order.getAmount(), rate);
+                    accountBO.doTransferAmountRemote(
+                        ESysUser.SYS_USER_DZT.getCode(), ECurrency.JY,
+                        user.getUserReferee(), ECurrency.JY, amount,
+                        EBizType.HDCJY, EBizType.HDCJY.getValue(),
+                        EBizType.HDCJY.getValue(), order.getCode());
                 } else {
                     // 首次直接加1500
                     Long amount = StringValidater.toLong(sysConfigBO
@@ -1181,8 +1167,8 @@ public class OrderAOImpl implements IOrderAO {
             Long amount = AmountUtil.mul(order.getAmount(), rate);
             accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
                 ECurrency.JY, order.getApplyUser(), ECurrency.JY, amount,
-                EBizType.YHJY, EBizType.YHJY.getCode(),
-                EBizType.YHJY.getCode(), order.getCode());
+                EBizType.YHJY, EBizType.YHJY.getValue(),
+                EBizType.YHJY.getValue(), order.getCode());
             Account account = accountBO.getRemoteAccount(order.getApplyUser(),
                 ECurrency.JY);
             Integer level = StringValidater.toInteger(user.getLevel());
@@ -1348,26 +1334,26 @@ public class OrderAOImpl implements IOrderAO {
             new Date());
         if (EBoolean.YES.getCode().equals(user.getLevel())) {
             for (SYSConfig sysConfig : sysConfigList) {
-                if (sysConfig.getCkey().equals("TWO")) {
+                if (sysConfig.getCkey().equals("ONE")) {
                     sjAmount = StringValidater.toLong(sysConfig.getCvalue());
                 }
             }
         } else {
             for (SYSConfig sysConfig : sysConfigList) {
                 if (EUserLevel.TWO.getCode().equals(user.getLevel())
-                        && sysConfig.getCkey().equals("TWO")) {
+                        && sysConfig.getCkey().equals("ONE")) {
                     sjAmount = StringValidater.toDouble(sysConfig.getCvalue())
                         .longValue() * 1000L - jyAccount.getAmount();
                 } else if (EUserLevel.THREE.getCode().equals(user.getLevel())
-                        && sysConfig.getCkey().equals("THREE")) {
+                        && sysConfig.getCkey().equals("TWO")) {
                     sjAmount = StringValidater.toDouble(sysConfig.getCvalue())
                         .longValue() * 1000L - jyAccount.getAmount();
                 } else if (EUserLevel.FOUR.getCode().equals(user.getLevel())
-                        && sysConfig.getCkey().equals("FOUR")) {
+                        && sysConfig.getCkey().equals("THREE")) {
                     sjAmount = StringValidater.toDouble(sysConfig.getCvalue())
                         .longValue() * 1000L - jyAccount.getAmount();
                 } else if (EUserLevel.FIVE.getCode().equals(user.getLevel())
-                        && sysConfig.getCkey().equals("FIVE")) {
+                        && sysConfig.getCkey().equals("FOUR")) {
                     sjAmount = 0L;
                 }
             }
@@ -1419,6 +1405,10 @@ public class OrderAOImpl implements IOrderAO {
         res.setResultMap(resultMap);
         if (null != order) {
             res.setAddress(order.getReAddress());
+            if (StringUtils.isBlank(order.getReAddress())) {
+                res.setAddress(order.getLtProvince() + order.getLtCity()
+                        + order.getLtArea() + order.getLtAddress());
+            }
         }
         return res;
     }

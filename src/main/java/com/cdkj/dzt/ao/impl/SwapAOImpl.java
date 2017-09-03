@@ -1,8 +1,10 @@
 package com.cdkj.dzt.ao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Swap;
 import com.cdkj.dzt.dto.res.XN001400Res;
+import com.cdkj.dzt.dto.res.XN620144Res;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EOrderStatus;
@@ -45,14 +48,16 @@ public class SwapAOImpl implements ISwapAO {
             receiver = order.getLtUser();
         }
         Long num = swapBO.getTotalCount(commenter);
+        List<Swap> swapList = new ArrayList<Swap>();
+        Swap swap = null;
         if (num != 0) {
             Swap condition = new Swap();
-            condition.setLookUser(commenter);
+            condition.setCommenter(commenter);
+            condition.setReceiver(receiver);
             condition.setOrder("comment_datetime", "desc");
-            List<Swap> swapList = swapBO.querySwapList(condition);
-            for (Swap swap : swapList) {
-                swapBO.updateNew(swap);
-            }
+            swapList = swapBO.queryBLYList(condition);
+            swap = swapList.get(0);
+            swapBO.updateNew(swap);
         }
         Integer orderNo = (int) (num + 1);
         Swap data = new Swap();
@@ -79,14 +84,16 @@ public class SwapAOImpl implements ISwapAO {
         }
         Long num = swapBO.getTotalCount(commenter);
         Integer orderNo = (int) (num + 1);
+        List<Swap> swapList = new ArrayList<Swap>();
+        Swap swap = null;
         if (num != 0) {
             Swap condition = new Swap();
-            condition.setLookUser(commenter);
+            condition.setCommenter(commenter);
+            condition.setReceiver(receiver);
             condition.setOrder("comment_datetime", "desc");
-            List<Swap> swapList = swapBO.querySwapList(condition);
-            for (Swap swap : swapList) {
-                swapBO.updateNew(swap);
-            }
+            swapList = swapBO.queryBLYList(condition);
+            swap = swapList.get(0);
+            swapBO.updateNew(swap);
         }
         Swap data = new Swap();
         String code = OrderNoGenerater
@@ -105,9 +112,14 @@ public class SwapAOImpl implements ISwapAO {
     }
 
     @Override
-    public void editSwap(String code, String lookUser) {
-        Swap swap = swapBO.getSwap(code);
-        if (swap.getReceiver().equals(lookUser)) {
+    public void editSwap(String type, String commenter, String receiver) {
+        Swap condition = new Swap();
+        condition.setType(type);
+        condition.setCommenter(commenter);
+        condition.setReceiver(receiver);
+        condition.setOrder("comment_datetime", "desc");
+        List<Swap> swapList = swapBO.queryBLYList(condition);
+        for (Swap swap : swapList) {
             swapBO.refreshSwap(swap);
         }
     }
@@ -180,7 +192,31 @@ public class SwapAOImpl implements ISwapAO {
 
     @Override
     public Paginable<Swap> queryMySwapPage(int start, int limit, Swap condition) {
-        return swapBO.getPaginable(start, limit, condition);
+        Paginable<Swap> page = swapBO.getPaginable(start, limit, condition);
+        List<Swap> dataList = page.getList();
+        for (Swap swap : dataList) {
+            XN001400Res res = null;
+            XN001400Res receiverRes = null;
+            if (!EBoolean.NO.getCode().equals(swap.getCommenter())) {
+                res = userBO.getRemoteUser(swap.getCommenter());
+            }
+            if (!EBoolean.NO.getCode().equals(swap.getReceiver())) {
+                receiverRes = userBO.getRemoteUser(swap.getReceiver());
+            }
+            if (null != res) {
+                swap.setCommentMobile(res.getMobile());
+                swap.setCommentName(res.getNickname());
+                swap.setCommentPhoto(res.getPhoto());
+            }
+            if (null != receiverRes) {
+                swap.setReceiveName(receiverRes.getNickname());
+                swap.setReceiveMobile(receiverRes.getMobile());
+                swap.setReceivePhoto(receiverRes.getPhoto());
+            }
+        }
+        page.setList(dataList);
+        return page;
+
     }
 
     @Override
@@ -244,5 +280,29 @@ public class SwapAOImpl implements ISwapAO {
         }
         page.setList(dataList);
         return page;
+    }
+
+    @Override
+    public XN620144Res totalWD(String userId) {
+        XN620144Res res = new XN620144Res();
+        Integer totalGWWD = 0;
+        Integer totalKFWD = 0;
+        Swap condition = new Swap();
+        condition.setType(EBoolean.NO.getCode());
+        condition.setCommenter(userId);
+        condition.setReceiver(userId);
+        List<Swap> swapList = swapBO.queryBLYList(condition);
+
+        if (CollectionUtils.isNotEmpty(swapList)) {
+            totalGWWD = swapList.size();
+        }
+        condition.setType(EBoolean.YES.getCode());
+        List<Swap> swapList1 = swapBO.queryBLYList(condition);
+        if (CollectionUtils.isNotEmpty(swapList1)) {
+            totalKFWD = swapList1.size();
+        }
+        res.setTotalGWWD(totalGWWD);
+        res.setTotalKFWD(totalKFWD);
+        return res;
     }
 }

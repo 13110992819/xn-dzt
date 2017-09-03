@@ -18,6 +18,9 @@ public class XN620201Req {
     // 下单人UserId（必填）
     private String applyUser;
 
+    // 量体时间（必填）
+    private String ltDatetime;
+
     // 产品编号
     private String productCode;
 
@@ -35,5 +38,13 @@ public class XN620201Req {
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
+    }
+
+    public String getLtDatetime() {
+        return ltDatetime;
+    }
+
+    public void setLtDatetime(String ltDatetime) {
+        this.ltDatetime = ltDatetime;
     }
 }

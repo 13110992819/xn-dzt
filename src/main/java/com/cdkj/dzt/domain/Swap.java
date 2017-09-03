@@ -45,6 +45,9 @@ public class Swap extends ABaseDO {
     // 查看人
     private String lookUser;
 
+    // 查看人
+    private String lookUsers;
+
     // 留言人姓名
     private String commentName;
 
@@ -189,6 +192,14 @@ public class Swap extends ABaseDO {
 
     public void setIsNew(String isNew) {
         this.isNew = isNew;
+    }
+
+    public String getLookUsers() {
+        return lookUsers;
+    }
+
+    public void setLookUsers(String lookUsers) {
+        this.lookUsers = lookUsers;
     }
 
 }

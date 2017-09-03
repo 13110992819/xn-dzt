@@ -36,6 +36,9 @@
 			<if test="lookUser != null and lookUser != '' ">
 				AND (t.receiver = #{lookUser} OR t.commenter = #{lookUser})
 			</if>
+			<if test="lookUsers != null and lookUsers != '' ">
+				OR (t.receiver = #{lookUsers} OR t.commenter = #{lookUsers})
+			</if>
 		</trim>
 	</sql>
 	<select id="select_swap" parameterType="swap" resultMap="swap_DB_Result">
@@ -73,6 +76,11 @@
 		FROM
 		tdzt_swap t
 		where (t.receiver=#{receiver} and t.commenter=#{commenter}) or(t.receiver=#{commenter} and t.commenter=#{receiver})
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
 	</select>
 
 	<select id="select_swap_count" parameterType="swap"

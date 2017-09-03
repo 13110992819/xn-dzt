@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Swap;
+import com.cdkj.dzt.dto.res.XN620144Res;
 
 @Component
 public interface ISwapAO {
@@ -17,7 +18,7 @@ public interface ISwapAO {
 
     public void dropSwap(String code);
 
-    public void editSwap(String code, String lookUser);
+    public void editSwap(String type, String commenter, String receiver);
 
     public Paginable<Swap> querySwapPage(int start, int limit, Swap condition);
 
@@ -31,4 +32,6 @@ public interface ISwapAO {
             Swap condition);
 
     public Paginable<Swap> queryBLYSwapPage(int start, int limit, Swap condition);
+
+    public XN620144Res totalWD(String userId);
 }
