@@ -254,6 +254,7 @@ public class SwapAOImpl implements ISwapAO {
     @Override
     public Paginable<Swap> queryBLYSwapPage(int start, int limit, Swap condition) {
         Paginable<Swap> page = null;
+        condition.setOrder("comment_datetime", "asc");
         List<Swap> list = swapBO.queryBLYList(condition);
         page = new Page<Swap>(start, limit, list.size());
         List<Swap> dataList = swapBO.queryBLYList(condition, page.getStart(),

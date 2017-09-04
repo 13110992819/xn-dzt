@@ -1335,7 +1335,7 @@ public class OrderAOImpl implements IOrderAO {
         if (EBoolean.YES.getCode().equals(user.getLevel())) {
             for (SYSConfig sysConfig : sysConfigList) {
                 if (sysConfig.getCkey().equals("ONE")) {
-                    sjAmount = StringValidater.toLong(sysConfig.getCvalue());
+                    sjAmount = StringValidater.toLong(sysConfig.getCvalue()) + 1000;
                 }
             }
         } else {
@@ -1343,15 +1343,15 @@ public class OrderAOImpl implements IOrderAO {
                 if (EUserLevel.TWO.getCode().equals(user.getLevel())
                         && sysConfig.getCkey().equals("ONE")) {
                     sjAmount = StringValidater.toDouble(sysConfig.getCvalue())
-                        .longValue() * 1000L - jyAccount.getAmount();
+                        .longValue() * 1000L - jyAccount.getAmount() + 1000;
                 } else if (EUserLevel.THREE.getCode().equals(user.getLevel())
                         && sysConfig.getCkey().equals("TWO")) {
                     sjAmount = StringValidater.toDouble(sysConfig.getCvalue())
-                        .longValue() * 1000L - jyAccount.getAmount();
+                        .longValue() * 1000L - jyAccount.getAmount() + 1000;
                 } else if (EUserLevel.FOUR.getCode().equals(user.getLevel())
                         && sysConfig.getCkey().equals("THREE")) {
                     sjAmount = StringValidater.toDouble(sysConfig.getCvalue())
-                        .longValue() * 1000L - jyAccount.getAmount();
+                        .longValue() * 1000L - jyAccount.getAmount() + 1000;
                 } else if (EUserLevel.FIVE.getCode().equals(user.getLevel())
                         && sysConfig.getCkey().equals("FOUR")) {
                     sjAmount = 0L;
