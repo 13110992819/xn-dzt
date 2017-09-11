@@ -13,14 +13,19 @@ import com.cdkj.dzt.bo.ICraftBO;
 import com.cdkj.dzt.bo.IInteractBO;
 import com.cdkj.dzt.bo.IModelBO;
 import com.cdkj.dzt.bo.IOrderBO;
+import com.cdkj.dzt.bo.IProductCategoryBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.core.StringValidater;
+import com.cdkj.dzt.domain.Cloth;
+import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
+import com.cdkj.dzt.domain.ProductCategory;
 import com.cdkj.dzt.dto.req.XN620000Req;
 import com.cdkj.dzt.dto.req.XN620002Req;
 import com.cdkj.dzt.dto.res.XN620013Res;
+import com.cdkj.dzt.dto.res.XN620014Res;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
@@ -34,6 +39,9 @@ public class ModelAOImpl implements IModelAO {
 
     @Autowired
     private IModelBO modelBO;
+
+    @Autowired
+    private IProductCategoryBO productCategoryBO;
 
     @Autowired
     private IInteractBO interactBO;
@@ -187,6 +195,24 @@ public class ModelAOImpl implements IModelAO {
         }
         res.setModel(data);
         res.setIsSC(isSC);
+        return res;
+    }
+
+    @Override
+    public XN620014Res getModelB(String code) {
+        XN620014Res res = new XN620014Res();
+        Model data = modelBO.getModel(code);
+        List<ProductCategory> productCategoryList = productCategoryBO
+            .queryProductCategoryList(code);
+        List<Cloth> clothList = clothBO.queryClothList(code);
+        for (ProductCategory productCategory : productCategoryList) {
+            List<Craft> craftList = craftBO.queryCraftList(productCategory
+                .getDkey());
+            productCategory.setCraftList(craftList);
+        }
+        res.setModel(data);
+        res.setProductCategoryList(productCategoryList);
+        res.setClothList(clothList);
         return res;
     }
 }

@@ -30,4 +30,10 @@ public interface IUserBO {
 
     // 修改真实姓名
     public void modifyRealName(String userId, String realName);
+
+    // 修改归属合伙人
+    public void refreshToUser(String userId, String toUser);
+
+    // 修改归属量体师
+    public void refreshLtUser(String userId, String ltUser);
 }

@@ -43,7 +43,7 @@ public class SwapAOImpl implements ISwapAO {
             Order order = orderBO.getIsLastOrder(commenter);
             if (null == order
                     || EOrderStatus.CANCEL.getCode().equals(order.getStatus())) {
-                throw new BizException("xn0000", "您还没有专属顾问");
+                throw new BizException("xn0000", "您还没有专属顾问,请先预约量体");
             }
             receiver = order.getLtUser();
         }
@@ -254,7 +254,6 @@ public class SwapAOImpl implements ISwapAO {
     @Override
     public Paginable<Swap> queryBLYSwapPage(int start, int limit, Swap condition) {
         Paginable<Swap> page = null;
-        condition.setOrder("comment_datetime", "asc");
         List<Swap> list = swapBO.queryBLYList(condition);
         page = new Page<Swap>(start, limit, list.size());
         List<Swap> dataList = swapBO.queryBLYList(condition, page.getStart(),

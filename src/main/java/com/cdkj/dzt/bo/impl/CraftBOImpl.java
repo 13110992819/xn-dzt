@@ -100,4 +100,11 @@ public class CraftBOImpl extends PaginableBOImpl<Craft> implements ICraftBO {
         return craftDAO.selectGroupCount(condition);
     }
 
+    @Override
+    public List<Craft> queryCraftList(String type) {
+        Craft condition = new Craft();
+        condition.setType(type);
+        condition.setStatus(EStatus.PUT_ON.getCode());
+        return craftDAO.selectList(condition);
+    }
 }

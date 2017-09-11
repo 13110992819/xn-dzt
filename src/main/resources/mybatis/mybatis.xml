@@ -29,6 +29,8 @@
 		<typeAlias alias="sysDict" type="com.cdkj.dzt.domain.SYSDict" />
 		
 		<typeAlias alias="sysConfig" type="com.cdkj.dzt.domain.SYSConfig" />
+		
+		<typeAlias alias="productCategory" type="com.cdkj.dzt.domain.ProductCategory" />
 	</typeAliases>	
 </configuration>
 

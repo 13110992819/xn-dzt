@@ -111,4 +111,12 @@ public class ClothBOImpl extends PaginableBOImpl<Cloth> implements IClothBO {
         return clothDAO.selectTotalCount(condition);
     }
 
+    @Override
+    public List<Cloth> queryClothList(String code) {
+        Cloth condition = new Cloth();
+        condition.setModelCode(code);
+        condition.setStatus(EStatus.PUT_ON.getCode());
+        return clothDAO.selectList(condition);
+    }
+
 }

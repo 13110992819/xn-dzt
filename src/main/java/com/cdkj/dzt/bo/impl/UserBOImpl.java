@@ -12,6 +12,8 @@ import com.cdkj.dzt.dto.req.XN001302Req;
 import com.cdkj.dzt.dto.req.XN001304Req;
 import com.cdkj.dzt.dto.req.XN001305Req;
 import com.cdkj.dzt.dto.req.XN001306Req;
+import com.cdkj.dzt.dto.req.XN001307Req;
+import com.cdkj.dzt.dto.req.XN001308Req;
 import com.cdkj.dzt.dto.req.XN001400Req;
 import com.cdkj.dzt.dto.req.XN001401Req;
 import com.cdkj.dzt.dto.req.XN001403Req;
@@ -131,6 +133,24 @@ public class UserBOImpl implements IUserBO {
         req.setUserId(userId);
         req.setRealName(realName);
         BizConnecter.getBizData("001306", JsonUtils.object2Json(req),
+            Object.class);
+    }
+
+    @Override
+    public void refreshToUser(String userId, String toUser) {
+        XN001307Req req = new XN001307Req();
+        req.setUserId(userId);
+        req.setToUser(toUser);
+        BizConnecter.getBizData("001307", JsonUtils.object2Json(req),
+            Object.class);
+    }
+
+    @Override
+    public void refreshLtUser(String userId, String ltUser) {
+        XN001308Req req = new XN001308Req();
+        req.setUserId(userId);
+        req.setLtUser(ltUser);
+        BizConnecter.getBizData("001308", JsonUtils.object2Json(req),
             Object.class);
     }
 }

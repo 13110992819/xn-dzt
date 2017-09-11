@@ -145,6 +145,7 @@ public class OrderAOImpl implements IOrderAO {
         String userId = "0";
         if (null != user) {
             userId = user.getUserId();
+            userBO.refreshToUser(req.getApplyUser(), userId);
         }
         // 开始组装order
         Order order = new Order();
@@ -336,6 +337,7 @@ public class OrderAOImpl implements IOrderAO {
         XN001400Res user = userBO.getRemoteUser(ltUser);
         orderBO.distributeOrder(order, ltUser, user.getRealName(), updater,
             remark);
+        userBO.refreshLtUser(order.getApplyUser(), ltUser);
         // 短信通知量体师
         smsOutBO.sentContent(
             ltUser,

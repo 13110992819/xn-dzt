@@ -19,7 +19,9 @@
 	<bean id="clothBO" class="com.cdkj.dzt.bo.impl.ClothBOImpl">
 		<property name="paginableDAO" ref="clothDAOImpl"/>
 	</bean>	
-	
+	<bean id="productCategoryBO" class="com.cdkj.dzt.bo.impl.ProductCategoryBOImpl">
+		<property name="paginableDAO" ref="productCategoryDAOImpl"/>
+	</bean>	
 	<bean id="commentBO" class="com.cdkj.dzt.bo.impl.CommentBOImpl">
 		<property name="paginableDAO" ref="commentDAOImpl" />
 	</bean>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdkj.dzt.dao.IProductCategoryDAO">
+	<resultMap id="sysDict_DB_Result" type="productCategory">
+		<result column="code" property="code" />
+		<result column="type" property="type" />
+		<result column="parent_key" property="parentKey" />
+		<result column="dkey" property="dkey" />
+		<result column="dvalue" property="dvalue" />
+		<result column="model_code" property="modelCode" />
+		<result column="updater" property="updater" />
+		<result column="update_datetime" property="updateDatetime" />
+		<result column="remark" property="remark" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="code != null">
+				AND t.code = #{code}
+			</if>	
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
+			<if test="dkey != null and dkey != '' ">
+				AND t.dkey = #{dkey}
+			</if>
+			<if test="parentKey != null and parentKey != '' ">
+				AND t.parent_key = #{parentKey}
+			</if>	
+			<if test="modelCode != null and modelCode != '' ">
+				AND t.model_code = #{modelCode}
+			</if>	
+		</trim>
+	</sql>
+	<select id="select_productCaegory" parameterType="productCategory" resultMap="sysDict_DB_Result">
+		SELECT
+		code
+		,type
+		,parent_key
+		,dkey
+		
+		,dvalue
+		,updater
+		,update_datetime
+		,remark
+		,model_code
+		FROM
+		tsys_product_category t 
+		<include refid="where_condition" />
+		ORDER BY code
+	</select>
+
+	<select id="select_productCategory_count" parameterType="productCategory" resultType="java.lang.Long">
+		SELECT count(1) FROM tsys_product_category t 
+		<include refid="where_condition" />
+	</select>
+	
+	<insert id="insert_productCategory" parameterType="productCategory" useGeneratedKeys="true" keyProperty="code">
+		INSERT INTO tsys_product_category(
+		type
+		,parent_key
+		,dkey
+		,dvalue
+		,updater
+		,update_datetime
+		,remark
+		,model_code
+		)
+		VALUES(
+		#{type}
+		,#{parentKey}
+		,#{dkey}
+		,#{dvalue}
+		,#{updater}
+		,#{updateDatetime}
+		,#{remark}
+		,#{modelCode}
+		)
+	</insert>
+
+	<delete id="delete_productCategory" parameterType="productCategory">
+		DELETE FROM tsys_product_category
+		WHERE
+		code = #{code}
+	</delete>
+	
+	<update id="update_productCategory" parameterType="productCategory">
+		UPDATE tsys_product_category SET
+		dvalue = #{dvalue}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark=#{remark}
+		WHERE code = #{code}
+	</update>
+</mapper>
