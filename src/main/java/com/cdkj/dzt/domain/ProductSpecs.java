@@ -51,6 +51,9 @@ public class ProductSpecs extends ABaseDO {
     // 价格
     private Long price;
 
+    // 成衣品种编号
+    private String productVarCode;
+
     // 成衣编号
     private String productCode;
 
@@ -175,6 +178,14 @@ public class ProductSpecs extends ABaseDO {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public String getProductVarCode() {
+        return productVarCode;
+    }
+
+    public void setProductVarCode(String productVarCode) {
+        this.productVarCode = productVarCode;
     }
 
 }

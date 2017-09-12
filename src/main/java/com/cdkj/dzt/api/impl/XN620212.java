@@ -11,9 +11,9 @@ import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
- * 物流发货
+ * 归档
  * @author: asus 
- * @since: 2017年4月14日 下午5:06:16 
+ * @since: 2017年8月18日 上午10:59:36 
  * @history:
  */
 public class XN620212 extends AProcessor {
@@ -21,27 +21,16 @@ public class XN620212 extends AProcessor {
 
     private XN620212Req req = null;
 
-    /** 
-     * @see com.cdkj.dzt.api.IProcessor#doBusiness()
-     */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.sendGoods(req.getOrderCode(), req.getDeliverer(),
-            req.getDeliveryDatetime(), req.getLogisticsCompany(),
-            req.getLogisticsCode(), req.getPdf(), req.getUpdater(),
-            req.getRemark());
+        orderAO.isFiled(req.getOrderCode(), req.getUpdater(), req.getRemark());
         return new BooleanRes(true);
     }
 
-    /** 
-     * @see com.cdkj.dzt.api.IProcessor#doCheck(java.lang.String)
-     */
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620212Req.class);
-        StringValidater.validateBlank(req.getOrderCode(), req.getDeliverer(),
-            req.getDeliveryDatetime(), req.getLogisticsCompany(),
-            req.getLogisticsCode(), req.getUpdater());
+        StringValidater.validateBlank(req.getOrderCode(), req.getUpdater());
     }
 
 }

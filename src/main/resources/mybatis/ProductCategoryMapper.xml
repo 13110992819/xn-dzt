@@ -32,7 +32,7 @@
 			</if>	
 		</trim>
 	</sql>
-	<select id="select_productCaegory" parameterType="productCategory" resultMap="sysDict_DB_Result">
+	<select id="select_productCategory" parameterType="productCategory" resultMap="sysDict_DB_Result">
 		SELECT
 		code
 		,type
@@ -57,7 +57,8 @@
 	
 	<insert id="insert_productCategory" parameterType="productCategory" useGeneratedKeys="true" keyProperty="code">
 		INSERT INTO tsys_product_category(
-		type
+		code
+		,type
 		,parent_key
 		,dkey
 		,dvalue
@@ -67,7 +68,8 @@
 		,model_code
 		)
 		VALUES(
-		#{type}
+		#{code}
+		,#{type}
 		,#{parentKey}
 		,#{dkey}
 		,#{dvalue}

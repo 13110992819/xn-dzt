@@ -7,6 +7,7 @@ public class JsonUtil {
 
     public static <T> T json2Bean(String json, Class<T> clazz) {
         boolean isJson = new JsonValidator().validate(json);
+        System.out.println(Object2Json(json));
         if (!isJson) {
             throw new ParaException("830xxx", "json格式不正确");
         }
@@ -17,13 +18,14 @@ public class JsonUtil {
         } catch (Exception e) {
             throw new ParaException("830xxx", "json2Bean不正确:" + e.getMessage());
         }
+
         return t;
     }
 
     public static String Object2Json(Object bean) {
         Gson gson = new Gson();
+        System.out.println(gson.toJson(bean));
         return gson.toJson(bean);
-
     }
 
 }

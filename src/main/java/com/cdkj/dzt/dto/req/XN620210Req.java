@@ -1,29 +1,26 @@
 /**
- * @Title XN620207Req.java 
+ * @Title XN620210Req.java 
  * @Package com.cdkj.dzt.dto.req 
  * @Description 
  * @author leo(haiqing)  
- * @date 2017年4月14日 下午5:57:52 
+ * @date 2017年4月14日 下午6:19:08 
  * @version V1.0   
  */
 package com.cdkj.dzt.dto.req;
 
 /** 
  * @author: haiqingzheng 
- * @since: 2017年4月14日 下午5:57:52 
+ * @since: 2017年4月14日 下午6:19:08 
  * @history:
  */
 public class XN620210Req {
-    // 订单编号（必填）
+    // 订单编号(必填)
     private String orderCode;
 
-    // 审核结果（必填）
-    private String result;
-
-    // 更新人（必填）
+    // 更新人(必填)
     private String updater;
 
-    // 备注（选填）
+    // 备注(选填)
     private String remark;
 
     public String getOrderCode() {
@@ -32,14 +29,6 @@ public class XN620210Req {
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
     }
 
     public String getUpdater() {
@@ -57,5 +46,4 @@ public class XN620210Req {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
 }

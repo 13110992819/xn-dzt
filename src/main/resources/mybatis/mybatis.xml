@@ -20,6 +20,8 @@
 		
 		<typeAlias alias="sizeData" type="com.cdkj.dzt.domain.SizeData" />
 		
+		<typeAlias alias="orderSizeData" type="com.cdkj.dzt.domain.OrderSizeData" />
+		
 		<typeAlias alias="article" type="com.cdkj.dzt.domain.Article" />
 		
 		<typeAlias alias="comment" type="com.cdkj.dzt.domain.Comment" />
@@ -31,6 +33,12 @@
 		<typeAlias alias="sysConfig" type="com.cdkj.dzt.domain.SYSConfig" />
 		
 		<typeAlias alias="productCategory" type="com.cdkj.dzt.domain.ProductCategory" />
+		
+		<typeAlias alias="modelSpecs" type="com.cdkj.dzt.domain.ModelSpecs" />
+		
+		<typeAlias alias="specimen" type="com.cdkj.dzt.domain.Specimen" />
+		
+		<typeAlias alias="productVar" type="com.cdkj.dzt.domain.ProductVar" />
 	</typeAliases>	
 </configuration>
 

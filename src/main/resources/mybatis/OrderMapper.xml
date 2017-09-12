@@ -6,6 +6,7 @@
 		<result column="code" property="code" />
 		<result column="type" property="type" />
 		<result column="to_user" property="toUser" />
+		<result column="order_product" property="orderProduct" />
 		<result column="apply_user" property="applyUser" />
 		<result column="apply_name" property="applyName" />
 		<result column="apply_mobile" property="applyMobile" />
@@ -140,6 +141,7 @@
 		t.code
 		,t.type
 		,t.to_user
+		,t.order_product
 		,t.apply_user
 		,t.apply_name
 		,t.apply_mobile
@@ -186,6 +188,7 @@
 		t.code
 		,t.type
 		,t.to_user
+		,t.order_product
 		,t.apply_user
 		,t.apply_name
 		,t.apply_mobile
@@ -245,6 +248,7 @@
 		code
 		,type
 		,to_user
+		,order_product
 		,apply_user
 		,apply_name
 		,apply_mobile
@@ -273,6 +277,7 @@
 		#{code}
 		,#{type}
 		,#{toUser}
+		,#{orderProduct}
 		,#{applyUser}
 		,#{applyName}
 		,#{applyMobile}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.IProductSpecsBO;
+import com.cdkj.dzt.bo.IProductVarBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.dao.IProductDAO;
@@ -28,6 +29,9 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
 
     @Autowired
     private IProductSpecsBO productSpecsBO;
+
+    @Autowired
+    private IProductVarBO productVarBO;
 
     @Override
     public String saveProduct(Order order, Model model, Integer quantity) {
@@ -68,9 +72,8 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
         List<Product> list = productDAO.selectList(condition);
         if (CollectionUtils.isNotEmpty(list)) {
             for (Product ele : list) {
-                List<ProductSpecs> productSpecsList = productSpecsBO
-                    .queryProductSpecsList(ele.getCode());
-                ele.setProductSpecsList(productSpecsList);
+                productVarBO.queryProductVarList(ele.getCode(),
+                    ele.getModelCode());
             }
         } else {
             Product data = new Product();

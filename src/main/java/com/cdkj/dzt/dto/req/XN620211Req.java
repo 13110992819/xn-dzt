@@ -1,27 +1,20 @@
-/**
- * @Title XN620208Req.java 
- * @Package com.cdkj.dzt.dto.req 
- * @Description 
- * @author leo(haiqing)  
- * @date 2017年4月14日 下午6:02:33 
- * @version V1.0   
- */
 package com.cdkj.dzt.dto.req;
 
-/** 
- * @author: haiqingzheng 
- * @since: 2017年4月14日 下午6:02:33 
+/**
+ * 评论
+ * @author: asus 
+ * @since: 2017年8月18日 上午10:13:58 
  * @history:
  */
 public class XN620211Req {
-    // 订单编号（必填）
+    // 订单号（必填）
     private String orderCode;
 
-    // 更新人(必填)
-    private String updater;
+    // 评论内容（必填）
+    private String content;
 
-    // 备注(选填)
-    private String remark;
+    // 评论人（必填）
+    private String commenter;
 
     public String getOrderCode() {
         return orderCode;
@@ -31,19 +24,19 @@ public class XN620211Req {
         this.orderCode = orderCode;
     }
 
-    public String getUpdater() {
-        return updater;
+    public String getContent() {
+        return content;
     }
 
-    public void setUpdater(String updater) {
-        this.updater = updater;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getCommenter() {
+        return commenter;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setCommenter(String commenter) {
+        this.commenter = commenter;
     }
 }

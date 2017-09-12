@@ -33,7 +33,8 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
     public void saveProductSpecs(String code, String name, String type,
             String pic, String brand, String modelNum, String advPic,
             String color, String flowers, String form, Integer weight,
-            String yarn, Long price, String productCode, String orderCode) {
+            String yarn, Long price, String productVarCode, String productCode,
+            String orderCode) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(code);
         data.setName(name);
@@ -50,6 +51,8 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         data.setWeight(weight);
         data.setYarn(yarn);
         data.setPrice(price);
+
+        data.setProductVarCode(productVarCode);
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -242,10 +245,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             this.saveGL(orderCode, productCode,
                 map.get(EMeasureKey.GL.getCode()), sysMap);
         }
-        if (StringUtils.isNotBlank(map.get(EMeasureKey.GXCX.getCode()))) {
-            this.saveGXCX(orderCode, productCode,
-                map.get(EMeasureKey.GXCX.getCode()));
-        }
         if (StringUtils.isNotBlank(map.get(EMeasureKey.YJDZ.getCode()))) {
             this.saveYJDZ(orderCode, productCode,
                 map.get(EMeasureKey.YJDZ.getCode()));
@@ -253,10 +252,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         if (StringUtils.isNotBlank(map.get(EMeasureKey.BEIZHU.getCode()))) {
             this.saveBEIZHU(orderCode, productCode,
                 map.get(EMeasureKey.BEIZHU.getCode()));
-        }
-        if (StringUtils.isNotBlank(map.get(EMeasureKey.CXWZ.getCode()))) {
-            this.saveCXWZ(orderCode, productCode,
-                map.get(EMeasureKey.CXWZ.getCode()));
         }
         if (StringUtils.isNotBlank(map.get(EMeasureKey.SG.getCode()))) {
             this.saveSG(orderCode, productCode,
@@ -447,16 +442,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         data.setCode(value);
         data.setType(EMeasureKey.FW.getCode());
         // data.setName(EMeasureKey.FW.getValue());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
-    }
-
-    private void saveCXWZ(String orderCode, String productCode, String value) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(value);
-        data.setType(EMeasureKey.CXWZ.getCode());
-        // data.setName(EMeasureKey.CXWZ.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -712,16 +697,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         data.setCode(value);
         data.setType(EMeasureKey.LW.getCode());
         // data.setName(EMeasureKey.LW.getValue());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
-    }
-
-    private void saveGXCX(String orderCode, String productCode, String value) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(value);
-        data.setType(EMeasureKey.GXCX.getCode());
-        // data.setName(EMeasureKey.GXCX.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);

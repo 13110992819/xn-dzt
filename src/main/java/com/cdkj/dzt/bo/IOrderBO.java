@@ -16,7 +16,7 @@ public interface IOrderBO extends IPaginableBO<Order> {
             String updater, String remark);
 
     public void confirmPrice(Order order, Model model, Long amount,
-            Long originalPrice, String updater, String remark);
+            Long originalPrice, String updater, String address, String remark);
 
     public void addPayGroup(Order order, String payGroup, String payType);
 

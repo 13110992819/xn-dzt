@@ -20,8 +20,10 @@ import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IProductCategoryBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
+import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.dao.IProductCategoryDAO;
 import com.cdkj.dzt.domain.ProductCategory;
+import com.cdkj.dzt.enums.EGeneratePrefix;
 
 /**
  * @author: xieyj 
@@ -41,7 +43,9 @@ public class ProductCategoryBOImpl extends PaginableBOImpl<ProductCategory>
     public String saveProductCategory(ProductCategory data) {
         String code = null;
         if (data != null) {
-
+            code = OrderNoGenerater.generateM(EGeneratePrefix.PRODUCTCATEGORY
+                .getCode());
+            data.setCode(code);
             data.setUpdateDatetime(new Date());
             productCategoryDAO.insert(data);
         }

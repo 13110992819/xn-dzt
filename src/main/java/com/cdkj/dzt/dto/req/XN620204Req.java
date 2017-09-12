@@ -1,38 +1,24 @@
+/**
+ * @Title XN620204Req.java 
+ * @Package com.cdkj.dzt.dto.req 
+ * @Description 
+ * @author leo(haiqing)  
+ * @date 2017年4月14日 下午1:57:12 
+ * @version V1.0   
+ */
 package com.cdkj.dzt.dto.req;
 
-import java.util.List;
-
-/**
- * H+价格计算
- * @author: asus 
- * @since: 2017年8月17日 下午8:52:12 
+/** 
+ * @author: haiqingzheng 
+ * @since: 2017年4月14日 下午1:57:12 
  * @history:
  */
 public class XN620204Req {
-    // 订单编号
+    // 订单编号（必填）
     private String orderCode;
 
-    // 编号List(必填)
-    private List<String> codeList;
-
-    // 数量
-    private String quantity;
-
-    public List<String> getCodeList() {
-        return codeList;
-    }
-
-    public void setCodeList(List<String> codeList) {
-        this.codeList = codeList;
-    }
-
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
+    // 支付方式（必填）
+    private String payType;
 
     public String getOrderCode() {
         return orderCode;
@@ -40,5 +26,13 @@ public class XN620204Req {
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
+    }
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 }

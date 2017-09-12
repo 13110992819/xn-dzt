@@ -14,6 +14,7 @@ import java.util.Map;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.dto.req.XN620200Req;
+import com.cdkj.dzt.dto.req.XN620801Req;
 import com.cdkj.dzt.dto.res.XN620218Res;
 import com.cdkj.dzt.dto.res.XN620221Res;
 import com.cdkj.dzt.dto.res.XN620222Res;
@@ -34,14 +35,12 @@ public interface IOrderAO {
             String updater, String remark);
 
     public void confirmPrice(String orderCode, String modelCode,
-            Integer quantity, String updater, String remark);
+            List<XN620801Req> list, Integer quantity, String address,
+            String updater, String remark);
 
     public Object payment(String orderCode, String payType);
 
     public void paySuccess(String payGroup, String payCode, Long amount);
-
-    public void inputInfor(String orderCode, List<String> codeList,
-            Map<String, String> map, String updater, String remark);
 
     public void ltSubmit(String orderCode, String updater, String remark);
 
@@ -65,13 +64,6 @@ public interface IOrderAO {
     public Order getMapRichOrder(String code);
 
     public List<Order> queryOrderlList(Order condition);
-
-    public Long calculatePrice(String orderCode, List<String> codeList,
-            String quantity);
-
-    public void confirmPrice(String orderCode, List<String> codeList,
-            Integer quantity, Map<String, String> map, String updater,
-            String remark);
 
     public void inputInfor(String orderCode, Map<String, String> map,
             String updater, String remark);

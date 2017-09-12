@@ -16,6 +16,7 @@
 		<result column="weight" property="weight" />
 		<result column="yarn" property="yarn" />
 		<result column="price" property="price" />
+		<result column="product_var_code" property="productVarCode" />
 		<result column="product_code" property="productCode" />
 		<result column="order_code" property="orderCode" />
 	</resultMap>
@@ -26,6 +27,9 @@
 			</if>
 			<if test="productCode != null and productCode != '' ">
 				AND t.product_code = #{productCode}
+			</if>
+			<if test="productVarCode != null and productVarCode != '' ">
+				AND t.product_var_code = #{productVarCode}
 			</if>
 			<if test="orderCode != null and orderCode != '' ">
 				AND t.order_code = #{orderCode}
@@ -47,6 +51,7 @@
 		,t.weight
 		,t.yarn
 		,t.price
+		,t.product_var_code
 		,t.product_code
 		,t.order_code
 		FROM
@@ -81,6 +86,7 @@
 		,weight
 		,yarn
 		,price
+		,product_var_code
 		,product_code
 		,order_code
 		)
@@ -98,6 +104,7 @@
 		,#{weight}
 		,#{yarn}
 		,#{price}
+		,#{productVarCode}
 		,#{productCode}
 		,#{orderCode}
 		)

@@ -11,7 +11,7 @@ import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
- * 合伙人复核
+ * 确认收货
  * @author: asus 
  * @since: 2017年4月14日 下午5:06:16 
  * @history:
@@ -26,8 +26,8 @@ public class XN620210 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.approveOrder(req.getOrderCode(), req.getResult(),
-            req.getUpdater(), req.getRemark());
+        orderAO.confirmReceipt(req.getOrderCode(), req.getUpdater(),
+            req.getRemark());
         return new BooleanRes(true);
     }
 
@@ -37,7 +37,7 @@ public class XN620210 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620210Req.class);
-        StringValidater.validateBlank(req.getOrderCode(), req.getResult(),
-            req.getUpdater());
+        StringValidater.validateBlank(req.getOrderCode(), req.getUpdater());
     }
+
 }

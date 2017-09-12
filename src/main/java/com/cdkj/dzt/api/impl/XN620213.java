@@ -11,7 +11,7 @@ import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
- * 确认收货
+ * 取消预约单
  * @author: asus 
  * @since: 2017年4月14日 下午5:06:16 
  * @history:
@@ -26,7 +26,7 @@ public class XN620213 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.confirmReceipt(req.getOrderCode(), req.getUpdater(),
+        orderAO.cancelOrder(req.getOrderCode(), req.getUpdater(),
             req.getRemark());
         return new BooleanRes(true);
     }

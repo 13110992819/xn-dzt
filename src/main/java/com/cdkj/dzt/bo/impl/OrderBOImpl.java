@@ -52,10 +52,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
 
     @Override
     public void confirmPrice(Order order, Model model, Long amount,
-            Long originalPrice, String updater, String remark) {
+            Long originalPrice, String address, String updater, String remark) {
         order.setType(model.getType());
         order.setAmount(amount);
         order.setOriginalAmount(originalPrice);
+        order.setReAddress(address);
         order.setUpdater(updater);
         order.setUpdateDatetime(new Date());
         if (StringUtils.isNotBlank(remark)) {
@@ -262,13 +263,6 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
                     if (productSpecs.getType().substring(0, 1) != null) {
                         code = productSpecs.getType().substring(0, 1);
                     }
-                    if (key.equalsIgnoreCase(EMeasureKey.GXCX.getCode())
-                            || key.equalsIgnoreCase(EMeasureKey.CXWZ.getCode())
-                            || key.equalsIgnoreCase(EMeasureKey.CXZT.getCode())
-                            || key.equalsIgnoreCase(EMeasureKey.CXYS.getCode())) {
-                        isIn = true;
-                        break;
-                    }
                 }
                 if (!isIn) {
                     throw new BizException("xn0000", map.get(key).getValue()
@@ -297,22 +291,6 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
             for (ProductSpecs productSpecs : product.getProductSpecsList()) {
                 productSpecsMap.put(productSpecs.getType(),
                     productSpecs.getCode());
-            }
-            EMeasureKey GXCXMap = map.get(EMeasureKey.GXCX.getCode());
-            if (null != GXCXMap) {
-                map.remove(EMeasureKey.GXCX.getCode());
-            }
-            EMeasureKey CXWZMap = map.get(EMeasureKey.CXWZ.getCode());
-            if (null != CXWZMap) {
-                map.remove(EMeasureKey.CXWZ.getCode());
-            }
-            EMeasureKey CXZTMap = map.get(EMeasureKey.CXZT.getCode());
-            if (null != CXZTMap) {
-                map.remove(EMeasureKey.CXZT.getCode());
-            }
-            EMeasureKey CXYSMap = map.get(EMeasureKey.CXYS.getCode());
-            if (null != CXYSMap) {
-                map.remove(EMeasureKey.CXYS.getCode());
             }
             for (String key : map.keySet()) {
                 if (productSpecsMap.containsKey(key)) {

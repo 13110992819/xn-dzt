@@ -1,24 +1,26 @@
+/**
+ * @Title XN620208Req.java 
+ * @Package com.cdkj.dzt.dto.req 
+ * @Description 
+ * @author leo(haiqing)  
+ * @date 2017年4月14日 下午6:02:33 
+ * @version V1.0   
+ */
 package com.cdkj.dzt.dto.req;
 
-import java.util.Map;
-
-/**
- * 数据录入（H+）
- * @author: asus 
- * @since: 2017年8月18日 上午10:03:52 
+/** 
+ * @author: haiqingzheng 
+ * @since: 2017年4月14日 下午6:02:33 
  * @history:
  */
 public class XN620208Req {
-    // 订单编号
+    // 订单编号（必填）
     private String orderCode;
 
-    // 成衣数据
-    private Map<String, String> map;
-
-    // 更新人
+    // 更新人(必填)
     private String updater;
 
-    // 备注
+    // 备注(选填)
     private String remark;
 
     public String getOrderCode() {
@@ -27,14 +29,6 @@ public class XN620208Req {
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
-    }
-
-    public Map<String, String> getMap() {
-        return map;
-    }
-
-    public void setMap(Map<String, String> map) {
-        this.map = map;
     }
 
     public String getUpdater() {

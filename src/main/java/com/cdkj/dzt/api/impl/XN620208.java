@@ -1,11 +1,3 @@
-/**
- * @Title XN620205.java 
- * @Package com.cdkj.dzt.api.impl 
- * @Description 
- * @author leo(haiqing)  
- * @date 2017年4月14日 下午1:59:01 
- * @version V1.0   
- */
 package com.cdkj.dzt.api.impl;
 
 import com.cdkj.dzt.ao.IOrderAO;
@@ -18,10 +10,10 @@ import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
-/** 
- * 数据录入(H+)
- * @author: haiqingzheng 
- * @since: 2017年4月14日 下午1:59:01 
+/**
+ * 提交生产
+ * @author: asus 
+ * @since: 2017年4月14日 下午5:06:16 
  * @history:
  */
 public class XN620208 extends AProcessor {
@@ -34,7 +26,7 @@ public class XN620208 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.inputInfor(req.getOrderCode(), req.getMap(), req.getUpdater(),
+        orderAO.submitProuduct(req.getOrderCode(), req.getUpdater(),
             req.getRemark());
         return new BooleanRes(true);
     }
@@ -47,4 +39,5 @@ public class XN620208 extends AProcessor {
         req = JsonUtil.json2Bean(inputparams, XN620208Req.class);
         StringValidater.validateBlank(req.getOrderCode(), req.getUpdater());
     }
+
 }

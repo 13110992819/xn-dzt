@@ -1,27 +1,21 @@
 package com.cdkj.dzt.dto.req;
 
-/**
- * 归档
- * @author: asus 
- * @since: 2017年8月18日 上午10:59:36 
- * @history:
- */
-public class XN620215Req {
-    // 订单编号（必填）
-    private String orderCode;
+public class XN620264Req {
+    // 编号（必填）
+    private String code;
 
-    // 更新人（必填）
+    // 更新人
     private String updater;
 
     // 备注
     private String remark;
 
-    public String getOrderCode() {
-        return orderCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setOrderCode(String orderCode) {
-        this.orderCode = orderCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getUpdater() {
@@ -39,4 +33,5 @@ public class XN620215Req {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
 }

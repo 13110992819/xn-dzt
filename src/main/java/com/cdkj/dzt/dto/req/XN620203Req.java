@@ -1,34 +1,33 @@
-/**
- * @Title XN620203Req.java 
- * @Package com.cdkj.dzt.dto.req 
- * @Description 
- * @author leo(haiqing)  
- * @date 2017年4月14日 下午1:51:01 
- * @version V1.0   
- */
 package com.cdkj.dzt.dto.req;
 
-/** 
- * 订单定价
- * @author: haiqingzheng 
- * @since: 2017年4月14日 下午1:51:01 
+import java.util.List;
+
+/**
+ * 产品定价（H+）
+ * @author: asus 
+ * @since: 2017年8月17日 下午9:59:32 
  * @history:
  */
 public class XN620203Req {
-
-    // 订单编号（必填）
+    // 订单编号
     private String orderCode;
 
-    // 型号编号（必填）
+    // 数量
     private String modelCode;
 
-    // 数量（必填）
+    // 数量
     private String quantity;
 
-    // 更新人（必填）
+    // 编号List
+    private List<XN620801Req> reqList;
+
+    // 地址
+    private String address;
+
+    // 更新人
     private String updater;
 
-    // 备注（选填）
+    // 备注
     private String remark;
 
     public String getOrderCode() {
@@ -37,22 +36,6 @@ public class XN620203Req {
 
     public void setOrderCode(String orderCode) {
         this.orderCode = orderCode;
-    }
-
-    public String getModelCode() {
-        return modelCode;
-    }
-
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
-    }
-
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
     }
 
     public String getUpdater() {
@@ -70,4 +53,37 @@ public class XN620203Req {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getModelCode() {
+        return modelCode;
+    }
+
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
+    }
+
+    public List<XN620801Req> getReqList() {
+        return reqList;
+    }
+
+    public void setReqList(List<XN620801Req> reqList) {
+        this.reqList = reqList;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 }

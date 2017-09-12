@@ -1,24 +1,18 @@
 package com.cdkj.dzt.dto.req;
 
-import java.util.List;
 import java.util.Map;
 
 /**
- * 产品定价（H+）
+ * 数据录入（H+）
  * @author: asus 
- * @since: 2017年8月17日 下午9:59:32 
+ * @since: 2017年8月18日 上午10:03:52 
  * @history:
  */
 public class XN620205Req {
     // 订单编号
     private String orderCode;
 
-    // 数量
-    private String quantity;
-
-    // 编号List
-    private List<String> codeList;
-
+    // 成衣数据
     private Map<String, String> map;
 
     // 更新人
@@ -35,12 +29,12 @@ public class XN620205Req {
         this.orderCode = orderCode;
     }
 
-    public List<String> getCodeList() {
-        return codeList;
+    public Map<String, String> getMap() {
+        return map;
     }
 
-    public void setCodeList(List<String> codeList) {
-        this.codeList = codeList;
+    public void setMap(Map<String, String> map) {
+        this.map = map;
     }
 
     public String getUpdater() {
@@ -58,21 +52,4 @@ public class XN620205Req {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
-
-    public Map<String, String> getMap() {
-        return map;
-    }
-
-    public void setMap(Map<String, String> map) {
-        this.map = map;
-    }
-
 }

@@ -15,15 +15,26 @@
 	<bean id="articleBO" class="com.cdkj.dzt.bo.impl.ArticleBOImpl">
 		<property name="paginableDAO" ref="articleDAOImpl"/>
 	</bean>	
-	
+	<bean id="orderSizeDataBO" class="com.cdkj.dzt.bo.impl.OrderSizeDataBOImpl">
+		<property name="paginableDAO" ref="orderSizeDataDAOImpl"/>
+	</bean>	
 	<bean id="clothBO" class="com.cdkj.dzt.bo.impl.ClothBOImpl">
 		<property name="paginableDAO" ref="clothDAOImpl"/>
 	</bean>	
 	<bean id="productCategoryBO" class="com.cdkj.dzt.bo.impl.ProductCategoryBOImpl">
 		<property name="paginableDAO" ref="productCategoryDAOImpl"/>
 	</bean>	
+	
 	<bean id="commentBO" class="com.cdkj.dzt.bo.impl.CommentBOImpl">
 		<property name="paginableDAO" ref="commentDAOImpl" />
+	</bean>
+	
+	<bean id="modelSpecsBO" class="com.cdkj.dzt.bo.impl.ModelSpecsBOImpl">
+		<property name="paginableDAO" ref="modelSpecsDAOImpl" />
+	</bean>
+	
+	<bean id="specimenBO" class="com.cdkj.dzt.bo.impl.SpecimenBOImpl">
+		<property name="paginableDAO" ref="specimenDAOImpl" />
 	</bean>
 	
 	<bean id="craftBO" class="com.cdkj.dzt.bo.impl.CraftBOImpl">
@@ -67,5 +78,9 @@
 	</bean>
 	<bean id="sysConfigBO" class="com.cdkj.dzt.bo.impl.SYSConfigBOImpl">
 		<property name="paginableDAO" ref="sysConfigDAOImpl" />
+	</bean>
+	
+	<bean id="productVarBO" class="com.cdkj.dzt.bo.impl.ProductVarBOImpl">
+		<property name="paginableDAO" ref="productVarDAOImpl" />
 	</bean>
 </beans>

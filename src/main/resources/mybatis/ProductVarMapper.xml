@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdkj.dzt.dao.IProductVarDAO">
+	<resultMap id="productVar_DB_Result" type="productVar">
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="pic" property="pic" />
+		<result column="updater" property="updater" />
+		<result column="update_datetime" property="updateDatetime" />
+		<result column="product_code" property="productCode" />
+		<result column="model_code" property="modelCode" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="code != null and code != '' ">
+				AND t.code = #{code}
+			</if>
+		</trim>
+	</sql>
+	<select id="select_productVar" parameterType="productVar" resultMap="productVar_DB_Result">
+		SELECT
+		t.code
+		,t.name
+		,t.pic
+		,t.updater
+		,t.update_datetime
+		,t.product_code
+		,t.model_code
+		FROM
+		tdzt_product_var t
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_productVar_count" parameterType="productVar"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tdzt_product_var t
+		<include refid="where_condition" />
+	</select>
+
+	<insert id="insert_productVar" parameterType="productVar">
+		INSERT INTO
+		tdzt_product_var(
+		code
+		,name
+		,pic
+		,updater
+		,update_datetime
+		,product_code
+		,model_code
+		)
+		VALUES(
+		#{code}
+		,#{name}
+		,#{pic}
+		,#{updater}
+		,#{updateDatetime}
+		,#{productCode}
+		,#{modelCode}
+		)
+	</insert>
+
+	<update id="update_productVar" parameterType="productVar">
+		UPDATE tdzt_product_var
+		SET
+		name = #{name}
+		,pic = #{pic}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,product_code = #{productCode}
+		,model_code = #{modelCode}
+		WHERE code = #{code}
+	</update>
+
+
+</mapper>

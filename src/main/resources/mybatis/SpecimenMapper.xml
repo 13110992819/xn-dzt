@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdkj.dzt.dao.ISpecimenDAO">
+	<resultMap id="specimen_DB_Result" type="specimen">
+		<result column="code" property="code" />
+		<result column="pic" property="pic" />
+		<result column="adv_pic" property="advPic" />
+		<result column="description" property="description" />
+		<result column="location" property="location" />
+		
+		<result column="order_no" property="orderNo" />
+		<result column="status" property="status" />
+		<result column="updater" property="updater" />
+		<result column="update_datetime" property="updateDatetime" />
+		<result column="remark" property="remark" />
+		
+		<result column="model_code" property="modelCode" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="code != null and code != '' ">
+				AND t.code = #{code}
+			</if>
+			<if test="updater != null and updater != '' ">
+				AND t.updater = #{updater}
+			</if>
+			<if test="modelCode != null and modelCode != '' ">
+				AND t.model_code = #{modelCode}
+			</if>
+			<if test="modelStatus != null and modelStatus != '' ">
+				AND tm.status = #{modelStatus}
+			</if>
+		</trim>
+	</sql>
+	<select id="select_specimen" parameterType="specimen" resultMap="specimen_DB_Result">
+		SELECT
+		t.code
+		,t.pic
+		,t.adv_pic
+		,t.description
+		,t.location
+		
+		,t.order_no
+		,t.status
+		,t.updater
+		,t.update_datetime
+		,t.remark
+		,t.model_code
+		FROM
+		tdzt_specimen t left join tdzt_model tm on tm.code=t.model_code
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_specimen_count" parameterType="specimen"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tdzt_specimen t left join tdzt_model tm on tm.code=t.model_code
+		<include refid="where_condition" />
+	</select>
+
+	<insert id="insert_specimen" parameterType="specimen">
+		INSERT INTO
+		tdzt_specimen(
+		code
+		,pic
+		,adv_pic
+		,description
+		,location
+		
+		,order_no
+		,status
+		,updater
+		,update_datetime
+		,remark
+		,model_code
+		)
+		VALUES(
+		#{code}
+		,#{pic}
+		,#{advPic}
+		,#{description}
+		,#{location}
+		
+		,#{orderNo}
+		,#{status}
+		,#{updater}
+		,#{updateDatetime}
+		,#{remark}
+		,#{modelCode}
+		)
+	</insert>
+
+	<update id="update_specimen" parameterType="specimen">
+		UPDATE tdzt_specimen
+		SET
+		pic = #{pic}
+		,adv_pic = #{advPic}
+		,description = #{description}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark = #{remark}
+		,model_code = #{modelCode}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="update_putOn" parameterType="specimen">
+		UPDATE tdzt_specimen
+		SET
+		status = #{status}
+		,order_no = #{orderNo}
+		,location = #{location}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark=#{remark}
+		WHERE code = #{code}
+	</update>
+	<update id="update_putOff" parameterType="specimen">
+		UPDATE tdzt_specimen
+		SET
+		status = #{status}
+		,updater = #{updater}
+		,update_datetime = #{updateDatetime}
+		,remark=#{remark}
+		WHERE code = #{code}
+	</update>
+	<delete id="delete_specimen" parameterType="specimen">
+		DELETE FROM
+		tdzt_specimen
+		where 
+		code=#{code}
+	</delete>
+
+
+</mapper>

@@ -27,6 +27,9 @@ public class Order extends ABaseDO {
     // 所属合伙人
     private String toUser;
 
+    // 下单产品
+    private String orderProduct;
+
     // 下单人UserId
     private String applyUser;
 
@@ -595,6 +598,14 @@ public class Order extends ABaseDO {
 
     public void setOriginalAmount(Long originalAmount) {
         this.originalAmount = originalAmount;
+    }
+
+    public String getOrderProduct() {
+        return orderProduct;
+    }
+
+    public void setOrderProduct(String orderProduct) {
+        this.orderProduct = orderProduct;
     }
 
 }

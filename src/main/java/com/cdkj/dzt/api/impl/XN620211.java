@@ -5,15 +5,15 @@ import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.dto.req.XN620211Req;
-import com.cdkj.dzt.dto.res.BooleanRes;
+import com.cdkj.dzt.dto.res.PKCodeRes;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
- * 提交生产
+ * 评论
  * @author: asus 
- * @since: 2017年4月14日 下午5:06:16 
+ * @since: 2017年8月18日 上午10:13:58 
  * @history:
  */
 public class XN620211 extends AProcessor {
@@ -21,23 +21,17 @@ public class XN620211 extends AProcessor {
 
     private XN620211Req req = null;
 
-    /** 
-     * @see com.cdkj.dzt.api.IProcessor#doBusiness()
-     */
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.submitProuduct(req.getOrderCode(), req.getUpdater(),
-            req.getRemark());
-        return new BooleanRes(true);
+        return new PKCodeRes(orderAO.comment(req.getOrderCode(),
+            req.getContent(), req.getCommenter()));
     }
 
-    /** 
-     * @see com.cdkj.dzt.api.IProcessor#doCheck(java.lang.String)
-     */
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620211Req.class);
-        StringValidater.validateBlank(req.getOrderCode(), req.getUpdater());
+        StringValidater.validateBlank(req.getOrderCode(), req.getContent(),
+            req.getCommenter());
     }
 
 }

@@ -1,6 +1,12 @@
+/**
+ * @Title XN620204.java 
+ * @Package com.cdkj.dzt.api.impl 
+ * @Description 
+ * @author leo(haiqing)  
+ * @date 2017年4月14日 下午1:56:38 
+ * @version V1.0   
+ */
 package com.cdkj.dzt.api.impl;
-
-import org.apache.commons.collections.CollectionUtils;
 
 import com.cdkj.dzt.ao.IOrderAO;
 import com.cdkj.dzt.api.AProcessor;
@@ -11,10 +17,10 @@ import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
-/**
- * H+价格计算
- * @author: asus 
- * @since: 2017年8月17日 下午8:52:12 
+/** 
+ * 订单支付
+ * @author: haiqingzheng 
+ * @since: 2017年4月14日 下午1:56:38 
  * @history:
  */
 public class XN620204 extends AProcessor {
@@ -22,19 +28,21 @@ public class XN620204 extends AProcessor {
 
     private XN620204Req req = null;
 
+    /** 
+     * @see com.cdkj.dzt.api.IProcessor#doBusiness()
+     */
     @Override
     public Object doBusiness() throws BizException {
-        return orderAO.calculatePrice(req.getOrderCode(), req.getCodeList(),
-            req.getQuantity());
+        return orderAO.payment(req.getOrderCode(), req.getPayType());
     }
 
+    /** 
+     * @see com.cdkj.dzt.api.IProcessor#doCheck(java.lang.String)
+     */
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620204Req.class);
-        if (CollectionUtils.isEmpty(req.getCodeList())) {
-            throw new BizException("xn0000", "编号不能为空");
-        }
-        StringValidater.validateBlank(req.getOrderCode(), req.getQuantity());
+        StringValidater.validateBlank(req.getOrderCode(), req.getPayType());
     }
 
 }

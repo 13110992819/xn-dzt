@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdkj.dzt.dao.IOrderSizeDataDAO">
+	<resultMap id="orderSizeData_DB_Result" type="orderSizeData">
+		<result column="id" property="id" />
+		<result column="order_code" property="orderCode" />
+		<result column="ckey" property="ckey" />
+		<result column="cvalue" property="cvalue" />
+		<result column="dkey" property="dkey" />
+		<result column="dvalue" property="dvalue" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="code != null and code != '' ">
+				AND t.code = #{code}
+			</if>
+		</trim>
+	</sql>
+	<select id="select_orderSizeData" parameterType="orderSizeData" resultMap="orderSizeData_DB_Result">
+		SELECT
+		t.id
+		,t.order_code
+		,t.ckey
+		,t.cvalue
+		,t.dkey
+		,t.dvalue
+		FROM
+		tdzt_order_size_data t
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_orderSizeData_count" parameterType="orderSizeData"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tdzt_order_size_data t
+		<include refid="where_condition" />
+	</select>
+
+	<insert id="insert_orderSizeData" parameterType="orderSizeData">
+		INSERT INTO
+		tdzt_order_size_data(
+		id
+		,order_code
+		,ckey
+		,cvalue
+		,dkey
+		,dvalue
+		)
+		VALUES(
+		#{id}
+		,#{orderCode}
+		,#{ckey}
+		,#{cvalue}
+		,#{dkey}
+		,#{dvalue}
+		)
+	</insert>
+
+	<update id="update_orderSizeData" parameterType="orderSizeData">
+		UPDATE tdzt_order_size_data
+		SET
+		order_code = #{orderCode}
+		,ckey = #{ckey}
+		,cvalue = #{cvalue}
+		,dkey = #{dkey}
+		,dvalue = #{dvalue}
+		WHERE code = #{code}
+	</update>
+
+	<delete id="delete_orderSizeData" parameterType="orderSizeData">
+		DELETE FROM tdzt_order_size_data
+		WHERE
+		order_code = #{orderCode} and ckey = #{ckey}
+	</delete>
+
+</mapper>

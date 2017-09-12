@@ -1,36 +1,37 @@
 package com.cdkj.dzt.api.impl;
 
-import com.cdkj.dzt.ao.IOrderAO;
+import com.cdkj.dzt.ao.ISpecimenAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
 import com.cdkj.dzt.core.StringValidater;
-import com.cdkj.dzt.dto.req.XN620215Req;
+import com.cdkj.dzt.dto.req.XN620261Req;
 import com.cdkj.dzt.dto.res.BooleanRes;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
 import com.cdkj.dzt.spring.SpringContextHolder;
 
 /**
- * 归档
+ * 删除产品样品
  * @author: asus 
- * @since: 2017年8月18日 上午10:59:36 
+ * @since: 2017年9月12日 下午1:07:29 
  * @history:
  */
-public class XN620215 extends AProcessor {
-    private IOrderAO orderAO = SpringContextHolder.getBean(IOrderAO.class);
+public class XN620261 extends AProcessor {
+    private ISpecimenAO specimenAO = SpringContextHolder
+        .getBean(ISpecimenAO.class);
 
-    private XN620215Req req = null;
+    private XN620261Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        orderAO.isFiled(req.getOrderCode(), req.getUpdater(), req.getRemark());
+        specimenAO.dropSpecimen(req.getCode());
         return new BooleanRes(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN620215Req.class);
-        StringValidater.validateBlank(req.getOrderCode(), req.getUpdater());
+        req = JsonUtil.json2Bean(inputparams, XN620261Req.class);
+        StringValidater.validateBlank(req.getCode());
     }
 
 }
