@@ -1,6 +1,7 @@
 package com.cdkj.dzt.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import com.cdkj.dzt.dao.base.ABaseDO;
 
@@ -16,6 +17,9 @@ public class Model extends ABaseDO {
 
     // 编号
     private String code;
+
+    // 分类
+    private String kind;
 
     // 类型
     private String type;
@@ -64,6 +68,8 @@ public class Model extends ABaseDO {
 
     // 是否收藏
     private String isSC;
+
+    private List<ModelSpecs> modelSpecsList;
 
     public String getCode() {
         return code;
@@ -199,6 +205,22 @@ public class Model extends ABaseDO {
 
     public void setIsSC(String isSC) {
         this.isSC = isSC;
+    }
+
+    public List<ModelSpecs> getModelSpecsList() {
+        return modelSpecsList;
+    }
+
+    public void setModelSpecsList(List<ModelSpecs> modelSpecsList) {
+        this.modelSpecsList = modelSpecsList;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
 }

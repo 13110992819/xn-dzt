@@ -64,4 +64,11 @@ public class ModelSpecsBOImpl extends PaginableBOImpl<ModelSpecs> implements
         }
         return data;
     }
+
+    @Override
+    public List<ModelSpecs> queryModelSpecsList(String modelCode) {
+        ModelSpecs condition = new ModelSpecs();
+        condition.setModelCode(modelCode);
+        return modelSpecsDAO.selectList(condition);
+    }
 }

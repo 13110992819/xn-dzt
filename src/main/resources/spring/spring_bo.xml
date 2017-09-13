@@ -40,7 +40,9 @@
 	<bean id="craftBO" class="com.cdkj.dzt.bo.impl.CraftBOImpl">
 		<property name="paginableDAO" ref="craftDAOImpl"/>
 	</bean>	
-	
+	<bean id="productCraftBO" class="com.cdkj.dzt.bo.impl.ProductCraftBOImpl">
+		<property name="paginableDAO" ref="productCraftDAOImpl"/>
+	</bean>
 	<bean id="interactBO" class="com.cdkj.dzt.bo.impl.InteractBOImpl">
 		<property name="paginableDAO" ref="interactDAOImpl"/>
 	</bean>	

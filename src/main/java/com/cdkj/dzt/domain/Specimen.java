@@ -50,6 +50,9 @@ public class Specimen extends ABaseDO {
     // 模板状态
     private String modelStatus;
 
+    // 类型
+    private String type;
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -144,6 +147,14 @@ public class Specimen extends ABaseDO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

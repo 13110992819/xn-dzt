@@ -17,6 +17,7 @@ import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.ProductSpecs;
+import com.cdkj.dzt.domain.ProductVar;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.exception.BizException;
 
@@ -72,15 +73,10 @@ public class ProductBOImpl extends PaginableBOImpl<Product> implements
         List<Product> list = productDAO.selectList(condition);
         if (CollectionUtils.isNotEmpty(list)) {
             for (Product ele : list) {
-                productVarBO.queryProductVarList(ele.getCode(),
-                    ele.getModelCode());
+                List<ProductVar> productVarList = productVarBO
+                    .queryProductVarList(ele.getCode());
+                ele.setProductVarList(productVarList);
             }
-        } else {
-            Product data = new Product();
-            List<ProductSpecs> productSpecsList = productSpecsBO
-                .queryPSByOrderCodeList(orderCode);
-            data.setProductSpecsList(productSpecsList);
-            list.add(data);
         }
         return list;
     }

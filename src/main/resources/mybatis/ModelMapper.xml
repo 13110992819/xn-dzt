@@ -4,6 +4,7 @@
 <mapper namespace="com.cdkj.dzt.dao.IModelDAO">
 	<resultMap id="model_DB_Result" type="model">
 		<result column="code" property="code" />
+		<result column="kind" property="kind" />
 		<result column="type" property="type" />
 		<result column="name" property="name" />
 		<result column="pic" property="pic" />
@@ -49,6 +50,7 @@
 		SELECT
 		t.code
 		,t.type
+		,t.kind
 		,t.name
 		,t.pic
 		,t.adv_pic
@@ -87,6 +89,7 @@
 		tdzt_model(
 		code
 		,type
+		,kind
 		,name
 		,pic
 		,adv_pic
@@ -106,6 +109,7 @@
 		VALUES(
 		#{code}
 		,#{type}
+		,#{kind}
 		,#{name}
 		,#{pic}
 		,#{advPic}
@@ -128,6 +132,7 @@
 		UPDATE tdzt_model
 		SET
 		type=#{type}
+		,kind=#{kind}
 		,name=#{name}
 		,pic=#{pic}
 		,adv_pic=#{advPic}

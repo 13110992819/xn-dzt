@@ -68,6 +68,9 @@ public class Cloth extends ABaseDO {
     // 备注
     private String remark;
 
+    // 模型品种编号
+    private String modelSpecsCode;
+
     // 模型编号
     private String modelCode;
 
@@ -218,20 +221,28 @@ public class Cloth extends ABaseDO {
         return remark;
     }
 
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
-    }
-
-    public String getModelCode() {
-        return modelCode;
-    }
-
     public String getModelStatus() {
         return modelStatus;
     }
 
     public void setModelStatus(String modelStatus) {
         this.modelStatus = modelStatus;
+    }
+
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
+    }
+
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
+    }
+
+    public String getModelCode() {
+        return modelCode;
+    }
+
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
     }
 
 }

@@ -27,6 +27,9 @@ public class ProductCategory extends ABaseDO {
     // 编号
     private String code;
 
+    // 0工艺,1刺绣
+    private String kind;
+
     // 类型（第一层/第二层）
     private String type;
 
@@ -39,8 +42,8 @@ public class ProductCategory extends ABaseDO {
     // value
     private String dvalue;
 
-    // 产品编号
-    private String modelCode;
+    // 产品规格编号
+    private String modelSpecsCode;
 
     // 修改人
     private String updater;
@@ -56,6 +59,12 @@ public class ProductCategory extends ABaseDO {
 
     // 布料
     private List<Cloth> clothList;
+
+    private ProductCraft productCraft;
+
+    private List<ProductCategory> productCategoryList;
+
+    private List<Craft> colorCraftList;
 
     public String getType() {
         return type;
@@ -113,14 +122,6 @@ public class ProductCategory extends ABaseDO {
         this.remark = remark;
     }
 
-    public String getModelCode() {
-        return modelCode;
-    }
-
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
-    }
-
     public List<Craft> getCraftList() {
         return craftList;
     }
@@ -143,6 +144,46 @@ public class ProductCategory extends ABaseDO {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public ProductCraft getProductCraft() {
+        return productCraft;
+    }
+
+    public void setProductCraft(ProductCraft productCraft) {
+        this.productCraft = productCraft;
+    }
+
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
+    }
+
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
+    }
+
+    public List<ProductCategory> getProductCategoryList() {
+        return productCategoryList;
+    }
+
+    public void setProductCategoryList(List<ProductCategory> productCategoryList) {
+        this.productCategoryList = productCategoryList;
+    }
+
+    public List<Craft> getColorCraftList() {
+        return colorCraftList;
+    }
+
+    public void setColorCraftList(List<Craft> colorCraftList) {
+        this.colorCraftList = colorCraftList;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
 }

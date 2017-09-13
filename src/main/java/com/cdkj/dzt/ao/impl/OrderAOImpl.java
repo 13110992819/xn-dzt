@@ -8,7 +8,6 @@
  */
 package com.cdkj.dzt.ao.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -35,6 +34,7 @@ import com.cdkj.dzt.bo.IModelSpecsBO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IOrderSizeDataBO;
 import com.cdkj.dzt.bo.IProductBO;
+import com.cdkj.dzt.bo.IProductCraftBO;
 import com.cdkj.dzt.bo.IProductSpecsBO;
 import com.cdkj.dzt.bo.IProductVarBO;
 import com.cdkj.dzt.bo.ISYSConfigBO;
@@ -118,6 +118,9 @@ public class OrderAOImpl implements IOrderAO {
 
     @Autowired
     private ICraftBO craftBO;
+
+    @Autowired
+    private IProductCraftBO productCraftBO;
 
     @Autowired
     private IClothBO clothBO;
@@ -268,7 +271,7 @@ public class OrderAOImpl implements IOrderAO {
             map.put(sizeData.getCkey(), sizeData.getDkey());
         }
         map.put(EMeasureKey.YJDZ.getCode(), lastOrder.getReAddress());
-        productSpecsBO.inputInforValue(order, null, map);
+        orderSizeDataBO.inputInforValue(order, map);
         // 一键复购，直接短信通知量体师
         smsOutBO.sentContent(
             order.getLtUser(),
@@ -304,59 +307,40 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn0000", "订单不处于待量体状态，不可以定价");
         }
         Double price = 0.0;
-        List<Craft> craftList = new ArrayList<Craft>();
-        List<Cloth> clothList = new ArrayList<Cloth>();
         // 获取产品并填充数据
         Model model = modelBO.getModel(modelCode);
         String productCode = productBO.saveProduct(order, model, quantity);
-
+        if (StringUtils.isBlank(productCode)) {
+            throw new BizException("xn0000", "产品不能为空");
+        }
         // 计算面料价格
         // 计算工艺价格
         Long clothPrice = 0L;
         Long craftPrice = 0L;
         for (XN620801Req req : list) {
-            craftList.removeAll(craftList);
-            clothList.removeAll(clothList);
-            String productVarCode = null;
-            for (String code : req.getCodeList()) {
-                if (code.startsWith(EGeneratePrefix.MODELSPECS.getCode())) {
-                    ModelSpecs modelSpecs = modelSpecsBO.getModelSpecs(code);
-                    productVarCode = productVarBO.saveProductVar(modelSpecs,
-                        order.getApplyUser(), productCode);
-                } else if (code.startsWith(EGeneratePrefix.CLOTH.getCode())) {
-                    Cloth cloth = clothBO.getCloth(code);
-                    clothList.add(cloth);
-                } else if (code.startsWith(EGeneratePrefix.CRAFT.getCode())) {
-                    Craft craft = craftBO.getCraft(code);
-                    craftList.add(craft);
-                }
-            }
+            ModelSpecs modelSpecs = modelSpecsBO.getModelSpecs(req
+                .getModelSpecsCode());
+            String productVarCode = productVarBO.saveProductVar(modelSpecs,
+                order.getApplyUser(), productCode);
             if (StringUtils.isBlank(productVarCode)) {
                 throw new BizException("xn0000", "您还未选择产品品种");
             }
-            for (Cloth cloth1 : clothList) {
-                clothPrice = clothPrice + cloth1.getPrice();
-                productSpecsBO.saveProductSpecs(cloth1.getCode(), null,
-                    EMeasureKey.CSML.getCode(), cloth1.getPic(),
-                    cloth1.getBrand(), cloth1.getModelNum(),
-                    cloth1.getAdvPic(), cloth1.getColor(), cloth1.getFlowers(),
-                    cloth1.getForm(), cloth1.getWeight(), cloth1.getYarn(),
-                    cloth1.getPrice(), productVarCode, productCode,
-                    order.getCode());
-            }
-            for (Craft craft1 : craftList) {
-                craftPrice = craftPrice + craft1.getPrice();
-                productSpecsBO.saveProductSpecs(craft1.getCode(),
-                    craft1.getName(), craft1.getType(), craft1.getPic(), null,
-                    null, null, null, null, null, null, null,
-                    craft1.getPrice(), productVarCode, productCode,
+            Cloth cloth = clothBO.getCloth(req.getClothCode());
+            clothPrice = clothPrice + cloth.getPrice();
+            productSpecsBO.saveProductSpecs(cloth.getCode(), null,
+                EMeasureKey.CSML.getCode(), cloth.getPic(), cloth.getBrand(),
+                cloth.getModelNum(), cloth.getAdvPic(), cloth.getColor(),
+                cloth.getFlowers(), cloth.getForm(), cloth.getWeight(),
+                cloth.getYarn(), cloth.getPrice(), productVarCode, productCode,
+                order.getCode());
+            for (String code : req.getCodeList()) {
+                Craft craft = craftBO.getCraft(code);
+                craftPrice = craftPrice + craft.getPrice();
+                productCraftBO.saveProductCraft(craft, productVarCode,
                     order.getCode());
             }
             productSpecsBO.inputInforValue(order,
                 productBO.getProductByOrderCode(orderCode), req.getMap());
-        }
-        if (StringUtils.isBlank(productCode)) {
-            throw new BizException("xn0000", "产品不能为空");
         }
         productSpecsBO.refreshProductCode(orderCode, productCode);
 
@@ -393,10 +377,29 @@ public class OrderAOImpl implements IOrderAO {
             result = toPayOrderWechat(orderCode);
         } else if (EPayType.YEZF.getCode().equals(payType)) {
             result = toPayOrderYE(orderCode);
+        } else if (EPayType.HYB.getCode().equals(payType)) {
+            result = toPayOrderHYB(orderCode);
         } else {
             throw new BizException("xn000000", "暂不支持该种支付方式");
         }
         return result;
+    }
+
+    private Object toPayOrderHYB(String orderCode) {
+        Order order = orderBO.getOrder(orderCode);
+        Long totalAmount = order.getAmount();
+        String userId = order.getApplyUser();
+        accountBO.doTransferAmountRemote(userId, ECurrency.HYB,
+            ESysUser.SYS_USER_DZT.getCode(), ECurrency.HYB, totalAmount,
+            EBizType.AJ_GWFK, "HE-SHIRTS衬衫购买订单支付", "HE-SHIRTS衬衫购买订单支付",
+            orderCode);
+        orderBO.PaySuccess(order, null, totalAmount);
+        // 短信通知用户
+        smsOutBO.sentContent(
+            order.getApplyUser(),
+            String.format(SysConstants.PAY_SUCCESS_CONTENT,
+                order.getApplyName(), orderCode));
+        return new BooleanRes(true);
     }
 
     private Object toPayOrderYE(String orderCode) {
@@ -474,8 +477,7 @@ public class OrderAOImpl implements IOrderAO {
         orderSizeDataBO.inputInforValue(order, map);
         // 更新订单
         // orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()),
-        // updater,
-        // remark);
+        // updater,remark);
     }
 
     // 提交复核
@@ -486,7 +488,7 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不是已支付状态,不能提交审核");
         }
         // 确保所有规格已经填充完毕
-        orderBO.checkInfoFull(order);
+        // orderBO.checkInfoFull(order);
         orderBO.ltSubmit(order, updater, remark);
         // 如果有地区合伙人，短信通知
         if (!"0".equals(order.getToUser())) {

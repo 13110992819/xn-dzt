@@ -1,13 +1,13 @@
 package com.cdkj.dzt.ao;
 
 import java.util.List;
-import java.util.Map;
 
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.dto.req.XN620040Req;
 import com.cdkj.dzt.dto.req.XN620042Req;
 import com.cdkj.dzt.dto.res.XN620053Res;
+import com.cdkj.dzt.dto.res.XN620054Res;
 
 public interface ICraftAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
@@ -27,9 +27,9 @@ public interface ICraftAO {
 
     public List<Craft> queryCraftList(Craft condition);
 
-    public Map<String, List<Craft>> queryMapCraftList(Craft condition);
-
     public Craft getCraft(String code);
 
     public XN620053Res getCraft(String code, String userId);
+
+    XN620054Res getCraftList(String modelSpecsCode);
 }

@@ -6,6 +6,7 @@ package com.cdkj.dzt.dto.req;
  * @history:
  */
 public class XN620250Req {
+    private String kind;
 
     // 类型（第一层/第二层）（必填）
     private String type;
@@ -26,7 +27,7 @@ public class XN620250Req {
     private String remark;
 
     // 系统编号（必填）
-    private String modelCode;
+    private String modelSpecsCode;
 
     public String getType() {
         return type;
@@ -76,11 +77,20 @@ public class XN620250Req {
         this.remark = remark;
     }
 
-    public String getModelCode() {
-        return modelCode;
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
     }
 
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
     }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
 }

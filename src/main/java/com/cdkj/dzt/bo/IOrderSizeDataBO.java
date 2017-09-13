@@ -23,4 +23,6 @@ public interface IOrderSizeDataBO extends IPaginableBO<OrderSizeData> {
 
     void removeOrderSizeData(String type, String orderCode);
 
+    public List<OrderSizeData> queryOrderSizeDataList(String orderCode);
+
 }

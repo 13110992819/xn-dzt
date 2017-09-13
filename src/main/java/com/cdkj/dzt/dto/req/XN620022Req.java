@@ -50,7 +50,7 @@ public class XN620022Req {
     private String remark;
 
     // 模型编号(必填)
-    private String modelCode;
+    private String modelSpecsCode;
 
     public String getCode() {
         return code;
@@ -164,11 +164,12 @@ public class XN620022Req {
         this.remark = remark;
     }
 
-    public String getModelCode() {
-        return modelCode;
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
     }
 
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
     }
+
 }

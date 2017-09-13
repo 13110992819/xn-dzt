@@ -10,6 +10,9 @@ public class XN620000Req {
     // 类型(必填)
     private String type;
 
+    // 分类
+    private String kind;
+
     // 名称(必填)
     private String name;
 
@@ -115,6 +118,14 @@ public class XN620000Req {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
 }

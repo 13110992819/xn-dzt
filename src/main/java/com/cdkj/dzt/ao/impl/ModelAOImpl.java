@@ -3,6 +3,7 @@ package com.cdkj.dzt.ao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import com.cdkj.dzt.bo.IClothBO;
 import com.cdkj.dzt.bo.ICraftBO;
 import com.cdkj.dzt.bo.IInteractBO;
 import com.cdkj.dzt.bo.IModelBO;
+import com.cdkj.dzt.bo.IModelSpecsBO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IProductCategoryBO;
 import com.cdkj.dzt.bo.base.Paginable;
@@ -20,6 +22,7 @@ import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.domain.Cloth;
 import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Model;
+import com.cdkj.dzt.domain.ModelSpecs;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.ProductCategory;
 import com.cdkj.dzt.dto.req.XN620000Req;
@@ -27,6 +30,7 @@ import com.cdkj.dzt.dto.req.XN620002Req;
 import com.cdkj.dzt.dto.res.XN620013Res;
 import com.cdkj.dzt.dto.res.XN620014Res;
 import com.cdkj.dzt.enums.EBoolean;
+import com.cdkj.dzt.enums.EDictType;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
 import com.cdkj.dzt.enums.EInteractType;
@@ -44,6 +48,9 @@ public class ModelAOImpl implements IModelAO {
     private IProductCategoryBO productCategoryBO;
 
     @Autowired
+    private IModelSpecsBO modelSpecsBO;
+
+    @Autowired
     private IInteractBO interactBO;
 
     @Autowired
@@ -58,17 +65,12 @@ public class ModelAOImpl implements IModelAO {
     @Override
     public String addModel(XN620000Req req) {
         EModelType.getModelTypeMap().containsKey(req.getType());
-        if (EModelType.H.getCode().equals(req.getType())) {
-            StringValidater.validateAmount(req.getProcessFee());
-        }
-        if (EModelType.CHENSHAN.getCode().equals(req.getType())) {
-            StringValidater.validateAmount(req.getPrice());
-        }
         Model data = new Model();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.MODEL
             .getCode());
         data.setCode(code);
         data.setType(req.getType());
+        data.setKind(req.getKind());
         data.setName(req.getName());
         data.setPic(req.getPic());
         data.setAdvPic(req.getAdvPic());
@@ -101,13 +103,8 @@ public class ModelAOImpl implements IModelAO {
         if (EStatus.PUT_ON.getCode().equals(data.getStatus())) {
             throw new BizException("xn0000", "产品上线中,不可修改");
         }
-        if (EModelType.H.getCode().equals(req.getType())) {
-            StringValidater.validateAmount(req.getProcessFee());
-        }
-        if (EModelType.CHENSHAN.getCode().equals(req.getType())) {
-            StringValidater.validateAmount(req.getPrice());
-        }
         data.setType(req.getType());
+        data.setKind(req.getKind());
         data.setName(req.getName());
         data.setPic(req.getPic());
         data.setAdvPic(req.getAdvPic());
@@ -191,20 +188,44 @@ public class ModelAOImpl implements IModelAO {
     }
 
     @Override
-    public XN620014Res getModelB(String code) {
-        XN620014Res res = new XN620014Res();
-        Model data = modelBO.getModel(code);
-        List<ProductCategory> productCategoryList = productCategoryBO
-            .queryProductCategoryList(code);
-        List<Cloth> clothList = clothBO.queryClothList(code);
-        for (ProductCategory productCategory : productCategoryList) {
-            List<Craft> craftList = craftBO.queryCraftList(productCategory
-                .getDkey());
-            productCategory.setCraftList(craftList);
+    public List<Model> queryModelBfrontList(Model condition) {
+        List<Model> list = modelBO.queryModelList(condition);
+        for (Model model : list) {
+            List<ModelSpecs> modelSpecsList = this.getModelB(model.getCode());
+            model.setModelSpecsList(modelSpecsList);
         }
-        res.setModel(data);
-        res.setProductCategoryList(productCategoryList);
-        res.setClothList(clothList);
-        return res;
+        return list;
+    }
+
+    @Override
+    public List<ModelSpecs> getModelB(String code) {
+        List<ModelSpecs> modelSpecsList = modelSpecsBO
+            .queryModelSpecsList(code);
+        for (ModelSpecs modelSpecs : modelSpecsList) {
+            XN620014Res res = new XN620014Res();
+            List<ProductCategory> productCategoryList = productCategoryBO
+                .queryProductCategoryList(EDictType.FIRST.getCode(), null,
+                    modelSpecs.getCode());
+            List<Cloth> clothList = clothBO.queryClothList(code);
+            for (ProductCategory productCategory : productCategoryList) {
+                List<Craft> craftList = craftBO.queryCraftList(productCategory
+                    .getDkey());
+                productCategory.setCraftList(craftList);
+                List<ProductCategory> PCList = productCategoryBO
+                    .queryProductCategoryList(EDictType.SECOND.getCode(),
+                        productCategory.getDkey(), modelSpecs.getCode());
+                if (CollectionUtils.isNotEmpty(PCList)) {
+                    for (ProductCategory productCate : PCList) {
+                        List<Craft> craftList2 = craftBO
+                            .queryCraftList(productCate.getDkey());
+                        productCategory.setColorCraftList(craftList2);
+                    }
+                }
+            }
+            res.setProductCategoryList(productCategoryList);
+            res.setClothList(clothList);
+            modelSpecs.setRes(res);
+        }
+        return modelSpecsList;
     }
 }

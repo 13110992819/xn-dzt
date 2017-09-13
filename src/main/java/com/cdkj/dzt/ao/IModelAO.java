@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.domain.Model;
+import com.cdkj.dzt.domain.ModelSpecs;
 import com.cdkj.dzt.dto.req.XN620000Req;
 import com.cdkj.dzt.dto.req.XN620002Req;
 import com.cdkj.dzt.dto.res.XN620013Res;
-import com.cdkj.dzt.dto.res.XN620014Res;
 
 public interface IModelAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
@@ -32,5 +32,7 @@ public interface IModelAO {
 
     public XN620013Res getModel(String code, String userId);
 
-    public XN620014Res getModelB(String code);
+    public List<ModelSpecs> getModelB(String code);
+
+    List<Model> queryModelBfrontList(Model condition);
 }

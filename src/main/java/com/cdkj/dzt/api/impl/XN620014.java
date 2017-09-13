@@ -8,10 +8,12 @@
  */
 package com.cdkj.dzt.api.impl;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.cdkj.dzt.ao.IModelAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
-import com.cdkj.dzt.core.StringValidater;
+import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.dto.req.XN620014Req;
 import com.cdkj.dzt.exception.BizException;
 import com.cdkj.dzt.exception.ParaException;
@@ -33,7 +35,18 @@ public class XN620014 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return modelAO.getModelB(req.getCode());
+        Model condition = new Model();
+        condition.setType(req.getType());
+        condition.setStatus(req.getStatus());
+        condition.setName(req.getName());
+        condition.setUpdater(req.getUpdater());
+        condition.setLocation(req.getLocation());
+        String orderColumn = req.getOrderColumn();
+        if (StringUtils.isBlank(orderColumn)) {
+            orderColumn = IModelAO.DEFAULT_ORDER_COLUMN;
+        }
+        condition.setOrder(orderColumn, req.getOrderDir());
+        return modelAO.queryModelBfrontList(condition);
     }
 
     /** 
@@ -42,7 +55,6 @@ public class XN620014 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620014Req.class);
-        StringValidater.validateBlank(req.getCode());
     }
 
 }

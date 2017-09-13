@@ -21,7 +21,7 @@ public class XN620257Req extends APageReq {
     private String dkey;
 
     // 系统编号（必填）
-    private String modelCode;
+    private String modelSpecsCode;
 
     public String getType() {
         return type;
@@ -47,12 +47,12 @@ public class XN620257Req extends APageReq {
         this.dkey = dkey;
     }
 
-    public String getModelCode() {
-        return modelCode;
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
     }
 
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
     }
 
 }

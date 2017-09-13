@@ -32,7 +32,8 @@ public interface IProductCategoryBO extends IPaginableBO<ProductCategory> {
     public List<ProductCategory> queryProductCategoryList(
             ProductCategory condition);
 
-    public List<ProductCategory> queryProductCategoryList(String modelCode);
+    public List<ProductCategory> queryProductCategoryList(String type,
+            String parentKey, String modelCode);
 
     public Map<String, List<ProductCategory>> queryMapProductCategoryList(
             ProductCategory condition);

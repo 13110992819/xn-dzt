@@ -31,6 +31,9 @@ public class XN620052Req extends APageReq {
     // 产品编号(选填)
     private String modelCode;
 
+    // 产品规格编号(选填)
+    private String modelSpecsCode;
+
     // 产品状态(选填)
     private String modelStatus;
 
@@ -88,6 +91,14 @@ public class XN620052Req extends APageReq {
 
     public void setModelStatus(String modelStatus) {
         this.modelStatus = modelStatus;
+    }
+
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
+    }
+
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
     }
 
 }

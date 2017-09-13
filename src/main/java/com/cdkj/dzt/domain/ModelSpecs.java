@@ -3,6 +3,7 @@ package com.cdkj.dzt.domain;
 import java.util.Date;
 
 import com.cdkj.dzt.dao.base.ABaseDO;
+import com.cdkj.dzt.dto.res.XN620014Res;
 
 /**
 * 产品规格
@@ -34,6 +35,11 @@ public class ModelSpecs extends ABaseDO {
 
     // 产品编号
     private String modelCode;
+
+    // 备注
+    private String modelName;
+
+    private XN620014Res res;
 
     public void setCode(String code) {
         this.code = code;
@@ -89,6 +95,22 @@ public class ModelSpecs extends ABaseDO {
 
     public String getModelCode() {
         return modelCode;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public XN620014Res getRes() {
+        return res;
+    }
+
+    public void setRes(XN620014Res res) {
+        this.res = res;
     }
 
 }

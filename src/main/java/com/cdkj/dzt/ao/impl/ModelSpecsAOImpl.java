@@ -73,16 +73,33 @@ public class ModelSpecsAOImpl implements IModelSpecsAO {
     @Override
     public Paginable<ModelSpecs> queryModelSpecsPage(int start, int limit,
             ModelSpecs condition) {
-        return modelSpecsBO.getPaginable(start, limit, condition);
+        Paginable<ModelSpecs> page = modelSpecsBO.getPaginable(start, limit,
+            condition);
+        List<ModelSpecs> list = page.getList();
+        for (ModelSpecs modelSpecs : list) {
+            fullModelSpecs(modelSpecs);
+        }
+        return page;
     }
 
     @Override
     public List<ModelSpecs> queryModelSpecsList(ModelSpecs condition) {
-        return modelSpecsBO.queryModelSpecsList(condition);
+        List<ModelSpecs> list = modelSpecsBO.queryModelSpecsList(condition);
+        for (ModelSpecs modelSpecs : list) {
+            fullModelSpecs(modelSpecs);
+        }
+        return list;
+    }
+
+    private void fullModelSpecs(ModelSpecs modelSpecs) {
+        Model model = modelBO.getModel(modelSpecs.getModelCode());
+        modelSpecs.setModelName(model.getName());
     }
 
     @Override
     public ModelSpecs getModelSpecs(String code) {
-        return modelSpecsBO.getModelSpecs(code);
+        ModelSpecs modelSpecs = modelSpecsBO.getModelSpecs(code);
+        fullModelSpecs(modelSpecs);
+        return modelSpecs;
     }
 }

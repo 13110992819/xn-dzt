@@ -40,8 +40,9 @@ public class ProductCategoryAOImpl implements IProductCategoryAO {
      * @see com.xnjr.base.ao.ISYSDictAO#addSYSDict(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String addProductCategory(String type, String parentKey, String key,
-            String value, String updater, String remark, String modelCode) {
+    public String addProductCategory(String kind, String type,
+            String parentKey, String key, String value, String updater,
+            String remark, String modelSpecsCode) {
         if (EDictType.SECOND.getCode().equals(type)) {
             if (StringUtils.isBlank(parentKey)) {
                 throw new BizException("xn000000", "第二层字典数据，parentKey不能为空");
@@ -73,6 +74,7 @@ public class ProductCategoryAOImpl implements IProductCategoryAO {
             throw new BizException("xn000000", "type类型不在枚举类中 0-第一层 1-第二层");
         }
         ProductCategory productCategory = new ProductCategory();
+        productCategory.setKind(kind);
         productCategory.setType(type);
         if (EDictType.SECOND.getCode().equals(type)) {
             productCategory.setParentKey(parentKey);
@@ -81,7 +83,7 @@ public class ProductCategoryAOImpl implements IProductCategoryAO {
         productCategory.setDvalue(value);
         productCategory.setUpdater(updater);
         productCategory.setRemark(remark);
-        productCategory.setModelCode(modelCode);
+        productCategory.setModelSpecsCode(modelSpecsCode);
         return productCategoryBO.saveProductCategory(productCategory);
     }
 

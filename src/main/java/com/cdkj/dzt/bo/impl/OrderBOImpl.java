@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IOrderBO;
+import com.cdkj.dzt.bo.IOrderSizeDataBO;
 import com.cdkj.dzt.bo.IProductBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.IOrderDAO;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
+import com.cdkj.dzt.domain.OrderSizeData;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.enums.EMeasureKey;
@@ -26,6 +28,9 @@ import com.cdkj.dzt.exception.BizException;
 public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     @Autowired
     private IProductBO productBO;
+
+    @Autowired
+    private IOrderSizeDataBO orderSizeDataBO;
 
     @Autowired
     private IOrderDAO orderDAO;
@@ -228,6 +233,9 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
         Order order = this.getOrder(code);
         List<Product> list = productBO.queryRichProductList(order.getCode());
         order.setProductList(list);
+        List<OrderSizeData> orderSizeData = orderSizeDataBO
+            .queryOrderSizeDataList(code);
+        order.setOrderSizeData(orderSizeData);
         return order;
     }
 

@@ -23,8 +23,9 @@ import com.cdkj.dzt.domain.ProductCategory;
 public interface IProductCategoryAO {
     static String DEFAULT_ORDER_COLUMN = "code";
 
-    public String addProductCategory(String type, String parentKey, String key,
-            String value, String updater, String remark, String systemCode);
+    public String addProductCategory(String kind, String type,
+            String parentKey, String key, String value, String updater,
+            String remark, String systemCode);
 
     public int dropProductCategory(String code);
 

@@ -26,6 +26,9 @@ public class XN620042Req {
     // 工艺费(必填)
     private String price;
 
+    // 是否撞色
+    private String isHit;
+
     // 更新人(必填)
     private String updater;
 
@@ -33,7 +36,7 @@ public class XN620042Req {
     private String remark;
 
     // 产品编号(必填)
-    private String modelCode;
+    private String modelSpecsCode;
 
     public String getCode() {
         return code;
@@ -83,14 +86,6 @@ public class XN620042Req {
         this.updater = updater;
     }
 
-    public String getModelCode() {
-        return modelCode;
-    }
-
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
-    }
-
     public String getPrice() {
         return price;
     }
@@ -105,6 +100,22 @@ public class XN620042Req {
 
     public void setSelected(String selected) {
         this.selected = selected;
+    }
+
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
+    }
+
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
+    }
+
+    public String getIsHit() {
+        return isHit;
+    }
+
+    public void setIsHit(String isHit) {
+        this.isHit = isHit;
     }
 
 }

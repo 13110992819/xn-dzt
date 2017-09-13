@@ -30,6 +30,7 @@ public class XN620270 extends AProcessor {
         condition.setModelCode(req.getModelCode());
         condition.setModelStatus(req.getModelStatus());
         condition.setUpdater(req.getUpdater());
+        condition.setType(req.getType());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = ISpecimenAO.DEFAULT_ORDER_COLUMN;

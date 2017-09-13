@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdkj.dzt.dao.IProductCraftDAO">
+	<resultMap id="productCraft_DB_Result" type="productCraft">
+		<result column="code" property="code" />
+		<result column="type" property="type" />
+		<result column="name" property="name" />
+		<result column="pic" property="pic" />
+		<result column="selected" property="selected" />
+		<result column="price" property="price" />
+		<result column="model_specs_code" property="modelSpecsCode" />
+		<result column="product_var_code" property="productVarCode" />
+		<result column="order_code" property="orderCode" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="code != null and code != '' ">
+				AND t.code = #{code}
+			</if>
+		</trim>
+	</sql>
+	<select id="select_productCraft" parameterType="productCraft" resultMap="productCraft_DB_Result">
+		SELECT
+		t.code
+		,t.type
+		,t.name
+		,t.pic
+		,t.selected
+		,t.price
+		,t.model_specs_code
+		,t.product_var_code
+		,t.order_code
+		FROM
+		tdzt_product_craft t
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_productCraft_count" parameterType="productCraft"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tdzt_product_craft t
+		<include refid="where_condition" />
+	</select>
+
+	<insert id="insert_productCraft" parameterType="productCraft">
+		INSERT INTO
+		tdzt_product_craft(
+		code
+		,type
+		,name
+		,pic
+		,selected
+		,price
+		,model_specs_code
+		,product_var_code
+		,order_code
+		)
+		VALUES(
+		#{code}
+		,#{type}
+		,#{name}
+		,#{pic}
+		,#{selected}
+		,#{price}
+		,#{modelSpecsCode}
+		,#{productVarCode}
+		,#{orderCode}
+		)
+	</insert>
+
+	<update id="update_productCraft" parameterType="productCraft">
+		UPDATE tdzt_product_craft
+		SET
+		type = #{type}
+		,name = #{name}
+		,pic = #{pic}
+		,selected = #{selected}
+		,price = #{price}
+		,model_specs_code = #{modelSpecsCode}
+		,product_var_code = #{productVarCode}
+		,order_code = #{orderCode}
+		WHERE code = #{code}
+	</update>
+
+
+</mapper>

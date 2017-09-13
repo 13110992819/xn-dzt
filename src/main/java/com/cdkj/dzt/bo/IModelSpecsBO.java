@@ -19,4 +19,6 @@ public interface IModelSpecsBO extends IPaginableBO<ModelSpecs> {
 
     public ModelSpecs getModelSpecs(String code);
 
+    public List<ModelSpecs> queryModelSpecsList(String modelCode);
+
 }

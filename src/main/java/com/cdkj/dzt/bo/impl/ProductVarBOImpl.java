@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.cdkj.dzt.bo.IProductCategoryBO;
+import com.cdkj.dzt.bo.IProductCraftBO;
 import com.cdkj.dzt.bo.IProductSpecsBO;
 import com.cdkj.dzt.bo.IProductVarBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
@@ -15,6 +16,7 @@ import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.dao.IProductVarDAO;
 import com.cdkj.dzt.domain.ModelSpecs;
 import com.cdkj.dzt.domain.ProductCategory;
+import com.cdkj.dzt.domain.ProductCraft;
 import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.domain.ProductVar;
 import com.cdkj.dzt.enums.EGeneratePrefix;
@@ -29,6 +31,9 @@ public class ProductVarBOImpl extends PaginableBOImpl<ProductVar> implements
 
     @Autowired
     private IProductCategoryBO productCategoryBO;
+
+    @Autowired
+    private IProductCraftBO productCraftBO;
 
     @Autowired
     private IProductSpecsBO productSpecsBO;
@@ -55,7 +60,7 @@ public class ProductVarBOImpl extends PaginableBOImpl<ProductVar> implements
         data.setUpdater(updater);
         data.setUpdateDatetime(new Date());
         data.setProductCode(productCode);
-        data.setModelCode(modelSpecs.getCode());
+        data.setModelSpecsCode(modelSpecs.getCode());
         productVarDAO.insert(data);
         return code;
     }
@@ -92,22 +97,32 @@ public class ProductVarBOImpl extends PaginableBOImpl<ProductVar> implements
     }
 
     @Override
-    public void queryProductVarList(String code, String modelCode) {
+    public List<ProductVar> queryProductVarList(String code) {
         ProductVar condition = new ProductVar();
         condition.setProductCode(code);
         List<ProductVar> list = productVarDAO.selectList(condition);
-        List<ProductCategory> PClist = productCategoryBO
-            .queryProductCategoryList(modelCode);
-
-        for (ProductCategory productCategory : PClist) {
-            for (ProductVar productVar : list) {
-                List<ProductSpecs> productSpecsList = productSpecsBO
-                    .queryProductSpecsList(productVar.getCode());
-                if (productCategory.getDkey().equals(productCategory)) {
-
+        for (ProductVar productVar : list) {
+            // 找到布料
+            List<ProductSpecs> PSlist = productSpecsBO
+                .queryProductSpecsList(productVar.getCode());
+            // 找到分类
+            List<ProductCategory> PClist = productCategoryBO
+                .queryProductCategoryList(null, null,
+                    productVar.getModelSpecsCode());
+            for (ProductCategory productCategory : PClist) {
+                // 找到工艺
+                List<ProductCraft> productCraftList = productCraftBO
+                    .queryProductCraftList(productVar.getCode());
+                for (ProductCraft productCraft : productCraftList) {
+                    if (productCategory.getDkey()
+                        .equals(productCraft.getType())) {
+                        productCategory.setProductCraft(productCraft);
+                    }
                 }
             }
+            productVar.setProductSpecs(PSlist);
+            productVar.setProductCategory(PClist);
         }
-
+        return list;
     }
 }

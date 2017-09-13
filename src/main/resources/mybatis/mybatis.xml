@@ -39,6 +39,8 @@
 		<typeAlias alias="specimen" type="com.cdkj.dzt.domain.Specimen" />
 		
 		<typeAlias alias="productVar" type="com.cdkj.dzt.domain.ProductVar" />
+		
+		<typeAlias alias="productCraft" type="com.cdkj.dzt.domain.ProductCraft" />
 	</typeAliases>	
 </configuration>
 

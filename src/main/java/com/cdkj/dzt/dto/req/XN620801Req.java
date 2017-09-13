@@ -9,6 +9,9 @@ import java.util.Map;
  * @history:
  */
 public class XN620801Req {
+    private String modelSpecsCode;
+
+    private String clothCode;
 
     // 编号List
     private List<String> codeList;
@@ -29,6 +32,22 @@ public class XN620801Req {
 
     public void setMap(Map<String, String> map) {
         this.map = map;
+    }
+
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
+    }
+
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
+    }
+
+    public String getClothCode() {
+        return clothCode;
+    }
+
+    public void setClothCode(String clothCode) {
+        this.clothCode = clothCode;
     }
 
 }

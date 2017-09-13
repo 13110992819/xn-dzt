@@ -32,7 +32,7 @@ public class XN620255 extends AProcessor {
         condition.setType(req.getType());
         condition.setParentKey(req.getParentKey());
         condition.setDkey(req.getDkey());
-        condition.setModelCode(req.getModelCode());
+        condition.setModelSpecsCode(req.getModelSpecsCode());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = IProductCategoryAO.DEFAULT_ORDER_COLUMN;

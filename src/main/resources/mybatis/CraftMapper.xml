@@ -12,12 +12,14 @@
 		
 		<result column="location" property="location" />
 		<result column="order_no" property="orderNo" />
+		<result column="is_hit" property="isHit" />
 		<result column="status" property="status"/>
 		<result column="updater" property="updater"/>
 		<result column="update_datetime" property="updateDatetime"/>
 		<result column="remark" property="remark" />
-		<result column="model_code" property="modelCode" />
 		
+		<result column="model_code" property="modelCode" />
+		<result column="model_specs_code" property="modelSpecsCode" />
 		<result column="model_name" property="model.name" />
 	</resultMap>
 	<sql id="where_condition">
@@ -40,6 +42,9 @@
 			<if test="modelCode != null and modelCode != '' ">
 				AND t.model_code = #{modelCode}
 			</if>
+			<if test="modelSpecsCode != null and modelSpecsCode != '' ">
+				AND t.model_specs_code = #{modelSpecsCode}
+			</if>
 			<if test="modelStatus != null and modelStatus != '' ">
 				AND tm.status = #{modelStatus}
 			</if>
@@ -57,11 +62,13 @@
 		,t.location
 		,t.order_no
 		,t.status
+		,t.is_hit
 		,t.updater
 		,t.update_datetime
 		
 		,t.remark
 		,t.model_code
+		,t.model_specs_code
 		,tm.name model_name
 		FROM
 		tdzt_craft t INNER JOIN tdzt_model tm ON t.model_code = tm.code
@@ -84,10 +91,12 @@
          pic,
          selected,
          price,
+         is_hit,
          status,
          updater,
          update_datetime,
          remark,
+         model_specs_code,
          model_code)
 	VALUES (
 	  #{code}
@@ -96,10 +105,12 @@
      ,#{pic}
      ,#{selected}
      ,#{price}
+     ,#{isHit}
      ,#{status}
      ,#{updater}
      ,#{updateDatetime}
      ,#{remark}
+     ,#{modelSpecsCode}
      ,#{modelCode}
      );
 	</insert>
@@ -112,10 +123,12 @@
 		,pic = #{pic}
 		,selected=#{selected}
 		,price = #{price}
+		,is_hit = #{isHit}
 
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}
+		,model_specs_code=#{modelSpecsCode}
 		,model_code=#{modelCode}
 		WHERE code = #{code}
 	</update>

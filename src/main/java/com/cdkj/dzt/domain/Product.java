@@ -50,6 +50,8 @@ public class Product extends ABaseDO {
     // -------db propties--------------
     private List<ProductSpecs> productSpecsList;
 
+    private List<ProductVar> productVarList;
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -144,6 +146,14 @@ public class Product extends ABaseDO {
 
     public void setProcessFee(Long processFee) {
         this.processFee = processFee;
+    }
+
+    public List<ProductVar> getProductVarList() {
+        return productVarList;
+    }
+
+    public void setProductVarList(List<ProductVar> productVarList) {
+        this.productVarList = productVarList;
     }
 
 }

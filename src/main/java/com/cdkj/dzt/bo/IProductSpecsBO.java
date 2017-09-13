@@ -22,7 +22,7 @@ public interface IProductSpecsBO extends IPaginableBO<ProductSpecs> {
     public void inputInforValue(Order order, Product product,
             Map<String, String> map);
 
-    public List<ProductSpecs> queryProductSpecsList(String productCode);
+    public List<ProductSpecs> queryProductSpecsList(String productVarCode);
 
     public void inputInforValue(Order order, Map<String, String> map);
 

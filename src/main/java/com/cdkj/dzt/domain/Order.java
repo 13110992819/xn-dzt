@@ -175,6 +175,8 @@ public class Order extends ABaseDO {
 
     private Map<String, LinkedHashMap<String, ProductSpecs>> resultMap;
 
+    private List<OrderSizeData> orderSizeData;
+
     public List<String> getStatusList() {
         return statusList;
     }
@@ -606,6 +608,14 @@ public class Order extends ABaseDO {
 
     public void setOrderProduct(String orderProduct) {
         this.orderProduct = orderProduct;
+    }
+
+    public List<OrderSizeData> getOrderSizeData() {
+        return orderSizeData;
+    }
+
+    public void setOrderSizeData(List<OrderSizeData> orderSizeData) {
+        this.orderSizeData = orderSizeData;
     }
 
 }

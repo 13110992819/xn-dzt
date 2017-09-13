@@ -11,12 +11,14 @@ import com.cdkj.dzt.ao.IClothAO;
 import com.cdkj.dzt.bo.IClothBO;
 import com.cdkj.dzt.bo.IInteractBO;
 import com.cdkj.dzt.bo.IModelBO;
+import com.cdkj.dzt.bo.IModelSpecsBO;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.domain.Cloth;
 import com.cdkj.dzt.domain.Model;
+import com.cdkj.dzt.domain.ModelSpecs;
 import com.cdkj.dzt.dto.req.XN620020Req;
 import com.cdkj.dzt.dto.req.XN620022Req;
 import com.cdkj.dzt.dto.res.XN620033Res;
@@ -24,7 +26,6 @@ import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
 import com.cdkj.dzt.enums.EInteractType;
-import com.cdkj.dzt.enums.EModelType;
 import com.cdkj.dzt.enums.EStatus;
 import com.cdkj.dzt.exception.BizException;
 
@@ -38,6 +39,9 @@ public class ClothAOImpl implements IClothAO {
     private IModelBO modelBO;
 
     @Autowired
+    private IModelSpecsBO modelSpecsBO;
+
+    @Autowired
     private IOrderBO orderBO;
 
     @Autowired
@@ -45,10 +49,8 @@ public class ClothAOImpl implements IClothAO {
 
     @Override
     public String addCloth(XN620020Req req) {
-        Model model = modelBO.getModel(req.getModelCode());
-        if (EModelType.H.getCode().equals(model.getType())) {
-            StringValidater.validateAmount(req.getPrice());
-        }
+        ModelSpecs modelSpecs = modelSpecsBO.getModelSpecs(req
+            .getModelSpecsCode());
         Cloth data = new Cloth();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.CLOTH
             .getCode());
@@ -70,8 +72,8 @@ public class ClothAOImpl implements IClothAO {
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());
-        data.setModelCode(req.getModelCode());
-
+        data.setModelSpecsCode(req.getModelSpecsCode());
+        data.setModelCode(modelSpecs.getModelCode());
         clothBO.saveCloth(data);
         return code;
     }
@@ -79,10 +81,8 @@ public class ClothAOImpl implements IClothAO {
     @Override
     public void editCloth(XN620022Req req) {
         Cloth data = clothBO.getCloth(req.getCode());
-        Model model = modelBO.getModel(req.getModelCode());
-        if (EModelType.H.getCode().equals(model.getType())) {
-            StringValidater.validateAmount(req.getPrice());
-        }
+        ModelSpecs modelSpecs = modelSpecsBO.getModelSpecs(req
+            .getModelSpecsCode());
         if (EStatus.PUT_ON.getCode().equals(data.getStatus())) {
             throw new BizException("xn0000", "该布料已上架,不可修改");
         }
@@ -102,7 +102,8 @@ public class ClothAOImpl implements IClothAO {
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());
-        data.setModelCode(req.getModelCode());
+        data.setModelSpecsCode(req.getModelSpecsCode());
+        data.setModelCode(modelSpecs.getModelCode());
         clothBO.refreshCloth(data);
     }
 
@@ -131,7 +132,7 @@ public class ClothAOImpl implements IClothAO {
         if (!EStatus.PUT_ON.getCode().equals(data.getStatus())) {
             throw new BizException("xn0000", "该布料未上架,请仔细查看");
         }
-        long number = clothBO.getTotalCount(data.getModelCode());
+        long number = clothBO.getTotalCount(data.getModelSpecsCode());
         Model model = modelBO.getModel(data.getModelCode());
         if (number < 1 && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
             throw new BizException("xn0000", "面料下架影响产品,请先下架产品");

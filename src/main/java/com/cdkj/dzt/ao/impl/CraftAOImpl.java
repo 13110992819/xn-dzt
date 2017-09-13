@@ -1,10 +1,7 @@
 package com.cdkj.dzt.ao.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,16 +12,21 @@ import com.cdkj.dzt.ao.ICraftAO;
 import com.cdkj.dzt.bo.ICraftBO;
 import com.cdkj.dzt.bo.IInteractBO;
 import com.cdkj.dzt.bo.IModelBO;
+import com.cdkj.dzt.bo.IModelSpecsBO;
 import com.cdkj.dzt.bo.IOrderBO;
+import com.cdkj.dzt.bo.IProductCategoryBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.domain.Craft;
-import com.cdkj.dzt.domain.Model;
+import com.cdkj.dzt.domain.ModelSpecs;
+import com.cdkj.dzt.domain.ProductCategory;
 import com.cdkj.dzt.dto.req.XN620040Req;
 import com.cdkj.dzt.dto.req.XN620042Req;
 import com.cdkj.dzt.dto.res.XN620053Res;
+import com.cdkj.dzt.dto.res.XN620054Res;
 import com.cdkj.dzt.enums.EBoolean;
+import com.cdkj.dzt.enums.EDictType;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
 import com.cdkj.dzt.enums.EInteractType;
@@ -41,14 +43,21 @@ public class CraftAOImpl implements ICraftAO {
     private IModelBO modelBO;
 
     @Autowired
+    private IModelSpecsBO modelSpecsBO;
+
+    @Autowired
     private IInteractBO interactBO;
+
+    @Autowired
+    private IProductCategoryBO productCategoryBO;
 
     @Autowired
     private IOrderBO orderBO;
 
     @Override
     public String addCraft(XN620040Req req) {
-        modelBO.getModel(req.getModelCode());
+        ModelSpecs modelSpecs = modelSpecsBO.getModelSpecs(req
+            .getModelSpecsCode());
         Craft data = new Craft();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.CRAFT
             .getCode());
@@ -58,14 +67,14 @@ public class CraftAOImpl implements ICraftAO {
         data.setPic(req.getPic());
         data.setSelected(req.getSelected());
         data.setPrice(StringValidater.toLong(EBoolean.NO.getCode()));
-        if (StringUtils.isNotBlank(req.getPrice())) {
-            data.setPrice(StringValidater.toLong(req.getPrice()));
-        }
+        data.setPrice(StringValidater.toLong(req.getPrice()));
+        data.setIsHit(req.getIsHit());
         data.setStatus(EStatus.DRAFT.getCode());
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());
-        data.setModelCode(req.getModelCode());
+        data.setModelSpecsCode(req.getModelSpecsCode());
+        data.setModelCode(modelSpecs.getModelCode());
         craftBO.saveCraft(data);
         return code;
     }
@@ -82,7 +91,8 @@ public class CraftAOImpl implements ICraftAO {
     @Override
     public void editCraft(XN620042Req req) {
         Craft data = craftBO.getCraft(req.getCode());
-        modelBO.getModel(req.getModelCode());
+        ModelSpecs modelSpecs = modelSpecsBO.getModelSpecs(req
+            .getModelSpecsCode());
         if (EStatus.PUT_ON.getCode().equals(data.getStatus())) {
             throw new BizException("xn0000", "工艺正在上架,不可修改");
         }
@@ -91,14 +101,13 @@ public class CraftAOImpl implements ICraftAO {
         data.setPic(req.getPic());
         data.setSelected(req.getSelected());
         data.setPrice(StringValidater.toLong(EBoolean.NO.getCode()));
-        if (StringUtils.isNotBlank(req.getPrice())) {
-            data.setPrice(StringValidater.toLong(req.getPrice()));
-        }
         data.setPrice(StringValidater.toLong(req.getPrice()));
+        data.setIsHit(req.getIsHit());
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());
-        data.setModelCode(req.getModelCode());
+        data.setModelSpecsCode(req.getModelSpecsCode());
+        data.setModelCode(modelSpecs.getModelCode());
         craftBO.refreshCraft(data);
     }
 
@@ -110,26 +119,6 @@ public class CraftAOImpl implements ICraftAO {
     @Override
     public List<Craft> queryCraftList(Craft condition) {
         return craftBO.queryCraftList(condition);
-    }
-
-    @Override
-    public Map<String, List<Craft>> queryMapCraftList(Craft condition) {
-        List<Craft> list = craftBO.queryCraftList(condition);
-        Map<String, List<Craft>> map = new HashMap<String, List<Craft>>();
-        if (CollectionUtils.isNotEmpty(list)) {
-            List<Craft> craftList = null;
-            for (Craft craft : list) {
-                craftList = map.get(craft.getType());
-                if (CollectionUtils.isEmpty(craftList)) {
-                    craftList = new ArrayList<Craft>();
-                    craftList.add(craft);
-                    map.put(craft.getType(), craftList);
-                } else {
-                    craftList.add(craft);
-                }
-            }
-        }
-        return map;
     }
 
     @Override
@@ -161,11 +150,11 @@ public class CraftAOImpl implements ICraftAO {
         if (EStatus.PUT_ON.getCode().equals(craft.getStatus())) {
             throw new BizException("xn0000", "工艺已上架,无需重复上架");
         }
-        long num = craftBO.getGroupTotalCount(craft.getModelCode());
-        Model model = modelBO.getModel(craft.getModelCode());
-        if (num < 1 && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
-            throw new BizException("xn0000", "工艺下架影响产品,请先下架产品");
-        }
+        // long num = craftBO.getGroupTotalCount(craft.getModelCode());
+        // Model model = modelBO.getModel(craft.getModelCode());
+        // if (num < 1 && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
+        // throw new BizException("xn0000", "工艺下架影响产品,请先下架产品");
+        // }
         craftBO.putOn(craft, location, orderNo, updater, remark);
     }
 
@@ -176,5 +165,31 @@ public class CraftAOImpl implements ICraftAO {
             throw new BizException("xn0000", "工艺未上架,不可下架");
         }
         craftBO.putOff(craft, updater, remark);
+    }
+
+    @Override
+    public XN620054Res getCraftList(String modelSpecsCode) {
+        XN620054Res res = new XN620054Res();
+        ModelSpecs modelSpecs = modelSpecsBO.getModelSpecs(modelSpecsCode);
+        List<ProductCategory> productCategoryList = productCategoryBO
+            .queryProductCategoryList(EDictType.FIRST.getCode(), null,
+                modelSpecs.getCode());
+        for (ProductCategory productCategory : productCategoryList) {
+            List<Craft> craftList = craftBO.queryCraftList(productCategory
+                .getDkey());
+            productCategory.setCraftList(craftList);
+            List<ProductCategory> PCList = productCategoryBO
+                .queryProductCategoryList(EDictType.SECOND.getCode(),
+                    productCategory.getDkey(), modelSpecs.getCode());
+            if (CollectionUtils.isNotEmpty(PCList)) {
+                for (ProductCategory productCate : PCList) {
+                    List<Craft> craftList2 = craftBO.queryCraftList(productCate
+                        .getDkey());
+                    productCategory.setColorCraftList(craftList2);
+                }
+            }
+        }
+        res.setProductCategoryList(productCategoryList);
+        return res;
     }
 }

@@ -22,6 +22,7 @@
 		<result column="update_datetime" property="updateDatetime" />
 		<result column="remark" property="remark" />
 		<result column="model_code" property="modelCode" />
+		<result column="model_specs_code" property="modelSpecsCode" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -58,6 +59,9 @@
 			<if test="updater != null and updater != '' ">
 				AND t.updater = #{updater}
 			</if>
+			<if test="modelSpecsCode != null and modelSpecsCode != '' ">
+				AND t.model_specs_code = #{modelSpecsCode}
+			</if>
 			<if test="modelCode != null and modelCode != '' ">
 				AND t.model_code = #{modelCode}
 			</if>
@@ -87,6 +91,7 @@
 		,t.update_datetime
 		,t.remark
 		,t.model_code
+		,t.model_specs_code
 		FROM
 		tdzt_cloth t INNER JOIN tdzt_model tm ON t.model_code = tm.code
 		<include refid="where_condition" />
@@ -123,6 +128,7 @@
 		,update_datetime
 		,remark
 		,model_code
+		,model_specs_code
 		)
 		VALUES(
 		#{code}
@@ -142,6 +148,7 @@
 		,#{updateDatetime}
 		,#{remark}
 		,#{modelCode}
+		,#{modelSpecsCode}
 		)
 	</insert>
 
@@ -163,6 +170,7 @@
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}
 		,model_code = #{modelCode}
+		,model_specs_code = #{modelSpecsCode}
 		WHERE code = #{code}
 	</update>
 

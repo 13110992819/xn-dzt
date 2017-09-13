@@ -44,7 +44,7 @@ public class XN620032Req extends APageReq {
     private String updater;
 
     // 模型编号(选填)
-    private String modelCode;
+    private String modelSpecsCode;
 
     // 产品状态(选填)
     private String modelStatus;
@@ -113,14 +113,6 @@ public class XN620032Req extends APageReq {
         this.updater = updater;
     }
 
-    public String getModelCode() {
-        return modelCode;
-    }
-
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -143,5 +135,13 @@ public class XN620032Req extends APageReq {
 
     public void setModelStatus(String modelStatus) {
         this.modelStatus = modelStatus;
+    }
+
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
+    }
+
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
     }
 }

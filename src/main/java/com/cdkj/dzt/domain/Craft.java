@@ -29,6 +29,9 @@ public class Craft extends ABaseDO {
     // 选中图
     private String selected;
 
+    // 是否要撞色（0否，1是）
+    private String isHit;
+
     // 工艺费
     private Long price;
 
@@ -49,6 +52,9 @@ public class Craft extends ABaseDO {
 
     // 备注
     private String remark;
+
+    // 产品样品编号
+    private String modelSpecsCode;
 
     // 产品编号
     private String modelCode;
@@ -178,6 +184,22 @@ public class Craft extends ABaseDO {
 
     public void setSelected(String selected) {
         this.selected = selected;
+    }
+
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
+    }
+
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
+    }
+
+    public String getIsHit() {
+        return isHit;
+    }
+
+    public void setIsHit(String isHit) {
+        this.isHit = isHit;
     }
 
 }

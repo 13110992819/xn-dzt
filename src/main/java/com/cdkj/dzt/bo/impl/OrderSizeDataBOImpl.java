@@ -618,4 +618,11 @@ public class OrderSizeDataBOImpl extends PaginableBOImpl<OrderSizeData>
         }
         return data;
     }
+
+    @Override
+    public List<OrderSizeData> queryOrderSizeDataList(String orderCode) {
+        OrderSizeData condition = new OrderSizeData();
+        condition.setOrderCode(orderCode);
+        return orderSizeDataDAO.selectList(condition);
+    }
 }

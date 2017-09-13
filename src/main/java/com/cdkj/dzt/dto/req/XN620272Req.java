@@ -12,6 +12,8 @@ public class XN620272Req extends APageReq {
     // 模板编号（必填）
     private String modelCode;
 
+    private String type;
+
     // 更新人
     private String updater;
 
@@ -48,6 +50,14 @@ public class XN620272Req extends APageReq {
 
     public void setModelStatus(String modelStatus) {
         this.modelStatus = modelStatus;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

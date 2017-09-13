@@ -21,6 +21,6 @@ public interface IProductVarBO extends IPaginableBO<ProductVar> {
 
     public ProductVar getProductVar(String code);
 
-    public void queryProductVarList(String code, String modelCode);
+    public List<ProductVar> queryProductVarList(String code);
 
 }

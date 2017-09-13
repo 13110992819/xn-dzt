@@ -28,8 +28,9 @@ public class XN620250 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         return new PKCodeRes(productCategoryAO.addProductCategory(
-            req.getType(), req.getParentKey(), req.getDkey(), req.getDvalue(),
-            req.getUpdater(), req.getRemark(), req.getModelCode()));
+            req.getKind(), req.getType(), req.getParentKey(), req.getDkey(),
+            req.getDvalue(), req.getUpdater(), req.getRemark(),
+            req.getModelSpecsCode()));
     }
 
     /** 
@@ -39,6 +40,6 @@ public class XN620250 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620250Req.class);
         StringValidater.validateBlank(req.getType(), req.getDkey(),
-            req.getDvalue(), req.getUpdater(), req.getModelCode());
+            req.getDvalue(), req.getUpdater(), req.getModelSpecsCode());
     }
 }

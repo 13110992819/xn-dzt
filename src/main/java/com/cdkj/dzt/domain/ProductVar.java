@@ -34,10 +34,12 @@ public class ProductVar extends ABaseDO {
     private String productCode;
 
     // 模板编号
-    private String modelCode;
+    private String modelSpecsCode;
 
     // 产品规格
     private List<ProductSpecs> productSpecs;
+
+    private List<ProductCategory> productCategory;
 
     public void setCode(String code) {
         this.code = code;
@@ -87,20 +89,28 @@ public class ProductVar extends ABaseDO {
         return productCode;
     }
 
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
-    }
-
-    public String getModelCode() {
-        return modelCode;
-    }
-
     public List<ProductSpecs> getProductSpecs() {
         return productSpecs;
     }
 
     public void setProductSpecs(List<ProductSpecs> productSpecs) {
         this.productSpecs = productSpecs;
+    }
+
+    public List<ProductCategory> getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(List<ProductCategory> productCategory) {
+        this.productCategory = productCategory;
+    }
+
+    public String getModelSpecsCode() {
+        return modelSpecsCode;
+    }
+
+    public void setModelSpecsCode(String modelSpecsCode) {
+        this.modelSpecsCode = modelSpecsCode;
     }
 
 }

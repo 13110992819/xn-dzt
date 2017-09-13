@@ -9,7 +9,7 @@ import com.cdkj.dzt.domain.OrderSizeData;
 
 @Component
 public interface IOrderSizeDataAO {
-    static final String DEFAULT_ORDER_COLUMN = "code";
+    static final String DEFAULT_ORDER_COLUMN = "id";
 
     public String addOrderSizeData(OrderSizeData data);
 
