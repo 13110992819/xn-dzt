@@ -47,6 +47,9 @@ public class Cloth extends ABaseDO {
     // 纱支
     private String yarn;
 
+    // 产地
+    private String area;
+
     // 价格
     private Long price;
 
@@ -243,6 +246,14 @@ public class Cloth extends ABaseDO {
 
     public void setModelCode(String modelCode) {
         this.modelCode = modelCode;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
 }

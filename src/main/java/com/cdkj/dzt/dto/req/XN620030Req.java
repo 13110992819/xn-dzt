@@ -34,6 +34,9 @@ public class XN620030Req extends APageReq {
     // 纱支(选填)
     private String yarn;
 
+    // 产地(必填)
+    private String area;
+
     // UI位置(选填)
     private String location;
 
@@ -143,6 +146,14 @@ public class XN620030Req extends APageReq {
 
     public void setModelSpecsCode(String modelSpecsCode) {
         this.modelSpecsCode = modelSpecsCode;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
 }

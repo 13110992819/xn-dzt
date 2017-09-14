@@ -328,7 +328,7 @@ public class OrderAOImpl implements IOrderAO {
             Cloth cloth = clothBO.getCloth(req.getClothCode());
             clothPrice = clothPrice + cloth.getPrice();
             productSpecsBO.saveProductSpecs(cloth.getCode(), null,
-                EMeasureKey.CSML.getCode(), cloth.getPic(), cloth.getBrand(),
+                cloth.getType(), cloth.getPic(), cloth.getBrand(),
                 cloth.getModelNum(), cloth.getAdvPic(), cloth.getColor(),
                 cloth.getFlowers(), cloth.getForm(), cloth.getWeight(),
                 cloth.getYarn(), cloth.getPrice(), productVarCode, productCode,
@@ -342,7 +342,6 @@ public class OrderAOImpl implements IOrderAO {
             productSpecsBO.inputInforValue(order,
                 productBO.getProductByOrderCode(orderCode), req.getMap());
         }
-        productSpecsBO.refreshProductCode(orderCode, productCode);
 
         XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
         Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
@@ -895,13 +894,44 @@ public class OrderAOImpl implements IOrderAO {
         // 计算积分
         // 购买者如果是会员
         if (StringValidater.toInteger(user.getLevel()) > 1) {
-            // 获取多少积分比例
-            Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
-                ESysConfigCkey.YHHD.getCode(), ESystemCode.DZT.getCode(),
-                ESystemCode.DZT.getCode()).getCvalue());
-            Long rateAmount = rate.longValue();
+            int birthdayMonth = user.getBirthday().getMonth();
+            int nowMonth = (new Date()).getMonth();
+            Double rate = 0.0D;
+            if (birthdayMonth == nowMonth) {
+                if (EUserLevel.TWO.getCode().equals(user.getLevel())) {
+                    // 获取多少积分比例
+                    rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
+                        ESysConfigCkey.YKBS.getCode(),
+                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
+                        .getCvalue());
+                } else if (EUserLevel.THREE.getCode().equals(user.getLevel())) {
+                    // 获取多少积分比例
+                    rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
+                        ESysConfigCkey.JKBS.getCode(),
+                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
+                        .getCvalue());
+                } else if (EUserLevel.FOUR.getCode().equals(user.getLevel())) {
+                    // 获取多少积分比例
+                    rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
+                        ESysConfigCkey.BSBS.getCode(),
+                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
+                        .getCvalue());
+                } else if (EUserLevel.FIVE.getCode().equals(user.getLevel())) {
+                    // 获取多少积分比例
+                    rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
+                        ESysConfigCkey.ZSBS.getCode(),
+                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
+                        .getCvalue());
+                }
+            } else {
+                // 获取多少积分比例
+                rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
+                    ESysConfigCkey.YHHD.getCode(), ESystemCode.DZT.getCode(),
+                    ESystemCode.DZT.getCode()).getCvalue());
+            }
+            Double rateAmount = rate * 1000;
             // 兑换成多少积分
-            Long amount = order.getAmount() / rateAmount / 1000;
+            Long amount = order.getAmount() / (rateAmount.longValue());
             accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
                 ECurrency.JF, order.getApplyUser(), ECurrency.JF,
                 amount * 1000, EBizType.YHHD, EBizType.YHHD.getValue(),
@@ -1014,6 +1044,19 @@ public class OrderAOImpl implements IOrderAO {
                 EBizType.AJ_HYCZ, EBizType.AJ_HYCZ.getValue(),
                 EBizType.AJ_HYCZ.getValue(), userId);
             userBO.doUpLevel(userId, EUserLevel.TWO.getCode());
+            // 短信通知
+            smsOutBO.sentContent(userId,
+                String.format(SysConstants.MEMBER_CONTENT, user.getNickname()));
+            return new BooleanRes(true);
+        } else if (EPayType.HYB.getCode().equals(payType)) {
+            accountBO.doTransferAmountRemote(userId, ECurrency.HYB,
+                ESysUser.SYS_USER_DZT.getCode(), ECurrency.HYB, amount,
+                EBizType.AJ_HYCZ, EBizType.AJ_HYCZ.getValue(),
+                EBizType.AJ_HYCZ.getValue(), userId);
+            userBO.doUpLevel(userId, EUserLevel.TWO.getCode());
+            // 短信通知
+            smsOutBO.sentContent(userId,
+                String.format(SysConstants.MEMBER_CONTENT, user.getNickname()));
             return new BooleanRes(true);
         } else {
             throw new BizException("xn0000", "暂不支持其他支付方式");
@@ -1026,6 +1069,9 @@ public class OrderAOImpl implements IOrderAO {
         XN001400Res user = userBO.getRemoteUser(payGroup);
         if (StringValidater.toInteger(user.getLevel()) < 2) {
             userBO.doUpLevel(payGroup, EUserLevel.TWO.getCode());
+            // 短信通知
+            smsOutBO.sentContent(user.getUserId(),
+                String.format(SysConstants.MEMBER_CONTENT, user.getNickname()));
         } else {
             logger.info("已支付，重复回调");
         }

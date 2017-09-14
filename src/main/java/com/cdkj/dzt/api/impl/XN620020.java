@@ -38,8 +38,7 @@ public class XN620020 extends AProcessor {
         StringValidater.validateBlank(req.getType(), req.getBrand(),
             req.getModelNum(), req.getPic(), req.getAdvPic(), req.getColor(),
             req.getFlowers(), req.getForm(), req.getYarn(), req.getUpdater(),
-            req.getModelSpecsCode());
-        StringValidater.validateNumber(req.getWeight());
+            req.getModelSpecsCode(), req.getArea(), req.getWeight());
     }
 
 }

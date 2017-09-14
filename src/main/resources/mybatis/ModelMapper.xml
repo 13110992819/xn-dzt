@@ -32,6 +32,9 @@
 			<if test="type != null and type != '' ">
 				AND t.type = #{type}
 			</if>
+			<if test="kind != null and kind != '' ">
+				AND t.kind = #{kind}
+			</if>
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>

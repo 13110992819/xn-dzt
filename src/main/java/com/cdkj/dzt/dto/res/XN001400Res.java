@@ -51,6 +51,9 @@ public class XN001400Res {
     // 分成比例
     private String divRate;
 
+    // 生日
+    private Date birthday;
+
     // 是否设置支付密码
     private String tradepwdFlag;
 
@@ -309,6 +312,14 @@ public class XN001400Res {
 
     public void setAppOpenId(String appOpenId) {
         this.appOpenId = appOpenId;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
 }

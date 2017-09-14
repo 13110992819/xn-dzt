@@ -13,6 +13,9 @@ public class XN620012Req extends APageReq {
      */
     private static final long serialVersionUID = 4027176534210966629L;
 
+    // 分类
+    private String kind;
+
     // 名称（选填）
     private String name;
 
@@ -66,6 +69,14 @@ public class XN620012Req extends APageReq {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
 }

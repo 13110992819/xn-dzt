@@ -15,6 +15,9 @@
 			<if test="id != null and id != '' ">
 				AND t.id = #{id}
 			</if>
+			<if test="orderCode != null and orderCode != '' ">
+				AND t.order_code = #{orderCode}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_orderSizeData" parameterType="orderSizeData" resultMap="orderSizeData_DB_Result">

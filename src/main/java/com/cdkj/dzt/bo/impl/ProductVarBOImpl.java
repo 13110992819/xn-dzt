@@ -19,6 +19,7 @@ import com.cdkj.dzt.domain.ProductCategory;
 import com.cdkj.dzt.domain.ProductCraft;
 import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.domain.ProductVar;
+import com.cdkj.dzt.enums.EDictType;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.exception.BizException;
 
@@ -107,16 +108,31 @@ public class ProductVarBOImpl extends PaginableBOImpl<ProductVar> implements
                 .queryProductSpecsList(productVar.getCode());
             // 找到分类
             List<ProductCategory> PClist = productCategoryBO
-                .queryProductCategoryList(null, null,
+                .queryProductCategoryList(EDictType.FIRST.getCode(), null,
                     productVar.getModelSpecsCode());
             for (ProductCategory productCategory : PClist) {
                 // 找到工艺
                 List<ProductCraft> productCraftList = productCraftBO
-                    .queryProductCraftList(productVar.getCode());
+                    .queryProductCraftList(productCategory.getDkey());
                 for (ProductCraft productCraft : productCraftList) {
                     if (productCategory.getDkey()
                         .equals(productCraft.getType())) {
                         productCategory.setProductCraft(productCraft);
+                        break;
+                    }
+                }
+                List<ProductCategory> PCList = productCategoryBO
+                    .queryProductCategoryList(EDictType.SECOND.getCode(),
+                        productCategory.getDkey(),
+                        productVar.getModelSpecsCode());
+                for (ProductCategory productCate : PCList) {
+                    List<ProductCraft> productCList = productCraftBO
+                        .queryProductCraftList(productCate.getDkey());
+                    for (ProductCraft productCraft2 : productCList) {
+                        if (productCategory.getDkey().equals(
+                            productCraft2.getType())) {
+                            productCategory.setColorProductCraft(productCraft2);
+                        }
                     }
                 }
             }

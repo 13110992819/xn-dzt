@@ -33,6 +33,7 @@ public class XN620030 extends AProcessor {
         condition.setFlowers(req.getFlowers());
         condition.setForm(req.getForm());
         condition.setYarn(req.getYarn());
+        condition.setArea(req.getArea());
         condition.setLocation(req.getLocation());
         condition.setStatus(req.getStatus());
         condition.setUpdater(req.getUpdater());

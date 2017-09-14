@@ -22,7 +22,10 @@ public enum ESysConfigCkey {
     SMOTHED("SMOTHED", "多少个月没有订单为预流失客户"), DMOTHED("DMOTHED", "多少个月没有订单为流失客户"),
 
     LSCS("LSCS", "流失客户次数"), YLSCS("YLSCS", "预流失客户次数"), FCHY("FCHY", "非常活跃客户次数"), HY(
-            "HY", "活跃客户次数"), LKH("LKH", "老客户"), XKH("XKH", "新客户");
+            "HY", "活跃客户次数"), LKH("LKH", "老客户"), XKH("XKH", "新客户"),
+
+    YKBS("YKBS", "银卡会员生日倍数"), JKBS("JKBS", "金卡会员生日倍数"), BSBS("BSBS", "铂金会员生日倍数"), ZSBS(
+            "ZSBS", "砖石会员生日倍数");
 
     public static Map<String, ESysConfigCkey> getDictTypeMap() {
         Map<String, ESysConfigCkey> map = new HashMap<String, ESysConfigCkey>();

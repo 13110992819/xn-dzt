@@ -14,6 +14,7 @@
 		<result column="form" property="form" />
 		<result column="weight" property="weight" />
 		<result column="yarn" property="yarn" />
+		<result column="area" property="area" />
 		<result column="price" property="price" />
 		<result column="location" property="location" />
 		<result column="order_no" property="orderNo" />
@@ -50,6 +51,9 @@
 			<if test="yarn != null and yarn != '' ">
 				AND t.yarn = #{yarn}
 			</if>
+			<if test="area != null and area != '' ">
+				AND t.area like "%"#{area}"%"
+			</if>
 			<if test="location != null and location != '' ">
 				AND t.location = #{location}
 			</if>
@@ -83,6 +87,7 @@
 		,t.form
 		,t.weight
 		,t.yarn
+		,t.area
 		,t.price
 		,t.location
 		,t.order_no
@@ -122,6 +127,7 @@
 		,form
 		,weight
 		,yarn
+		,area
 		,price
 		,status
 		,updater
@@ -142,6 +148,7 @@
 		,#{form}
 		,#{weight}
 		,#{yarn}
+		,#{area}
 		,#{price}
 		,#{status}
 		,#{updater}
@@ -165,6 +172,7 @@
 		,form = #{form}
 		,weight = #{weight}
 		,yarn = #{yarn}
+		,area = #{area}
 		,price = #{price}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}

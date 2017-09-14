@@ -67,10 +67,12 @@ public class ClothAOImpl implements IClothAO {
         data.setWeight(StringValidater.toInteger(req.getWeight()));
         data.setYarn(req.getYarn());
 
+        data.setArea(req.getArea());
         data.setPrice(StringValidater.toLong(req.getPrice()));
         data.setStatus(EStatus.DRAFT.getCode());
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
+
         data.setRemark(req.getRemark());
         data.setModelSpecsCode(req.getModelSpecsCode());
         data.setModelCode(modelSpecs.getModelCode());
@@ -98,9 +100,11 @@ public class ClothAOImpl implements IClothAO {
         data.setWeight(StringValidater.toInteger(req.getWeight()));
         data.setYarn(req.getYarn());
 
+        data.setArea(req.getArea());
         data.setPrice(StringValidater.toLong(req.getPrice()));
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
+
         data.setRemark(req.getRemark());
         data.setModelSpecsCode(req.getModelSpecsCode());
         data.setModelCode(modelSpecs.getModelCode());

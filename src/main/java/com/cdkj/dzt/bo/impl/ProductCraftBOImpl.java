@@ -85,9 +85,9 @@ public class ProductCraftBOImpl extends PaginableBOImpl<ProductCraft> implements
     }
 
     @Override
-    public List<ProductCraft> queryProductCraftList(String productVarCode) {
+    public List<ProductCraft> queryProductCraftList(String type) {
         ProductCraft condition = new ProductCraft();
-        condition.setProductVarCode(productVarCode);
+        condition.setType(type);
         return productCraftDAO.selectList(condition);
     }
 

@@ -62,6 +62,8 @@ public class ProductCategory extends ABaseDO {
 
     private ProductCraft productCraft;
 
+    private ProductCraft colorProductCraft;
+
     private List<ProductCategory> productCategoryList;
 
     private List<Craft> colorCraftList;
@@ -184,6 +186,14 @@ public class ProductCategory extends ABaseDO {
 
     public void setKind(String kind) {
         this.kind = kind;
+    }
+
+    public ProductCraft getColorProductCraft() {
+        return colorProductCraft;
+    }
+
+    public void setColorProductCraft(ProductCraft colorProductCraft) {
+        this.colorProductCraft = colorProductCraft;
     }
 
 }

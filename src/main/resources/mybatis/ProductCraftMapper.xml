@@ -18,6 +18,18 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>
+			<if test="modelSpecsCode != null and modelSpecsCode != '' ">
+				AND t.model_specs_code = #{modelSpecsCode}
+			</if>
+			<if test="productVarCode != null and productVarCode != '' ">
+				AND t.product_var_code = #{productVarCode}
+			</if>
+			<if test="orderCode != null and orderCode != '' ">
+				AND t.order_code = #{orderCode}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_productCraft" parameterType="productCraft" resultMap="productCraft_DB_Result">

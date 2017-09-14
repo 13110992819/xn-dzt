@@ -15,6 +15,9 @@ public class XN620014Req extends APageReq {
     // 名称（选填）
     private String name;
 
+    // 分类
+    private String kind;
+
     // 类型（选填）
     private String type;
 
@@ -65,6 +68,14 @@ public class XN620014Req extends APageReq {
 
     public void setUpdater(String updater) {
         this.updater = updater;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
 }

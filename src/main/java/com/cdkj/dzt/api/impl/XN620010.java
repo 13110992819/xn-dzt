@@ -35,6 +35,7 @@ public class XN620010 extends AProcessor {
     public Object doBusiness() throws BizException {
         Model condition = new Model();
         condition.setType(req.getType());
+        condition.setKind(req.getKind());
         condition.setStatus(req.getStatus());
         condition.setName(req.getName());
         condition.setUpdater(req.getUpdater());

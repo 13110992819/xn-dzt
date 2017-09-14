@@ -45,4 +45,7 @@ public class SysConstants {
     // 订单取消，短信通知用户
     public static final String CANCEL_ORDER_CONTENT = "尊敬的%S，您的订单：%S已取消，登录网站可查看详情。";
 
+    // 用户购买会员，短信通知用户
+    public static final String MEMBER_CONTENT = "尊敬的%S，恭喜您已成功成为合一定制会员，登录网站可查看详情。";
+
 }
