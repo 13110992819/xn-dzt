@@ -218,9 +218,10 @@ public class ModelAOImpl implements IModelAO {
                     for (ProductCategory productCate : PCList) {
                         List<Craft> craftList2 = craftBO
                             .queryCraftList(productCate.getDkey());
-                        productCategory.setColorCraftList(craftList2);
+                        productCate.setColorCraftList(craftList2);
                     }
                 }
+                productCategory.setColorPcList(PCList);
             }
             res.setProductCategoryList(productCategoryList);
             res.setClothList(clothList);

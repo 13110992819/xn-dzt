@@ -66,6 +66,8 @@ public class ProductCategory extends ABaseDO {
 
     private List<ProductCategory> productCategoryList;
 
+    private List<ProductCategory> colorPcList;
+
     private List<Craft> colorCraftList;
 
     public String getType() {
@@ -194,6 +196,14 @@ public class ProductCategory extends ABaseDO {
 
     public void setColorProductCraft(ProductCraft colorProductCraft) {
         this.colorProductCraft = colorProductCraft;
+    }
+
+    public List<ProductCategory> getColorPcList() {
+        return colorPcList;
+    }
+
+    public void setColorPcList(List<ProductCategory> colorPcList) {
+        this.colorPcList = colorPcList;
     }
 
 }
