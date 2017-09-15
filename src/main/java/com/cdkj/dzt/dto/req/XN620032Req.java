@@ -49,6 +49,9 @@ public class XN620032Req extends APageReq {
     // 模型编号(选填)
     private String modelSpecsCode;
 
+    // 模型编号(选填)
+    private String modelCode;
+
     // 产品状态(选填)
     private String modelStatus;
 
@@ -154,5 +157,13 @@ public class XN620032Req extends APageReq {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public String getModelCode() {
+        return modelCode;
+    }
+
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
     }
 }

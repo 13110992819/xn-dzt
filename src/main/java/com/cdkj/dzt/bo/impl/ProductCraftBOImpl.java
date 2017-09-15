@@ -91,4 +91,18 @@ public class ProductCraftBOImpl extends PaginableBOImpl<ProductCraft> implements
         return productCraftDAO.selectList(condition);
     }
 
+    @Override
+    public void saveProductCraft(String code, String type, String modelCode,
+            String productVarCode, String orderCode) {
+        ProductCraft data = new ProductCraft();
+        data.setCode(code);
+        data.setType(type);
+        data.setName(code);
+        data.setProductVarCode(productVarCode);
+        data.setModelSpecsCode(modelCode);
+        data.setOrderCode(orderCode);
+        productCraftDAO.insert(data);
+
+    }
+
 }

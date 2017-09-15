@@ -22,4 +22,7 @@ public interface IProductCraftBO extends IPaginableBO<ProductCraft> {
 
     public List<ProductCraft> queryProductCraftList(String productVarCode);
 
+    public void saveProductCraft(String code, String type, String modelCode,
+            String productVarCode, String orderCode);
+
 }

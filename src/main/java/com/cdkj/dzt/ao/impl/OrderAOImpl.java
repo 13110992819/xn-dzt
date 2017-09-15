@@ -336,8 +336,11 @@ public class OrderAOImpl implements IOrderAO {
                 productCraftBO.saveProductCraft(craft, productVarCode,
                     order.getCode());
             }
-            productSpecsBO.inputInforValue(order,
-                productBO.getProductByOrderCode(orderCode), req.getMap());
+            for (Entry<String, String> entry : req.getMap().entrySet()) {
+                productCraftBO.saveProductCraft(entry.getValue(),
+                    entry.getKey(), modelSpecs.getModelCode(), productVarCode,
+                    order.getCode());
+            }
         }
 
         XN001400Res user = userBO.getRemoteUser(order.getApplyUser());

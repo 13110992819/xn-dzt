@@ -1,5 +1,6 @@
 package com.cdkj.dzt.ao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -174,6 +175,7 @@ public class CraftAOImpl implements ICraftAO {
         List<ProductCategory> productCategoryList = productCategoryBO
             .queryProductCategoryList(EDictType.FIRST.getCode(), null,
                 modelSpecs.getCode());
+
         for (ProductCategory productCategory : productCategoryList) {
             List<Craft> craftList = craftBO.queryCraftList(productCategory
                 .getDkey());
@@ -190,7 +192,23 @@ public class CraftAOImpl implements ICraftAO {
             }
             productCategory.setColorPcList(PCList);
         }
-        res.setProductCategoryList(productCategoryList);
+        List<ProductCategory> pCategoryList = new ArrayList<ProductCategory>();
+        List<ProductCategory> pCList = new ArrayList<ProductCategory>();
+        for (ProductCategory productCategory : productCategoryList) {
+            if (productCategory.getKind().equals("0")) {
+                pCategoryList.add(productCategory);
+            } else {
+                if (productCategory.getKind().equals("1")) {
+                    pCList.add(1, productCategory);
+                } else if (productCategory.getKind().equals("3")) {
+                    pCList.add(0, productCategory);
+                } else if (productCategory.getKind().equals("4")) {
+                    pCList.add(3, productCategory);
+                }
+            }
+        }
+        pCategoryList.addAll(pCList);
+        res.setProductCategoryList(pCategoryList);
         return res;
     }
 }

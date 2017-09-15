@@ -66,6 +66,8 @@ public class ProductCategory extends ABaseDO {
 
     private List<ProductCategory> productCategoryList;
 
+    private ProductCategory productCategory;
+
     private List<ProductCategory> colorPcList;
 
     private List<Craft> colorCraftList;
@@ -204,6 +206,14 @@ public class ProductCategory extends ABaseDO {
 
     public void setColorPcList(List<ProductCategory> colorPcList) {
         this.colorPcList = colorPcList;
+    }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
     }
 
 }

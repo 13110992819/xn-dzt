@@ -1,8 +1,10 @@
 package com.cdkj.dzt.bo.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -118,26 +120,48 @@ public class ProductVarBOImpl extends PaginableBOImpl<ProductVar> implements
                     if (productCategory.getDkey()
                         .equals(productCraft.getType())) {
                         productCategory.setProductCraft(productCraft);
-                        break;
                     }
                 }
-                List<ProductCategory> PCList = productCategoryBO
+                List<ProductCategory> PCEList = productCategoryBO
                     .queryProductCategoryList(EDictType.SECOND.getCode(),
                         productCategory.getDkey(),
                         productVar.getModelSpecsCode());
-                for (ProductCategory productCate : PCList) {
+                for (ProductCategory productCate : PCEList) {
                     List<ProductCraft> productCList = productCraftBO
                         .queryProductCraftList(productCate.getDkey());
                     for (ProductCraft productCraft2 : productCList) {
-                        if (productCategory.getDkey().equals(
+                        if (productCate.getDkey().equals(
                             productCraft2.getType())) {
-                            productCategory.setColorProductCraft(productCraft2);
+                            productCate.setColorProductCraft(productCraft2);
                         }
                     }
                 }
+
+                ProductCategory productCate = null;
+                if (CollectionUtils.isNotEmpty(PCEList)) {
+                    productCate = PCEList.get(0);
+                }
+                productCategory.setProductCategory(productCate);
             }
+            List<ProductCategory> pCategoryList = new ArrayList<ProductCategory>();
+            List<ProductCategory> productCateList = new ArrayList<ProductCategory>(
+                4);
+            for (ProductCategory productCategory : PClist) {
+                if (productCategory.getKind().equals("0")) {
+                    pCategoryList.add(productCategory);
+                } else {
+                    if (productCategory.getKind().equals("1")) {
+                        productCateList.add(1, productCategory);
+                    } else if (productCategory.getKind().equals("3")) {
+                        productCateList.add(0, productCategory);
+                    } else if (productCategory.getKind().equals("4")) {
+                        productCateList.add(3, productCategory);
+                    }
+                }
+            }
+            pCategoryList.addAll(productCateList);
             productVar.setProductSpecs(PSlist);
-            productVar.setProductCategory(PClist);
+            productVar.setProductCategory(pCategoryList);
         }
         return list;
     }
