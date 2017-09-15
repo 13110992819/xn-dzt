@@ -38,7 +38,8 @@ public class XN620270 extends AProcessor {
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());
         int limit = StringValidater.toInteger(req.getLimit());
-        return specimenAO.querySpecimenPage(start, limit, condition);
+        return specimenAO.querySpecimenPage(start, limit, condition,
+            req.getUserId());
     }
 
     @Override

@@ -10,7 +10,6 @@ package com.cdkj.dzt.ao.impl;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -56,7 +55,6 @@ import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.ModelSpecs;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
-import com.cdkj.dzt.domain.ProductSpecs;
 import com.cdkj.dzt.domain.SYSConfig;
 import com.cdkj.dzt.domain.SizeData;
 import com.cdkj.dzt.domain.User;
@@ -73,7 +71,6 @@ import com.cdkj.dzt.enums.ECommentStatus;
 import com.cdkj.dzt.enums.ECurrency;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EMeasureKey;
-import com.cdkj.dzt.enums.EMeasureType;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EPayType;
 import com.cdkj.dzt.enums.EReaction;
@@ -270,7 +267,6 @@ public class OrderAOImpl implements IOrderAO {
         for (SizeData sizeData : sizeDataList) {
             map.put(sizeData.getCkey(), sizeData.getDkey());
         }
-        map.put(EMeasureKey.YJDZ.getCode(), lastOrder.getReAddress());
         orderSizeDataBO.inputInforValue(order, map);
         // 一键复购，直接短信通知量体师
         smsOutBO.sentContent(
@@ -299,6 +295,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
+    @Transactional
     public void confirmPrice(String orderCode, String modelCode,
             List<XN620801Req> list, Integer quantity, String address,
             String updater, String remark) {
@@ -632,80 +629,6 @@ public class OrderAOImpl implements IOrderAO {
             Comment comment = commentList.get(0);
             order.setComment(comment);
         }
-        return order;
-    }
-
-    @Override
-    public Order getMapRichOrder(String code) {
-        Order order = orderBO.getOrder(code);
-        Map<String, LinkedHashMap<String, ProductSpecs>> resultMap = new HashMap<String, LinkedHashMap<String, ProductSpecs>>();
-        List<Product> productList = productBO.queryProductList(code);
-        List<ProductSpecs> productSpecsList = productSpecsBO
-            .queryPSByOrderCodeList(code);
-
-        resultMap.put(EMeasureType.DZSJ.getValue(), null);
-        resultMap.put(EMeasureType.CLSJ.getValue(), null);
-        resultMap.put(EMeasureType.TXSJ.getValue(), null);
-        resultMap.put(EMeasureType.CXSJ.getValue(), null);
-        resultMap.put(EMeasureType.QT.getValue(), null);
-        //
-        if (CollectionUtils.isNotEmpty(productList)) {
-            LinkedHashMap<String, ProductSpecs> childList = null;
-            for (ProductSpecs productSpecs : productSpecsList) {
-                if (productSpecs.getType().substring(0, 2)
-                    .equals(EMeasureType.DZSJ.getCode())) {
-                    childList = resultMap.get(EMeasureType.DZSJ.getValue());
-                    if (childList == null) {
-                        childList = new LinkedHashMap<String, ProductSpecs>();
-                    }
-                    childList.put(productSpecs.getType(), productSpecs);
-                    resultMap.put(EMeasureType.DZSJ.getValue(), childList);
-                } else if (productSpecs.getType().substring(0, 2)
-                    .equals(EMeasureType.CLSJ.getCode())) {
-                    childList = resultMap.get(EMeasureType.CLSJ.getValue());
-                    if (childList == null) {
-                        childList = new LinkedHashMap<String, ProductSpecs>();
-                    }
-                    childList.put(productSpecs.getType(), productSpecs);
-                    resultMap.put(EMeasureType.CLSJ.getValue(), childList);
-                } else if (productSpecs.getType().substring(0, 2)
-                    .equals(EMeasureType.TXSJ.getCode())) {
-                    childList = resultMap.get(EMeasureType.TXSJ.getValue());
-                    if (childList == null) {
-                        childList = new LinkedHashMap<String, ProductSpecs>();
-                    }
-                    childList.put(productSpecs.getType(), productSpecs);
-                    resultMap.put(EMeasureType.TXSJ.getValue(), childList);
-                } else if (productSpecs.getType().substring(0, 2)
-                    .equals(EMeasureType.CXSJ.getCode())) {
-                    childList = resultMap.get(EMeasureType.CXSJ.getValue());
-                    if (childList == null) {
-                        childList = new LinkedHashMap<String, ProductSpecs>();
-                    }
-                    childList.put(productSpecs.getType(), productSpecs);
-                    resultMap.put(EMeasureType.CXSJ.getValue(), childList);
-                } else if (productSpecs.getType().substring(0, 2)
-                    .equals(EMeasureType.QT.getCode())) {
-                    childList = resultMap.get(EMeasureType.QT.getValue());
-                    if (childList == null) {
-                        childList = new LinkedHashMap<String, ProductSpecs>();
-                    }
-                    childList.put(productSpecs.getType(), productSpecs);
-                    resultMap.put(EMeasureType.QT.getValue(), childList);
-                }
-            }
-        }
-        XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
-        Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
-            ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
-            ESystemCode.DZT.getCode()).getCvalue());
-
-        if (StringValidater.toInteger(user.getLevel()) > 1) {
-            rate = 1.0;
-        }
-        order.setProductList(productList);
-        order.setResultMap(resultMap);
-        order.setTimes(rate);
         return order;
     }
 
@@ -1211,50 +1134,18 @@ public class OrderAOImpl implements IOrderAO {
             }
         }
         Order order = orderBO.getIsLastOrder(userId);
-
-        Map<String, LinkedHashMap<String, String>> resultMap = new HashMap<String, LinkedHashMap<String, String>>();
         List<SizeData> sizeDataList = sizeDataBO.querySizeDataList(userId);
-        resultMap.put(EMeasureType.CLSJ.getValue(), null);
-        resultMap.put(EMeasureType.TXSJ.getValue(), null);
-        resultMap.put(EMeasureType.QT.getValue(), null);
-        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-        for (SizeData sizeData : sizeDataList) {
-            if (sizeData.getCkey().substring(0, 2)
-                .equals(EMeasureType.CLSJ.getCode())) {
-                map = resultMap.get(EMeasureType.CLSJ.getValue());
-                if (null == map) {
-                    map = new LinkedHashMap<String, String>();
-                }
-                map.put(sizeData.getCkey(), sizeData.getDkey());
-                resultMap.put(EMeasureType.CLSJ.getValue(), map);
-            }
-            if (sizeData.getCkey().substring(0, 2)
-                .equals(EMeasureType.TXSJ.getCode())) {
-                map = resultMap.get(EMeasureType.TXSJ.getValue());
-                if (null == map) {
-                    map = new LinkedHashMap<String, String>();
-                }
-                map.put(sizeData.getCkey(), sizeData.getDkey());
-                resultMap.put(EMeasureType.TXSJ.getValue(), map);
-            }
-            if (sizeData.getCkey().substring(0, 2)
-                .equals(EMeasureType.QT.getCode())) {
-                map = resultMap.get(EMeasureType.QT.getValue());
-                if (null == map) {
-                    map = new LinkedHashMap<String, String>();
-                }
-                map.put(sizeData.getCkey(), sizeData.getDkey());
-                resultMap.put(EMeasureType.QT.getValue(), map);
-            }
-        }
         res.setRealName(user.getNickname());
         res.setMobile(user.getMobile());
         res.setJfAmount(jfAccount.getAmount());
         res.setJyAmount(jyAccount.getAmount());
         res.setSjAmount(sjAmount);
         res.setDays(days);
+        res.setBirthday(user.getBirthday());
         res.setLevel(user.getLevel());
-        res.setResultMap(resultMap);
+        res.setSyAmount(0l);
+        res.setConAmount(0l);
+        res.setSizeDataList(sizeDataList);
         if (null != order) {
             res.setAddress(order.getReAddress());
             if (StringUtils.isBlank(order.getReAddress())) {

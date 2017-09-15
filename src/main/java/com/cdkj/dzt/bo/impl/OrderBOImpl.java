@@ -1,9 +1,7 @@
 package com.cdkj.dzt.bo.impl;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +17,6 @@ import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.OrderSizeData;
 import com.cdkj.dzt.domain.Product;
-import com.cdkj.dzt.domain.ProductSpecs;
-import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.exception.BizException;
 
@@ -232,7 +228,11 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     public Order getRichOrder(String code) {
         Order order = this.getOrder(code);
         List<Product> list = productBO.queryRichProductList(order.getCode());
-        order.setProductList(list);
+        Product product = null;
+        if (CollectionUtils.isNotEmpty(list)) {
+            product = list.get(0);
+        }
+        order.setProduct(product);
         List<OrderSizeData> orderSizeData = orderSizeDataBO
             .queryOrderSizeDataList(code);
         order.setOrderSizeData(orderSizeData);
@@ -243,71 +243,75 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     public Order getCheckOrder(String code) {
         Order order = this.getOrder(code);
         List<Product> list = productBO.queryRichProductList(order.getCode());
-        order.setProductList(list);
+        Product product = null;
+        if (CollectionUtils.isNotEmpty(list)) {
+            product = list.get(0);
+        }
+        order.setProduct(product);
         return order;
     }
 
     @Override
     public void checkInfoFull(Order order) {
-        boolean isIn = false;
-        if (order == null) {
-            throw new BizException("xn0000", "订单为空");
-        }
-        if (CollectionUtils.isEmpty(order.getProductList())) {
-            throw new BizException("xn0000", order.getCode() + "订单的成衣为空");
-        }
-        for (Product product : order.getProductList()) {
-            if (CollectionUtils.isEmpty(product.getProductSpecsList())) {
-                throw new BizException("xn0000", product.getCode() + "成衣的规格为空");
-            }
-            Map<String, EMeasureKey> map = EMeasureKey.getMap();
-            String code = null;
-            for (String key : map.keySet()) {
-                for (ProductSpecs productSpecs : product.getProductSpecsList()) {
-                    if (key.equalsIgnoreCase(productSpecs.getType())) {
-                        isIn = true;
-                        break;
-                    }
-                    if (productSpecs.getType().substring(0, 1) != null) {
-                        code = productSpecs.getType().substring(0, 1);
-                    }
-                }
-                if (!isIn) {
-                    throw new BizException("xn0000", map.get(key).getValue()
-                            + "还未填充");
-                }
-            }
-
-        }
+        // boolean isIn = false;
+        // if (order == null) {
+        // throw new BizException("xn0000", "订单为空");
+        // }
+        // if (CollectionUtils.isEmpty(order.getProductList())) {
+        // throw new BizException("xn0000", order.getCode() + "订单的成衣为空");
+        // }
+        // for (Product product : order.getProductList()) {
+        // if (CollectionUtils.isEmpty(product.getProductSpecsList())) {
+        // throw new BizException("xn0000", product.getCode() + "成衣的规格为空");
+        // }
+        // Map<String, EMeasureKey> map = EMeasureKey.getMap();
+        // String code = null;
+        // for (String key : map.keySet()) {
+        // for (ProductSpecs productSpecs : product.getProductSpecsList()) {
+        // if (key.equalsIgnoreCase(productSpecs.getType())) {
+        // isIn = true;
+        // break;
+        // }
+        // if (productSpecs.getType().substring(0, 1) != null) {
+        // code = productSpecs.getType().substring(0, 1);
+        // }
+        // }
+        // if (!isIn) {
+        // throw new BizException("xn0000", map.get(key).getValue()
+        // + "还未填充");
+        // }
+        // }
+        //
+        // }
     }
 
     @Override
     public Boolean checkInfoFullOrder(Order order) {
         boolean isIn = false;
-        if (order == null) {
-            throw new BizException("xn0000", "订单为空");
-        }
-        if (CollectionUtils.isEmpty(order.getProductList())) {
-            return isIn;
-        }
-        for (Product product : order.getProductList()) {
-            if (CollectionUtils.isEmpty(product.getProductSpecsList())) {
-                return isIn;
-            }
-            Map<String, EMeasureKey> map = EMeasureKey.getMap();
-            Map<String, String> productSpecsMap = new HashMap<String, String>();
-            for (ProductSpecs productSpecs : product.getProductSpecsList()) {
-                productSpecsMap.put(productSpecs.getType(),
-                    productSpecs.getCode());
-            }
-            for (String key : map.keySet()) {
-                if (productSpecsMap.containsKey(key)) {
-                    isIn = true;
-                } else {
-                    return false;
-                }
-            }
-        }
+        // if (order == null) {
+        // throw new BizException("xn0000", "订单为空");
+        // }
+        // if (CollectionUtils.isEmpty(order.getProductList())) {
+        // return isIn;
+        // }
+        // for (Product product : order.getProductList()) {
+        // if (CollectionUtils.isEmpty(product.getProductSpecsList())) {
+        // return isIn;
+        // }
+        // Map<String, EMeasureKey> map = EMeasureKey.getMap();
+        // Map<String, String> productSpecsMap = new HashMap<String, String>();
+        // for (ProductSpecs productSpecs : product.getProductSpecsList()) {
+        // productSpecsMap.put(productSpecs.getType(),
+        // productSpecs.getCode());
+        // }
+        // for (String key : map.keySet()) {
+        // if (productSpecsMap.containsKey(key)) {
+        // isIn = true;
+        // } else {
+        // return false;
+        // }
+        // }
+        // }
         return isIn;
     }
 

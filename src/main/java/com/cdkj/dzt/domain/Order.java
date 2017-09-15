@@ -133,7 +133,7 @@ public class Order extends ABaseDO {
     private String remark;
 
     // -------db propties--------------
-    private List<Product> productList;
+    private Product product;
 
     private XN001400Res ltUserDO;
 
@@ -465,14 +465,6 @@ public class Order extends ABaseDO {
         this.remark = remark;
     }
 
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
-
     public XN001400Res getLtUserDO() {
         return ltUserDO;
     }
@@ -616,6 +608,14 @@ public class Order extends ABaseDO {
 
     public void setOrderSizeData(List<OrderSizeData> orderSizeData) {
         this.orderSizeData = orderSizeData;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
 }

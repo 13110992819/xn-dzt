@@ -13,6 +13,7 @@ import com.cdkj.dzt.bo.IClothBO;
 import com.cdkj.dzt.bo.ICraftBO;
 import com.cdkj.dzt.bo.IInteractBO;
 import com.cdkj.dzt.bo.IModelBO;
+import com.cdkj.dzt.bo.ISpecimenBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.domain.Article;
@@ -20,6 +21,7 @@ import com.cdkj.dzt.domain.Cloth;
 import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Interact;
 import com.cdkj.dzt.domain.Model;
+import com.cdkj.dzt.domain.Specimen;
 import com.cdkj.dzt.dto.res.XN620136Res;
 import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
@@ -39,6 +41,9 @@ public class InteractAOImpl implements IInteractAO {
     private ICraftBO craftBO;
 
     @Autowired
+    private ISpecimenBO specimenBO;
+
+    @Autowired
     private IClothBO clothBO;
 
     @Autowired
@@ -49,12 +54,12 @@ public class InteractAOImpl implements IInteractAO {
         String category = EInteractCategory.ARTICLE.getCode();
         if (objectCode.startsWith(EGeneratePrefix.CLOTH.getCode())) {
             category = EInteractCategory.CLOTH.getCode();
-        }
-        if (objectCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {
+        } else if (objectCode.startsWith(EGeneratePrefix.CRAFT.getCode())) {
             category = EInteractCategory.CRAFT.getCode();
-        }
-        if (objectCode.startsWith(EGeneratePrefix.MODEL.getCode())) {
+        } else if (objectCode.startsWith(EGeneratePrefix.MODEL.getCode())) {
             category = EInteractCategory.MODEL.getCode();
+        } else if (objectCode.startsWith(EGeneratePrefix.SPECIMEN.getCode())) {
+            category = EInteractCategory.SPECIMEN.getCode();
         }
         Interact data = new Interact();
         String code = OrderNoGenerater.generateM(EGeneratePrefix.INTERACT
@@ -99,21 +104,22 @@ public class InteractAOImpl implements IInteractAO {
                 interact.getCategory())) {
                 Article article = articleBO.getArticle(objectCode);
                 interact.setArticle(article);
-            }
-            if (EInteractCategory.MODEL.getCode()
-                .equals(interact.getCategory())) {
+            } else if (EInteractCategory.MODEL.getCode().equals(
+                interact.getCategory())) {
                 Model model = modelBO.getModel(objectCode);
                 interact.setModel(model);
-            }
-            if (EInteractCategory.CLOTH.getCode()
-                .equals(interact.getCategory())) {
+            } else if (EInteractCategory.CLOTH.getCode().equals(
+                interact.getCategory())) {
                 Cloth cloth = clothBO.getCloth(objectCode);
                 interact.setCloth(cloth);
-            }
-            if (EInteractCategory.CRAFT.getCode()
-                .equals(interact.getCategory())) {
+            } else if (EInteractCategory.CRAFT.getCode().equals(
+                interact.getCategory())) {
                 Craft craft = craftBO.getCraft(objectCode);
                 interact.setCraft(craft);
+            } else if (EInteractCategory.SPECIMEN.getCode().equals(
+                interact.getCategory())) {
+                Specimen specimen = specimenBO.getSpecimen(objectCode);
+                interact.setSpecimen(specimen);
             }
         }
         return page;

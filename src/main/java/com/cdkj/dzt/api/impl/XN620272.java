@@ -35,7 +35,7 @@ public class XN620272 extends AProcessor {
             orderColumn = ISpecimenAO.DEFAULT_ORDER_COLUMN;
         }
         condition.setOrder(orderColumn, req.getOrderDir());
-        return specimenAO.querySpecimenList(condition);
+        return specimenAO.querySpecimenList(condition, req.getUserId());
     }
 
     @Override

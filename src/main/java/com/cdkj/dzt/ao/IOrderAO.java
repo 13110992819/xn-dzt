@@ -61,8 +61,6 @@ public interface IOrderAO {
 
     public Order getRichOrder(String code);
 
-    public Order getMapRichOrder(String code);
-
     public List<Order> queryOrderlList(Order condition);
 
     public void inputInfor(String orderCode, Map<String, String> map,

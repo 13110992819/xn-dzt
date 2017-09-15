@@ -25,10 +25,10 @@ public interface ISpecimenAO {
     public void putOff(String code, String updater, String remark);
 
     public Paginable<Specimen> querySpecimenPage(int start, int limit,
-            Specimen condition);
+            Specimen condition, String userId);
 
-    public List<Specimen> querySpecimenList(Specimen condition);
+    public List<Specimen> querySpecimenList(Specimen condition, String userId);
 
-    public Specimen getSpecimen(String code);
+    public Specimen getSpecimen(String code, String userId);
 
 }

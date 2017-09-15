@@ -40,6 +40,8 @@ public class Interact extends ABaseDO {
 
     private Article article;
 
+    private Specimen specimen;
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -118,6 +120,14 @@ public class Interact extends ABaseDO {
 
     public void setArticle(Article article) {
         this.article = article;
+    }
+
+    public Specimen getSpecimen() {
+        return specimen;
+    }
+
+    public void setSpecimen(Specimen specimen) {
+        this.specimen = specimen;
     }
 
 }

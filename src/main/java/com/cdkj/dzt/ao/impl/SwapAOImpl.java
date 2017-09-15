@@ -56,8 +56,10 @@ public class SwapAOImpl implements ISwapAO {
             condition.setReceiver(receiver);
             condition.setOrder("comment_datetime", "desc");
             swapList = swapBO.queryBLYList(condition);
-            swap = swapList.get(0);
-            swapBO.updateNew(swap);
+            if (CollectionUtils.isNotEmpty(swapList)) {
+                swap = swapList.get(0);
+                swapBO.updateNew(swap);
+            }
         }
         Integer orderNo = (int) (num + 1);
         Swap data = new Swap();
@@ -92,8 +94,10 @@ public class SwapAOImpl implements ISwapAO {
             condition.setReceiver(receiver);
             condition.setOrder("comment_datetime", "desc");
             swapList = swapBO.queryBLYList(condition);
-            swap = swapList.get(0);
-            swapBO.updateNew(swap);
+            if (CollectionUtils.isNotEmpty(swapList)) {
+                swap = swapList.get(0);
+                swapBO.updateNew(swap);
+            }
         }
         Swap data = new Swap();
         String code = OrderNoGenerater

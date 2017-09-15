@@ -3,16 +3,21 @@ package com.cdkj.dzt.ao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cdkj.dzt.ao.ISpecimenAO;
+import com.cdkj.dzt.bo.IInteractBO;
 import com.cdkj.dzt.bo.ISpecimenBO;
 import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.domain.Specimen;
+import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.EGeneratePrefix;
+import com.cdkj.dzt.enums.EInteractCategory;
+import com.cdkj.dzt.enums.EInteractType;
 import com.cdkj.dzt.enums.EStatus;
 import com.cdkj.dzt.exception.BizException;
 
@@ -21,6 +26,9 @@ public class SpecimenAOImpl implements ISpecimenAO {
 
     @Autowired
     private ISpecimenBO specimenBO;
+
+    @Autowired
+    private IInteractBO interactBO;
 
     @Override
     public String addSpecimen(String pic, String advPic, String description,
@@ -68,18 +76,42 @@ public class SpecimenAOImpl implements ISpecimenAO {
 
     @Override
     public Paginable<Specimen> querySpecimenPage(int start, int limit,
-            Specimen condition) {
-        return specimenBO.getPaginable(start, limit, condition);
+            Specimen condition, String userId) {
+        Paginable<Specimen> page = specimenBO.getPaginable(start, limit,
+            condition);
+        List<Specimen> list = page.getList();
+        for (Specimen specimen : list) {
+            this.fullSpecimen(specimen, userId);
+        }
+        return page;
     }
 
     @Override
-    public List<Specimen> querySpecimenList(Specimen condition) {
-        return specimenBO.querySpecimenList(condition);
+    public List<Specimen> querySpecimenList(Specimen condition, String userId) {
+        List<Specimen> list = specimenBO.querySpecimenList(condition);
+        for (Specimen specimen : list) {
+            this.fullSpecimen(specimen, userId);
+        }
+        return list;
+    }
+
+    private void fullSpecimen(Specimen specimen, String userId) {
+        String isSC = EBoolean.NO.getCode();
+        if (StringUtils.isNotBlank(userId)) {
+            Long num = interactBO.getTotalCount(EInteractCategory.SPECIMEN,
+                EInteractType.SC, specimen.getCode(), userId);
+            if (num > 0) {
+                isSC = EBoolean.YES.getCode();
+            }
+        }
+        specimen.setIsSC(isSC);
     }
 
     @Override
-    public Specimen getSpecimen(String code) {
-        return specimenBO.getSpecimen(code);
+    public Specimen getSpecimen(String code, String userId) {
+        Specimen specimen = specimenBO.getSpecimen(code);
+        this.fullSpecimen(specimen, userId);
+        return specimen;
     }
 
     @Override

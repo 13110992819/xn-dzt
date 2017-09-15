@@ -53,6 +53,8 @@ public class Specimen extends ABaseDO {
     // 类型
     private String type;
 
+    private String isSC;
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -155,6 +157,14 @@ public class Specimen extends ABaseDO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getIsSC() {
+        return isSC;
+    }
+
+    public void setIsSC(String isSC) {
+        this.isSC = isSC;
     }
 
 }

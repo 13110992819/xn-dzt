@@ -12,7 +12,11 @@ public class XN620272Req extends APageReq {
     // 模板编号（必填）
     private String modelCode;
 
+    // 模板类型
     private String type;
+
+    // 用户编号
+    private String userId;
 
     // 更新人
     private String updater;
@@ -58,6 +62,14 @@ public class XN620272Req extends APageReq {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
 }

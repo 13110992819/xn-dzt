@@ -23,7 +23,7 @@ public class XN620271 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        return specimenAO.getSpecimen(req.getCode());
+        return specimenAO.getSpecimen(req.getCode(), req.getUserId());
     }
 
     @Override

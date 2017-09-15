@@ -320,7 +320,8 @@
 		SET
 		type = #{type}
 		,amount = #{amount}
-		,original_amount=#{originalAmount}
+		,re_address = #{reAddress}
+		,original_amount = #{originalAmount}
 		,status = #{status}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
