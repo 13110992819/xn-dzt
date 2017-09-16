@@ -66,6 +66,9 @@ public class Craft extends ABaseDO {
     // 产品状态(选填)
     private String modelStatus;
 
+    // 所属产品
+    private String productCategoryName;
+
     public String getCode() {
         return code;
     }
@@ -200,6 +203,14 @@ public class Craft extends ABaseDO {
 
     public void setIsHit(String isHit) {
         this.isHit = isHit;
+    }
+
+    public String getProductCategoryName() {
+        return productCategoryName;
+    }
+
+    public void setProductCategoryName(String productCategoryName) {
+        this.productCategoryName = productCategoryName;
     }
 
 }

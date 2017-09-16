@@ -111,7 +111,7 @@ public class ProductVarBOImpl extends PaginableBOImpl<ProductVar> implements
             // 找到分类
             List<ProductCategory> PClist = productCategoryBO
                 .queryProductCategoryList(EDictType.FIRST.getCode(), null,
-                    productVar.getModelSpecsCode());
+                    null, productVar.getModelSpecsCode());
             for (ProductCategory productCategory : PClist) {
                 // 找到工艺
                 List<ProductCraft> productCraftList = productCraftBO
@@ -124,7 +124,7 @@ public class ProductVarBOImpl extends PaginableBOImpl<ProductVar> implements
                 }
                 List<ProductCategory> PCEList = productCategoryBO
                     .queryProductCategoryList(EDictType.SECOND.getCode(),
-                        productCategory.getDkey(),
+                        productCategory.getDkey(), null,
                         productVar.getModelSpecsCode());
                 for (ProductCategory productCate : PCEList) {
                     List<ProductCraft> productCList = productCraftBO

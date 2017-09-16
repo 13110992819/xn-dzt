@@ -124,7 +124,15 @@ public class CraftAOImpl implements ICraftAO {
 
     @Override
     public Craft getCraft(String code) {
-        return craftBO.getCraft(code);
+        Craft craft = craftBO.getCraft(code);
+        List<ProductCategory> productCategoryList = productCategoryBO
+            .queryProductCategoryList(null, null, craft.getType(),
+                craft.getModelSpecsCode());
+        if (CollectionUtils.isNotEmpty(productCategoryList)) {
+            craft
+                .setProductCategoryName(productCategoryList.get(0).getDvalue());
+        }
+        return craft;
     }
 
     @Override
@@ -151,11 +159,6 @@ public class CraftAOImpl implements ICraftAO {
         if (EStatus.PUT_ON.getCode().equals(craft.getStatus())) {
             throw new BizException("xn0000", "工艺已上架,无需重复上架");
         }
-        // long num = craftBO.getGroupTotalCount(craft.getModelCode());
-        // Model model = modelBO.getModel(craft.getModelCode());
-        // if (num < 1 && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
-        // throw new BizException("xn0000", "工艺下架影响产品,请先下架产品");
-        // }
         craftBO.putOn(craft, location, orderNo, updater, remark);
     }
 
@@ -173,7 +176,7 @@ public class CraftAOImpl implements ICraftAO {
         XN620054Res res = new XN620054Res();
         ModelSpecs modelSpecs = modelSpecsBO.getModelSpecs(modelSpecsCode);
         List<ProductCategory> productCategoryList = productCategoryBO
-            .queryProductCategoryList(EDictType.FIRST.getCode(), null,
+            .queryProductCategoryList(EDictType.FIRST.getCode(), null, null,
                 modelSpecs.getCode());
 
         for (ProductCategory productCategory : productCategoryList) {
@@ -182,7 +185,7 @@ public class CraftAOImpl implements ICraftAO {
             productCategory.setCraftList(craftList);
             List<ProductCategory> PCList = productCategoryBO
                 .queryProductCategoryList(EDictType.SECOND.getCode(),
-                    productCategory.getDkey(), modelSpecs.getCode());
+                    productCategory.getDkey(), null, modelSpecs.getCode());
             if (CollectionUtils.isNotEmpty(PCList)) {
                 for (ProductCategory productCate : PCList) {
                     List<Craft> craftList2 = craftBO.queryCraftList(productCate

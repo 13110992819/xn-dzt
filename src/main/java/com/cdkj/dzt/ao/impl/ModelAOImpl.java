@@ -205,7 +205,7 @@ public class ModelAOImpl implements IModelAO {
             XN620014Res res = new XN620014Res();
             List<ProductCategory> productCategoryList = productCategoryBO
                 .queryProductCategoryList(EDictType.FIRST.getCode(), null,
-                    modelSpecs.getCode());
+                    null, modelSpecs.getCode());
             List<Cloth> clothList = clothBO.queryClothList(code);
             for (ProductCategory productCategory : productCategoryList) {
                 List<Craft> craftList = craftBO.queryCraftList(productCategory
@@ -213,7 +213,7 @@ public class ModelAOImpl implements IModelAO {
                 productCategory.setCraftList(craftList);
                 List<ProductCategory> PCList = productCategoryBO
                     .queryProductCategoryList(EDictType.SECOND.getCode(),
-                        productCategory.getDkey(), modelSpecs.getCode());
+                        productCategory.getDkey(), null, modelSpecs.getCode());
                 if (CollectionUtils.isNotEmpty(PCList)) {
                     for (ProductCategory productCate : PCList) {
                         List<Craft> craftList2 = craftBO
