@@ -487,7 +487,6 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不是已支付状态,不能提交审核");
         }
         // 确保所有规格已经填充完毕
-        // orderBO.checkInfoFull(order);
         orderBO.ltSubmit(order, updater, remark);
         // 如果有地区合伙人，短信通知
         if (!"0".equals(order.getToUser())) {
@@ -573,11 +572,18 @@ public class OrderAOImpl implements IOrderAO {
                 || EOrderStatus.PRODU_DOING.getCode().equals(order.getStatus())
                 || EOrderStatus.SEND.getCode().equals(order.getStatus())) {
             orderBO.cancelOrder(order, updater, remark);
+            ECurrency currency = ECurrency.CNY;
+            if (EPayType.WEIXIN.getCode().equals(order.getPayType())
+                    || EPayType.YEZF.getCode().equals(order.getPayType())) {
+                currency = ECurrency.CNY;
+            } else if (EPayType.WEIXIN.getCode().equals(order.getPayType())) {
+                currency = ECurrency.HYB;
+            }
             // 退款
             accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
-                ECurrency.CNY, order.getApplyUser(), ECurrency.CNY,
-                order.getAmount(), EBizType.AJ_TK, "订单：" + orderCode + "取消后退款",
-                "订单：" + orderCode + "取消后退款", orderCode);
+                currency, order.getApplyUser(), currency, order.getAmount(),
+                EBizType.AJ_TK, "订单：" + orderCode + "取消后退款", "订单：" + orderCode
+                        + "取消后退款", orderCode);
             // 短信通知用户订单已被取消
             smsOutBO.sentContent(
                 order.getApplyUser(),
@@ -605,12 +611,6 @@ public class OrderAOImpl implements IOrderAO {
         Paginable<Order> results = orderBO
             .getPaginable(start, limit, condition);
         for (Order order : results.getList()) {
-            Order richOrder = orderBO.getCheckOrder(order.getCode());
-            Boolean flag = orderBO.checkInfoFullOrder(richOrder);
-            order.setCheckOrder(EBoolean.NO.getCode());
-            if (flag) {
-                order.setCheckOrder(EBoolean.YES.getCode());
-            }
             Product product = productBO.getProductByOrderCode(order.getCode());
             if (null != product) {
                 order.setModelCode(product.getModelCode());

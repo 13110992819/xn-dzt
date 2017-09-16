@@ -52,9 +52,6 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public List<Order> queryOrderListByPayGroup(String payGroup);
 
-    // 订单数据是否完整
-    public void checkInfoFull(Order order);
-
     public Long getTotalCount(String userId, EOrderStatus status);
 
     public void comment(Order order, String commenter);
@@ -63,8 +60,6 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public List<Order> getGroupTotalCount(Date createDatetimeStart,
             Date createDatetimeEnd);
-
-    public Boolean checkInfoFullOrder(Order order);
 
     public Order getCheckOrder(String code);
 
