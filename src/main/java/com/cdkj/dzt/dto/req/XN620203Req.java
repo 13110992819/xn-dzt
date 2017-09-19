@@ -9,6 +9,8 @@ import java.util.List;
  * @history:
  */
 public class XN620203Req {
+    private String token;
+
     // 订单编号
     private String orderCode;
 
@@ -84,6 +86,14 @@ public class XN620203Req {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
 }

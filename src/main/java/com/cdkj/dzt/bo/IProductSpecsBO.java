@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.cdkj.dzt.bo.base.IPaginableBO;
-import com.cdkj.dzt.domain.Cloth;
 import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
@@ -29,9 +28,6 @@ public interface IProductSpecsBO extends IPaginableBO<ProductSpecs> {
     public List<ProductSpecs> queryPSByOrderCodeList(String orderCode);
 
     public void refreshProductCode(String orderCode, String productCode);
-
-    public void inputInforCloth(Order order, Product product,
-            List<Cloth> clothList);
 
     public void inputInforCraft(Order order, Product product,
             List<Craft> craftList);

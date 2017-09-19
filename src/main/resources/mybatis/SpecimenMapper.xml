@@ -34,6 +34,12 @@
 			<if test="type != null and type != '' ">
 				AND tm.type = #{type}
 			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
+			</if>
+			<if test="location != null and location != '' ">
+				AND t.location = #{location}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_specimen" parameterType="specimen" resultMap="specimen_DB_Result">

@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum EMeasureKey {
-    CSML("1-02", "面料"),
-
     // 测量
     LW("2-01", "领围"), SW("2-02", "胸围"), ZYW("2-03", "中腰围"), KYW("2-04", "裤腰围"),
 
@@ -30,11 +28,7 @@ public enum EMeasureKey {
 
     SB("4-09", "手臂"), DB("4-10", "对比"), TUNX("4-11", "臀型"), GL("4-12", "量感"),
 
-    SG("6-02", "身高"), TZ("6-03", "体重"),
-
-    YJDZ("6-04", "邮寄地址"),
-
-    BEIZHU("6-05", "备注");
+    SG("6-02", "身高"), TZ("6-03", "体重");
 
     public static Map<String, EMeasureKey> getMap() {
         Map<String, EMeasureKey> map = new HashMap<String, EMeasureKey>();

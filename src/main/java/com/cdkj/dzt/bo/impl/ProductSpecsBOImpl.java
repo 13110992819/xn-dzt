@@ -11,7 +11,6 @@ import com.cdkj.dzt.bo.IProductSpecsBO;
 import com.cdkj.dzt.bo.ISYSDictBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.IProductSpecsDAO;
-import com.cdkj.dzt.domain.Cloth;
 import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.Product;
@@ -245,14 +244,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             this.saveGL(orderCode, productCode,
                 map.get(EMeasureKey.GL.getCode()), sysMap);
         }
-        if (StringUtils.isNotBlank(map.get(EMeasureKey.YJDZ.getCode()))) {
-            this.saveYJDZ(orderCode, productCode,
-                map.get(EMeasureKey.YJDZ.getCode()));
-        }
-        if (StringUtils.isNotBlank(map.get(EMeasureKey.BEIZHU.getCode()))) {
-            this.saveBEIZHU(orderCode, productCode,
-                map.get(EMeasureKey.BEIZHU.getCode()));
-        }
         if (StringUtils.isNotBlank(map.get(EMeasureKey.SG.getCode()))) {
             this.saveSG(orderCode, productCode,
                 map.get(EMeasureKey.SG.getCode()));
@@ -469,18 +460,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         productSpecsDAO.insert(data);
     }
 
-    private void saveBEIZHU(String orderCode, String productCode, String value) {
-        if (StringUtils.isNotBlank(value)) {
-            ProductSpecs data = new ProductSpecs();
-            data.setCode(value);
-            data.setType(EMeasureKey.BEIZHU.getCode());
-            // data.setName(EMeasureKey.BEIZHU.getValue());
-            data.setProductCode(productCode);
-            data.setOrderCode(orderCode);
-            productSpecsDAO.insert(data);
-        }
-    }
-
     private void saveQXK(String orderCode, String productCode, String value) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
@@ -507,16 +486,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         data.setCode(value);
         data.setType(EMeasureKey.TX.getCode());
         // data.setName(EMeasureKey.TX.getValue());
-        data.setProductCode(productCode);
-        data.setOrderCode(orderCode);
-        productSpecsDAO.insert(data);
-    }
-
-    private void saveYJDZ(String orderCode, String productCode, String value) {
-        ProductSpecs data = new ProductSpecs();
-        data.setCode(value);
-        data.setType(EMeasureKey.YJDZ.getCode());
-        // data.setName(EMeasureKey.YJDZ.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);
         productSpecsDAO.insert(data);
@@ -722,31 +691,6 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
         data.setOrderCode(orderCode);
         data.setProductCode(productCode);
         productSpecsDAO.update(data);
-    }
-
-    @Override
-    public void inputInforCloth(Order order, Product product,
-            List<Cloth> clothList) {
-        for (Cloth cloth : clothList) {
-            ProductSpecs data = new ProductSpecs();
-            data.setCode(cloth.getCode());
-            data.setType(EMeasureKey.CSML.getCode());
-            data.setPic(cloth.getPic());
-            data.setBrand(cloth.getBrand());
-
-            data.setModelNum(cloth.getModelNum());
-            data.setAdvPic(cloth.getAdvPic());
-            data.setColor(cloth.getColor());
-            data.setFlowers(cloth.getFlowers());
-            data.setForm(cloth.getForm());
-
-            data.setWeight(cloth.getWeight());
-            data.setYarn(cloth.getYarn());
-            data.setPrice(cloth.getPrice());
-            data.setProductCode(product.getCode());
-            data.setOrderCode(order.getCode());
-            productSpecsDAO.insert(data);
-        }
     }
 
     @Override

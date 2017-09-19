@@ -28,6 +28,8 @@ public class XN620272 extends AProcessor {
         Specimen condition = new Specimen();
         condition.setModelCode(req.getModelCode());
         condition.setModelStatus(req.getModelStatus());
+        condition.setStatus(req.getStatus());
+        condition.setLocation(req.getLocation());
         condition.setUpdater(req.getUpdater());
         condition.setType(req.getType());
         String orderColumn = req.getOrderColumn();

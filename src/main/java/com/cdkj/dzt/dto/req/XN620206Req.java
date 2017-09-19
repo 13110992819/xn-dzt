@@ -7,6 +7,8 @@ package com.cdkj.dzt.dto.req;
  * @history:
  */
 public class XN620206Req {
+    private String token;
+
     // 订单编号（必填）
     private String orderCode;
 
@@ -38,5 +40,13 @@ public class XN620206Req {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -15,6 +15,12 @@ public class XN620272Req extends APageReq {
     // 模板类型
     private String type;
 
+    // 状态
+    private String status;
+
+    // UI位置
+    private String location;
+
     // 用户编号
     private String userId;
 
@@ -70,6 +76,22 @@ public class XN620272Req extends APageReq {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
 }

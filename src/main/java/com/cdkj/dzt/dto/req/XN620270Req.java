@@ -18,6 +18,12 @@ public class XN620270Req extends APageReq {
     // 模板类型
     private String type;
 
+    // 状态
+    private String status;
+
+    // UI位置
+    private String location;
+
     // 更新人
     private String updater;
 
@@ -70,6 +76,22 @@ public class XN620270Req extends APageReq {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
 }

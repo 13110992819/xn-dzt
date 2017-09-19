@@ -54,6 +54,7 @@ import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.ModelSpecs;
 import com.cdkj.dzt.domain.Order;
+import com.cdkj.dzt.domain.OrderSizeData;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.SYSConfig;
 import com.cdkj.dzt.domain.SizeData;
@@ -70,7 +71,6 @@ import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.ECommentStatus;
 import com.cdkj.dzt.enums.ECurrency;
 import com.cdkj.dzt.enums.EGeneratePrefix;
-import com.cdkj.dzt.enums.EMeasureKey;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.enums.EPayType;
 import com.cdkj.dzt.enums.EReaction;
@@ -80,6 +80,7 @@ import com.cdkj.dzt.enums.ESystemCode;
 import com.cdkj.dzt.enums.EUserFrequent;
 import com.cdkj.dzt.enums.EUserKind;
 import com.cdkj.dzt.enums.EUserLevel;
+import com.cdkj.dzt.enums.EUserStatus;
 import com.cdkj.dzt.exception.BizException;
 
 /** 
@@ -196,10 +197,6 @@ public class OrderAOImpl implements IOrderAO {
         sizeDataBO.removeSizeDataByUserId(req.getApplyUser());
         // 落地身材数据(落地身高、体重)
         sizeDataBO.inputInforValue(req.getApplyUser(), req.getMap());
-        req.getMap().put(
-            EMeasureKey.YJDZ.getCode(),
-            req.getLtProvince() + req.getLtCity() + req.getLtArea()
-                    + req.getLtAddress());
         // 落地量体数据(落地身高、体重)
         orderSizeDataBO.inputInforValue(order, req.getMap());
         // 更新用户姓名
@@ -284,6 +281,9 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn0000", "订单不处于待量体状态，不可以分配订单");
         }
         XN001400Res user = userBO.getRemoteUser(ltUser);
+        if (!EUserStatus.NORMAL.getCode().equals(user.getStatus())) {
+            throw new BizException("xn0000", "该量体师账户异常,不能分配订单");
+        }
         orderBO.distributeOrder(order, ltUser, user.getRealName(), updater,
             remark);
         userBO.refreshLtUser(order.getApplyUser(), ltUser);
@@ -300,6 +300,10 @@ public class OrderAOImpl implements IOrderAO {
             List<XN620801Req> list, Integer quantity, String address,
             String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
+        XN001400Res ltUser = userBO.getRemoteUser(order.getLtUser());
+        if (!EUserStatus.NORMAL.getCode().equals(ltUser.getStatus())) {
+            throw new BizException("xn0000", "账户异常,不能定价");
+        }
         if (!EOrderStatus.TO_MEASURE.getCode().equals(order.getStatus())) {
             throw new BizException("xn0000", "订单不处于待量体状态，不可以定价");
         }
@@ -342,7 +346,7 @@ public class OrderAOImpl implements IOrderAO {
                     order.getCode());
             }
         }
-
+        price = clothPrice.doubleValue() + craftPrice.doubleValue();
         XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
         Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
             ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
@@ -388,10 +392,11 @@ public class OrderAOImpl implements IOrderAO {
         Order order = orderBO.getOrder(orderCode);
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
+        Product product = productBO.getProductByOrderCode(orderCode);
         accountBO.doTransferAmountRemote(userId, ECurrency.HYB,
             ESysUser.SYS_USER_DZT.getCode(), ECurrency.HYB, totalAmount,
-            EBizType.AJ_GWFK, "HE-SHIRTS衬衫购买订单支付", "HE-SHIRTS衬衫购买订单支付",
-            orderCode);
+            EBizType.AJ_GWFK, "HE-SHIRTS" + product.getModelName() + "购买订单支付",
+            "HE-SHIRTS" + product.getModelName() + "购买订单支付", orderCode);
         orderBO.PaySuccess(order, null, totalAmount);
         // 短信通知用户
         smsOutBO.sentContent(
@@ -405,10 +410,11 @@ public class OrderAOImpl implements IOrderAO {
         Order order = orderBO.getOrder(orderCode);
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
+        Product product = productBO.getProductByOrderCode(orderCode);
         accountBO.doTransferAmountRemote(userId, ECurrency.CNY,
             ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY, totalAmount,
-            EBizType.AJ_GWFK, "HE-SHIRTS衬衫购买订单支付", "HE-SHIRTS衬衫购买订单支付",
-            orderCode);
+            EBizType.AJ_GWFK, "HE-SHIRTS" + product.getModelName() + "购买订单支付",
+            "HE-SHIRTS" + product.getModelName() + "购买订单支付", orderCode);
         orderBO.PaySuccess(order, null, totalAmount);
         // 短信通知用户
         smsOutBO.sentContent(
@@ -431,9 +437,11 @@ public class OrderAOImpl implements IOrderAO {
             throw new BizException("xn000000", "订单不处于已定价状态");
         }
         orderBO.addPayGroup(order, payGroup, EPayType.WEIXIN.getCode());
+        Product product = productBO.getProductByOrderCode(orderCode);
         return accountBO.doWeiXinH5PayRemote(userId, user.getH5OpenId(),
             ESysUser.SYS_USER_DZT.getCode(), payGroup, orderCode,
-            EBizType.AJ_GWFK.getCode(), "HE-SHIRTS衬衫购买订单支付", totalAmount);
+            EBizType.AJ_GWFK.getCode(), "HE-SHIRTS" + product.getModelName()
+                    + "购买订单支付", totalAmount);
     }
 
     // 支付成功
@@ -463,6 +471,10 @@ public class OrderAOImpl implements IOrderAO {
     public void inputInfor(String orderCode, Map<String, String> map,
             String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
+        XN001400Res ltUser = userBO.getRemoteUser(order.getLtUser());
+        if (!EUserStatus.NORMAL.getCode().equals(ltUser.getStatus())) {
+            throw new BizException("xn0000", "账户异常,不能定价");
+        }
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单尚未支付,不能录入数据");
         }
@@ -475,16 +487,24 @@ public class OrderAOImpl implements IOrderAO {
         sizeDataBO.inputInforValue(order.getApplyUser(), map);
         orderSizeDataBO.inputInforValue(order, map);
         // 更新订单
-        // orderBO.inputInfor(order, map.get(EMeasureKey.YJDZ.getCode()),
-        // updater,remark);
+        orderBO.inputInfor(order, order.getReAddress(), updater, remark);
     }
 
     // 提交复核
     @Override
     public void ltSubmit(String orderCode, String updater, String remark) {
         Order order = orderBO.getRichOrder(orderCode);
+        XN001400Res ltUser = userBO.getRemoteUser(order.getLtUser());
+        if (!EUserStatus.NORMAL.getCode().equals(ltUser.getStatus())) {
+            throw new BizException("xn0000", "账户异常,不能定价");
+        }
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不是已支付状态,不能提交审核");
+        }
+        List<OrderSizeData> orderSizeDataList = orderSizeDataBO
+            .queryOrderSizeDataList(orderCode);
+        if (orderSizeDataList.size() < 36) {
+            throw new BizException("xn000000", "您量体数据还未填写完整");
         }
         // 确保所有规格已经填充完毕
         orderBO.ltSubmit(order, updater, remark);
@@ -673,6 +693,7 @@ public class OrderAOImpl implements IOrderAO {
     }
 
     @Override
+    @Transactional
     public void isFiled(String orderCode, String updater, String remark) {
         Order order = orderBO.getOrder(orderCode);
         if (!EOrderStatus.COMMENT.getCode().equals(order.getStatus())) {
@@ -820,32 +841,43 @@ public class OrderAOImpl implements IOrderAO {
         // 计算积分
         // 购买者如果是会员
         if (StringValidater.toInteger(user.getLevel()) > 1) {
-            int birthdayMonth = user.getBirthday().getMonth();
-            int nowMonth = (new Date()).getMonth();
             Double rate = 0.0D;
-            if (birthdayMonth == nowMonth) {
-                if (EUserLevel.TWO.getCode().equals(user.getLevel())) {
+            if (null != user.getBirthday()) {
+                int birthdayMonth = user.getBirthday().getMonth();
+                int nowMonth = (new Date()).getMonth();
+                if (birthdayMonth == nowMonth) {
+                    if (EUserLevel.TWO.getCode().equals(user.getLevel())) {
+                        // 获取多少积分比例
+                        rate = StringValidater.toDouble(sysConfigBO
+                            .getConfigValue(ESysConfigCkey.YKBS.getCode(),
+                                ESystemCode.DZT.getCode(),
+                                ESystemCode.DZT.getCode()).getCvalue());
+                    } else if (EUserLevel.THREE.getCode().equals(
+                        user.getLevel())) {
+                        // 获取多少积分比例
+                        rate = StringValidater.toDouble(sysConfigBO
+                            .getConfigValue(ESysConfigCkey.JKBS.getCode(),
+                                ESystemCode.DZT.getCode(),
+                                ESystemCode.DZT.getCode()).getCvalue());
+                    } else if (EUserLevel.FOUR.getCode()
+                        .equals(user.getLevel())) {
+                        // 获取多少积分比例
+                        rate = StringValidater.toDouble(sysConfigBO
+                            .getConfigValue(ESysConfigCkey.BSBS.getCode(),
+                                ESystemCode.DZT.getCode(),
+                                ESystemCode.DZT.getCode()).getCvalue());
+                    } else if (EUserLevel.FIVE.getCode()
+                        .equals(user.getLevel())) {
+                        // 获取多少积分比例
+                        rate = StringValidater.toDouble(sysConfigBO
+                            .getConfigValue(ESysConfigCkey.ZSBS.getCode(),
+                                ESystemCode.DZT.getCode(),
+                                ESystemCode.DZT.getCode()).getCvalue());
+                    }
+                } else {
                     // 获取多少积分比例
                     rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
-                        ESysConfigCkey.YKBS.getCode(),
-                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
-                        .getCvalue());
-                } else if (EUserLevel.THREE.getCode().equals(user.getLevel())) {
-                    // 获取多少积分比例
-                    rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
-                        ESysConfigCkey.JKBS.getCode(),
-                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
-                        .getCvalue());
-                } else if (EUserLevel.FOUR.getCode().equals(user.getLevel())) {
-                    // 获取多少积分比例
-                    rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
-                        ESysConfigCkey.BSBS.getCode(),
-                        ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
-                        .getCvalue());
-                } else if (EUserLevel.FIVE.getCode().equals(user.getLevel())) {
-                    // 获取多少积分比例
-                    rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
-                        ESysConfigCkey.ZSBS.getCode(),
+                        ESysConfigCkey.YHHD.getCode(),
                         ESystemCode.DZT.getCode(), ESystemCode.DZT.getCode())
                         .getCvalue());
                 }
@@ -855,12 +887,12 @@ public class OrderAOImpl implements IOrderAO {
                     ESysConfigCkey.YHHD.getCode(), ESystemCode.DZT.getCode(),
                     ESystemCode.DZT.getCode()).getCvalue());
             }
-            Double rateAmount = rate * 1000;
+            Double rateAmount = rate;
             // 兑换成多少积分
-            Long amount = order.getAmount() / (rateAmount.longValue());
+            Long amount = AmountUtil.mul(order.getAmount(), rateAmount);
             accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
-                ECurrency.JF, order.getApplyUser(), ECurrency.JF,
-                amount * 1000, EBizType.YHHD, EBizType.YHHD.getValue(),
+                ECurrency.JF, order.getApplyUser(), ECurrency.JF, amount,
+                EBizType.YHHD, EBizType.YHHD.getValue(),
                 EBizType.YHHD.getValue(), order.getCode());
         }
     }
@@ -1113,7 +1145,7 @@ public class OrderAOImpl implements IOrderAO {
         if (EBoolean.YES.getCode().equals(user.getLevel())) {
             for (SYSConfig sysConfig : sysConfigList) {
                 if (sysConfig.getCkey().equals("ONE")) {
-                    sjAmount = StringValidater.toLong(sysConfig.getCvalue()) + 1000;
+                    sjAmount = 0l;
                 }
             }
         } else {
