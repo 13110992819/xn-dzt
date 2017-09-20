@@ -393,6 +393,9 @@ public class OrderAOImpl implements IOrderAO {
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
         Product product = productBO.getProductByOrderCode(orderCode);
+        String payGroup = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
+            .getCode());
+        orderBO.addPayGroup(order, payGroup, EPayType.HYB.getCode());
         accountBO.doTransferAmountRemote(userId, ECurrency.HYB,
             ESysUser.SYS_USER_DZT.getCode(), ECurrency.HYB, totalAmount,
             EBizType.AJ_GWFK, "HE-SHIRTS" + product.getModelName() + "购买订单支付",
@@ -411,6 +414,10 @@ public class OrderAOImpl implements IOrderAO {
         Long totalAmount = order.getAmount();
         String userId = order.getApplyUser();
         Product product = productBO.getProductByOrderCode(orderCode);
+        // 生成payGroup,并把订单进行支付。
+        String payGroup = OrderNoGenerater.generateM(EGeneratePrefix.ORDER
+            .getCode());
+        orderBO.addPayGroup(order, payGroup, EPayType.YEZF.getCode());
         accountBO.doTransferAmountRemote(userId, ECurrency.CNY,
             ESysUser.SYS_USER_DZT.getCode(), ECurrency.CNY, totalAmount,
             EBizType.AJ_GWFK, "HE-SHIRTS" + product.getModelName() + "购买订单支付",
@@ -596,7 +603,7 @@ public class OrderAOImpl implements IOrderAO {
             if (EPayType.WEIXIN.getCode().equals(order.getPayType())
                     || EPayType.YEZF.getCode().equals(order.getPayType())) {
                 currency = ECurrency.CNY;
-            } else if (EPayType.WEIXIN.getCode().equals(order.getPayType())) {
+            } else if (EPayType.HYB.getCode().equals(order.getPayType())) {
                 currency = ECurrency.HYB;
             }
             // 退款
@@ -841,35 +848,36 @@ public class OrderAOImpl implements IOrderAO {
         // 计算积分
         // 购买者如果是会员
         if (StringValidater.toInteger(user.getLevel()) > 1) {
-            Double rate = 0.0D;
+            Double rate = 1.0D;
+            Double birthdayRate = 1.0D;
             if (null != user.getBirthday()) {
                 int birthdayMonth = user.getBirthday().getMonth();
                 int nowMonth = (new Date()).getMonth();
                 if (birthdayMonth == nowMonth) {
                     if (EUserLevel.TWO.getCode().equals(user.getLevel())) {
                         // 获取多少积分比例
-                        rate = StringValidater.toDouble(sysConfigBO
+                        birthdayRate = StringValidater.toDouble(sysConfigBO
                             .getConfigValue(ESysConfigCkey.YKBS.getCode(),
                                 ESystemCode.DZT.getCode(),
                                 ESystemCode.DZT.getCode()).getCvalue());
                     } else if (EUserLevel.THREE.getCode().equals(
                         user.getLevel())) {
                         // 获取多少积分比例
-                        rate = StringValidater.toDouble(sysConfigBO
+                        birthdayRate = StringValidater.toDouble(sysConfigBO
                             .getConfigValue(ESysConfigCkey.JKBS.getCode(),
                                 ESystemCode.DZT.getCode(),
                                 ESystemCode.DZT.getCode()).getCvalue());
                     } else if (EUserLevel.FOUR.getCode()
                         .equals(user.getLevel())) {
                         // 获取多少积分比例
-                        rate = StringValidater.toDouble(sysConfigBO
+                        birthdayRate = StringValidater.toDouble(sysConfigBO
                             .getConfigValue(ESysConfigCkey.BSBS.getCode(),
                                 ESystemCode.DZT.getCode(),
                                 ESystemCode.DZT.getCode()).getCvalue());
                     } else if (EUserLevel.FIVE.getCode()
                         .equals(user.getLevel())) {
                         // 获取多少积分比例
-                        rate = StringValidater.toDouble(sysConfigBO
+                        birthdayRate = StringValidater.toDouble(sysConfigBO
                             .getConfigValue(ESysConfigCkey.ZSBS.getCode(),
                                 ESystemCode.DZT.getCode(),
                                 ESystemCode.DZT.getCode()).getCvalue());
@@ -887,9 +895,11 @@ public class OrderAOImpl implements IOrderAO {
                     ESysConfigCkey.YHHD.getCode(), ESystemCode.DZT.getCode(),
                     ESystemCode.DZT.getCode()).getCvalue());
             }
-            Double rateAmount = rate;
+            Double rateAmount = rate * 1000;
             // 兑换成多少积分
-            Long amount = AmountUtil.mul(order.getAmount(), rateAmount);
+            Long amount = AmountUtil.mul(
+                (order.getAmount() / rateAmount.longValue()) * 1000,
+                birthdayRate);
             accountBO.doTransferAmountRemote(ESysUser.SYS_USER_DZT.getCode(),
                 ECurrency.JF, order.getApplyUser(), ECurrency.JF, amount,
                 EBizType.YHHD, EBizType.YHHD.getValue(),
@@ -1170,7 +1180,7 @@ public class OrderAOImpl implements IOrderAO {
         }
         Order order = orderBO.getIsLastOrder(userId);
         List<SizeData> sizeDataList = sizeDataBO.querySizeDataList(userId);
-        res.setRealName(user.getNickname());
+        res.setRealName(user.getRealName());
         res.setMobile(user.getMobile());
         res.setJfAmount(jfAccount.getAmount());
         res.setJyAmount(jyAccount.getAmount());
@@ -1178,7 +1188,7 @@ public class OrderAOImpl implements IOrderAO {
         res.setDays(days);
         res.setBirthday(user.getBirthday());
         res.setLevel(user.getLevel());
-        res.setSyAmount(0l);
+        res.setSyAmount(jfAccount.getAmount());
         res.setConAmount(0l);
         res.setSizeDataList(sizeDataList);
         if (null != order) {

@@ -44,6 +44,8 @@ public class CallbackConroller {
             // ------------------------------
             try {
                 if (EBizType.AJ_GWFK.getCode().equals(bizType)) {
+                    System.out.println(payGroup);
+
                     System.out.println("**** 进入商品购物，微信H5支付服务器回调 start****");
                     orderAO.paySuccess(payGroup, payCode, amount);
                     System.out.println("**** 进入商品购物，微信H5支付服务器回调 end****");

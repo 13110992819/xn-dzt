@@ -147,7 +147,8 @@ public class ProductVarBOImpl extends PaginableBOImpl<ProductVar> implements
             List<ProductCategory> productCateList = new ArrayList<ProductCategory>(
                 4);
             for (ProductCategory productCategory : PClist) {
-                if (productCategory.getKind().equals("0")) {
+                if (productCategory.getKind().equals("0")
+                        || productCategory.getKind().equals("2")) {
                     pCategoryList.add(productCategory);
                 } else {
                     if (productCategory.getKind().equals("1")) {

@@ -198,7 +198,8 @@ public class CraftAOImpl implements ICraftAO {
         List<ProductCategory> pCategoryList = new ArrayList<ProductCategory>();
         List<ProductCategory> pCList = new ArrayList<ProductCategory>();
         for (ProductCategory productCategory : productCategoryList) {
-            if (productCategory.getKind().equals("0")) {
+            if (productCategory.getKind().equals("0")
+                    || productCategory.getKind().equals("2")) {
                 pCategoryList.add(productCategory);
             } else {
                 if (productCategory.getKind().equals("1")) {
