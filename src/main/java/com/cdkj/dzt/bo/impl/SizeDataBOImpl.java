@@ -39,7 +39,6 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
     @Override
     public void inputInforValue(String applyUser, Map<String, String> map) {
         Map<String, List<SYSDict>> sysMap = sysDictBO.queryMapSYSDictList(null);
-
         if (StringUtils.isNotBlank(map.get(EMeasureKey.LW.getCode()))) {
             this.saveLW(applyUser, map.get(EMeasureKey.LW.getCode()));
         }
@@ -112,8 +111,8 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
         if (StringUtils.isNotBlank(map.get(EMeasureKey.WW.getCode()))) {
             this.saveWW(applyUser, map.get(EMeasureKey.WW.getCode()));
         }
-        if (StringUtils.isNotBlank(map.get(EMeasureKey.TX.getCode()))) {
-            this.saveTX(applyUser, map.get(EMeasureKey.TX.getCode()), sysMap);
+        if (StringUtils.isNotBlank(map.get(EMeasureKey.DJ.getCode()))) {
+            this.saveTX(applyUser, map.get(EMeasureKey.DJ.getCode()), sysMap);
         }
         if (StringUtils.isNotBlank(map.get(EMeasureKey.BX.getCode()))) {
             this.saveBX(applyUser, map.get(EMeasureKey.BX.getCode()), sysMap);
@@ -150,10 +149,10 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             this.saveGL(applyUser, map.get(EMeasureKey.GL.getCode()), sysMap);
         }
         if (StringUtils.isNotBlank(map.get(EMeasureKey.SG.getCode()))) {
-            this.saveSG(applyUser, map.get(EMeasureKey.SG.getCode()), sysMap);
+            this.saveSG(applyUser, map.get(EMeasureKey.SG.getCode()));
         }
         if (StringUtils.isNotBlank(map.get(EMeasureKey.TZ.getCode()))) {
-            this.saveTZ(applyUser, map.get(EMeasureKey.TZ.getCode()), sysMap);
+            this.saveTZ(applyUser, map.get(EMeasureKey.TZ.getCode()));
         }
     }
 
@@ -377,10 +376,10 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
             Map<String, List<SYSDict>> sysMap) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
-        data.setCkey(EMeasureKey.TX.getCode());
-        data.setCvalue(EMeasureKey.TX.getValue());
+        data.setCkey(EMeasureKey.DJ.getCode());
+        data.setCvalue(EMeasureKey.DJ.getValue());
         data.setDkey(value);
-        List<SYSDict> sysDictList = sysMap.get(EMeasureKey.TX.getCode());
+        List<SYSDict> sysDictList = sysMap.get(EMeasureKey.DJ.getCode());
         for (SYSDict sysDict : sysDictList) {
             if (sysDict.getDkey().equals(value)) {
                 data.setDvalue(sysDict.getDvalue());
@@ -565,8 +564,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
         sizeDataDAO.insert(data);
     }
 
-    private void saveTZ(String applyUser, String value,
-            Map<String, List<SYSDict>> sysMap) {
+    private void saveTZ(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
         data.setCkey(EMeasureKey.TZ.getCode());
@@ -575,8 +573,7 @@ public class SizeDataBOImpl extends PaginableBOImpl<SizeData> implements
         sizeDataDAO.insert(data);
     }
 
-    private void saveSG(String applyUser, String value,
-            Map<String, List<SYSDict>> sysMap) {
+    private void saveSG(String applyUser, String value) {
         SizeData data = new SizeData();
         data.setUserId(applyUser);
         data.setCkey(EMeasureKey.SG.getCode());

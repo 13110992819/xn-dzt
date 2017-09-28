@@ -18,10 +18,10 @@ public interface ICraftAO {
 
     public void editCraft(XN620042Req req);
 
-    public void putOn(String code, String location, String orderNo,
+    public void putOn(List<String> codeList, String location, String orderNo,
             String updater, String remark);
 
-    public void putOff(String code, String updater, String remark);
+    public void putOff(List<String> codeList, String updater, String remark);
 
     public Paginable<Craft> queryCraftPage(int start, int limit, Craft condition);
 

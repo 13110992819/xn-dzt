@@ -50,6 +50,15 @@ public class SYSDict extends ABaseDO {
     // 系统编号
     private String systemCode;
 
+    // 公司编号
+    private String companyCode;
+
+    // 订单形体编号
+    private OrderSizeData orderSizeData;
+
+    // 订单形体编号
+    private SizeData sizeData;
+
     public String getSystemCode() {
         return systemCode;
     }
@@ -120,5 +129,29 @@ public class SYSDict extends ABaseDO {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public OrderSizeData getOrderSizeData() {
+        return orderSizeData;
+    }
+
+    public void setOrderSizeData(OrderSizeData orderSizeData) {
+        this.orderSizeData = orderSizeData;
+    }
+
+    public SizeData getSizeData() {
+        return sizeData;
+    }
+
+    public void setSizeData(SizeData sizeData) {
+        this.sizeData = sizeData;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 }

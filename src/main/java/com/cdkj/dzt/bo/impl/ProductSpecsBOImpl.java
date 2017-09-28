@@ -196,9 +196,9 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             this.saveWW(orderCode, productCode,
                 map.get(EMeasureKey.WW.getCode()));
         }
-        if (StringUtils.isNotBlank(map.get(EMeasureKey.TX.getCode()))) {
+        if (StringUtils.isNotBlank(map.get(EMeasureKey.DJ.getCode()))) {
             this.saveTX(orderCode, productCode,
-                map.get(EMeasureKey.TX.getCode()), sysMap);
+                map.get(EMeasureKey.DJ.getCode()), sysMap);
         }
         if (StringUtils.isNotBlank(map.get(EMeasureKey.BX.getCode()))) {
             this.saveBX(orderCode, productCode,
@@ -484,7 +484,7 @@ public class ProductSpecsBOImpl extends PaginableBOImpl<ProductSpecs> implements
             Map<String, List<SYSDict>> sysMap) {
         ProductSpecs data = new ProductSpecs();
         data.setCode(value);
-        data.setType(EMeasureKey.TX.getCode());
+        data.setType(EMeasureKey.DJ.getCode());
         // data.setName(EMeasureKey.TX.getValue());
         data.setProductCode(productCode);
         data.setOrderCode(orderCode);

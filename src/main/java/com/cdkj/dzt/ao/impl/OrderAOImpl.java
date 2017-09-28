@@ -37,6 +37,7 @@ import com.cdkj.dzt.bo.IProductCraftBO;
 import com.cdkj.dzt.bo.IProductSpecsBO;
 import com.cdkj.dzt.bo.IProductVarBO;
 import com.cdkj.dzt.bo.ISYSConfigBO;
+import com.cdkj.dzt.bo.ISYSDictBO;
 import com.cdkj.dzt.bo.ISizeDataBO;
 import com.cdkj.dzt.bo.ISmsOutBO;
 import com.cdkj.dzt.bo.IUserBO;
@@ -57,6 +58,7 @@ import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.OrderSizeData;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.SYSConfig;
+import com.cdkj.dzt.domain.SYSDict;
 import com.cdkj.dzt.domain.SizeData;
 import com.cdkj.dzt.domain.User;
 import com.cdkj.dzt.dto.req.XN620200Req;
@@ -66,6 +68,7 @@ import com.cdkj.dzt.dto.res.XN001400Res;
 import com.cdkj.dzt.dto.res.XN620218Res;
 import com.cdkj.dzt.dto.res.XN620221Res;
 import com.cdkj.dzt.dto.res.XN620222Res;
+import com.cdkj.dzt.dto.res.XN620223Res;
 import com.cdkj.dzt.enums.EBizType;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.ECommentStatus;
@@ -143,6 +146,9 @@ public class OrderAOImpl implements IOrderAO {
 
     @Autowired
     private ISmsOutBO smsOutBO;
+
+    @Autowired
+    private ISYSDictBO sysDictBO;
 
     @Override
     public String applyOrder(XN620200Req req) {
@@ -351,8 +357,8 @@ public class OrderAOImpl implements IOrderAO {
         Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
             ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
             ESystemCode.DZT.getCode()).getCvalue());
-        Long truePrice = AmountUtil.rmbJinFen(price);
         // 计算非会员价
+        Long truePrice = AmountUtil.rmbJinFen(price);
         Long originalPrice = AmountUtil.mul(truePrice, rate) * quantity;
         if (StringValidater.toInteger(user.getLevel()) > 1) {
             rate = 1.0;
@@ -1190,7 +1196,18 @@ public class OrderAOImpl implements IOrderAO {
         res.setLevel(user.getLevel());
         res.setSyAmount(jfAccount.getAmount());
         res.setConAmount(0l);
-        res.setSizeDataList(sizeDataList);
+        Map<String, List<SYSDict>> map = sysDictBO.queryMapSYSDictList();
+        for (Entry<String, List<SYSDict>> sysDictMap : map.entrySet()) {
+            List<SYSDict> sysDictlist = sysDictMap.getValue();
+            for (SYSDict sysDict : sysDictlist) {
+                for (SizeData sizeData : sizeDataList) {
+                    if (sysDict.getDkey().equals(sizeData.getCkey())) {
+                        sysDict.setSizeData(sizeData);
+                    }
+                }
+            }
+        }
+        res.setSysDictMap(map);
         if (null != order) {
             res.setAddress(order.getReAddress());
             if (StringUtils.isBlank(order.getReAddress())) {
@@ -1216,4 +1233,20 @@ public class OrderAOImpl implements IOrderAO {
         return res;
     }
 
+    @Override
+    public XN620223Res totalUnFinished(String userId) {
+        XN620223Res res = new XN620223Res();
+        Long toMeasureOrder = orderBO.getTotalCount(userId,
+            EOrderStatus.TO_MEASURE);
+        Long toPayOrder = orderBO.getTotalCount(userId,
+            EOrderStatus.ASSIGN_PRICE);
+        Long toReceiverOrder = orderBO.getTotalCount(userId, EOrderStatus.SEND);
+        Long toCommentOrder = orderBO.getTotalCount(userId,
+            EOrderStatus.RECEIVE);
+        res.setToMeasureOrder(toMeasureOrder);
+        res.setToPayOrder(toPayOrder);
+        res.setToReceiverOrder(toReceiverOrder);
+        res.setToCommentOrder(toCommentOrder);
+        return res;
+    }
 }

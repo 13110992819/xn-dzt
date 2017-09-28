@@ -39,4 +39,8 @@ public interface ISYSDictBO extends IPaginableBO<SYSDict> {
     public List<SYSDict> querySYSDictList(SYSDict condition);
 
     public Map<String, List<SYSDict>> queryMapSYSDictList(SYSDict condition);
+
+    List<SYSDict> selectSYSDict();
+
+    Map<String, List<SYSDict>> queryMapSYSDictList();
 }

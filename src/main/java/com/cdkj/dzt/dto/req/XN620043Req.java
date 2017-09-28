@@ -1,5 +1,7 @@
 package com.cdkj.dzt.dto.req;
 
+import java.util.List;
+
 /**
  * 工艺上架
  * @author: asus 
@@ -8,7 +10,7 @@ package com.cdkj.dzt.dto.req;
  */
 public class XN620043Req {
     // 编号(必填)
-    private String code;
+    private List<String> codeList;
 
     // UI位置(必填)
     private String location;
@@ -21,14 +23,6 @@ public class XN620043Req {
 
     // 备注(选填)
     private String remark;
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public String getLocation() {
         return location;
@@ -60,5 +54,13 @@ public class XN620043Req {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public List<String> getCodeList() {
+        return codeList;
+    }
+
+    public void setCodeList(List<String> codeList) {
+        this.codeList = codeList;
     }
 }

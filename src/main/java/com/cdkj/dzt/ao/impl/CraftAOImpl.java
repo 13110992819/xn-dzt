@@ -153,22 +153,26 @@ public class CraftAOImpl implements ICraftAO {
     }
 
     @Override
-    public void putOn(String code, String location, String orderNo,
+    public void putOn(List<String> codeList, String location, String orderNo,
             String updater, String remark) {
-        Craft craft = craftBO.getCraft(code);
-        if (EStatus.PUT_ON.getCode().equals(craft.getStatus())) {
-            throw new BizException("xn0000", "工艺已上架,无需重复上架");
+        for (String code : codeList) {
+            Craft craft = craftBO.getCraft(code);
+            if (EStatus.PUT_ON.getCode().equals(craft.getStatus())) {
+                throw new BizException("xn0000", "工艺已上架,无需重复上架");
+            }
+            craftBO.putOn(craft, location, orderNo, updater, remark);
         }
-        craftBO.putOn(craft, location, orderNo, updater, remark);
     }
 
     @Override
-    public void putOff(String code, String updater, String remark) {
-        Craft craft = craftBO.getCraft(code);
-        if (!EStatus.PUT_ON.getCode().equals(craft.getStatus())) {
-            throw new BizException("xn0000", "工艺未上架,不可下架");
+    public void putOff(List<String> codeList, String updater, String remark) {
+        for (String code : codeList) {
+            Craft craft = craftBO.getCraft(code);
+            if (!EStatus.PUT_ON.getCode().equals(craft.getStatus())) {
+                throw new BizException("xn0000", "工艺未上架,不可下架");
+            }
+            craftBO.putOff(craft, updater, remark);
         }
-        craftBO.putOff(craft, updater, remark);
     }
 
     @Override
@@ -200,7 +204,11 @@ public class CraftAOImpl implements ICraftAO {
         for (ProductCategory productCategory : productCategoryList) {
             if (productCategory.getKind().equals("0")
                     || productCategory.getKind().equals("2")) {
-                pCategoryList.add(productCategory);
+                if (productCategory.getKind().equals("2")) {
+                    pCategoryList.add(0, productCategory);
+                } else {
+                    pCategoryList.add(productCategory);
+                }
             } else {
                 if (productCategory.getKind().equals("1")) {
                     pCList.add(1, productCategory);

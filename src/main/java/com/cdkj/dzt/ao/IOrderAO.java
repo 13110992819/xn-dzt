@@ -18,6 +18,7 @@ import com.cdkj.dzt.dto.req.XN620801Req;
 import com.cdkj.dzt.dto.res.XN620218Res;
 import com.cdkj.dzt.dto.res.XN620221Res;
 import com.cdkj.dzt.dto.res.XN620222Res;
+import com.cdkj.dzt.dto.res.XN620223Res;
 
 /** 
  * @author: haiqingzheng 
@@ -81,4 +82,6 @@ public interface IOrderAO {
     public XN620221Res totalAmount(String userId);
 
     public XN620222Res getLtInfo(String userId);
+
+    public XN620223Res totalUnFinished(String userId);
 }

@@ -121,27 +121,33 @@ public class ClothAOImpl implements IClothAO {
     }
 
     @Override
-    public void putOn(String code, String location, String orderNo,
+    public void putOn(List<String> codeList, String location, String orderNo,
             String updater, String remark) {
-        Cloth data = clothBO.getCloth(code);
-        if (EStatus.PUT_ON.getCode().equals(data.getStatus())) {
-            throw new BizException("xn0000", "该布料正在上架状态,无需重复上架");
+        for (String code : codeList) {
+            Cloth data = clothBO.getCloth(code);
+            if (EStatus.PUT_ON.getCode().equals(data.getStatus())) {
+                throw new BizException("xn0000", "布料编号" + code
+                        + "正在上架状态,无需重复上架");
+            }
+            clothBO.putOn(data, location, orderNo, updater, remark);
         }
-        clothBO.putOn(data, location, orderNo, updater, remark);
     }
 
     @Override
-    public void putOff(String code, String updater, String remark) {
-        Cloth data = clothBO.getCloth(code);
-        if (!EStatus.PUT_ON.getCode().equals(data.getStatus())) {
-            throw new BizException("xn0000", "该布料未上架,请仔细查看");
+    public void putOff(List<String> codeList, String updater, String remark) {
+        for (String code : codeList) {
+            Cloth data = clothBO.getCloth(code);
+            if (!EStatus.PUT_ON.getCode().equals(data.getStatus())) {
+                throw new BizException("xn0000", "该布料未上架,请仔细查看");
+            }
+            long number = clothBO.getTotalCount(data.getModelSpecsCode());
+            Model model = modelBO.getModel(data.getModelCode());
+            if (number < 1
+                    && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
+                throw new BizException("xn0000", "面料下架影响产品,请先下架产品");
+            }
+            clothBO.putOff(data, updater, remark);
         }
-        long number = clothBO.getTotalCount(data.getModelSpecsCode());
-        Model model = modelBO.getModel(data.getModelCode());
-        if (number < 1 && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
-            throw new BizException("xn0000", "面料下架影响产品,请先下架产品");
-        }
-        clothBO.putOff(data, updater, remark);
     }
 
     @Override

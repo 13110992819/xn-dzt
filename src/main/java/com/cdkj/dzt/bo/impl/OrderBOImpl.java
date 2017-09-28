@@ -2,6 +2,8 @@ package com.cdkj.dzt.bo.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,12 +13,14 @@ import org.springframework.stereotype.Component;
 import com.cdkj.dzt.bo.IOrderBO;
 import com.cdkj.dzt.bo.IOrderSizeDataBO;
 import com.cdkj.dzt.bo.IProductBO;
+import com.cdkj.dzt.bo.ISYSDictBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.IOrderDAO;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.OrderSizeData;
 import com.cdkj.dzt.domain.Product;
+import com.cdkj.dzt.domain.SYSDict;
 import com.cdkj.dzt.enums.EOrderStatus;
 import com.cdkj.dzt.exception.BizException;
 
@@ -27,6 +31,9 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
 
     @Autowired
     private IOrderSizeDataBO orderSizeDataBO;
+
+    @Autowired
+    private ISYSDictBO sysDictBO;
 
     @Autowired
     private IOrderDAO orderDAO;
@@ -233,9 +240,20 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
             product = list.get(0);
         }
         order.setProduct(product);
-        List<OrderSizeData> orderSizeData = orderSizeDataBO
+        List<OrderSizeData> orderSizeDataList = orderSizeDataBO
             .queryOrderSizeDataList(code);
-        order.setOrderSizeData(orderSizeData);
+        Map<String, List<SYSDict>> map = sysDictBO.queryMapSYSDictList();
+        for (Entry<String, List<SYSDict>> sysDictMap : map.entrySet()) {
+            List<SYSDict> sysDictlist = sysDictMap.getValue();
+            for (SYSDict sysDict : sysDictlist) {
+                for (OrderSizeData orderSizeData : orderSizeDataList) {
+                    if (sysDict.getDkey().equals(orderSizeData.getCkey())) {
+                        sysDict.setOrderSizeData(orderSizeData);
+                    }
+                }
+            }
+        }
+        order.setSysDictMap(map);
         return order;
     }
 

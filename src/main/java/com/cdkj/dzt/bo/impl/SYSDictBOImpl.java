@@ -22,6 +22,13 @@ import com.cdkj.dzt.bo.ISYSDictBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.ISYSDictDAO;
 import com.cdkj.dzt.domain.SYSDict;
+import com.cdkj.dzt.enums.EBoolean;
+import com.cdkj.dzt.enums.ESystemCode;
+import com.cdkj.dzt.exception.BizException;
+import com.cdkj.dzt.http.BizConnecter;
+import com.cdkj.dzt.http.JsonUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * @author: xieyj 
@@ -99,13 +106,12 @@ public class SYSDictBOImpl extends PaginableBOImpl<SYSDict> implements
 
     @Override
     public Map<String, List<SYSDict>> queryMapSYSDictList(SYSDict condition) {
-        List<SYSDict> sysDictList = sysDictDAO.selectList(condition);
+        List<SYSDict> sysDictList = selectSYSDict();
         Map<String, List<SYSDict>> map = new HashMap<String, List<SYSDict>>();
         List<SYSDict> list = null;
         for (SYSDict sysDict : sysDictList) {
             list = map.get(sysDict.getParentKey());
             if (CollectionUtils.isEmpty(list)) {
-                // map = new HashMap<String, List<SYSDict>>();
                 list = new ArrayList<SYSDict>();
                 list.add(sysDict);
                 map.put(sysDict.getParentKey(), list);
@@ -115,5 +121,46 @@ public class SYSDictBOImpl extends PaginableBOImpl<SYSDict> implements
             }
         }
         return map;
+    }
+
+    @Override
+    public Map<String, List<SYSDict>> queryMapSYSDictList() {
+        SYSDict condition = new SYSDict();
+        condition.setType(EBoolean.NO.getCode());
+        List<SYSDict> sysDictList = sysDictDAO.selectList(condition);
+        List<SYSDict> list = null;
+        Map<String, List<SYSDict>> map = new HashMap<String, List<SYSDict>>();
+        for (SYSDict sysDict : sysDictList) {
+            SYSDict data = new SYSDict();
+            data.setParentKey(sysDict.getDkey());
+            List<SYSDict> sysList = sysDictDAO.selectList(data);
+            list = map.get(sysDict.getDkey());
+            if (CollectionUtils.isEmpty(list)) {
+                list = new ArrayList<SYSDict>();
+                list.addAll(sysList);
+                map.put(sysDict.getDkey(), list);
+            } else {
+                list.addAll(sysList);
+                map.put(sysDict.getDkey(), list);
+            }
+        }
+        return map;
+    }
+
+    @Override
+    public List<SYSDict> selectSYSDict() {
+        SYSDict condition = new SYSDict();
+        condition.setSystemCode(ESystemCode.DZT.getCode());
+        condition.setCompanyCode(ESystemCode.DZT.getCode());
+        String jsonStr = BizConnecter.getBizData("805906",
+            JsonUtils.object2Json(condition));
+        Gson gson = new Gson();
+        List<SYSDict> list = gson.fromJson(jsonStr,
+            new TypeToken<List<SYSDict>>() {
+            }.getType());
+        if (CollectionUtils.isEmpty(list)) {
+            throw new BizException("xn000000", "不存在该形体数据");
+        }
+        return list;
     }
 }

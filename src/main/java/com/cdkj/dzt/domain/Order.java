@@ -177,6 +177,8 @@ public class Order extends ABaseDO {
 
     private List<OrderSizeData> orderSizeData;
 
+    private Map<String, List<SYSDict>> sysDictMap;
+
     public List<String> getStatusList() {
         return statusList;
     }
@@ -616,6 +618,14 @@ public class Order extends ABaseDO {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Map<String, List<SYSDict>> getSysDictMap() {
+        return sysDictMap;
+    }
+
+    public void setSysDictMap(Map<String, List<SYSDict>> sysDictMap) {
+        this.sysDictMap = sysDictMap;
     }
 
 }

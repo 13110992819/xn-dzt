@@ -1,5 +1,7 @@
 package com.cdkj.dzt.dto.req;
 
+import java.util.List;
+
 /**
  * 下架面料
  * @author: asus 
@@ -8,21 +10,13 @@ package com.cdkj.dzt.dto.req;
  */
 public class XN620024Req {
     // 编号(必填)
-    private String code;
+    private List<String> codeList;
 
     // 更新人(必填)
     private String updater;
 
     // 备注
     private String remark;
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public String getUpdater() {
         return updater;
@@ -38,6 +32,14 @@ public class XN620024Req {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public List<String> getCodeList() {
+        return codeList;
+    }
+
+    public void setCodeList(List<String> codeList) {
+        this.codeList = codeList;
     }
 
 }

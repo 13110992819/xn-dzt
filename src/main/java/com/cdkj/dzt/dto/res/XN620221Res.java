@@ -2,8 +2,9 @@ package com.cdkj.dzt.dto.res;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import com.cdkj.dzt.domain.SizeData;
+import com.cdkj.dzt.domain.SYSDict;
 
 public class XN620221Res {
     // 名字
@@ -40,7 +41,7 @@ public class XN620221Res {
     private String level;
 
     // 量体数据
-    private List<SizeData> sizeDataList;
+    private Map<String, List<SYSDict>> sysDictMap;
 
     public Long getJfAmount() {
         return jfAmount;
@@ -114,14 +115,6 @@ public class XN620221Res {
         this.birthday = birthday;
     }
 
-    public List<SizeData> getSizeDataList() {
-        return sizeDataList;
-    }
-
-    public void setSizeDataList(List<SizeData> sizeDataList) {
-        this.sizeDataList = sizeDataList;
-    }
-
     public Long getSyAmount() {
         return syAmount;
     }
@@ -136,6 +129,14 @@ public class XN620221Res {
 
     public void setConAmount(Long conAmount) {
         this.conAmount = conAmount;
+    }
+
+    public Map<String, List<SYSDict>> getSysDictMap() {
+        return sysDictMap;
+    }
+
+    public void setSysDictMap(Map<String, List<SYSDict>> sysDictMap) {
+        this.sysDictMap = sysDictMap;
     }
 
 }

@@ -1,5 +1,7 @@
 package com.cdkj.dzt.api.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import com.cdkj.dzt.ao.ICraftAO;
 import com.cdkj.dzt.api.AProcessor;
 import com.cdkj.dzt.common.JsonUtil;
@@ -26,7 +28,7 @@ public class XN620043 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        craftAO.putOn(req.getCode(), req.getLocation(), req.getOrderNo(),
+        craftAO.putOn(req.getCodeList(), req.getLocation(), req.getOrderNo(),
             req.getUpdater(), req.getRemark());
         return new BooleanRes(true);
     }
@@ -37,8 +39,11 @@ public class XN620043 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN620043Req.class);
-        StringValidater.validateBlank(req.getCode(), req.getLocation(),
-            req.getOrderNo(), req.getUpdater());
+        StringValidater.validateBlank(req.getLocation(), req.getOrderNo(),
+            req.getUpdater());
+        if (CollectionUtils.isEmpty(req.getCodeList())) {
+            throw new BizException("xn0000", "您还没有选择面料");
+        }
     }
 
 }
