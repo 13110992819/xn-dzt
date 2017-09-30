@@ -115,7 +115,8 @@ public class ProductVarBOImpl extends PaginableBOImpl<ProductVar> implements
             for (ProductCategory productCategory : PClist) {
                 // 找到工艺
                 List<ProductCraft> productCraftList = productCraftBO
-                    .queryProductCraftList(productCategory.getDkey());
+                    .queryProductCraftList(productVar.getCode(),
+                        productCategory.getDkey());
                 for (ProductCraft productCraft : productCraftList) {
                     if (productCategory.getDkey()
                         .equals(productCraft.getType())) {
@@ -126,17 +127,22 @@ public class ProductVarBOImpl extends PaginableBOImpl<ProductVar> implements
                     .queryProductCategoryList(EDictType.SECOND.getCode(),
                         productCategory.getDkey(), null,
                         productVar.getModelSpecsCode());
+                List<ProductCategory> pList = new ArrayList<ProductCategory>();
                 for (ProductCategory productCate : PCEList) {
                     List<ProductCraft> productCList = productCraftBO
-                        .queryProductCraftList(productCate.getDkey());
+                        .queryProductCraftList(productVar.getCode(),
+                            productCate.getDkey());
                     for (ProductCraft productCraft2 : productCList) {
                         if (productCate.getDkey().equals(
                             productCraft2.getType())) {
                             productCate.setColorProductCraft(productCraft2);
                         }
                     }
+                    if (null == productCate.getColorProductCraft()) {
+                        pList.add(productCate);
+                    }
                 }
-
+                PCEList.removeAll(pList);
                 ProductCategory productCate = null;
                 if (CollectionUtils.isNotEmpty(PCEList)) {
                     productCate = PCEList.get(0);

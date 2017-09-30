@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 import com.cdkj.dzt.bo.ISYSDictBO;
 import com.cdkj.dzt.bo.base.PaginableBOImpl;
 import com.cdkj.dzt.dao.ISYSDictDAO;
+import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.SYSDict;
 import com.cdkj.dzt.enums.EBoolean;
 import com.cdkj.dzt.enums.ESystemCode;
@@ -162,5 +164,21 @@ public class SYSDictBOImpl extends PaginableBOImpl<SYSDict> implements
             throw new BizException("xn000000", "不存在该形体数据");
         }
         return list;
+    }
+
+    @Override
+    public void checkOrder(Order order) {
+        Map<String, List<SYSDict>> map = order.getSysDictMap();
+        for (Entry<String, List<SYSDict>> sysDictMap : map.entrySet()) {
+            List<SYSDict> sysDictlist = sysDictMap.getValue();
+            for (SYSDict sysDict : sysDictlist) {
+                if (EBoolean.YES.getCode().equals(sysDict.getRemark())) {
+                    if (null == sysDict.getOrderSizeData()) {
+                        throw new BizException("xn0000", "您还有信息未填写完整");
+                    }
+                }
+            }
+        }
+
     }
 }

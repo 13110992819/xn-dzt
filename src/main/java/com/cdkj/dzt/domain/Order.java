@@ -161,6 +161,9 @@ public class Order extends ABaseDO {
     // 评论
     private Comment comment;
 
+    // 下单用户等级
+    private String level;
+
     // 编号
     private String codeForQuery;
 
@@ -626,6 +629,14 @@ public class Order extends ABaseDO {
 
     public void setSysDictMap(Map<String, List<SYSDict>> sysDictMap) {
         this.sysDictMap = sysDictMap;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
 }

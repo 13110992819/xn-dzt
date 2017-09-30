@@ -1,5 +1,6 @@
 package com.cdkj.dzt.ao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -203,10 +204,11 @@ public class ModelAOImpl implements IModelAO {
             .queryModelSpecsList(code);
         for (ModelSpecs modelSpecs : modelSpecsList) {
             XN620014Res res = new XN620014Res();
+            List<Cloth> clothList = clothBO.queryClothList(code);
             List<ProductCategory> productCategoryList = productCategoryBO
                 .queryProductCategoryList(EDictType.FIRST.getCode(), null,
                     null, modelSpecs.getCode());
-            List<Cloth> clothList = clothBO.queryClothList(code);
+
             for (ProductCategory productCategory : productCategoryList) {
                 List<Craft> craftList = craftBO.queryCraftList(productCategory
                     .getDkey());
@@ -223,7 +225,28 @@ public class ModelAOImpl implements IModelAO {
                 }
                 productCategory.setColorPcList(PCList);
             }
-            res.setProductCategoryList(productCategoryList);
+            List<ProductCategory> pCategoryList = new ArrayList<ProductCategory>();
+            List<ProductCategory> pCList = new ArrayList<ProductCategory>();
+            for (ProductCategory productCategory : productCategoryList) {
+                if (productCategory.getKind().equals("0")
+                        || productCategory.getKind().equals("2")) {
+                    if (productCategory.getKind().equals("2")) {
+                        pCategoryList.add(0, productCategory);
+                    } else {
+                        pCategoryList.add(productCategory);
+                    }
+                } else {
+                    if (productCategory.getKind().equals("1")) {
+                        pCList.add(1, productCategory);
+                    } else if (productCategory.getKind().equals("3")) {
+                        pCList.add(0, productCategory);
+                    } else if (productCategory.getKind().equals("4")) {
+                        pCList.add(3, productCategory);
+                    }
+                }
+            }
+            pCategoryList.addAll(pCList);
+            res.setProductCategoryList(pCategoryList);
             res.setClothList(clothList);
             modelSpecs.setRes(res);
         }

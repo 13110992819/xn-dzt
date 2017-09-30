@@ -55,7 +55,6 @@ import com.cdkj.dzt.domain.Craft;
 import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.ModelSpecs;
 import com.cdkj.dzt.domain.Order;
-import com.cdkj.dzt.domain.OrderSizeData;
 import com.cdkj.dzt.domain.Product;
 import com.cdkj.dzt.domain.SYSConfig;
 import com.cdkj.dzt.domain.SYSDict;
@@ -214,6 +213,10 @@ public class OrderAOImpl implements IOrderAO {
                 String.format(SysConstants.APPLY_CONTENT, code,
                     order.getApplyName()));
         }
+        // 更新用户最后下单时间
+        userBO
+            .refreshLastOrderDatetime(order.getApplyUser(), DateUtil.dateToStr(
+                order.getCreateDatetime(), DateUtil.DATA_TIME_PATTERN_1));
         return code;
     }
 
@@ -276,6 +279,10 @@ public class OrderAOImpl implements IOrderAO {
             order.getLtUser(),
             String.format(SysConstants.DISTRIBUTE_CONTENT, code,
                 order.getApplyName()));
+        // 更新用户最后下单时间
+        userBO
+            .refreshLastOrderDatetime(order.getApplyUser(), DateUtil.dateToStr(
+                order.getCreateDatetime(), DateUtil.DATA_TIME_PATTERN_1));
         return code;
     }
 
@@ -354,14 +361,18 @@ public class OrderAOImpl implements IOrderAO {
         }
         price = clothPrice.doubleValue() + craftPrice.doubleValue();
         XN001400Res user = userBO.getRemoteUser(order.getApplyUser());
-        Double rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
-            ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
-            ESystemCode.DZT.getCode()).getCvalue());
         // 计算非会员价
         Long truePrice = AmountUtil.rmbJinFen(price);
-        Long originalPrice = AmountUtil.mul(truePrice, rate) * quantity;
-        if (StringValidater.toInteger(user.getLevel()) > 1) {
-            rate = 1.0;
+        Long originalPrice = AmountUtil.mul(truePrice, 1) * quantity;
+
+        Double rate = 1.0;
+        if (EBoolean.YES.getCode().equals(model.getType())) {
+            rate = StringValidater.toDouble(sysConfigBO.getConfigValue(
+                ESysConfigCkey.FHY.getCode(), ESystemCode.DZT.getCode(),
+                ESystemCode.DZT.getCode()).getCvalue());
+            if (StringValidater.toInteger(user.getLevel()) < 2) {
+                rate = 1.0;
+            }
         }
 
         // 如果是会员,真实金额乘于倍数
@@ -514,12 +525,9 @@ public class OrderAOImpl implements IOrderAO {
         if (!EOrderStatus.PAY_YES.getCode().equals(order.getStatus())) {
             throw new BizException("xn000000", "订单不是已支付状态,不能提交审核");
         }
-        List<OrderSizeData> orderSizeDataList = orderSizeDataBO
-            .queryOrderSizeDataList(orderCode);
-        if (orderSizeDataList.size() < 36) {
-            throw new BizException("xn000000", "您量体数据还未填写完整");
-        }
         // 确保所有规格已经填充完毕
+        sysDictBO.checkOrder(order);
+
         orderBO.ltSubmit(order, updater, remark);
         // 如果有地区合伙人，短信通知
         if (!"0".equals(order.getToUser())) {
@@ -588,10 +596,6 @@ public class OrderAOImpl implements IOrderAO {
         }
         // 更改订单状态
         orderBO.confirmReceipt(order, updater, remark);
-        // 更新用户最后下单时间
-        userBO
-            .refreshLastOrderDatetime(order.getApplyUser(), DateUtil.dateToStr(
-                order.getCreateDatetime(), DateUtil.DATA_TIME_PATTERN_1));
     }
 
     // 取消订单
@@ -658,6 +662,7 @@ public class OrderAOImpl implements IOrderAO {
     public Order getRichOrder(String code) {
         Order order = orderBO.getRichOrder(code);
         order.setLtUserDO(userBO.getRemoteUser(order.getLtUser()));
+        order.setLevel(userBO.getRemoteUser(order.getApplyUser()).getLevel());
         Comment condition = new Comment();
         condition.setParentCode(code);
         List<Comment> commentList = commentBO.queryCommentList(condition);

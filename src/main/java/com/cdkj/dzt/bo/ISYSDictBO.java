@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cdkj.dzt.bo.base.IPaginableBO;
+import com.cdkj.dzt.domain.Order;
 import com.cdkj.dzt.domain.SYSDict;
 
 /** 
@@ -43,4 +44,6 @@ public interface ISYSDictBO extends IPaginableBO<SYSDict> {
     List<SYSDict> selectSYSDict();
 
     Map<String, List<SYSDict>> queryMapSYSDictList();
+
+    public void checkOrder(Order order);
 }
