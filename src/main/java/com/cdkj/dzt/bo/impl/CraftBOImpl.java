@@ -107,4 +107,13 @@ public class CraftBOImpl extends PaginableBOImpl<Craft> implements ICraftBO {
         condition.setStatus(EStatus.PUT_ON.getCode());
         return craftDAO.selectList(condition);
     }
+
+    @Override
+    public List<Craft> queryCraftList(String type, String isDefault) {
+        Craft condition = new Craft();
+        condition.setType(type);
+        condition.setIsDefault(isDefault);
+        condition.setStatus(EStatus.PUT_ON.getCode());
+        return craftDAO.selectList(condition);
+    }
 }

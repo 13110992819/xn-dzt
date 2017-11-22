@@ -20,6 +20,7 @@ import com.cdkj.dzt.bo.base.Paginable;
 import com.cdkj.dzt.core.OrderNoGenerater;
 import com.cdkj.dzt.core.StringValidater;
 import com.cdkj.dzt.domain.Craft;
+import com.cdkj.dzt.domain.Model;
 import com.cdkj.dzt.domain.ModelSpecs;
 import com.cdkj.dzt.domain.ProductCategory;
 import com.cdkj.dzt.dto.req.XN620040Req;
@@ -74,6 +75,7 @@ public class CraftAOImpl implements ICraftAO {
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());
+        data.setIsDefault(req.getIsDefault());
         data.setModelSpecsCode(req.getModelSpecsCode());
         data.setModelCode(modelSpecs.getModelCode());
         craftBO.saveCraft(data);
@@ -107,6 +109,7 @@ public class CraftAOImpl implements ICraftAO {
         data.setUpdater(req.getUpdater());
         data.setUpdateDatetime(new Date());
         data.setRemark(req.getRemark());
+        data.setIsDefault(req.getIsDefault());
         data.setModelSpecsCode(req.getModelSpecsCode());
         data.setModelCode(modelSpecs.getModelCode());
         craftBO.refreshCraft(data);
@@ -160,6 +163,15 @@ public class CraftAOImpl implements ICraftAO {
             if (EStatus.PUT_ON.getCode().equals(craft.getStatus())) {
                 throw new BizException("xn0000", "工艺已上架,无需重复上架");
             }
+            Model model = modelBO.getModel(craft.getModelCode());
+            if (EBoolean.YES.getCode().equals(craft.getIsDefault())
+                    && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
+                List<Craft> craftList = craftBO.queryCraftList(craft.getType(),
+                    EBoolean.YES.getCode());
+                if (CollectionUtils.isNotEmpty(craftList)) {
+                    throw new BizException("xn0000", "该工艺下已有默认参数,请修改");
+                }
+            }
             craftBO.putOn(craft, location, orderNo, updater, remark);
         }
     }
@@ -170,6 +182,16 @@ public class CraftAOImpl implements ICraftAO {
             Craft craft = craftBO.getCraft(code);
             if (!EStatus.PUT_ON.getCode().equals(craft.getStatus())) {
                 throw new BizException("xn0000", "工艺未上架,不可下架");
+            }
+            Model model = modelBO.getModel(craft.getModelCode());
+            if (EBoolean.YES.getCode().equals(craft.getIsDefault())
+                    && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
+                List<Craft> craftList = craftBO.queryCraftList(craft.getType(),
+                    EBoolean.YES.getCode());
+                if (CollectionUtils.isNotEmpty(craftList)
+                        && craftList.size() == 1) {
+                    throw new BizException("xn0000", "下架默认数据请先下架产品");
+                }
             }
             craftBO.putOff(craft, updater, remark);
         }

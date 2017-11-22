@@ -28,4 +28,6 @@ public interface ICraftBO extends IPaginableBO<Craft> {
 
     public long getGroupTotalCount(String modelCode);
 
+    public List<Craft> queryCraftList(String type, String isDefault);
+
 }

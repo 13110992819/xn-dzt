@@ -13,6 +13,7 @@
 		<result column="location" property="location" />
 		<result column="order_no" property="orderNo" />
 		<result column="is_hit" property="isHit" />
+		<result column="is_default" property="isDefault" />
 		<result column="status" property="status"/>
 		<result column="updater" property="updater"/>
 		<result column="update_datetime" property="updateDatetime"/>
@@ -45,6 +46,9 @@
 			<if test="modelSpecsCode != null and modelSpecsCode != '' ">
 				AND t.model_specs_code = #{modelSpecsCode}
 			</if>
+			<if test="isDefault != null and isDefault != '' ">
+				AND t.is_default = #{isDefault}
+			</if>
 			<if test="modelStatus != null and modelStatus != '' ">
 				AND tm.status = #{modelStatus}
 			</if>
@@ -63,6 +67,7 @@
 		,t.order_no
 		,t.status
 		,t.is_hit
+		,t.is_default
 		,t.updater
 		,t.update_datetime
 		
@@ -92,6 +97,7 @@
          selected,
          price,
          is_hit,
+         is_default,
          status,
          updater,
          update_datetime,
@@ -106,6 +112,7 @@
      ,#{selected}
      ,#{price}
      ,#{isHit}
+     ,#{isDefault}
      ,#{status}
      ,#{updater}
      ,#{updateDatetime}
@@ -125,6 +132,7 @@
 		,price = #{price}
 		,is_hit = #{isHit}
 
+		,is_default = #{isDefault}
 		,updater = #{updater}
 		,update_datetime = #{updateDatetime}
 		,remark = #{remark}

@@ -347,16 +347,20 @@ public class OrderAOImpl implements IOrderAO {
                 cloth.getFlowers(), cloth.getForm(), cloth.getWeight(),
                 cloth.getYarn(), cloth.getPrice(), productVarCode, productCode,
                 order.getCode());
-            for (String code : req.getCodeList()) {
-                Craft craft = craftBO.getCraft(code);
-                craftPrice = craftPrice + craft.getPrice();
-                productCraftBO.saveProductCraft(craft, productVarCode,
-                    order.getCode());
+            if (CollectionUtils.isNotEmpty(req.getCodeList())) {
+                for (String code : req.getCodeList()) {
+                    Craft craft = craftBO.getCraft(code);
+                    craftPrice = craftPrice + craft.getPrice();
+                    productCraftBO.saveProductCraft(craft, productVarCode,
+                        order.getCode());
+                }
             }
-            for (Entry<String, String> entry : req.getMap().entrySet()) {
-                productCraftBO.saveProductCraft(entry.getValue(),
-                    entry.getKey(), modelSpecs.getModelCode(), productVarCode,
-                    order.getCode());
+            if (!req.getMap().isEmpty()) {
+                for (Entry<String, String> entry : req.getMap().entrySet()) {
+                    productCraftBO.saveProductCraft(entry.getValue(),
+                        entry.getKey(), modelSpecs.getModelCode(),
+                        productVarCode, order.getCode());
+                }
             }
         }
         price = clothPrice.doubleValue() + craftPrice.doubleValue();

@@ -32,6 +32,9 @@ public class Craft extends ABaseDO {
     // 是否要撞色（0否，1是）
     private String isHit;
 
+    // 是否默认（0否，1是）
+    private String isDefault;
+
     // 工艺费
     private Long price;
 
@@ -211,6 +214,14 @@ public class Craft extends ABaseDO {
 
     public void setProductCategoryName(String productCategoryName) {
         this.productCategoryName = productCategoryName;
+    }
+
+    public String getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(String isDefault) {
+        this.isDefault = isDefault;
     }
 
 }

@@ -156,6 +156,24 @@ public class ModelAOImpl implements IModelAO {
         if (EStatus.PUT_ON.getCode().equals(data.getStatus())) {
             throw new BizException("xn0000", "该产品已上架");
         }
+        List<ModelSpecs> modelSpecsList = modelSpecsBO
+            .queryModelSpecsList(code);
+        for (ModelSpecs modelSpecs : modelSpecsList) {
+            List<ProductCategory> productCategoryList = productCategoryBO
+                .queryProductCategoryList(null, null, null,
+                    modelSpecs.getCode());
+            for (ProductCategory productCategory : productCategoryList) {
+                List<Craft> craftList = craftBO.queryCraftList(
+                    productCategory.getDkey(), EBoolean.YES.getCode());
+                if (CollectionUtils.isEmpty(craftList)) {
+                    throw new BizException("xn0000",
+                        productCategory.getDvalue() + "没有默认参数");
+                } else if (craftList.size() > 1) {
+                    throw new BizException("xn0000",
+                        productCategory.getDvalue() + "有两条默认参数，请修改");
+                }
+            }
+        }
         modelBO.putOn(data, location, orderNo, updater, remark);
     }
 

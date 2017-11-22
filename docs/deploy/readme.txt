@@ -2,12 +2,12 @@
 1，eclipse导出war包
 
 2. 本地war包上传至服务器
-   scp -P 22 xn_dzt.war root@121.43.101.148:/home
-   T6dh%$%$ss1
+   scp -P 22 xn-dzt.war root@121.43.101.148:/mnt
+   cdkj123456Q
 
 3. 备份原先配置(如果第一次部署，跳过此步骤)
   ssh root@121.43.101.148 -p 22
-  T6dh%$%$ss1
+  cdkj123456Q
 
   cd /mnt/www/dzt/tomcat_dzt_biz/webapps
   cp ./xn-dzt/WEB-INF/classes/application.properties .
@@ -23,5 +23,5 @@
   ../bin/startup.sh
   
 6. 验证程序
-  http://121.43.101.148:5604/xn_dzt/api
+  http://121.43.101.148:5604/xn-dzt/api
 

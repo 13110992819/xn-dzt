@@ -23,8 +23,11 @@ public class XN620040Req {
     // 工艺费(必填)
     private String price;
 
-    // 是否撞色
+    // 是否撞色（0否，1是）(必填)
     private String isHit;
+
+    // 是否默认（0否，1是）(必填)
+    private String isDefault;
 
     // 更新人(必填)
     private String updater;
@@ -105,6 +108,14 @@ public class XN620040Req {
 
     public void setIsHit(String isHit) {
         this.isHit = isHit;
+    }
+
+    public String getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(String isDefault) {
+        this.isDefault = isDefault;
     }
 
 }
