@@ -27,7 +27,7 @@ public class ProductCategory extends ABaseDO {
     // 编号
     private String code;
 
-    // 0工艺,1刺绣
+    // 0工艺,1刺绣,2着装风格，3刺绣内容，4刺绣颜色
     private String kind;
 
     // 类型（第一层/第二层）
@@ -71,6 +71,9 @@ public class ProductCategory extends ABaseDO {
     private List<ProductCategory> colorPcList;
 
     private List<Craft> colorCraftList;
+
+    // 0工艺,1刺绣,2着装风格，3刺绣内容，4刺绣颜色
+    private List<String> kindList;
 
     public String getType() {
         return type;
@@ -214,6 +217,14 @@ public class ProductCategory extends ABaseDO {
 
     public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
+    }
+
+    public List<String> getKindList() {
+        return kindList;
+    }
+
+    public void setKindList(List<String> kindList) {
+        this.kindList = kindList;
     }
 
 }

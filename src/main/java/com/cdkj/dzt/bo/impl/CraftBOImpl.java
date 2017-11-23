@@ -111,6 +111,7 @@ public class CraftBOImpl extends PaginableBOImpl<Craft> implements ICraftBO {
     @Override
     public List<Craft> queryCraftList(String type, String isDefault) {
         Craft condition = new Craft();
+        condition.setOrder("order_no", "asc");
         condition.setType(type);
         condition.setIsDefault(isDefault);
         condition.setStatus(EStatus.PUT_ON.getCode());

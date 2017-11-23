@@ -124,9 +124,11 @@ public class ProductCategoryBOImpl extends PaginableBOImpl<ProductCategory>
     }
 
     @Override
-    public List<ProductCategory> queryProductCategoryList(String type,
-            String parentKey, String dkey, String modelCode) {
+    public List<ProductCategory> queryProductCategoryList(
+            List<String> kindList, String type, String parentKey, String dkey,
+            String modelCode) {
         ProductCategory condition = new ProductCategory();
+        condition.setKindList(kindList);
         condition.setType(type);
         condition.setDkey(dkey);
         condition.setParentKey(parentKey);

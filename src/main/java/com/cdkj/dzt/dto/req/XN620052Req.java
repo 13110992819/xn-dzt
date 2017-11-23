@@ -22,6 +22,12 @@ public class XN620052Req extends APageReq {
     // 状态(选填)
     private String status;
 
+    // 是否要撞色（0否，1是）(选填)
+    private String isHit;
+
+    // 是否默认（0否，1是）(选填)
+    private String isDefault;
+
     // UI位置(选填)
     private String location;
 
@@ -99,6 +105,22 @@ public class XN620052Req extends APageReq {
 
     public void setModelSpecsCode(String modelSpecsCode) {
         this.modelSpecsCode = modelSpecsCode;
+    }
+
+    public String getIsHit() {
+        return isHit;
+    }
+
+    public void setIsHit(String isHit) {
+        this.isHit = isHit;
+    }
+
+    public String getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(String isDefault) {
+        this.isDefault = isDefault;
     }
 
 }

@@ -49,6 +49,9 @@
 			<if test="isDefault != null and isDefault != '' ">
 				AND t.is_default = #{isDefault}
 			</if>
+			<if test="isHit != null and isHit != '' ">
+				AND t.is_hit = #{isHit}
+			</if>
 			<if test="modelStatus != null and modelStatus != '' ">
 				AND tm.status = #{modelStatus}
 			</if>

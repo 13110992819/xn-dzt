@@ -129,7 +129,7 @@ public class CraftAOImpl implements ICraftAO {
     public Craft getCraft(String code) {
         Craft craft = craftBO.getCraft(code);
         List<ProductCategory> productCategoryList = productCategoryBO
-            .queryProductCategoryList(null, null, craft.getType(),
+            .queryProductCategoryList(null, null, null, craft.getType(),
                 craft.getModelSpecsCode());
         if (CollectionUtils.isNotEmpty(productCategoryList)) {
             craft
@@ -164,6 +164,10 @@ public class CraftAOImpl implements ICraftAO {
                 throw new BizException("xn0000", "工艺已上架,无需重复上架");
             }
             Model model = modelBO.getModel(craft.getModelCode());
+            orderNo = EBoolean.YES.getCode();// 如果不是默认参数,就认为是1,可以方便排序
+            if (EBoolean.YES.getCode().equals(craft.getIsDefault())) {
+                orderNo = EBoolean.NO.getCode();// 如果是默认参数,就认为是0,可以方便排序
+            }
             if (EBoolean.YES.getCode().equals(craft.getIsDefault())
                     && EStatus.PUT_ON.getCode().equals(model.getStatus())) {
                 List<Craft> craftList = craftBO.queryCraftList(craft.getType(),
@@ -202,15 +206,15 @@ public class CraftAOImpl implements ICraftAO {
         XN620054Res res = new XN620054Res();
         ModelSpecs modelSpecs = modelSpecsBO.getModelSpecs(modelSpecsCode);
         List<ProductCategory> productCategoryList = productCategoryBO
-            .queryProductCategoryList(EDictType.FIRST.getCode(), null, null,
-                modelSpecs.getCode());
+            .queryProductCategoryList(null, EDictType.FIRST.getCode(), null,
+                null, modelSpecs.getCode());
 
         for (ProductCategory productCategory : productCategoryList) {
             List<Craft> craftList = craftBO.queryCraftList(productCategory
                 .getDkey());
             productCategory.setCraftList(craftList);
             List<ProductCategory> PCList = productCategoryBO
-                .queryProductCategoryList(EDictType.SECOND.getCode(),
+                .queryProductCategoryList(null, EDictType.SECOND.getCode(),
                     productCategory.getDkey(), null, modelSpecs.getCode());
             if (CollectionUtils.isNotEmpty(PCList)) {
                 for (ProductCategory productCate : PCList) {

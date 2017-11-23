@@ -36,6 +36,7 @@ import com.cdkj.dzt.enums.EGeneratePrefix;
 import com.cdkj.dzt.enums.EInteractCategory;
 import com.cdkj.dzt.enums.EInteractType;
 import com.cdkj.dzt.enums.EModelType;
+import com.cdkj.dzt.enums.EProductCategory;
 import com.cdkj.dzt.enums.EStatus;
 import com.cdkj.dzt.exception.BizException;
 
@@ -159,8 +160,11 @@ public class ModelAOImpl implements IModelAO {
         List<ModelSpecs> modelSpecsList = modelSpecsBO
             .queryModelSpecsList(code);
         for (ModelSpecs modelSpecs : modelSpecsList) {
+            List<String> kindList = new ArrayList<String>();
+            kindList.add(EProductCategory.CRAFTWORK.getCode());
+            kindList.add(EProductCategory.DRESSINGSTYLE.getCode());
             List<ProductCategory> productCategoryList = productCategoryBO
-                .queryProductCategoryList(null, null, null,
+                .queryProductCategoryList(kindList, null, null, null,
                     modelSpecs.getCode());
             for (ProductCategory productCategory : productCategoryList) {
                 List<Craft> craftList = craftBO.queryCraftList(
@@ -197,7 +201,6 @@ public class ModelAOImpl implements IModelAO {
             if (num > 0) {
                 isSC = EBoolean.YES.getCode();
             }
-
             Order order = new Order();
             order.setApplyUser(userId);
         }
@@ -224,15 +227,15 @@ public class ModelAOImpl implements IModelAO {
             XN620014Res res = new XN620014Res();
             List<Cloth> clothList = clothBO.queryClothList(code);
             List<ProductCategory> productCategoryList = productCategoryBO
-                .queryProductCategoryList(EDictType.FIRST.getCode(), null,
-                    null, modelSpecs.getCode());
+                .queryProductCategoryList(null, EDictType.FIRST.getCode(),
+                    null, null, modelSpecs.getCode());
 
             for (ProductCategory productCategory : productCategoryList) {
                 List<Craft> craftList = craftBO.queryCraftList(productCategory
                     .getDkey());
                 productCategory.setCraftList(craftList);
                 List<ProductCategory> PCList = productCategoryBO
-                    .queryProductCategoryList(EDictType.SECOND.getCode(),
+                    .queryProductCategoryList(null, EDictType.SECOND.getCode(),
                         productCategory.getDkey(), null, modelSpecs.getCode());
                 if (CollectionUtils.isNotEmpty(PCList)) {
                     for (ProductCategory productCate : PCList) {

@@ -34,6 +34,12 @@
 			<if test="modelSpecsCode != null and modelSpecsCode != '' ">
 				AND t.model_specs_code = #{modelSpecsCode}
 			</if>	
+			<if test="kindList != null and kindList != '' ">
+				AND t.kind in 
+                <foreach item="item" index="index" collection="kindList" open="(" separator="," close=")">
+	            	#{item}
+                </foreach> 
+			</if>
 		</trim>
 	</sql>
 	<select id="select_productCategory" parameterType="productCategory" resultMap="sysDict_DB_Result">
