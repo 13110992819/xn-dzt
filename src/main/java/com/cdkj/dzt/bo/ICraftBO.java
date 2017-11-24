@@ -30,4 +30,6 @@ public interface ICraftBO extends IPaginableBO<Craft> {
 
     public List<Craft> queryCraftList(String type, String isDefault);
 
+    public List<Craft> queryCraftList(String isDefault, String modelSpecsCode,
+            String modelCode);
 }
