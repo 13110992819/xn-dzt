@@ -8,6 +8,7 @@
  */
 package com.cdkj.dzt.ao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -835,7 +836,7 @@ public class OrderAOImpl implements IOrderAO {
             // 如果是会员
             if (StringValidater.toInteger(user1.getLevel()) > 1) {
                 Long count = orderBO.getTotalCount(order.getApplyUser(),
-                    EOrderStatus.FILED);
+                    EOrderStatus.FILED.getCode(), null);
                 // 如果是第一次下单成功,推荐人获得1500积分
                 // 其他情况获得比例积分
                 if (count > 1) {
@@ -938,7 +939,7 @@ public class OrderAOImpl implements IOrderAO {
             // 如果是会员
             if (StringValidater.toInteger(user1.getLevel()) > 1) {
                 Long count = orderBO.getTotalCount(order.getApplyUser(),
-                    EOrderStatus.FILED);
+                    EOrderStatus.FILED.getCode(), null);
                 // 如果是第一次下单成功,推荐人获得1500经验
                 // 其他情况获得比例积分
                 if (count > 1) {
@@ -1252,14 +1253,22 @@ public class OrderAOImpl implements IOrderAO {
     public XN620223Res totalUnFinished(String userId) {
         XN620223Res res = new XN620223Res();
         Long toMeasureOrder = orderBO.getTotalCount(userId,
-            EOrderStatus.TO_MEASURE);
+            EOrderStatus.TO_MEASURE.getCode(), null);
         Long toPayOrder = orderBO.getTotalCount(userId,
-            EOrderStatus.ASSIGN_PRICE);
-        Long toReceiverOrder = orderBO.getTotalCount(userId, EOrderStatus.SEND);
+            EOrderStatus.ASSIGN_PRICE.getCode(), null);
+        Long toReceiverOrder = orderBO.getTotalCount(userId,
+            EOrderStatus.SEND.getCode(), null);
+        List<String> statusList = new ArrayList<String>();
+        statusList.add(EOrderStatus.PAY_YES.getCode());
+        statusList.add(EOrderStatus.TO_APPROVE.getCode());
+        statusList.add(EOrderStatus.TO_PRODU.getCode());
+        statusList.add(EOrderStatus.PRODU_DOING.getCode());
+        Long toSendOrder = orderBO.getTotalCount(userId, null, statusList);
         Long toCommentOrder = orderBO.getTotalCount(userId,
-            EOrderStatus.RECEIVE);
+            EOrderStatus.RECEIVE.getCode(), null);
         res.setToMeasureOrder(toMeasureOrder);
         res.setToPayOrder(toPayOrder);
+        res.setToSendOrder(toSendOrder);
         res.setToReceiverOrder(toReceiverOrder);
         res.setToCommentOrder(toCommentOrder);
         return res;

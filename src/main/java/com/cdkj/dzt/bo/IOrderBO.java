@@ -52,7 +52,8 @@ public interface IOrderBO extends IPaginableBO<Order> {
 
     public List<Order> queryOrderListByPayGroup(String payGroup);
 
-    public Long getTotalCount(String userId, EOrderStatus status);
+    public Long getTotalCount(String userId, String status,
+            List<String> statusList);
 
     public void comment(Order order, String commenter);
 

@@ -7,6 +7,9 @@ public class XN620223Res {
     // 待支付订单
     private Long toPayOrder;
 
+    // 待发货订单
+    private Long toSendOrder;
+
     // 待收货订单
     private Long toReceiverOrder;
 
@@ -43,5 +46,13 @@ public class XN620223Res {
 
     public void setToMeasureOrder(Long toMeasureOrder) {
         this.toMeasureOrder = toMeasureOrder;
+    }
+
+    public Long getToSendOrder() {
+        return toSendOrder;
+    }
+
+    public void setToSendOrder(Long toSendOrder) {
+        this.toSendOrder = toSendOrder;
     }
 }

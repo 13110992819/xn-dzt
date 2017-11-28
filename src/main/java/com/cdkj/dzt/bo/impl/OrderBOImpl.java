@@ -270,10 +270,12 @@ public class OrderBOImpl extends PaginableBOImpl<Order> implements IOrderBO {
     }
 
     @Override
-    public Long getTotalCount(String userId, EOrderStatus status) {
+    public Long getTotalCount(String userId, String status,
+            List<String> statusList) {
         Order order = new Order();
         order.setApplyUser(userId);
-        order.setStatus(status.getCode());
+        order.setStatus(status);
+        order.setStatusList(statusList);
         return orderDAO.selectTotalCount(order);
     }
 
