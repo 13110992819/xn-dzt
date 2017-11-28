@@ -352,7 +352,6 @@ public class OrderAOImpl implements IOrderAO {
                 List<Craft> craftList = craftBO.queryCraftList(
                     EBoolean.YES.getCode(), req.getModelSpecsCode(), modelCode);
                 for (Craft craft : craftList) {
-                    craftPrice = craftPrice + craft.getPrice();
                     productCraftBO.saveProductCraft(craft, productVarCode,
                         order.getCode());
                 }

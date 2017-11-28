@@ -6,7 +6,7 @@
    cdkj123456Q
 
 
-scp -P 22 xn-dzt.war root@47.96.161.183:/mnt/www/dzt/package/v2.0.2/1st
+scp -P 22 xn-dzt.war root@47.96.161.183:/mnt/www/dzt/package/v2.0.2/2nd
    cdkjqwertyQ01
 3. 备份原先配置(如果第一次部署，跳过此步骤)
   ssh root@121.43.101.148 -p 22
